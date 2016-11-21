@@ -9,6 +9,8 @@ var routes = require('./routes/index');
 
 var app = express();
 
+var cfenv = require("cfenv");
+var appEnv = cfenv.getAppEnv();
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -49,6 +51,6 @@ app.use(function(err, req, res, next) {
 });
 
 
-app.listen(3000, function () {
-  console.log('Example app listening on port 3000!')
-})
+app.listen(appEnv.port, appEnv.bind, function () {
+    console.log('Server listening on ' + appEnv.url)
+});

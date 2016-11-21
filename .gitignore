@@ -67,3 +67,4 @@ fastlane/test_output
 
 # Backend
 backend/node_modules
+backend/.idea

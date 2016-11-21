@@ -1,0 +1,5 @@
+---
+applications:
+- name: Stormtrooper
+  timeout: 60
+  path: backend
