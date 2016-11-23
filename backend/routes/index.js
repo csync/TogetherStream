@@ -1,5 +1,5 @@
 var express = require('express');
-var auth = require('../auth');
+var auth = require('../auth/index');
 var router = express.Router();
 
 router.use("/auth", auth);

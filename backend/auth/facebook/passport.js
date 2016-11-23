@@ -11,7 +11,6 @@ var userController = require('../../user/user.controller');
 
 // exposed function to configure the Facebook Passport Strategy
 exports.setup = function (appVars) {
-    console.log(appVars.facebook.redirectURL);
     passport.use(
         new FacebookStrategy({
                 clientID: appVars.facebook.clientID,
@@ -22,7 +21,10 @@ exports.setup = function (appVars) {
             function (req, accessToken, refreshToken, profile, done) {
                 var userName = profile.displayName.replace(/\s/g, ''); // remove spaces
 
-                done(null, {"name": userName});
+                var account = {"id": profile.id, "name": userName};
+                userController.registerUser(account);
+                console.log(account);
+                done(null, {"id": profile.id, "name": userName});
                 // TODO: what's below here
                 // var encryption = secHelper.encrypt(accessToken);
                 //

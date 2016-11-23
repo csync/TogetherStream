@@ -9,7 +9,8 @@ var bodyParser = require('body-parser');
 var passport = require('passport');
 var session = require('express-session');
 
-var appVars = require('./appVars')
+var appVars = require('./appVars');
+var userController = require('../user/user.controller');
 
 module.exports = function (app) {
     // uncomment after placing your favicon in /public
@@ -27,10 +28,12 @@ module.exports = function (app) {
     app.use(passport.session());
 
     passport.serializeUser(function(user, done) {
-        done(null, user);
+        done(null, user.id);
     });
 
-    passport.deserializeUser(function(user, done) {
-        done(null, user);
+    passport.deserializeUser(function(id, done) {
+        userController.getUserByID(id).then(function (user) {
+            done(null,user);
+        });
     });
 };
