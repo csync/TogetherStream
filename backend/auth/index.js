@@ -23,4 +23,5 @@ router.get('/me', authService.isAuthenticated(), function (req, res, next) {
    res.json(req.user);
 });
 
+
 module.exports = router;
