@@ -33,6 +33,11 @@ authService.isAuthenticated = function (req, res, next) {
         });
 };
 
+authService.logout = function (req, res) {
+    req.logout();
+    res.redirect('/');
+};
+
 authService.handleLoginSuccess = function(req, res) {
     // get the user id from the user attribute appended to the request by passport
     // or from the query param

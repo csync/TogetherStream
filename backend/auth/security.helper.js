@@ -24,7 +24,7 @@ securityHelper.signToken = function(userId) {
 };
 
 securityHelper.decodeToken = function(token) {
-    return jwt.decode(token, { json: true});
+    return jwt.verify(token, appVars.sessionSecret, { json: true});
 };
 
 module.exports = securityHelper;
