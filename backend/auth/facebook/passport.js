@@ -21,10 +21,11 @@ exports.setup = function (appVars) {
             function (req, accessToken, refreshToken, profile, done) {
                 var userName = profile.displayName.replace(/\s/g, ''); // remove spaces
 
-                var account = {"id": profile.id, "name": userName};
-                userController.registerUser(account);
-                console.log(account);
-                done(null, {"id": profile.id, "name": userName});
+                var facebookAccount = {provider: 'facebook', id: profile.id, profile: profile, accessToken: accessToken};
+                userController.processExternalAuthentication(req, facebookAccount)
+                    .then(function (user) {
+                        done(null, user);
+                    });
                 // TODO: what's below here
                 // var encryption = secHelper.encrypt(accessToken);
                 //

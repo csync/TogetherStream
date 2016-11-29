@@ -13,16 +13,29 @@ var router = express.Router();
 
 router.use('/facebook', require('./facebook'));
 
-router.get('/success', function (req, res, next) {
-    res.send(req.user).end();
-});
+router.get('/success', authService.handleLoginSuccess);
 
 router.get('/failure', function (req, res, next) {
     res.send("failed to authenticate");
 });
 
-// router.get('/me', authService.isAuthenticated(), function (req, res, next) {
-//    res.json(req.user);
-// });
+router.get('/logout', authService.logout);
+
+router.get('/me', authService.isAuthenticated(), function (req, res, next) {
+   res.json(req.user);
+});
+
+router.get('/facebookfriends', authService.isAuthenticated(), function (req, res, next) {
+   var accessToken = req.user.externalAccount.accessToken;
+   if(accessToken != null) {
+       var request = require('request');
+       request('https://graph.facebook.com/v2.8/me/friends?access_token=' + accessToken, function (error, response, body) {
+           res.send(body);
+       })
+   }
+   else {
+       res.status(501).send("not logged in to facebook");
+   }
+});
 
 module.exports = router;

@@ -69,3 +69,4 @@ fastlane/test_output
 backend/node_modules
 backend/.idea
 backend/config/credentials.js
+backend/config/VCAP_SERVICES.json
