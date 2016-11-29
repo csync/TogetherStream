@@ -22,6 +22,9 @@
 		34DA47271DECA2E600E989A9 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34DA47071DECA2E500E989A9 /* Utils.swift */; };
 		34DA472F1DECA31300E989A9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 34DA472D1DECA31300E989A9 /* LaunchScreen.storyboard */; };
 		34DA47301DECA31300E989A9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 34DA472E1DECA31300E989A9 /* Main.storyboard */; };
+		34DA47391DEDE63600E989A9 /* YTPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 34DA47381DEDE63600E989A9 /* YTPlayerView.m */; };
+		34DA473A1DEDEF3300E989A9 /* YTPlayerView.h in Sources */ = {isa = PBXBuildFile; fileRef = 34DA47371DEDE63600E989A9 /* YTPlayerView.h */; };
+		34DA473C1DEDEFA000E989A9 /* Assets.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 34DA473B1DEDEFA000E989A9 /* Assets.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +67,9 @@
 		34DA47071DECA2E500E989A9 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		34DA472D1DECA31300E989A9 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		34DA472E1DECA31300E989A9 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		34DA47371DEDE63600E989A9 /* YTPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YTPlayerView.h; sourceTree = "<group>"; };
+		34DA47381DEDE63600E989A9 /* YTPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YTPlayerView.m; sourceTree = "<group>"; };
+		34DA473B1DEDEFA000E989A9 /* Assets.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Assets.bundle; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -181,6 +187,9 @@
 		34DA46F21DECA2E500E989A9 /* ExternalLibraries */ = {
 			isa = PBXGroup;
 			children = (
+				34DA47371DEDE63600E989A9 /* YTPlayerView.h */,
+				34DA47381DEDE63600E989A9 /* YTPlayerView.m */,
+				34DA473B1DEDEFA000E989A9 /* Assets.bundle */,
 			);
 			path = ExternalLibraries;
 			sourceTree = "<group>";
@@ -340,6 +349,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				34DA473C1DEDEFA000E989A9 /* Assets.bundle in Resources */,
 				34DA46BA1DE61FC600E989A9 /* Assets.xcassets in Resources */,
 				34DA47201DECA2E600E989A9 /* Info.plist in Resources */,
 				34DA47301DECA31300E989A9 /* Main.storyboard in Resources */,
@@ -368,6 +378,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				34DA473A1DEDEF3300E989A9 /* YTPlayerView.h in Sources */,
 				34DA47131DECA2E600E989A9 /* NSDateExtension.swift in Sources */,
 				34DA47121DECA2E600E989A9 /* NSAttributedStringExtension.swift in Sources */,
 				34DA47171DECA2E600E989A9 /* UIViewExtensions.swift in Sources */,
@@ -376,6 +387,7 @@
 				34DA47151DECA2E600E989A9 /* UILabelExtension.swift in Sources */,
 				34DA47271DECA2E600E989A9 /* Utils.swift in Sources */,
 				34DA47161DECA2E600E989A9 /* UIViewControllerExtension.swift in Sources */,
+				34DA47391DEDE63600E989A9 /* YTPlayerView.m in Sources */,
 				34DA470F1DECA2E600E989A9 /* MainViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
