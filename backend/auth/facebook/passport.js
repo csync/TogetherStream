@@ -21,7 +21,7 @@ exports.setup = function (appVars) {
             function (req, accessToken, refreshToken, profile, done) {
                 var userName = profile.displayName.replace(/\s/g, ''); // remove spaces
 
-                var facebookAccount = {provider: 'facebook', id: profile.id, profile: profile, accessToken: accessToken}
+                var facebookAccount = {provider: 'facebook', id: profile.id, profile: profile, accessToken: accessToken};
                 userController.processExternalAuthentication(req, facebookAccount)
                     .then(function (user) {
                         done(null, user);
