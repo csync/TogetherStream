@@ -6,12 +6,20 @@
     "start": "node app.js"
   },
   "dependencies": {
-    "cfenv": "^1.0.3",
     "body-parser": "~1.15.1",
+    "cfenv": "^1.0.3",
+    "composable-middleware": "^0.3.0",
     "cookie-parser": "~1.4.3",
     "debug": "~2.2.0",
     "express": "~4.13.4",
+    "express-jwt": "^5.1.0",
+    "express-session": "^1.14.2",
+    "jsonwebtoken": "^7.1.9",
     "morgan": "~1.7.0",
+    "passport": "^0.3.2",
+    "passport-facebook": "^2.1.1",
+    "pg": "^6.1.0",
+    "request": "^2.79.0",
     "serve-favicon": "~2.3.0"
   }
 }
