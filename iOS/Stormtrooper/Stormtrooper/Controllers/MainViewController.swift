@@ -21,9 +21,12 @@ class MainViewController: UIViewController {
     
     private func setupPlayerView() {
         self.playerView.delegate = self
+        //self.playerView.loadPlaylist(byVideos: ["4NFDhxhWyIw", "RTDuUiVSCo4"], index: 0, startSeconds: 0, suggestedQuality: .auto)
         self.playerView.load(withVideoId: "4NFDhxhWyIw", playerVars: [
             "playsinline" : 1,
-            "modestbranding" : 0,
+            "modestbranding" : 1,
+            "showinfo" : 0,
+            "controls" : 0,
             "playlist": "RTDuUiVSCo4"
             ])
         
@@ -37,7 +40,25 @@ class MainViewController: UIViewController {
         self.playerView.pauseVideo()
     }
     
+    @IBAction func nextTapped(_ sender: Any) {
+        guard let playlistCount = self.playerView.playlist()?.count else {
+            return
+        }
+        let playlistIndex = self.playerView.playlistIndex() + 1
+        if playlistIndex < Int32(playlistCount) {
+            self.playerView.playVideo(at: playlistIndex)
+        }
+    }
 
+    @IBAction func backTapped(_ sender: Any) {
+        guard let playlistCount = self.playerView.playlist()?.count else { //doesnt work
+            return
+        }
+        let playlistIndex = self.playerView.playlistIndex() - 1
+        if playlistIndex < Int32(playlistCount) {
+            self.playerView.playVideo(at: playlistIndex)
+        }
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -52,7 +73,23 @@ extension MainViewController: YTPlayerViewDelegate {
     }
     
     func playerView(_ playerView: YTPlayerView, didChangeTo state: YTPlayerState) {
-
+        switch (state) {
+        case .paused:
+            //self.playerView.playVideo()
+            break
+        case .buffering:
+            break
+        case .playing:
+            break
+        case .ended:
+            break
+        case .queued:
+            break
+        case .unknown:
+            break
+        case .unstarted:
+            break
+        }
     }
     
 }
