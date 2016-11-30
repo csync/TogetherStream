@@ -5,7 +5,7 @@ var path = require('path');
 var favicon = require('serve-favicon');
 
 var routes = require('./routes/index');
-var appVars = require('./config/appVars')
+var appVars = require('./config/appVars');
 
 var app = express();
 
