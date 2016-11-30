@@ -11,12 +11,18 @@ var authService = {};
 authService.isAuthenticated = function (req, res, next) {
     return compose()
         .use(function (req, res, next) {
-            // allow access_token to be passed through query parameter as well
-            if(req.query && req.query.hasOwnProperty('access_token')) {
-                req.headers.authorization = 'Bearer ' + req.query.access_token;
+            if(req.user) {
+                // already authenticated
+                next()
             }
+            else {
+                // allow access_token to be passed through query parameter as well
+                if (req.query && req.query.hasOwnProperty('access_token')) {
+                    req.headers.authorization = 'Bearer ' + req.query.access_token;
+                }
 
-            securityHelper.validateJwt(req, res, next);
+                securityHelper.validateJwt(req, res, next);
+            }
         })
         .use(function(err, req, res, next) {
             if (err.name === 'UnauthorizedError') {
