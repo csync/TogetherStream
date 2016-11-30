@@ -21,6 +21,8 @@ router.get('/failure', function (req, res, next) {
 
 router.get('/logout', authService.logout);
 
+router.get('/refresh', authService.refresh);
+
 router.get('/me', authService.isAuthenticated(), function (req, res, next) {
    res.json(req.user);
 });
