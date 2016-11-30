@@ -26,7 +26,7 @@ router.get('/me', authService.isAuthenticated(), function (req, res, next) {
 });
 
 router.get('/facebookfriends', authService.isAuthenticated(), function (req, res, next) {
-   var accessToken = req.user.externalAccount.accessToken;
+   var accessToken = req.user.externalAccounts[0].access_token;
    if(accessToken != null) {
        var request = require('request');
        request('https://graph.facebook.com/v2.8/me/friends?access_token=' + accessToken, function (error, response, body) {
