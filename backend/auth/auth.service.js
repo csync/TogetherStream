@@ -11,12 +11,18 @@ var authService = {};
 authService.isAuthenticated = function (req, res, next) {
     return compose()
         .use(function (req, res, next) {
-            // allow access_token to be passed through query parameter as well
-            if(req.query && req.query.hasOwnProperty('access_token')) {
-                req.headers.authorization = 'Bearer ' + req.query.access_token;
+            if(req.user) {
+                // already authenticated
+                next()
             }
+            else {
+                // allow access_token to be passed through query parameter as well
+                if (req.query && req.query.hasOwnProperty('access_token')) {
+                    req.headers.authorization = 'Bearer ' + req.query.access_token;
+                }
 
-            securityHelper.validateJwt(req, res, next);
+                securityHelper.validateJwt(req, res, next);
+            }
         })
         .use(function(err, req, res, next) {
             if (err.name === 'UnauthorizedError') {
@@ -33,6 +39,25 @@ authService.isAuthenticated = function (req, res, next) {
         });
 };
 
+authService.refresh = function(req, res) {
+    // allow for access token to be on present as a URL param
+    if(req.query && req.query.hasOwnProperty('access_token')) {
+        req.headers.authorization = 'Bearer ' + req.query.access_token;
+    }
+
+    if(req.headers.authorization) {
+        // get the user id from the invalid token
+        var token = req.headers.authorization.split(' ')[1];
+        var tokenPayload = securityHelper.decodeToken(token);
+        var userId = tokenPayload.id;
+
+        var newToken = securityHelper.signToken(userId);
+        res.json({ "access_token": newToken});
+    } else {
+        res.status(400).send('Bearer token is required');
+    }
+};
+
 authService.logout = function (req, res) {
     req.logout();
     res.redirect('/');
@@ -44,7 +69,6 @@ authService.handleLoginSuccess = function(req, res) {
     if(req.user || req.query.id) {
         var userId = req.user ? req.user.id : req.query.id;
         var accessToken = securityHelper.signToken(userId);
-        console.log(securityHelper.decodeToken(accessToken));
         res.redirect('/?access_token=' + accessToken);
         // if not user id is found then the auth was actually a failure
     } else {

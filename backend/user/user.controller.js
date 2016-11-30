@@ -60,17 +60,42 @@ userController.getUserByID = function (id) {
       client.query("SELECT id FROM users WHERE id=$1", [id],
           function (err, result) {
               if (err) reject(err);
-              if (result.rowCount < 1) reject("user not found");
-              var user = {id: result.rows[0].id};
-              // Get external accounts
-              client.query("SELECT provider, access_token FROM external_auth WHERE user_id=$1", [id],
-                  function (err, result) {
-                      if (err) reject(err);
-                      user.externalAccounts = result.rows;
-                      resolve(user);
+              if (result.rowCount < 1) {
+                  resolve(null);
+                  client.end();
+              }
+              else {
+                  var user = {id: result.rows[0].id};
+                  // Get external accounts
+                  client.query("SELECT provider, access_token FROM external_auth WHERE user_id=$1", [id],
+                      function (err, result) {
+                          if (err) reject(err);
+                          user.externalAccounts = result.rows;
+                          resolve(user);
 
-                      client.end();
-                  });
+                          client.end();
+                      });
+              }
+          }
+      );
+  })
+};
+
+userController.getUserIdByExternalAccount = function (externalAccount) {
+  return new Promise(function (resolve, reject) {
+      var client = new pg.Client(appVars.postgres.uri);
+      client.connect();
+      // Get user info
+      client.query("SELECT user_id FROM external_auth WHERE id=$1 AND provider=$2", [externalAccount.id, externalAccount.provider],
+          function (err, result) {
+              if (err) reject(err);
+              if (result.rowCount < 1) {
+                  resolve(null);
+              }
+              else {
+                  resolve(result.rows[0].user_id);
+              }
+              client.end();
           }
       );
   })
@@ -78,32 +103,78 @@ userController.getUserByID = function (id) {
 
 userController.processExternalAuthentication = function (req, externalAccount) {
     return new Promise(function (resolve, reject) {
-        var id = externalAccount.id;
-        userController.getUserByID(id)
-            .then(function (user) {
-                if(user.externalAccounts.filter(function (e) {
-                        return e.provider == externalAccount.provider
-                    }).count > 0) {
-                    // user already has the external account just login
-                    resolve(user)
+        userController.getUserIdByExternalAccount(externalAccount)
+            .then(function (userId) {
+                if (userId) {
+                    // External account is already linked to a user account
+                    if (req.user) {
+                        // Already logged in
+                        if (req.user.id == userId) {
+                            // External already linked, just return user
+                            resolve(req.user);
+                        }
+                        else {
+                            // TODO: uh oh, need to merge accounts
+                        }
+                    }
+                    else {
+                        // return the account that's linked
+                        userController.getUserByID(userId)
+                            .then(function (user) {
+                                resolve(user);
+                            });
+                    }
                 }
                 else {
-                    userController.saveExternalAccount(externalAccount.id, externalAccount)
-                        .then(function () {
-                            resolve(user)
-                        })
+                    // External account is new
+                    if (req.user) {
+                        // already logged in, add external account
+                        userController.saveExternalAccount(req.user.id, externalAccount)
+                            .then(function () {
+                                req.user.externalAccounts.push(externalAccount);
+                                resolve(req.user);
+                            });
+                    }
+                    else {
+                        // create new account
+                        generateId().then(function (id) {
+                            userController.registerUser({id: id})
+                                .then(function (user) {
+                                    userController.saveExternalAccount(id, externalAccount)
+                                        .then(function () {
+                                            user.externalAccounts = [externalAccount];
+                                            resolve(user);
+                                        })
+                                })
+                        });
+                    }
                 }
-            }, function (error) {
-                if(error == "user not found")
-                    userController.registerUser({id: externalAccount.id})
-                        .then(function (user) {
-                            userController.saveExternalAccount(user.id, externalAccount)
-                                .then(function () {
-                                    resolve(user);
-                                });
-                        })
-            });
+            })
     })
 };
+
+function generateId() {
+    return new Promise(function (resolve) {
+        var generateAttempt = function () {
+            var id = "";
+            var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+            for( var i = 0; i < 10; i++ ) {
+                id += possible.charAt(Math.floor(Math.random() * possible.length));
+            }
+
+            userController.getUserByID(id)
+                .then(function (user) {
+                    if(!user) {
+                        resolve(id);
+                    }
+                    else {
+                        generateAttempt();
+                    }
+                })
+        };
+        generateAttempt();
+    });
+}
 
 module.exports = userController;
