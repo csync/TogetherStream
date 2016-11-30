@@ -63,7 +63,6 @@ authService.handleLoginSuccess = function(req, res) {
     if(req.user || req.query.id) {
         var userId = req.user ? req.user.id : req.query.id;
         var accessToken = securityHelper.signToken(userId);
-        console.log(securityHelper.decodeToken(accessToken));
         res.redirect('/?access_token=' + accessToken);
         // if not user id is found then the auth was actually a failure
     } else {
