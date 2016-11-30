@@ -16,9 +16,10 @@ userController.saveUser = function (user) {
         var client = new pg.Client(appVars.postgres.uri);
         client.connect();
         // Update users if exists, otherwise insert it
+        // Warning: this is not safe if executed from multiple sessions at the same time
         client.query("UPDATE users SET id=$1 WHERE id = $2;", [user.id, user.id]);
         client.query("INSERT INTO users (id) SELECT $1 WHERE NOT EXISTS (SELECT 1 FROM users WHERE id = $2);",  [user.id, user.id],
-            function (err, result) {
+            function (err) {
                 if (err) reject(err);
 
                 resolve(user);
@@ -34,11 +35,13 @@ userController.saveExternalAccount = function(userId, externalAccount) {
         var client = new pg.Client(appVars.postgres.uri);
         client.connect();
         // Update external account if exists with that provider, otherwise insert it
-        client.query("UPDATE external_auth SET id=$1, access_token=$2 WHERE user_id=$3 AND provider=$4;", [externalAccount.id, externalAccount.accessToken, userId, externalAccount.provider]);
-        client.query("INSERT INTO external_auth (id, access_token, provider, user_id) SELECT $1, $2, $3, $4"
-            + "WHERE NOT EXISTS (SELECT 1 FROM external_auth WHERE user_id=$4 AND provider=$3);",
-            [externalAccount.id, externalAccount.accessToken, externalAccount.provider, userId],
-            function (err, result) {
+        // Warning: this is not safe if executed from multiple sessions at the same time
+        client.query("UPDATE external_auth SET id=$1, access_token=$2, refresh_token=$3 WHERE user_id=$4 AND provider=$5;",
+            [externalAccount.id, externalAccount.accessToken, externalAccount.refreshToken, userId, externalAccount.provider]);
+        client.query("INSERT INTO external_auth (id, access_token, refresh_token, provider, user_id) SELECT $1, $2, $3, $4, $5"
+            + "WHERE NOT EXISTS (SELECT 1 FROM external_auth WHERE user_id=$5 AND provider=$4);",
+            [externalAccount.id, externalAccount.accessToken, externalAccount.refreshToken, externalAccount.provider, userId],
+            function (err) {
                 if (err) reject(err);
 
                 resolve();
@@ -53,13 +56,13 @@ userController.getUserByID = function (id) {
   return new Promise(function (resolve, reject) {
       var client = new pg.Client(appVars.postgres.uri);
       client.connect();
-      // Get user and external accounts
+      // Get user info
       client.query("SELECT id FROM users WHERE id=$1", [id],
           function (err, result) {
               if (err) reject(err);
               if (result.rowCount < 1) reject("user not found");
               var user = {id: result.rows[0].id};
-
+              // Get external accounts
               client.query("SELECT provider, access_token FROM external_auth WHERE user_id=$1", [id],
                   function (err, result) {
                       if (err) reject(err);
