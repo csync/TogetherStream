@@ -33,6 +33,25 @@ authService.isAuthenticated = function (req, res, next) {
         });
 };
 
+authService.refresh = function(req, res) {
+    // allow for access token to be on present as a URL param
+    if(req.query && req.query.hasOwnProperty('access_token')) {
+        req.headers.authorization = 'Bearer ' + req.query.access_token;
+    }
+
+    if(req.headers.authorization) {
+        // get the user id from the invalid token
+        var token = req.headers.authorization.split(' ')[1];
+        var tokenPayload = securityHelper.decodeToken(token);
+        var userId = tokenPayload.id;
+
+        var newToken = securityHelper.signToken(userId);
+        res.json({ "access_token": newToken});
+    } else {
+        res.status(400).send('Bearer token is required');
+    }
+};
+
 authService.logout = function (req, res) {
     req.logout();
     res.redirect('/');
