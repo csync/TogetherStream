@@ -11,15 +11,21 @@ var postgresService = appEnv.getService('Compose for PostgreSQL-5h');
 var credentials = require('./credentials');
 
 var appVars = {
-    "port": appEnv.port,
-    "bind": appEnv.bind,
-    "sessionSecret": "meow meow",
-    "facebook": {
-        "clientID": credentials.facebook.appID,
-        "clientSecret": credentials.facebook.secret,
-        "redirectURL": appEnv.url + "/auth/facebook/callback"
+    port: appEnv.port,
+    bind: appEnv.bind,
+    sessionSecret: "meow meow",
+    facebook: {
+        clientID: credentials.facebook.appID,
+        clientSecret: credentials.facebook.secret,
+        redirectURL: appEnv.url + "/auth/facebook/callback"
     },
-    "postgres" : postgresService.credentials
+    google: {
+        clientID: credentials.google.clientID,
+        clientSecret: credentials.google.clientSecret,
+        redirectURL: appEnv.url + "/auth/youtube/callback"
+    },
+    postgres : postgresService.credentials,
+    accessTokenKey: credentials.app.accessTokenKey
 };
 
 module.exports = appVars;

@@ -6,7 +6,7 @@
 
 var FacebookStrategy = require('passport-facebook').Strategy;
 var passport = require('passport');
-// var secHelper		     = require('../../../../../Downloads/MILAuth-master/nodeJS/auth/security.helper.js');
+var securityHelper = require('../security.helper');
 var userController = require('../../user/user.controller');
 
 // exposed function to configure the Facebook Passport Strategy
@@ -19,34 +19,22 @@ exports.setup = function (appVars) {
                 passReqToCallback: true
             },
             function (req, accessToken, refreshToken, profile, done) {
-                var userName = profile.displayName.replace(/\s/g, ''); // remove spaces
+                var encrypted = securityHelper.encrypt(accessToken, appVars.accessTokenKey);
 
-                var facebookAccount = {provider: 'facebook', id: profile.id, profile: profile, accessToken: accessToken, refreshToken: refreshToken};
+                // create the external account object from the fb profile received
+                // and the encryption of the access token.
+                var facebookAccount = {
+                    provider: 'facebook',
+                    id: profile.id,
+                    accessToken: encrypted.text,
+                    iv: encrypted.iv,
+                    tag: encrypted.tag
+                };
+
                 userController.processExternalAuthentication(req, facebookAccount)
                     .then(function (user) {
                         done(null, user);
                     });
-                // TODO: what's below here
-                // var encryption = secHelper.encrypt(accessToken);
-                //
-                // // create the external account object from the fb profile received
-                // // and the encryption of the access token.
-                // var facebookAccount = {
-                //     provider: 'facebook',
-                //     token: encryption.text,
-                //     encIv: encryption.iv,
-                //     enctag: encryption.tag,
-                //     extId: profile.id,
-                //     displayName: profile.displayName
-                // };
-
-                // userController.processExternalAuth(
-                //     req,
-                //     userName,
-                //     facebookAccount)
-                //     .then(function (user) {
-                //         done(null, user);
-                //     });
             }
         ));
 };
