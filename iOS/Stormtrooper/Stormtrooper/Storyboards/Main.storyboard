@@ -32,28 +32,8 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g4f-7A-fEP">
                                 <rect key="frame" x="48" y="298" width="278" height="70"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MhN-1a-IW8">
-                                        <rect key="frame" x="190" y="20" width="68" height="30"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="68" id="Rge-6e-HXB"/>
-                                        </constraints>
-                                        <state key="normal" title="Pause"/>
-                                        <connections>
-                                            <action selector="pauseTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Jcg-fZ-5dh"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fKU-Jj-50I">
-                                        <rect key="frame" x="20" y="20" width="68" height="30"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="68" id="ml8-Dq-3BU"/>
-                                        </constraints>
-                                        <state key="normal" title="Play"/>
-                                        <connections>
-                                            <action selector="playTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="kC2-7e-sfe"/>
-                                        </connections>
-                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cmd-F5-SOe">
-                                        <rect key="frame" x="148" y="20" width="34" height="30"/>
+                                        <rect key="frame" x="181" y="20" width="34" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="26v-lB-CuR"/>
                                             <constraint firstAttribute="width" constant="34" id="kt7-hN-y81"/>
@@ -64,7 +44,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1hp-5O-2ey">
-                                        <rect key="frame" x="106" y="20" width="34" height="30"/>
+                                        <rect key="frame" x="64" y="20" width="34" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="34" id="nOq-cu-fkW"/>
                                         </constraints>
@@ -73,17 +53,26 @@
                                             <action selector="backTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="U5O-BC-hgj"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fKU-Jj-50I">
+                                        <rect key="frame" x="97" y="20" width="85" height="28"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="85" id="ml8-Dq-3BU"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <state key="normal" title="Play"/>
+                                        <connections>
+                                            <action selector="playTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="kC2-7e-sfe"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="70" id="7T6-Z8-WlG"/>
-                                    <constraint firstItem="1hp-5O-2ey" firstAttribute="leading" secondItem="fKU-Jj-50I" secondAttribute="trailing" constant="18" id="7ey-Ts-kwa"/>
-                                    <constraint firstItem="MhN-1a-IW8" firstAttribute="top" secondItem="g4f-7A-fEP" secondAttribute="top" constant="20" id="DSQ-3u-2n7"/>
                                     <constraint firstItem="fKU-Jj-50I" firstAttribute="top" secondItem="g4f-7A-fEP" secondAttribute="top" constant="20" id="HlA-78-LmJ"/>
-                                    <constraint firstAttribute="trailing" secondItem="MhN-1a-IW8" secondAttribute="trailing" constant="20" id="WtJ-VS-mlt"/>
-                                    <constraint firstItem="MhN-1a-IW8" firstAttribute="leading" secondItem="Cmd-F5-SOe" secondAttribute="trailing" constant="8" id="a8k-lQ-Sdl"/>
+                                    <constraint firstItem="fKU-Jj-50I" firstAttribute="centerX" secondItem="g4f-7A-fEP" secondAttribute="centerX" id="LTe-mS-dc6"/>
+                                    <constraint firstItem="1hp-5O-2ey" firstAttribute="leading" secondItem="g4f-7A-fEP" secondAttribute="leading" constant="64" id="dzi-pI-8Ie"/>
+                                    <constraint firstAttribute="trailing" secondItem="Cmd-F5-SOe" secondAttribute="trailing" constant="63" id="mcp-Jy-FLr"/>
                                     <constraint firstItem="1hp-5O-2ey" firstAttribute="top" secondItem="g4f-7A-fEP" secondAttribute="top" constant="20" id="p48-Hp-9w3"/>
-                                    <constraint firstItem="fKU-Jj-50I" firstAttribute="leading" secondItem="g4f-7A-fEP" secondAttribute="leading" constant="20" id="rnn-6P-UQr"/>
                                     <constraint firstItem="Cmd-F5-SOe" firstAttribute="top" secondItem="g4f-7A-fEP" secondAttribute="top" constant="20" id="x0M-fQ-Olx"/>
                                 </constraints>
                             </view>
@@ -99,6 +88,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="playPauseButton" destination="fKU-Jj-50I" id="1Vn-VJ-7fW"/>
                         <outlet property="playerView" destination="whD-n8-tlE" id="9Xw-lU-J97"/>
                     </connections>
                 </viewController>
