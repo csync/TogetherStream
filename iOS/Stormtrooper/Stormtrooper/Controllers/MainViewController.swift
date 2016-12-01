@@ -10,6 +10,7 @@ import UIKit
 
 class MainViewController: UIViewController {
     @IBOutlet weak var playerView: YTPlayerView!
+    @IBOutlet weak var playPauseButton: UIButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,31 +34,22 @@ class MainViewController: UIViewController {
     }
     
     @IBAction func playTapped(_ sender: Any) {
-        self.playerView.playVideo()
+        if let doesContain = playPauseButton.titleLabel?.text?.contains("Play"), doesContain {
+           self.playerView.playVideo()
+        }
+        else {
+            self.playerView.pauseVideo()
+        }
+        
     }
     
-    @IBAction func pauseTapped(_ sender: Any) {
-        self.playerView.pauseVideo()
-    }
     
     @IBAction func nextTapped(_ sender: Any) {
-        guard let playlistCount = self.playerView.playlist()?.count else {
-            return
-        }
-        let playlistIndex = self.playerView.playlistIndex() + 1
-        if playlistIndex < Int32(playlistCount) {
-            self.playerView.playVideo(at: playlistIndex)
-        }
+        self.playerView.nextVideo()
     }
 
     @IBAction func backTapped(_ sender: Any) {
-        guard let playlistCount = self.playerView.playlist()?.count else { //doesnt work
-            return
-        }
-        let playlistIndex = self.playerView.playlistIndex() - 1
-        if playlistIndex < Int32(playlistCount) {
-            self.playerView.playVideo(at: playlistIndex)
-        }
+        self.playerView.previousVideo()
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -75,11 +67,12 @@ extension MainViewController: YTPlayerViewDelegate {
     func playerView(_ playerView: YTPlayerView, didChangeTo state: YTPlayerState) {
         switch (state) {
         case .paused:
-            //self.playerView.playVideo()
+            self.playPauseButton.setTitle("Play", for: .normal)
             break
         case .buffering:
             break
         case .playing:
+            self.playPauseButton.setTitle("Pause", for: .normal)
             break
         case .ended:
             break
