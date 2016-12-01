@@ -2,17 +2,17 @@
  *  Licensed Materials - Property of IBM
  *  © Copyright IBM Corporation 2015. All Rights Reserved.
  */
- 'use strict';
+'use strict';
 
 var express = require('express');
 var passport = require('passport');
-//var auth = require('../auth.service');
+var authService = require('../auth.service');
 
 var router = express.Router();
 
 router.get('/login', passport.authenticate('facebook'));
 
-router.get('/connect', passport.authorize('facebook'));
+router.get('/connect', authService.isAuthenticated(), passport.authorize('facebook'));
 
 router.get(
     '/callback', 

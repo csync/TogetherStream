@@ -36,11 +36,11 @@ userController.saveExternalAccount = function(userId, externalAccount) {
         client.connect();
         // Update external account if exists with that provider, otherwise insert it
         // Warning: this is not safe if executed from multiple sessions at the same time
-        client.query("UPDATE external_auth SET id=$1, access_token=$2, refresh_token=$3 WHERE user_id=$4 AND provider=$5;",
-            [externalAccount.id, externalAccount.accessToken, externalAccount.refreshToken, userId, externalAccount.provider]);
-        client.query("INSERT INTO external_auth (id, access_token, refresh_token, provider, user_id) SELECT $1, $2, $3, $4, $5"
-            + "WHERE NOT EXISTS (SELECT 1 FROM external_auth WHERE user_id=$5 AND provider=$4);",
-            [externalAccount.id, externalAccount.accessToken, externalAccount.refreshToken, externalAccount.provider, userId],
+        client.query("UPDATE external_auth SET id=$1, access_token=$2, at_iv=$3, at_tag=$4, refresh_token=$5 WHERE user_id=$6 AND provider=$7;",
+            [externalAccount.id, externalAccount.accessToken, externalAccount.iv, externalAccount.tag, externalAccount.refreshToken, userId, externalAccount.provider]);
+        client.query("INSERT INTO external_auth (id, access_token, at_iv, at_tag, refresh_token, provider, user_id) SELECT $1, $2, $3, $4, $5, $6, $7"
+            + "WHERE NOT EXISTS (SELECT 1 FROM external_auth WHERE user_id=$7 AND provider=$6);",
+            [externalAccount.id, externalAccount.accessToken, externalAccount.iv, externalAccount.tag, externalAccount.refreshToken, externalAccount.provider, userId],
             function (err) {
                 if (err) reject(err);
 
@@ -67,7 +67,7 @@ userController.getUserByID = function (id) {
               else {
                   var user = {id: result.rows[0].id};
                   // Get external accounts
-                  client.query("SELECT provider, access_token FROM external_auth WHERE user_id=$1", [id],
+                  client.query("SELECT provider, access_token, at_iv, at_tag FROM external_auth WHERE user_id=$1", [id],
                       function (err, result) {
                           if (err) reject(err);
                           user.externalAccounts = result.rows;
@@ -110,11 +110,12 @@ userController.processExternalAuthentication = function (req, externalAccount) {
                     if (req.user) {
                         // Already logged in
                         if (req.user.id == userId) {
-                            // External already linked, just return user
+                            // External already linked to logged in user, just return that
                             resolve(req.user);
                         }
                         else {
-                            // TODO: uh oh, need to merge accounts
+                            // uh oh, need to merge accounts
+                            mergeIds(userId, req.user.id);
                         }
                     }
                     else {
@@ -175,6 +176,25 @@ function generateId() {
         };
         generateAttempt();
     });
+}
+
+function mergeIds(id1, id2) {
+    return new Promise(function (resolve, reject) {
+        var client = new pg.Client(appVars.postgres.uri);
+        client.connect();
+        client.query("UPDATE external_auth SET user_id=$1 WHERE user_id = $2;", [id1, id2]);
+        client.query("DELETE FROM users WHERE id=$1;", [id2],
+            function (err) {
+                if (err) reject(err);
+
+                client.end();
+                userController.getUserByID(id1)
+                    .then(function (user) {
+                        resolve(user);
+                    });
+            }
+        );
+    })
 }
 
 module.exports = userController;
