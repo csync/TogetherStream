@@ -104,6 +104,7 @@ class MainViewController: UIViewController {
             }
             
             //TODO: replace with model object creation
+            //TODO: filter out restricted/premium videos from the popular video list
             let json = try! JSONSerialization.jsonObject(with: data, options: [])
             print(json)
         })
