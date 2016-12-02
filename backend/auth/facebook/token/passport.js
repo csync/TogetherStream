@@ -1,21 +1,20 @@
-/*
- *  Licensed Materials - Property of IBM
- *  © Copyright IBM Corporation 2015. All Rights Reserved.
+/**
+ * Created by danielfirsht on 12/2/16.
  */
 'use strict';
 
-var FacebookStrategy = require('passport-facebook').Strategy;
+var FacebookTokenStrategy = require('passport-facebook-token');
 var passport = require('passport');
-var securityHelper = require('../security.helper');
-var userController = require('../../user/user.controller');
+var securityHelper = require('../../security.helper');
+var userController = require('../../../user/user.controller');
 
 // exposed function to configure the Facebook Passport Strategy
 exports.setup = function (appVars) {
     passport.use(
-        new FacebookStrategy({
+        new FacebookTokenStrategy({
                 clientID: appVars.facebook.clientID,
                 clientSecret: appVars.facebook.clientSecret,
-                callbackURL: appVars.facebook.redirectURL,
+                //callbackURL: appVars.facebook.redirectURL,
                 passReqToCallback: true
             },
             function (req, accessToken, refreshToken, profile, done) {
@@ -24,7 +23,7 @@ exports.setup = function (appVars) {
                 // create the external account object from the fb profile received
                 // and the encryption of the access token.
                 var facebookAccount = {
-                    provider: 'facebook',
+                    provider: 'facebook-token',
                     id: profile.id,
                     accessToken: {
                         cipher: encryptedAccess.text,
