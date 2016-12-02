@@ -13,24 +13,34 @@ exports.setup = function (appVars) {
             clientSecret: appVars.google.clientSecret,
             callbackURL: appVars.google.redirectURL,
             passReqToCallback: true,
-            scope: ['https://www.googleapis.com/auth/youtube.readonly']
+            scope: ['https://www.googleapis.com/auth/youtube.readonly', "https://www.googleapis.com/auth/plus.login"]
         },
         function (req, accessToken, refreshToken, profile, done) {
-            var encrypted = securityHelper.encrypt(accessToken, appVars.accessTokenKey);
+            var encryptedAccess = securityHelper.encrypt(accessToken, appVars.accessTokenKey);
+            var encryptedRefresh = securityHelper.encrypt(refreshToken, appVars.refreshTokenKey);
 
-            // create the external account object from the fb profile received
+            // create the external account object from the yt profile received
             // and the encryption of the access token.
             var googleAccount = {
                 provider: 'youtube',
                 id: profile.id,
-                accessToken: encrypted.text,
-                iv: encrypted.iv,
-                tag: encrypted.tag
+                accessToken: {
+                    cipher: encryptedAccess.text,
+                    iv: encryptedAccess.iv,
+                    tag: encryptedAccess.tag
+                },
+                refreshToken: {
+                    cipher: encryptedRefresh.text,
+                    iv: encryptedRefresh.iv,
+                    tag: encryptedRefresh.tag
+                }
             };
 
             userController.processExternalAuthentication(req, googleAccount)
                 .then(function (user) {
                     done(null, user);
+                }, function (error) {
+                    done(error);
                 });
         }
     ));

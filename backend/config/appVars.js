@@ -24,8 +24,9 @@ var appVars = {
         clientSecret: credentials.google.clientSecret,
         redirectURL: appEnv.url + "/auth/youtube/callback"
     },
-    postgres : postgresService.credentials,
-    accessTokenKey: credentials.app.accessTokenKey
+    postgres: postgresService.credentials,
+    accessTokenKey: credentials.app.accessTokenKey,
+    refreshTokenKey: credentials.app.refreshTokenKey
 };
 
 module.exports = appVars;

@@ -35,6 +35,8 @@ authService.isAuthenticated = function (req, res, next) {
             userController.getUserByID(req.user.id).then(function (user) {
                 req.user = user;
                 next();
+            }, function (error) {
+                res.status(503).send(error).end();
             })
         });
 };
