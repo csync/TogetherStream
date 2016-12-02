@@ -76,18 +76,33 @@
                                     <constraint firstItem="Cmd-F5-SOe" firstAttribute="top" secondItem="g4f-7A-fEP" secondAttribute="top" constant="20" id="x0M-fQ-Olx"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qdm-oN-qBc" customClass="FBSDKLoginButton">
+                                <rect key="frame" x="172" y="386" width="30" height="30"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OOx-7J-SuO">
+                                <rect key="frame" x="172" y="441" width="30" height="30"/>
+                                <state key="normal" title="me"/>
+                                <connections>
+                                    <action selector="pressedMe:" destination="BYZ-38-t0r" eventType="touchUpInside" id="j8i-eO-Mi2"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="qdm-oN-qBc" firstAttribute="top" secondItem="fKU-Jj-50I" secondAttribute="bottom" constant="40" id="3Sl-JE-v4d"/>
+                            <constraint firstItem="qdm-oN-qBc" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Jr1-Le-aWs"/>
                             <constraint firstItem="whD-n8-tlE" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="-1" id="Vp7-ho-hsP"/>
+                            <constraint firstItem="OOx-7J-SuO" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="YWV-nc-CxH"/>
                             <constraint firstItem="g4f-7A-fEP" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="32" id="ZhY-g9-Zf0"/>
                             <constraint firstItem="whD-n8-tlE" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="Zrr-rO-v0p"/>
                             <constraint firstItem="g4f-7A-fEP" firstAttribute="top" secondItem="whD-n8-tlE" secondAttribute="bottom" constant="59" id="e4y-cc-Ika"/>
+                            <constraint firstItem="OOx-7J-SuO" firstAttribute="top" secondItem="qdm-oN-qBc" secondAttribute="bottom" constant="25" id="hyh-jH-rud"/>
                             <constraint firstAttribute="trailingMargin" secondItem="g4f-7A-fEP" secondAttribute="trailing" constant="33" id="miP-Ad-bPk"/>
                             <constraint firstItem="whD-n8-tlE" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="n44-mF-CjU"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="facebookLoginButton" destination="qdm-oN-qBc" id="jcg-66-xDW"/>
                         <outlet property="playPauseButton" destination="fKU-Jj-50I" id="1Vn-VJ-7fW"/>
                         <outlet property="playerView" destination="whD-n8-tlE" id="9Xw-lU-J97"/>
                     </connections>
