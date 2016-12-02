@@ -20,7 +20,8 @@ class MainViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         
         self.setupPlayerView()
-        self.requestTrendingVideos()
+        //self.requestTrendingVideos()
+        self.searchForVideosWithString(videoString: "The Strokes")
         
         
 		facebookLoginButton.readPermissions = ["public_profile", "email", "user_friends"]
@@ -90,7 +91,34 @@ class MainViewController: UIViewController {
         guard let key = Utils.getStringValueWithKeyFromPlist("keys", key: "youtube_api_key") else {
             return
         }
-        let urlString = "https://www.googleapis.com/youtube/v3/videos?chart=mostPopular&key=" + key + "&part=snippet&maxResults=4"
+        let urlString = "https://www.googleapis.com/youtube/v3/videos?chart=mostPopular&part=snippet&maxResults=5&videoEmbeddable=true&videoSyndicated=true&key=" + key
+        Utils.performGetRequest(targetURLString: urlString, completion: { data, responseCode, error in
+            
+            guard error == nil else {
+                print("Error receiving videos: \(error!.localizedDescription)")
+                return
+            }
+            guard let data = data else {
+                print("Data is empty")
+                return
+            }
+            
+            //TODO: replace with model object creation
+            let json = try! JSONSerialization.jsonObject(with: data, options: [])
+            print(json)
+        })
+    }
+    
+    
+    func searchForVideosWithString(videoString: String) {
+        guard let key = Utils.getStringValueWithKeyFromPlist("keys", key: "youtube_api_key") else {
+            return
+        }
+        
+        //need to replace spaces with "+"
+        let spaceFreeString = videoString.replacingOccurrences(of: " ", with: "+")
+        
+        let urlString = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&q=" + spaceFreeString + "&type=video&videoEmbeddable=true&videoSyndicated=true&key=" + key
         Utils.performGetRequest(targetURLString: urlString, completion: { data, responseCode, error in
             
             guard error == nil else {
