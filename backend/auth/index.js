@@ -52,7 +52,7 @@ router.get('/ytplaylists', authService.isAuthenticated(), function (req, res, ne
     var accessToken = securityHelper.decrypt(ytAccount.access_token, credentials.app.accessTokenKey, ytAccount.at_iv, ytAccount.at_tag);
     if(accessToken != null) {
         var request = require('request');
-        request('https://www.googleapis.com/youtube/v3/playlists?part=snippet&mine=true&access_token=' + accessToken, function (error, response, body) {
+        request({url: 'https://www.googleapis.com/youtube/v3/playlists?part=snippet&mine=true', headers: {Authorization: "Bearer " + accessToken}}, function (error, response, body) {
             res.send(body);
         })
     }
