@@ -22,7 +22,7 @@ xcuserdata/
 *.xcuserstate
 
 ## Keys
-keys.plist
+iOS/Stormtrooper/Stormtrooper/Configuration/keys.plist
 
 ## Obj-C/Swift specific
 *.hmap
