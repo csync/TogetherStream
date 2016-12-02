@@ -39,6 +39,8 @@ exports.setup = function (appVars) {
             userController.processExternalAuthentication(req, googleAccount)
                 .then(function (user) {
                     done(null, user);
+                }, function (error) {
+                    done(error);
                 });
         }
     ));
