@@ -34,6 +34,8 @@ module.exports = function (app) {
     passport.deserializeUser(function(id, done) {
         userController.getUserByID(id).then(function (user) {
             done(null,user);
+        }, function (error) {
+            done(error);
         });
     });
 };

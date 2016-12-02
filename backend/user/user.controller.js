@@ -150,12 +150,14 @@ userController.processExternalAuthentication = function (req, externalAccount) {
                         });
                     }
                 }
+            }, function (error) {
+                reject(error);
             })
     })
 };
 
 function generateId() {
-    return new Promise(function (resolve) {
+    return new Promise(function (resolve, reject) {
         var generateAttempt = function () {
             var id = "";
             var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -172,6 +174,8 @@ function generateId() {
                     else {
                         generateAttempt();
                     }
+                }, function (error) {
+                    reject(error);
                 })
         };
         generateAttempt();
@@ -191,6 +195,8 @@ function mergeIds(id1, id2) {
                 userController.getUserByID(id1)
                     .then(function (user) {
                         resolve(user);
+                    }, function (error) {
+                        reject(error);
                     });
             }
         );

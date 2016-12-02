@@ -36,6 +36,8 @@ exports.setup = function (appVars) {
                 userController.processExternalAuthentication(req, facebookAccount)
                     .then(function (user) {
                         done(null, user);
+                    }, function (error) {
+                        done(error);
                     });
             }
         ));
