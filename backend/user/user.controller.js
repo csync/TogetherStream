@@ -32,15 +32,15 @@ userController.saveUser = function (user) {
 
 userController.saveExternalAccount = function(userId, externalAccount) {
     return new Promise(function (resolve, reject) {
+        var parameters = [externalAccount.id, externalAccount.accessToken.cipher, externalAccount.accessToken.iv, externalAccount.accessToken.tag,
+            externalAccount.refreshToken.cipher, externalAccount.refreshToken.iv, externalAccount.refreshToken.tag, userId, externalAccount.provider];
         var client = new pg.Client(appVars.postgres.uri);
         client.connect();
         // Update external account if exists with that provider, otherwise insert it
         // Warning: this is not safe if executed from multiple sessions at the same time
-        client.query("UPDATE external_auth SET id=$1, access_token=$2, at_iv=$3, at_tag=$4, refresh_token=$5 WHERE user_id=$6 AND provider=$7;",
-            [externalAccount.id, externalAccount.accessToken, externalAccount.iv, externalAccount.tag, externalAccount.refreshToken, userId, externalAccount.provider]);
-        client.query("INSERT INTO external_auth (id, access_token, at_iv, at_tag, refresh_token, provider, user_id) SELECT $1, $2, $3, $4, $5, $6, $7"
-            + "WHERE NOT EXISTS (SELECT 1 FROM external_auth WHERE user_id=$7 AND provider=$6);",
-            [externalAccount.id, externalAccount.accessToken, externalAccount.iv, externalAccount.tag, externalAccount.refreshToken, externalAccount.provider, userId],
+        client.query("UPDATE external_auth SET id=$1, access_token=$2, at_iv=$3, at_tag=$4, refresh_token=$5, rt_iv=$6, rt_tag=$7 WHERE user_id=$8 AND provider=$9;", parameters);
+        client.query("INSERT INTO external_auth (id, access_token, at_iv, at_tag, refresh_token, rt_iv, rt_tag, user_id, provider) SELECT $1, $2, $3, $4, $5, $6, $7, $8, $9"
+            + "WHERE NOT EXISTS (SELECT 1 FROM external_auth WHERE user_id=$8 AND provider=$9);", parameters,
             function (err) {
                 if (err) reject(err);
 

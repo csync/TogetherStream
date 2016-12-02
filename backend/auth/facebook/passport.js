@@ -19,16 +19,18 @@ exports.setup = function (appVars) {
                 passReqToCallback: true
             },
             function (req, accessToken, refreshToken, profile, done) {
-                var encrypted = securityHelper.encrypt(accessToken, appVars.accessTokenKey);
+                var encryptedAccess = securityHelper.encrypt(accessToken, appVars.accessTokenKey);
 
                 // create the external account object from the fb profile received
                 // and the encryption of the access token.
                 var facebookAccount = {
                     provider: 'facebook',
                     id: profile.id,
-                    accessToken: encrypted.text,
-                    iv: encrypted.iv,
-                    tag: encrypted.tag
+                    accessToken: {
+                        cipher: encryptedAccess.text,
+                        iv: encryptedAccess.iv,
+                        tag: encryptedAccess.tag
+                    }
                 };
 
                 userController.processExternalAuthentication(req, facebookAccount)
