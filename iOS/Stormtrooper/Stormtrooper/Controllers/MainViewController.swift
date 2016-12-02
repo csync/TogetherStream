@@ -87,12 +87,14 @@ class MainViewController: UIViewController {
     }
     
     func requestTrendingVideos() {
-        let key = Utils.getStringValueWithKeyFromPlist("keys", key: "youtube_api_key")
-        
-        Utils.performGetRequest(targetURLString: "https://www.googleapis.com/youtube/v3/videos?chart=mostPopular&key=\(key)&part=snippet&maxResults=4", completion: { data, responseCode, error in
+        guard let key = Utils.getStringValueWithKeyFromPlist("keys", key: "youtube_api_key") else {
+            return
+        }
+        let urlString = "https://www.googleapis.com/youtube/v3/videos?chart=mostPopular&key=" + key + "&part=snippet&maxResults=4"
+        Utils.performGetRequest(targetURLString: urlString, completion: { data, responseCode, error in
             
             guard error == nil else {
-                print(error!.localizedDescription)
+                print("Error receiving videos: \(error!.localizedDescription)")
                 return
             }
             guard let data = data else {
