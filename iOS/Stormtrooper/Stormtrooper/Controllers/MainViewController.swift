@@ -61,8 +61,34 @@ class MainViewController: UIViewController {
 
 extension MainViewController: YTPlayerViewDelegate {
     func playerView(_ playerView: YTPlayerView, didPlayTime playTime: Float) {
-
+        print("Current Time: \(playerView.currentTime()) out of \(playerView.duration()) - Video Loaded \(playerView.videoLoadedFraction() * 100)%")
     }
+    
+    func playerView(_ playerView: YTPlayerView, receivedError error: YTPlayerError) {
+        //error received
+    }
+    
+    func playerView(_ playerView: YTPlayerView, didChangeTo quality: YTPlaybackQuality) {
+        //quality changed
+    }
+    
+    func playerViewDidBecomeReady(_ playerView: YTPlayerView) {
+        // player ready --
+        // could show loading before this is called, and hide loading when this is called
+        print("player ready!")
+    }
+    
+//    func playerViewPreferredInitialLoading(_ playerView: YTPlayerView) -> UIView? {
+//        //return loading view to be shown before player becomes ready
+//        let loadingView = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+//        loadingView.backgroundColor = UIColor.red
+//        return loadingView
+//    }
+    
+//    func playerViewPreferredWebViewBackgroundColor(_ playerView: YTPlayerView) -> UIColor {
+//        return UIColor.clear
+//    }
+    
     
     func playerView(_ playerView: YTPlayerView, didChangeTo state: YTPlayerState) {
         switch (state) {
