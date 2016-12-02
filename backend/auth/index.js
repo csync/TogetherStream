@@ -8,6 +8,7 @@ var authService = require('./auth.service');
 
 // Configure Passport
 require('./facebook/passport').setup(appVars);
+require('./facebook/token/passport').setup(appVars);
 require('./youtube/passport').setup(appVars);
 
 var router = express.Router();

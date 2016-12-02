@@ -14,6 +14,8 @@ router.get('/login', passport.authenticate('facebook'));
 
 router.get('/connect', authService.isAuthenticated(), passport.authorize('facebook'));
 
+router.use('/token', require('./token'));
+
 router.get(
     '/callback', 
     passport.authenticate(
