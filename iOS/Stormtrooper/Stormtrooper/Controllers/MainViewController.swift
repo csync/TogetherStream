@@ -18,7 +18,11 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
         self.setupPlayerView()
+        self.requestTrendingVideos()
+        
+        
 		facebookLoginButton.readPermissions = ["public_profile", "email", "user_friends"]
 		NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "FBSDKAccessTokenDidChangeNotification"), object: nil, queue: nil) { notification in
 			print(notification)
@@ -80,6 +84,26 @@ class MainViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func requestTrendingVideos() {
+        let key = Utils.getStringValueWithKeyFromPlist("keys", key: "youtube_api_key")
+        
+        Utils.performGetRequest(targetURLString: "https://www.googleapis.com/youtube/v3/videos?chart=mostPopular&key=\(key)&part=snippet&maxResults=4", completion: { data, responseCode, error in
+            
+            guard error == nil else {
+                print(error!.localizedDescription)
+                return
+            }
+            guard let data = data else {
+                print("Data is empty")
+                return
+            }
+            
+            //TODO: replace with model object creation
+            let json = try! JSONSerialization.jsonObject(with: data, options: [])
+            print(json)
+        })
     }
 
 
