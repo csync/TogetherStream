@@ -7,19 +7,45 @@
 //
 
 import UIKit
+import FBSDKLoginKit
+
 
 class MainViewController: UIViewController {
     @IBOutlet weak var playerView: YTPlayerView!
     @IBOutlet weak var playPauseButton: UIButton!
+	@IBOutlet weak var facebookLoginButton: FBSDKLoginButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
         self.setupPlayerView()
-        
+		facebookLoginButton.readPermissions = ["public_profile", "email", "user_friends"]
+		NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "FBSDKAccessTokenDidChangeNotification"), object: nil, queue: nil) { notification in
+			print(notification)
+		}
+		
+		
+		if let token = FBSDKAccessToken.current() {
+			let request = FBSDKGraphRequest.init(graphPath: "me", parameters: nil)
+			request?.start() {(request, result, error) in
+				print(error.debugDescription)
+			}
+		}
+		
+		
+//		for (key, value) in UserDefaults.standard.dictionaryRepresentation() {
+//			print("\(key) = \(value) \n")
+//		}
+		
+		
     }
     
+	@IBAction func pressedMe(_ sender: Any) {
+		let request = FBSDKGraphRequest.init(graphPath: "me", parameters: ["fields": "email, name, id"])
+		request?.start() {(request, result, error) in
+			print(error.debugDescription)
+		}
+	}
     private func setupPlayerView() {
         self.playerView.delegate = self
         //self.playerView.loadPlaylist(byVideos: ["4NFDhxhWyIw", "RTDuUiVSCo4"], index: 0, startSeconds: 0, suggestedQuality: .auto)
