@@ -195,6 +195,24 @@ class Utils: NSObject {
                       longMinutes,
                       longSeconds, {return longDegrees >= 0 ? NSLocalizedString("E", comment: "first letter of the word East") : NSLocalizedString("W", comment: "first letter of the word West")}() )
     }
+    
+    
+    class func performGetRequest(targetURLString: String!, completion: @escaping (Data?, Int, Error?) -> Void) {
+        guard let url = URL(string: targetURLString) else {
+            return
+        }
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "GET"
+        
+        let task = URLSession.shared.dataTask (with: urlRequest) { data, response, error in
+            
+            DispatchQueue.main.async {
+                completion(data, (response as! HTTPURLResponse).statusCode, error)
+            }
+        }
+        
+        task.resume()
+    }
 
 
 }
