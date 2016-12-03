@@ -24,6 +24,11 @@ class StreamViewController: UIViewController {
 		
     }
     
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
     private func setupPlayerView() {
         self.playerView.delegate = self
         //self.playerView.loadPlaylist(byVideos: ["4NFDhxhWyIw", "RTDuUiVSCo4"], index: 0, startSeconds: 0, suggestedQuality: .auto)
@@ -55,9 +60,9 @@ class StreamViewController: UIViewController {
     @IBAction func backTapped(_ sender: Any) {
         self.playerView.previousVideo()
     }
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+
+    @IBAction func cancelTapped(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
     }
     
     func requestTrendingVideos() {
