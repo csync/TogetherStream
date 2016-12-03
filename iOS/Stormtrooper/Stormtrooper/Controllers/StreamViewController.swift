@@ -12,6 +12,8 @@ class StreamViewController: UIViewController {
     @IBOutlet weak var playerView: YTPlayerView!
     @IBOutlet weak var playPauseButton: UIButton!
     @IBOutlet weak var mediaControllerView: UIView!
+    
+    var isPlaying = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,7 +40,7 @@ class StreamViewController: UIViewController {
             "modestbranding" : 1,
             "showinfo" : 0,
             "controls" : 0,
-            "playlist": "RTDuUiVSCo4, 2VuFqm8re5c",
+            "playlist": "7D3Ud2JIFhA, 2VuFqm8re5c"
             ])
         
     }
@@ -59,7 +61,7 @@ class StreamViewController: UIViewController {
     }
     
     @IBAction func playTapped(_ sender: Any) {
-        if let doesContain = playPauseButton.titleLabel?.text?.contains("Play"), doesContain {
+        if !self.isPlaying {
            self.playerView.playVideo()
         }
         else {
@@ -168,12 +170,14 @@ extension StreamViewController: YTPlayerViewDelegate {
     func playerView(_ playerView: YTPlayerView, didChangeTo state: YTPlayerState) {
         switch (state) {
         case .paused:
-            self.playPauseButton.setTitle("Play", for: .normal)
+            self.playPauseButton.setTitle("▶", for: .normal)
+            self.isPlaying = false
             break
         case .buffering:
             break
         case .playing:
-            self.playPauseButton.setTitle("Pause", for: .normal)
+            self.playPauseButton.setTitle("❘ ❘", for: .normal)
+            self.isPlaying = true
             break
         case .ended:
             break
