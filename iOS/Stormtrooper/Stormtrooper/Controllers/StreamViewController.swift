@@ -11,6 +11,7 @@ import UIKit
 class StreamViewController: UIViewController {
     @IBOutlet weak var playerView: YTPlayerView!
     @IBOutlet weak var playPauseButton: UIButton!
+    @IBOutlet weak var mediaControllerView: UIView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,7 +21,7 @@ class StreamViewController: UIViewController {
         //self.requestTrendingVideos()
         self.searchForVideosWithString(videoString: "The Strokes")
         
-		
+        NotificationCenter.default.addObserver(self, selector: #selector(StreamViewController.rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
 		
     }
     
@@ -37,8 +38,23 @@ class StreamViewController: UIViewController {
             "modestbranding" : 1,
             "showinfo" : 0,
             "controls" : 0,
-            "playlist": "RTDuUiVSCo4"
+            "playlist": "RTDuUiVSCo4, 2VuFqm8re5c",
             ])
+        
+    }
+    
+    func rotated() {
+        if UIDeviceOrientationIsLandscape(UIDevice.current.orientation) {
+            self.playerView.frame = self.view.frame //make fullscreen if landscape
+            self.mediaControllerView.isHidden = true
+            print("Landscape")
+        }
+        
+        if UIDeviceOrientationIsPortrait(UIDevice.current.orientation) {
+            self.playerView.updateConstraintsIfNeeded()
+            self.mediaControllerView.isHidden = false
+            print("Portrait")
+        }
         
     }
     
