@@ -12,12 +12,8 @@ import FBSDKLoginKit
 class AccountDataManager {
 	static let sharedInstance = AccountDataManager()
 	
-	func fetchUserInfo(callback: @escaping () -> ()) {
-		let request = FBSDKGraphRequest.init(graphPath: "me", parameters: ["fields": "email, name, id"])
-		let _ = request?.start() {(request, result, error) in
-			print(result.debugDescription)
-			callback()
-		}
+	var profile: FBSDKProfile? {
+		return FBSDKProfile.current() ?? nil
 	}
 	
 	func setupLoginButton(_ button: FBSDKLoginButton) {
@@ -26,10 +22,15 @@ class AccountDataManager {
 	
 	private init() {
 		NotificationCenter.default.addObserver(self, selector: #selector(accessTokenDidChange), name: NSNotification.Name.FBSDKAccessTokenDidChange, object: nil)
+		NotificationCenter.default.addObserver(self, selector: #selector(profileDidChange), name: NSNotification.Name.FBSDKProfileDidChange, object: nil)
 	}
 	
 	@objc private func accessTokenDidChange(notification: Notification) {
-		print(notification)
+		print(notification.userInfo)
+	}
+	
+	@objc private func profileDidChange(notification: Notification) {
+		print(notification.userInfo)
 	}
 	
 	deinit {
