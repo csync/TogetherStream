@@ -16,6 +16,11 @@ class AccountDataManager {
 		return FBSDKProfile.current() ?? nil
 	}
 	
+	// TODO: move to plist
+	private var serverAddress = "https://stormtrooper.mybluemix.net"
+	private var urlSession = URLSession.shared
+	private var serverAccessToken: String?
+	
 	func setupLoginButton(_ button: FBSDKLoginButton) {
 		button.readPermissions = ["public_profile", "email", "user_friends"]
 	}
@@ -25,8 +30,26 @@ class AccountDataManager {
 		NotificationCenter.default.addObserver(self, selector: #selector(profileDidChange), name: NSNotification.Name.FBSDKProfileDidChange, object: nil)
 	}
 	
+	private func signup(withAccessToken accessToken: String) {
+		guard let url = URL(string: serverAddress + "/auth/facebook/token/login") else {
+			return
+		}
+		var request = URLRequest(url: url)
+		request.addValue(accessToken, forHTTPHeaderField: "access_token")
+		let task = urlSession.dataTask(with: request) {data,response,error in
+			if let url = response?.url {
+				let queryItems = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems
+				let token = queryItems?.first(where: {$0.name == "access_token"})
+				self.serverAccessToken = token?.value
+			}
+		}
+		task.resume()
+	}
+	
 	@objc private func accessTokenDidChange(notification: Notification) {
-		print(notification.userInfo)
+		if let accessToken = FBSDKAccessToken.current() {
+			signup(withAccessToken: accessToken.tokenString)
+		}
 	}
 	
 	@objc private func profileDidChange(notification: Notification) {
