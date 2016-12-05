@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.setAudioToPlayWhileSilenced()
 		
 		// autoupdates profile when access token changes
-		// FBSDKProfile.enableUpdates(onAccessTokenChange: true)
+		FBSDKProfile.enableUpdates(onAccessTokenChange: true)
 		FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
         return true
