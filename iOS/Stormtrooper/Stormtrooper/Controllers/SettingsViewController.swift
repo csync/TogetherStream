@@ -12,25 +12,13 @@ import FBSDKLoginKit
 
 class SettingsViewController: UIViewController {
 	@IBOutlet weak var facebookLoginButton: FBSDKLoginButton!
+	let accountDataManager = AccountDataManager.sharedInstance
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-		facebookLoginButton.readPermissions = ["public_profile", "email", "user_friends"]
-		NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "FBSDKAccessTokenDidChangeNotification"), object: nil, queue: nil) { notification in
-			print(notification)
-		}
-		
-		
-		if let token = FBSDKAccessToken.current() {
-			let request = FBSDKGraphRequest.init(graphPath: "me", parameters: nil)
-			request?.start() {(request, result, error) in
-				print(error.debugDescription)
-			}
-		}
-		
-		
+		accountDataManager.setupLoginButton(facebookLoginButton)
 		
     }
 
