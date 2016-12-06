@@ -41,9 +41,25 @@ class AccountDataManager {
 				let queryItems = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems
 				let token = queryItems?.first(where: {$0.name == "access_token"})
 				self.serverAccessToken = token?.value
+				self.postDeviceTokenToServer()
 			}
 		}
 		task.resume()
+	}
+	
+	private func postDeviceTokenToServer() {
+		guard let serverAccessToken = serverAccessToken, let deviceToken = UserDefaults.standard.object(forKey: "deviceToken") as? String, let url = URL(string: serverAddress + "/notifications/device-token?access_token=" + serverAccessToken) else {
+			return
+		}
+		var request = URLRequest(url: url)
+		request.httpMethod = "POST"
+		request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+		request.httpBody = try? JSONSerialization.data(withJSONObject: ["token": deviceToken])
+		let task = urlSession.dataTask(with: request) {data,response,error in
+			
+		}
+		task.resume()
+		
 	}
 	
 	@objc private func accessTokenDidChange(notification: Notification) {
