@@ -11,8 +11,7 @@ router.post("", function (req, res, next) {
     if(!req.body) {
         res.sendStatus(400);
     }
-    var deviceToken = req.body['token'];
-    req.user.deviceToken = deviceToken;
+    req.user.deviceToken = req.body['token'];
     userController.saveUser(req.user);
     res.sendStatus(200);
 });
