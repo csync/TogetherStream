@@ -9,17 +9,21 @@
 import UIKit
 import AVFoundation
 import FBSDKLoginKit
+import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+	
+	var deviceToken: String?
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
         self.setAudioToPlayWhileSilenced()
+		requestAuthorizationForNotifications(for: application)
 		
 		// autoupdates profile when access token changes
 		FBSDKProfile.enableUpdates(onAccessTokenChange: true)
@@ -30,6 +34,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	
 	func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
 		return FBSDKApplicationDelegate.sharedInstance().application(app, open: url, options: options)
+	}
+	
+	func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+		
+		let deviceTokenString = deviceToken.reduce("", {$0 + String(format: "%02X", $1)})
+		self.deviceToken = deviceTokenString
 	}
 
     func applicationWillResignActive(_ application: UIApplication) {
@@ -55,7 +65,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     
-    
+	
     
     func setAudioToPlayWhileSilenced() {
         // Audio from videos will play even if silence switch is enabled on the device
@@ -63,10 +73,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
         }
         catch {
-            // report for an error
+            // report for an errorapplication.registerForRemoteNotifications()
             print("Error setting AVAudioSession category!")
         }
     }
+	
+	
+	func requestAuthorizationForNotifications(for application: UIApplication) {
+		UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) {(accepted, error) in
+			if !accepted {
+				print("Notification access denied.")
+			}
+			application.registerForRemoteNotifications()
+		}
+	}
 
 
 }

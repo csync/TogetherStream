@@ -352,6 +352,9 @@
 							com.apple.Keychain = {
 								enabled = 1;
 							};
+							com.apple.Push = {
+								enabled = 1;
+							};
 						};
 					};
 					34DA46C21DE61FC600E989A9 = {
@@ -578,7 +581,7 @@
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Stormtrooper/Configuration/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.IBM.Stormtrooper;
+				PRODUCT_BUNDLE_IDENTIFIER = com.NTH.Stormtrooper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Stormtrooper/SupportingFiles/Stormtrooper-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
@@ -597,7 +600,7 @@
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Stormtrooper/Configuration/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.IBM.Stormtrooper;
+				PRODUCT_BUNDLE_IDENTIFIER = com.NTH.Stormtrooper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Stormtrooper/SupportingFiles/Stormtrooper-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;

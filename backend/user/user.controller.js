@@ -17,7 +17,7 @@ userController.saveUser = function (user) {
         client.connect();
         // Update users if exists, otherwise insert it
         // Warning: this is not safe if executed from multiple sessions at the same time
-        client.query("UPDATE users SET id=$1 WHERE id = $2;", [user.id, user.id]);
+        client.query("UPDATE users SET id=$1, device_token=$2 WHERE id=$1;", [user.id, user.deviceToken]);
         client.query("INSERT INTO users (id) SELECT $1 WHERE NOT EXISTS (SELECT 1 FROM users WHERE id = $2);",  [user.id, user.id],
             function (err) {
                 if (err) reject(err);
@@ -57,7 +57,7 @@ userController.getUserByID = function (id) {
       var client = new pg.Client(appVars.postgres.uri);
       client.connect();
       // Get user info
-      client.query("SELECT id FROM users WHERE id=$1", [id],
+      client.query("SELECT id, device_token FROM users WHERE id=$1", [id],
           function (err, result) {
               if (err) reject(err);
               if (result.rowCount < 1) {
@@ -65,7 +65,7 @@ userController.getUserByID = function (id) {
                   client.end();
               }
               else {
-                  var user = {id: result.rows[0].id};
+                  var user = {id: result.rows[0].id, deviceToken: result.rows[0].device_token};
                   // Get external accounts
                   client.query("SELECT provider, access_token, at_iv, at_tag FROM external_auth WHERE user_id=$1", [id],
                       function (err, result) {
