@@ -23,7 +23,7 @@ securityHelper.signToken = function(userId) {
     return jwt.sign(
         { id: userId },
         appVars.sessionSecret,
-        { expiresIn: "1h" }); // the token will last for an hour
+        { expiresIn: "6h" }); // the token will last for 6 hours
 };
 
 securityHelper.decodeToken = function(token) {
