@@ -79,9 +79,10 @@ class StreamViewController: UIViewController {
         self.playerView.previousVideo()
     }
 
-    @IBAction func cancelTapped(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
+    @IBAction func closeTapped(_ sender: Any) {
+        self.navigationController?.popToRootViewController(animated: true)
     }
+
     
     func requestTrendingVideos() {
         guard let key = Utils.getStringValueWithKeyFromPlist("keys", key: "youtube_api_key") else {
@@ -170,13 +171,13 @@ extension StreamViewController: YTPlayerViewDelegate {
     func playerView(_ playerView: YTPlayerView, didChangeTo state: YTPlayerState) {
         switch (state) {
         case .paused:
-            self.playPauseButton.setTitle("▶", for: .normal)
+            self.playPauseButton.setTitle("▶️", for: .normal)
             self.isPlaying = false
             break
         case .buffering:
             break
         case .playing:
-            self.playPauseButton.setTitle("❘ ❘", for: .normal)
+            self.playPauseButton.setTitle("⏸", for: .normal)
             self.isPlaying = true
             break
         case .ended:
