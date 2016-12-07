@@ -57,12 +57,11 @@ class HomeViewController: UIViewController {
     }
 
     @IBAction func startStreamTapped(_ sender: Any) {
-        guard let streamVC = Utils.vcWithNameFromStoryboardWithName("stream", storyboardName: "Main") as? StreamViewController else {
+        guard let nameStreamVC = Utils.vcWithNameFromStoryboardWithName("nameStream", storyboardName: "Main") as? NameStreamViewController else {
             return
         }
-        self.present(streamVC, animated: true, completion: { _ in
-            
-        })
+        nameStreamVC.navigationItem.title = "New Stream"
+        self.navigationController?.pushViewController(nameStreamVC, animated: true)
     }
 
 }
