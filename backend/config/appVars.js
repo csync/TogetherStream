@@ -1,14 +1,15 @@
 /**
  * Created by danielfirsht on 11/22/16.
  */
+var apn = require("apn");
 var cfenv = require("cfenv");
 var appEnv = cfenv.getAppEnv({
     vcap: {
-        services: require('./VCAP_SERVICES.json')
+        services: require('./private/VCAP_SERVICES.json')
     }
 });
 var postgresService = appEnv.getService('Compose for PostgreSQL-5h');
-var credentials = require('./credentials');
+var credentials = require('./private/credentials');
 
 var appVars = {
     port: appEnv.port,
@@ -26,7 +27,11 @@ var appVars = {
     },
     postgres: postgresService.credentials,
     accessTokenKey: credentials.app.accessTokenKey,
-    refreshTokenKey: credentials.app.refreshTokenKey
+    refreshTokenKey: credentials.app.refreshTokenKey,
+    apn: new apn.Provider({
+        cert: __dirname + '/private/cert.pem',
+        key: __dirname + '/private/key.pem'
+    })
 };
 
 module.exports = appVars;

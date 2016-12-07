@@ -6,6 +6,7 @@
     "start": "node app.js"
   },
   "dependencies": {
+    "apn": "^2.1.2",
     "body-parser": "~1.15.1",
     "cfenv": "^1.0.3",
     "composable-middleware": "^0.3.0",
