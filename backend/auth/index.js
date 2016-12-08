@@ -33,7 +33,7 @@ router.get('/me', authService.isAuthenticated(), function (req, res, next) {
 router.get('/facebookfriends', authService.isAuthenticated(), function (req, res, next) {
     var fbAccount = req.user.externalAccounts[0];
     var securityHelper = require('./security.helper');
-    var credentials = require('../config/credentials');
+    var credentials = require('../config/private/credentials');
     var accessToken = securityHelper.decrypt(fbAccount.access_token, credentials.app.accessTokenKey, fbAccount.at_iv, fbAccount.at_tag);
     if(accessToken != null) {
        var request = require('request');
@@ -49,7 +49,7 @@ router.get('/facebookfriends', authService.isAuthenticated(), function (req, res
 router.get('/ytplaylists', authService.isAuthenticated(), function (req, res, next) {
     var ytAccount = req.user.externalAccounts[0];
     var securityHelper = require('./security.helper');
-    var credentials = require('../config/credentials');
+    var credentials = require('../config/private/credentials');
     var accessToken = securityHelper.decrypt(ytAccount.access_token, credentials.app.accessTokenKey, ytAccount.at_iv, ytAccount.at_tag);
     if(accessToken != null) {
         var request = require('request');
@@ -60,6 +60,23 @@ router.get('/ytplaylists', authService.isAuthenticated(), function (req, res, ne
     else {
         res.status(501).send("not logged in to youtube");
     }
+});
+
+router.get('/pushtest', authService.isAuthenticated(), function (req, res, next) {
+   var apn = require('apn');
+   var note = new apn.Notification();
+
+   note.badge = 1;
+   note.sound = "ping.aiff";
+   note.alert = "You've been invited!";
+   note.payload = {streamID: "12345"};
+   note.topic = 'com.NTH.stormtrooper';
+
+   var apnProvider = appVars.apn;
+   apnProvider.send(note, req.user.deviceToken).then(function (result) {
+       console.log(result);
+       res.sendStatus(200);
+   })
 });
 
 module.exports = router;
