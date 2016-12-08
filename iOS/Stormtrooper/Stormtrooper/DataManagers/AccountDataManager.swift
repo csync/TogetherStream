@@ -40,6 +40,26 @@ class AccountDataManager {
 		sendToServer(request: request){_,_,_ in}
 	}
 	
+	func fetchFacebookProfilePicture(as size: CGSize, callback: @escaping (Error?, UIImage?) -> Void) {
+		guard let profile = profile, let pictureURL = profile.imageURL(for: .square, size: size) else {
+			callback(ServerError.invalidConfiguration, nil)
+			return
+		}
+		
+		let task = urlSession.dataTask(with: pictureURL){data, response, error in
+			guard error == nil else {
+				callback(error, nil)
+				return
+			}
+			guard let data = data, let picture = UIImage(data: data) else {
+				callback(ServerError.unexpectedResponse, nil)
+				return
+			}
+			callback(nil, picture)
+		}
+		task.resume()
+	}
+	
 	private init() {
 		NotificationCenter.default.addObserver(self, selector: #selector(accessTokenDidChange), name: NSNotification.Name.FBSDKAccessTokenDidChange, object: nil)
 		NotificationCenter.default.addObserver(self, selector: #selector(profileDidChange), name: NSNotification.Name.FBSDKProfileDidChange, object: nil)
@@ -171,6 +191,6 @@ class AccountDataManager {
 	}
 	
 	enum ServerError: Error {
-		case cannotFormURL, unexpectedResponse
+		case cannotFormURL, unexpectedResponse, invalidConfiguration
 	}
 }
