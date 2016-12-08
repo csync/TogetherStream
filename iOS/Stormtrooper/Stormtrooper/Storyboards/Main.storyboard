@@ -22,13 +22,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="whD-n8-tlE" customClass="YTPlayerView">
-                                <rect key="frame" x="0.0" y="58" width="320" height="169"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="169" id="0Bg-7g-7bs"/>
-                                </constraints>
-                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g4f-7A-fEP">
                                 <rect key="frame" x="48" y="298" width="223" height="70"/>
                                 <subviews>
@@ -94,23 +87,30 @@
                                     <action selector="closeTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tYc-V8-2C0"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lt2-Nk-1YZ" customClass="YTPlayerView">
+                                <rect key="frame" x="0.0" y="58" width="320" height="226"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="226" id="b2a-u8-gDa"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.90823972230000005" green="0.92638683320000004" blue="0.93171715740000005" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
+                            <constraint firstItem="lt2-Nk-1YZ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="0BT-ZX-ayr"/>
                             <constraint firstItem="beo-Df-gum" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="842-Co-mYd"/>
-                            <constraint firstItem="whD-n8-tlE" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="38" id="8Ye-7k-VEh"/>
                             <constraint firstAttribute="trailingMargin" secondItem="beo-Df-gum" secondAttribute="trailing" id="Sfe-yg-y9b"/>
                             <constraint firstItem="g4f-7A-fEP" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="32" id="ZhY-g9-Zf0"/>
-                            <constraint firstItem="whD-n8-tlE" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="Zrr-rO-v0p"/>
-                            <constraint firstItem="g4f-7A-fEP" firstAttribute="top" secondItem="whD-n8-tlE" secondAttribute="bottom" constant="71" id="e4y-cc-Ika"/>
+                            <constraint firstItem="g4f-7A-fEP" firstAttribute="top" secondItem="lt2-Nk-1YZ" secondAttribute="bottom" constant="14" id="bdp-29-yZm"/>
+                            <constraint firstItem="lt2-Nk-1YZ" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="eNP-5T-cVp"/>
                             <constraint firstAttribute="trailingMargin" secondItem="g4f-7A-fEP" secondAttribute="trailing" constant="33" id="miP-Ad-bPk"/>
-                            <constraint firstItem="whD-n8-tlE" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="n44-mF-CjU"/>
+                            <constraint firstItem="lt2-Nk-1YZ" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="38" id="zOk-hq-TKs"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="mediaControllerView" destination="g4f-7A-fEP" id="iBP-6P-a37"/>
                         <outlet property="playPauseButton" destination="fKU-Jj-50I" id="1Vn-VJ-7fW"/>
-                        <outlet property="playerView" destination="whD-n8-tlE" id="9Xw-lU-J97"/>
+                        <outlet property="playerView" destination="lt2-Nk-1YZ" id="lxf-Lz-SRg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -316,7 +316,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Name your Stream" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Mgl-N8-G1e">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Name your Stream" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Mgl-N8-G1e">
                                 <rect key="frame" x="33" y="83" width="254" height="30"/>
                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 <constraints>
@@ -331,7 +331,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Description (optional)" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mMX-wD-bgK">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Description (optional)" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mMX-wD-bgK">
                                 <rect key="frame" x="33" y="148" width="254" height="149"/>
                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 <constraints>
@@ -407,11 +407,17 @@
                                         <rect key="frame" x="20" y="20" width="53" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" title="Text"/>
+                                        <connections>
+                                            <action selector="textTapped:" destination="Qi8-h8-Xua" eventType="touchUpInside" id="vl9-2K-XEy"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0gH-K9-1z0">
                                         <rect key="frame" x="147" y="20" width="53" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" title="Email"/>
+                                        <connections>
+                                            <action selector="emailTapped:" destination="Qi8-h8-Xua" eventType="touchUpInside" id="lLc-xD-GMQ"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
