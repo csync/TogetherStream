@@ -25,43 +25,22 @@ class AccountDataManager {
 		button.readPermissions = ["public_profile", "email", "user_friends"]
 	}
 	
-	func fetchFacebookFriends(callback: @escaping (Error?, [(String, String)]?) -> Void) {
+	func fetchFacebookFriends(callback: @escaping (Error?, [User]?) -> Void) {
 		innerFetchFacebookFriends(withAfterCursor: nil, friends: [], callback: callback)
 	}
 	
-	private func innerFetchFacebookFriends(withAfterCursor afterCursor: String?, friends: [(String, String)], callback: @escaping (Error?, [(String, String)]?) -> Void) {
-		var afterCursor = afterCursor
-		var friends = friends
-		var parameters = ["fields": "friends"]
-		if let afterCursor = afterCursor {
-			parameters["after"] = afterCursor
+	func sendInvite(forRoom room: String, to users: [User]) {
+		guard let serverAccessToken = serverAccessToken, let url = URL(string: serverAddress + "/notifications?access_token=" + serverAccessToken) else {
+			return
 		}
-		let request = FBSDKGraphRequest(graphPath: "me", parameters: parameters)
-		let _ = request?.start(){ (request, result, error) in
-			if error != nil {
-				callback(error,nil)
-			}
-			else {
-				let friendsResult = (result as? [String: Any])?["friends"] as? [String: Any]
-				guard let friendsPage = friendsResult?["data"] as? [[String: String]] else {
-					return
-				}
-				for friend in friendsPage {
-					friends.append((friend["id"] ?? "", friend["name"] ?? ""))
-				}
-				let paging = friendsResult?["paging"] as? [String: Any]
-				if paging?["next"] != nil {
-					let cursors = paging?["cursors"] as? [String: String]
-					afterCursor = cursors?["after"]
-				}
-				if afterCursor != nil {
-					self.innerFetchFacebookFriends(withAfterCursor: afterCursor, friends: friends, callback: callback)
-				}
-				else {
-					callback(nil, friends)
-				}
-			}
+		var request = URLRequest(url: url)
+		request.httpMethod = "POST"
+		request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+		request.httpBody = try? JSONSerialization.data(withJSONObject: ["room": room, "users": users.map({$0.id})])
+		let task = urlSession.dataTask(with: request) {data,response,error in
+			
 		}
+		task.resume()
 	}
 	
 	private init() {
@@ -99,6 +78,41 @@ class AccountDataManager {
 		}
 		task.resume()
 		
+	}
+	
+	private func innerFetchFacebookFriends(withAfterCursor afterCursor: String?, friends: [User], callback: @escaping (Error?, [User]?) -> Void) {
+		var afterCursor = afterCursor
+		var friends = friends
+		var parameters = ["fields": "friends"]
+		if let afterCursor = afterCursor {
+			parameters["after"] = afterCursor
+		}
+		let request = FBSDKGraphRequest(graphPath: "me", parameters: parameters)
+		let _ = request?.start(){ (request, result, error) in
+			if error != nil {
+				callback(error,nil)
+			}
+			else {
+				let friendsResult = (result as? [String: Any])?["friends"] as? [String: Any]
+				guard let friendsPage = friendsResult?["data"] as? [[String: String]] else {
+					return
+				}
+				for friend in friendsPage {
+					friends.append(User(id: friend["id"] ?? "", name: friend["name"] ?? ""))
+				}
+				let paging = friendsResult?["paging"] as? [String: Any]
+				if paging?["next"] != nil {
+					let cursors = paging?["cursors"] as? [String: String]
+					afterCursor = cursors?["after"]
+				}
+				if afterCursor != nil {
+					self.innerFetchFacebookFriends(withAfterCursor: afterCursor, friends: friends, callback: callback)
+				}
+				else {
+					callback(nil, friends)
+				}
+			}
+		}
 	}
 	
 	@objc private func accessTokenDidChange(notification: Notification) {

@@ -13,9 +13,6 @@ class InviteStreamViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-		AccountDataManager.sharedInstance.fetchFacebookFriends {error,friends in
-			let _ = friends!.map({print($0)})
-		}
         // Do any additional setup after loading the view.
     }
 
