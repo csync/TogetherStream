@@ -19,7 +19,18 @@ class AccountDataManager {
 	// TODO: move to plist
 	private var serverAddress = "https://stormtrooper.mybluemix.net"
 	private var urlSession = URLSession.shared
-	private var serverAccessToken: String?
+	private var _serverAccessToken: String?
+	private var serverAccessToken: String? {
+		get {
+			return _serverAccessToken
+		}
+		set {
+			let userDefaults = UserDefaults()
+			userDefaults.set(newValue, forKey: "server_access_token")
+			userDefaults.synchronize()
+			_serverAccessToken = newValue
+		}
+	}
 	
 	func setupLoginButton(_ button: FBSDKLoginButton) {
 		button.readPermissions = ["public_profile", "email", "user_friends"]
@@ -61,6 +72,7 @@ class AccountDataManager {
 	}
 	
 	private init() {
+		_serverAccessToken = UserDefaults().string(forKey: "server_access_token")
 		NotificationCenter.default.addObserver(self, selector: #selector(accessTokenDidChange), name: NSNotification.Name.FBSDKAccessTokenDidChange, object: nil)
 		NotificationCenter.default.addObserver(self, selector: #selector(profileDidChange), name: NSNotification.Name.FBSDKProfileDidChange, object: nil)
 	}
