@@ -37,10 +37,7 @@ class AccountDataManager {
 		request.httpMethod = "POST"
 		request.addValue("application/json", forHTTPHeaderField: "Content-Type")
 		request.httpBody = try? JSONSerialization.data(withJSONObject: ["room": room, "users": users.map({$0.id})])
-		let task = urlSession.dataTask(with: request) {data,response,error in
-			
-		}
-		task.resume()
+		sendToServer(request: request){_,_,_ in}
 	}
 	
 	private init() {
@@ -73,10 +70,7 @@ class AccountDataManager {
 		request.httpMethod = "POST"
 		request.addValue("application/json", forHTTPHeaderField: "Content-Type")
 		request.httpBody = try? JSONSerialization.data(withJSONObject: ["token": deviceToken])
-		let task = urlSession.dataTask(with: request) {data,response,error in
-			
-		}
-		task.resume()
+		sendToServer(request: request){_,_,_ in}
 		
 	}
 	
@@ -115,6 +109,53 @@ class AccountDataManager {
 		}
 	}
 	
+	private func sendToServer(request: URLRequest, withCallback callback: @escaping (Data?, URLResponse?, Error?) -> Void) {
+		let task = urlSession.dataTask(with: request) {data,response,error in
+			guard let httpResponse = response as? HTTPURLResponse else {
+				// Not HTTP Request, just pass through
+				callback(data, response, error)
+				return
+			}
+			if httpResponse.statusCode == 401 {
+				//attempt to refresh token
+				self.refreshToken() {error in
+					if error != nil {
+						callback(nil, nil, error)
+					}
+					else {
+						self.sendToServer(request: request, withCallback: callback)
+					}
+				}
+			}
+			else {
+				callback(data, response, error)
+			}
+		}
+		task.resume()
+	}
+	
+	private func refreshToken(withCallback callback: @escaping (Error?) -> Void) {
+		guard let serverAccessToken = serverAccessToken, let url = URL(string: serverAddress + "/auth/refresh?access_token=" + serverAccessToken) else {
+			callback(ServerError.cannotFormURL)
+			return
+		}
+		let task = urlSession.dataTask(with: url) {data, response, error in
+			guard let data = data, error != nil else {
+				callback(error)
+				return
+			}
+			let jsonData = try? JSONSerialization.jsonObject(with: data)
+			if let newServerAccessToken = (jsonData as? [String: String])?["access_token"] {
+				self.serverAccessToken = newServerAccessToken
+				callback(nil)
+			}
+			else {
+				callback(ServerError.unexpectedResponse)
+			}
+		}
+		task.resume()
+	}
+	
 	@objc private func accessTokenDidChange(notification: Notification) {
 		if let accessToken = FBSDKAccessToken.current() {
 			signup(withAccessToken: accessToken.tokenString)
@@ -127,5 +168,9 @@ class AccountDataManager {
 	
 	deinit {
 		NotificationCenter.default.removeObserver(self)
+	}
+	
+	enum ServerError: Error {
+		case cannotFormURL, unexpectedResponse
 	}
 }
