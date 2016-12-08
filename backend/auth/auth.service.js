@@ -50,7 +50,7 @@ authService.refresh = function(req, res) {
     if(req.headers.authorization) {
         // get the user id from the invalid token
         var token = req.headers.authorization.split(' ')[1];
-        var tokenPayload = securityHelper.decodeToken(token);
+        var tokenPayload = securityHelper.decodeToken(token, true);
         var userId = tokenPayload.id;
 
         var newToken = securityHelper.signToken(userId);

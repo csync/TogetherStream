@@ -33,6 +33,7 @@
 		34DA473A1DEDEF3300E989A9 /* YTPlayerView.h in Sources */ = {isa = PBXBuildFile; fileRef = 34DA47371DEDE63600E989A9 /* YTPlayerView.h */; };
 		34DA473C1DEDEFA000E989A9 /* Assets.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 34DA473B1DEDEFA000E989A9 /* Assets.bundle */; };
 		A29D11021DF5FC4E00FA0EEC /* AccountDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29D11011DF5FC4E00FA0EEC /* AccountDataManager.swift */; };
+		A29D11041DF8B30D00FA0EEC /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29D11031DF8B30D00FA0EEC /* User.swift */; };
 		A2F714731DF1F34300BC7335 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2F714721DF1F34300BC7335 /* FBSDKLoginKit.framework */; };
 		A2F714751DF1F39E00BC7335 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2F714741DF1F39E00BC7335 /* Bolts.framework */; };
 		A2F714771DF1F51400BC7335 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2F714761DF1F51400BC7335 /* FBSDKCoreKit.framework */; };
@@ -88,6 +89,7 @@
 		34DA47381DEDE63600E989A9 /* YTPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YTPlayerView.m; sourceTree = "<group>"; };
 		34DA473B1DEDEFA000E989A9 /* Assets.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Assets.bundle; sourceTree = "<group>"; };
 		A29D11011DF5FC4E00FA0EEC /* AccountDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountDataManager.swift; sourceTree = "<group>"; };
+		A29D11031DF8B30D00FA0EEC /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		A2F714721DF1F34300BC7335 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		A2F714741DF1F39E00BC7335 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		A2F714761DF1F51400BC7335 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
@@ -241,6 +243,7 @@
 		34DA46F61DECA2E500E989A9 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				A29D11031DF8B30D00FA0EEC /* User.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -453,6 +456,7 @@
 				34DA47391DEDE63600E989A9 /* YTPlayerView.m in Sources */,
 				34C6E5381DF23DBC00EB4972 /* LoginViewController.swift in Sources */,
 				34C6E5371DF23DBC00EB4972 /* HomeViewController.swift in Sources */,
+				A29D11041DF8B30D00FA0EEC /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
