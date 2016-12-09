@@ -39,6 +39,7 @@
 		A2A4360A1DFA04C7008C2FB2 /* SwiftWebSocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2A436071DFA04C7008C2FB2 /* SwiftWebSocket.framework */; };
 		A2A4360D1DFB2421008C2FB2 /* FacebookDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A4360C1DFB2421008C2FB2 /* FacebookDataManager.swift */; };
 		A2A4360F1DFB24CE008C2FB2 /* ServerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A4360E1DFB24CE008C2FB2 /* ServerError.swift */; };
+		A2A436111DFB3D7F008C2FB2 /* CSyncDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A436101DFB3D7F008C2FB2 /* CSyncDataManager.swift */; };
 		A2F714731DF1F34300BC7335 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2F714721DF1F34300BC7335 /* FBSDKLoginKit.framework */; };
 		A2F714751DF1F39E00BC7335 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2F714741DF1F39E00BC7335 /* Bolts.framework */; };
 		A2F714771DF1F51400BC7335 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2F714761DF1F51400BC7335 /* FBSDKCoreKit.framework */; };
@@ -100,6 +101,7 @@
 		A2A436071DFA04C7008C2FB2 /* SwiftWebSocket.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftWebSocket.framework; path = Carthage/Build/iOS/SwiftWebSocket.framework; sourceTree = "<group>"; };
 		A2A4360C1DFB2421008C2FB2 /* FacebookDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacebookDataManager.swift; sourceTree = "<group>"; };
 		A2A4360E1DFB24CE008C2FB2 /* ServerError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerError.swift; sourceTree = "<group>"; };
+		A2A436101DFB3D7F008C2FB2 /* CSyncDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSyncDataManager.swift; sourceTree = "<group>"; };
 		A2F714721DF1F34300BC7335 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		A2F714741DF1F39E00BC7335 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		A2F714761DF1F51400BC7335 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
@@ -226,6 +228,7 @@
 				A29D11011DF5FC4E00FA0EEC /* AccountDataManager.swift */,
 				A2A4360C1DFB2421008C2FB2 /* FacebookDataManager.swift */,
 				A2A4360E1DFB24CE008C2FB2 /* ServerError.swift */,
+				A2A436101DFB3D7F008C2FB2 /* CSyncDataManager.swift */,
 			);
 			path = DataManagers;
 			sourceTree = "<group>";
@@ -498,6 +501,7 @@
 				34DA47151DECA2E600E989A9 /* UILabelExtension.swift in Sources */,
 				34DA47271DECA2E600E989A9 /* Utils.swift in Sources */,
 				34C6E5391DF23DBC00EB4972 /* SettingsViewController.swift in Sources */,
+				A2A436111DFB3D7F008C2FB2 /* CSyncDataManager.swift in Sources */,
 				34DA47161DECA2E600E989A9 /* UIViewControllerExtension.swift in Sources */,
 				34DA47391DEDE63600E989A9 /* YTPlayerView.m in Sources */,
 				34C6E5381DF23DBC00EB4972 /* LoginViewController.swift in Sources */,
