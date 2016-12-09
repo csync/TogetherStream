@@ -12,13 +12,13 @@ import FBSDKLoginKit
 
 class SettingsViewController: UIViewController {
 	@IBOutlet weak var facebookLoginButton: FBSDKLoginButton!
-	let accountDataManager = AccountDataManager.sharedInstance
+	let facebookDataManager = FacebookDataManager.sharedInstance
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-		accountDataManager.setupLoginButton(facebookLoginButton)
+		facebookDataManager.setupLoginButton(facebookLoginButton)
 		
     }
 
