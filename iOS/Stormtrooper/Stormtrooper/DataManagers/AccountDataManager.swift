@@ -12,10 +12,6 @@ import FBSDKLoginKit
 class AccountDataManager {
 	static let sharedInstance = AccountDataManager()
 	
-	var profile: FBSDKProfile? {
-		return FBSDKProfile.current() ?? nil
-	}
-	
 	// TODO: move to plist
 	private var serverAddress = "https://stormtrooper.mybluemix.net"
 	private var urlSession = URLSession.shared
@@ -32,14 +28,6 @@ class AccountDataManager {
 		}
 	}
 	
-	func setupLoginButton(_ button: FBSDKLoginButton) {
-		button.readPermissions = ["public_profile", "email", "user_friends"]
-	}
-	
-	func fetchFacebookFriends(callback: @escaping (Error?, [User]?) -> Void) {
-		innerFetchFacebookFriends(withAfterCursor: nil, friends: [], callback: callback)
-	}
-	
 	func sendInvite(forRoom room: String, to users: [User]) {
 		guard let serverAccessToken = serverAccessToken, let url = URL(string: serverAddress + "/notifications?access_token=" + serverAccessToken) else {
 			return
@@ -51,33 +39,7 @@ class AccountDataManager {
 		sendToServer(request: request){_,_,_ in}
 	}
 	
-	func fetchFacebookProfilePicture(as size: CGSize, callback: @escaping (Error?, UIImage?) -> Void) {
-		guard let profile = profile, let pictureURL = profile.imageURL(for: .square, size: size) else {
-			callback(ServerError.invalidConfiguration, nil)
-			return
-		}
-		
-		let task = urlSession.dataTask(with: pictureURL){data, response, error in
-			guard error == nil else {
-				callback(error, nil)
-				return
-			}
-			guard let data = data, let picture = UIImage(data: data) else {
-				callback(ServerError.unexpectedResponse, nil)
-				return
-			}
-			callback(nil, picture)
-		}
-		task.resume()
-	}
-	
-	private init() {
-		_serverAccessToken = UserDefaults().string(forKey: "server_access_token")
-		NotificationCenter.default.addObserver(self, selector: #selector(accessTokenDidChange), name: NSNotification.Name.FBSDKAccessTokenDidChange, object: nil)
-		NotificationCenter.default.addObserver(self, selector: #selector(profileDidChange), name: NSNotification.Name.FBSDKProfileDidChange, object: nil)
-	}
-	
-	private func signup(withAccessToken accessToken: String) {
+	func signup(withFacebookAccessToken accessToken: String) {
 		guard let url = URL(string: serverAddress + "/auth/facebook/token/login") else {
 			return
 		}
@@ -94,6 +56,10 @@ class AccountDataManager {
 		task.resume()
 	}
 	
+	private init() {
+		_serverAccessToken = UserDefaults().string(forKey: "server_access_token")
+	}
+	
 	private func postDeviceTokenToServer() {
 		guard let serverAccessToken = serverAccessToken, let deviceToken = UserDefaults.standard.object(forKey: "deviceToken") as? String, let url = URL(string: serverAddress + "/notifications/device-token?access_token=" + serverAccessToken) else {
 			return
@@ -104,41 +70,6 @@ class AccountDataManager {
 		request.httpBody = try? JSONSerialization.data(withJSONObject: ["token": deviceToken])
 		sendToServer(request: request){_,_,_ in}
 		
-	}
-	
-	private func innerFetchFacebookFriends(withAfterCursor afterCursor: String?, friends: [User], callback: @escaping (Error?, [User]?) -> Void) {
-		var afterCursor = afterCursor
-		var friends = friends
-		var parameters = ["fields": "friends"]
-		if let afterCursor = afterCursor {
-			parameters["after"] = afterCursor
-		}
-		let request = FBSDKGraphRequest(graphPath: "me", parameters: parameters)
-		let _ = request?.start(){ (request, result, error) in
-			if error != nil {
-				callback(error,nil)
-			}
-			else {
-				let friendsResult = (result as? [String: Any])?["friends"] as? [String: Any]
-				guard let friendsPage = friendsResult?["data"] as? [[String: String]] else {
-					return
-				}
-				for friend in friendsPage {
-					friends.append(User(id: friend["id"] ?? "", name: friend["name"] ?? ""))
-				}
-				let paging = friendsResult?["paging"] as? [String: Any]
-				if paging?["next"] != nil {
-					let cursors = paging?["cursors"] as? [String: String]
-					afterCursor = cursors?["after"]
-				}
-				if afterCursor != nil {
-					self.innerFetchFacebookFriends(withAfterCursor: afterCursor, friends: friends, callback: callback)
-				}
-				else {
-					callback(nil, friends)
-				}
-			}
-		}
 	}
 	
 	private func sendToServer(request: URLRequest, withCallback callback: @escaping (Data?, URLResponse?, Error?) -> Void) {
@@ -186,23 +117,5 @@ class AccountDataManager {
 			}
 		}
 		task.resume()
-	}
-	
-	@objc private func accessTokenDidChange(notification: Notification) {
-		if let accessToken = FBSDKAccessToken.current() {
-			signup(withAccessToken: accessToken.tokenString)
-		}
-	}
-	
-	@objc private func profileDidChange(notification: Notification) {
-		print(notification.userInfo)
-	}
-	
-	deinit {
-		NotificationCenter.default.removeObserver(self)
-	}
-	
-	enum ServerError: Error {
-		case cannotFormURL, unexpectedResponse, invalidConfiguration
 	}
 }
