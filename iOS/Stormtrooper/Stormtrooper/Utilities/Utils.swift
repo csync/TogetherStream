@@ -197,7 +197,7 @@ class Utils: NSObject {
     }
     
     
-    class func performGetRequest(targetURLString: String!, completion: @escaping (Data?, Int, Error?) -> Void) {
+    class func performGetRequest(targetURLString: String!, completion: @escaping (Data?, Int?, Error?) -> Void) {
         guard let url = URL(string: targetURLString) else {
             return
         }
@@ -207,7 +207,7 @@ class Utils: NSObject {
         let task = URLSession.shared.dataTask (with: urlRequest) { data, response, error in
             
             DispatchQueue.main.async {
-                completion(data, (response as! HTTPURLResponse).statusCode, error)
+                completion(data, (response as? HTTPURLResponse)?.statusCode, error)
             }
         }
         
