@@ -62,21 +62,4 @@ router.get('/ytplaylists', authService.isAuthenticated(), function (req, res, ne
     }
 });
 
-router.get('/pushtest', authService.isAuthenticated(), function (req, res, next) {
-   var apn = require('apn');
-   var note = new apn.Notification();
-
-   note.badge = 1;
-   note.sound = "ping.aiff";
-   note.alert = "You've been invited!";
-   note.payload = {streamID: "12345"};
-   note.topic = 'com.NTH.stormtrooper';
-
-   var apnProvider = appVars.apn;
-   apnProvider.send(note, req.user.deviceToken).then(function (result) {
-       console.log(result);
-       res.sendStatus(200);
-   })
-});
-
 module.exports = router;

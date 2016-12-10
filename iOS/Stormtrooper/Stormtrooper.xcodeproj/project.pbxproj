@@ -34,6 +34,13 @@
 		34DA473C1DEDEFA000E989A9 /* Assets.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 34DA473B1DEDEFA000E989A9 /* Assets.bundle */; };
 		34E57BE61DFB0B6800C8BAEA /* AddVideosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34E57BE51DFB0B6800C8BAEA /* AddVideosViewController.swift */; };
 		A29D11021DF5FC4E00FA0EEC /* AccountDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29D11011DF5FC4E00FA0EEC /* AccountDataManager.swift */; };
+		A29D11041DF8B30D00FA0EEC /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29D11031DF8B30D00FA0EEC /* User.swift */; };
+		A2A436081DFA04C7008C2FB2 /* CSyncSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2A436051DFA04C7008C2FB2 /* CSyncSDK.framework */; };
+		A2A436091DFA04C7008C2FB2 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2A436061DFA04C7008C2FB2 /* SQLite.framework */; };
+		A2A4360A1DFA04C7008C2FB2 /* SwiftWebSocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2A436071DFA04C7008C2FB2 /* SwiftWebSocket.framework */; };
+		A2A4360D1DFB2421008C2FB2 /* FacebookDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A4360C1DFB2421008C2FB2 /* FacebookDataManager.swift */; };
+		A2A4360F1DFB24CE008C2FB2 /* ServerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A4360E1DFB24CE008C2FB2 /* ServerError.swift */; };
+		A2A436111DFB3D7F008C2FB2 /* CSyncDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A436101DFB3D7F008C2FB2 /* CSyncDataManager.swift */; };
 		A2F714731DF1F34300BC7335 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2F714721DF1F34300BC7335 /* FBSDKLoginKit.framework */; };
 		A2F714751DF1F39E00BC7335 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2F714741DF1F39E00BC7335 /* Bolts.framework */; };
 		A2F714771DF1F51400BC7335 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2F714761DF1F51400BC7335 /* FBSDKCoreKit.framework */; };
@@ -90,6 +97,13 @@
 		34DA473B1DEDEFA000E989A9 /* Assets.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Assets.bundle; sourceTree = "<group>"; };
 		34E57BE51DFB0B6800C8BAEA /* AddVideosViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddVideosViewController.swift; sourceTree = "<group>"; };
 		A29D11011DF5FC4E00FA0EEC /* AccountDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountDataManager.swift; sourceTree = "<group>"; };
+		A29D11031DF8B30D00FA0EEC /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		A2A436051DFA04C7008C2FB2 /* CSyncSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CSyncSDK.framework; path = Carthage/Build/iOS/CSyncSDK.framework; sourceTree = "<group>"; };
+		A2A436061DFA04C7008C2FB2 /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = Carthage/Build/iOS/SQLite.framework; sourceTree = "<group>"; };
+		A2A436071DFA04C7008C2FB2 /* SwiftWebSocket.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftWebSocket.framework; path = Carthage/Build/iOS/SwiftWebSocket.framework; sourceTree = "<group>"; };
+		A2A4360C1DFB2421008C2FB2 /* FacebookDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacebookDataManager.swift; sourceTree = "<group>"; };
+		A2A4360E1DFB24CE008C2FB2 /* ServerError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerError.swift; sourceTree = "<group>"; };
+		A2A436101DFB3D7F008C2FB2 /* CSyncDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSyncDataManager.swift; sourceTree = "<group>"; };
 		A2F714721DF1F34300BC7335 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		A2F714741DF1F39E00BC7335 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		A2F714761DF1F51400BC7335 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
@@ -101,6 +115,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A2A436081DFA04C7008C2FB2 /* CSyncSDK.framework in Frameworks */,
+				A2A436091DFA04C7008C2FB2 /* SQLite.framework in Frameworks */,
+				A2A4360A1DFA04C7008C2FB2 /* SwiftWebSocket.framework in Frameworks */,
 				A2F714731DF1F34300BC7335 /* FBSDKLoginKit.framework in Frameworks */,
 				A2F714771DF1F51400BC7335 /* FBSDKCoreKit.framework in Frameworks */,
 				A2F714751DF1F39E00BC7335 /* Bolts.framework in Frameworks */,
@@ -140,6 +157,7 @@
 				34DA46C61DE61FC600E989A9 /* StormtrooperTests */,
 				34DA46D11DE61FC600E989A9 /* StormtrooperUITests */,
 				34DA46B01DE61FC600E989A9 /* Products */,
+				A2A436041DFA04C6008C2FB2 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -211,6 +229,9 @@
 			isa = PBXGroup;
 			children = (
 				A29D11011DF5FC4E00FA0EEC /* AccountDataManager.swift */,
+				A2A4360C1DFB2421008C2FB2 /* FacebookDataManager.swift */,
+				A2A4360E1DFB24CE008C2FB2 /* ServerError.swift */,
+				A2A436101DFB3D7F008C2FB2 /* CSyncDataManager.swift */,
 			);
 			path = DataManagers;
 			sourceTree = "<group>";
@@ -244,6 +265,7 @@
 		34DA46F61DECA2E500E989A9 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				A29D11031DF8B30D00FA0EEC /* User.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -287,6 +309,16 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		A2A436041DFA04C6008C2FB2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A2A436051DFA04C7008C2FB2 /* CSyncSDK.framework */,
+				A2A436061DFA04C7008C2FB2 /* SQLite.framework */,
+				A2A436071DFA04C7008C2FB2 /* SwiftWebSocket.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -297,6 +329,7 @@
 				34DA46AB1DE61FC600E989A9 /* Sources */,
 				34DA46AC1DE61FC600E989A9 /* Frameworks */,
 				34DA46AD1DE61FC600E989A9 /* Resources */,
+				A2A4360B1DFA04D6008C2FB2 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -433,6 +466,25 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		A2A4360B1DFA04D6008C2FB2 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/CSyncSDK.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/SQLite.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/SwiftWebSocket.framework",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		34DA46AB1DE61FC600E989A9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -452,11 +504,15 @@
 				34DA47151DECA2E600E989A9 /* UILabelExtension.swift in Sources */,
 				34DA47271DECA2E600E989A9 /* Utils.swift in Sources */,
 				34C6E5391DF23DBC00EB4972 /* SettingsViewController.swift in Sources */,
+				A2A436111DFB3D7F008C2FB2 /* CSyncDataManager.swift in Sources */,
 				34DA47161DECA2E600E989A9 /* UIViewControllerExtension.swift in Sources */,
 				34E57BE61DFB0B6800C8BAEA /* AddVideosViewController.swift in Sources */,
 				34DA47391DEDE63600E989A9 /* YTPlayerView.m in Sources */,
 				34C6E5381DF23DBC00EB4972 /* LoginViewController.swift in Sources */,
 				34C6E5371DF23DBC00EB4972 /* HomeViewController.swift in Sources */,
+				A29D11041DF8B30D00FA0EEC /* User.swift in Sources */,
+				A2A4360D1DFB2421008C2FB2 /* FacebookDataManager.swift in Sources */,
+				A2A4360F1DFB24CE008C2FB2 /* ServerError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -594,6 +650,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Stormtrooper/ExternalLibraries",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Stormtrooper/Configuration/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -613,6 +670,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Stormtrooper/ExternalLibraries",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Stormtrooper/Configuration/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
