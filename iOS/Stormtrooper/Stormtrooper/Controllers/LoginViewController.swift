@@ -12,7 +12,7 @@ import FBSDKLoginKit
 
 class LoginViewController: UIViewController {
 	@IBOutlet weak var facebookLoginButton: FBSDKLoginButton!
-	let accountDataManager = AccountDataManager.sharedInstance
+	let facebookDataManager = FacebookDataManager.sharedInstance
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,7 +23,7 @@ class LoginViewController: UIViewController {
     
     
     func setupFacebookLogin() {
-        accountDataManager.setupLoginButton(facebookLoginButton)
+        facebookDataManager.setupLoginButton(facebookLoginButton)
 		facebookLoginButton.delegate = self
     }
 
@@ -44,7 +44,7 @@ extension LoginViewController: FBSDKLoginButtonDelegate {
 		}
 		else if result.declinedPermissions.count == 0 {
 			// User accepted all permissions
-			if accountDataManager.profile != nil {
+			if facebookDataManager.profile != nil {
 				DispatchQueue.main.async {
 					self.dismiss(animated: true, completion: nil)
 				}

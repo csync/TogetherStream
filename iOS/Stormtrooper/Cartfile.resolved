@@ -1,0 +1,3 @@
+github "stephencelis/SQLite.swift" "0.11.1"
+github "tidwall/SwiftWebSocket" "be5d6449e1770151324a7f067182406a12fd984f"
+git "git@github.ibm.com:csync/csync-swift.git" "46500ce2b45990a733e8b7c74260c212b1e6a3a0"
