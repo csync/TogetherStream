@@ -26,8 +26,9 @@ securityHelper.signToken = function(userId) {
         { expiresIn: "6h" }); // the token will last for 6 hours
 };
 
-securityHelper.decodeToken = function(token) {
-    return jwt.verify(token, appVars.sessionSecret, { json: true});
+securityHelper.decodeToken = function(token, ignoreExpiration) {
+    if(typeof(ignoreExpiration) ==='undefined') ignoreExpiration = false;
+    return jwt.verify(token, appVars.sessionSecret, { json: true, ignoreExpiration: ignoreExpiration});
 };
 
 securityHelper.encrypt = function (text, key) {

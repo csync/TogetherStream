@@ -81,7 +81,7 @@ userController.getUserByID = function (id) {
   })
 };
 
-userController.getUserIdByExternalAccount = function (externalAccount) {
+userController.getUserAccountByExternalAccount = function (externalAccount) {
   return new Promise(function (resolve, reject) {
       var client = new pg.Client(appVars.postgres.uri);
       client.connect();
@@ -93,9 +93,17 @@ userController.getUserIdByExternalAccount = function (externalAccount) {
                   resolve(null);
               }
               else {
-                  resolve(result.rows[0].user_id);
+                  client.query("SELECT id, device_token FROM users WHERE id=$1", [result.rows[0].user_id],
+                      function (err, result) {
+                          if (err) reject(err);
+                          if (result.rowCount < 1) {
+                              resolve(null);
+                              client.end();
+                          }
+                          resolve({id: result.rows[0].id, deviceToken: result.rows[0].device_token});
+                          client.end();
+                      });
               }
-              client.end();
           }
       );
   })
@@ -103,24 +111,24 @@ userController.getUserIdByExternalAccount = function (externalAccount) {
 
 userController.processExternalAuthentication = function (req, externalAccount) {
     return new Promise(function (resolve, reject) {
-        userController.getUserIdByExternalAccount(externalAccount)
-            .then(function (userId) {
-                if (userId) {
+        userController.getUserAccountByExternalAccount(externalAccount)
+            .then(function (user) {
+                if (user) {
                     // External account is already linked to a user account
                     if (req.user) {
                         // Already logged in
-                        if (req.user.id == userId) {
+                        if (req.user.id == user.id) {
                             // External already linked to logged in user, just return that
                             resolve(req.user);
                         }
                         else {
                             // uh oh, need to merge accounts
-                            mergeIds(userId, req.user.id);
+                            mergeIds(user.id, req.user.id);
                         }
                     }
                     else {
                         // return the account that's linked
-                        userController.getUserByID(userId)
+                        userController.getUserByID(user.id)
                             .then(function (user) {
                                 resolve(user);
                             });
@@ -139,7 +147,7 @@ userController.processExternalAuthentication = function (req, externalAccount) {
                     else {
                         // create new account
                         generateId().then(function (id) {
-                            userController.registerUser({id: id})
+                            userController.registerUser({id: id, external_account: null})
                                 .then(function (user) {
                                     userController.saveExternalAccount(id, externalAccount)
                                         .then(function () {
