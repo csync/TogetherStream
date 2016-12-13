@@ -4,12 +4,12 @@
 
 var express = require('express');
 var authService = require('../auth/auth.service');
-var notificationsService = require('./notifications.service');
+var invitesService = require('./invites.service.js');
 
 var router = express.Router();
 
 router.use('/device-token', require('./device-token'));
 
-router.post('', authService.isAuthenticated(), notificationsService.handleSendingNotifications);
+router.post('', authService.isAuthenticated(), invitesService.processSendingInvites);
 
 module.exports = router;
