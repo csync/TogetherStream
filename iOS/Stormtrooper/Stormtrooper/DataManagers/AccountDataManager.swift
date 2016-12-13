@@ -28,14 +28,15 @@ class AccountDataManager {
 		}
 	}
 	
-	func sendInvite(forRoom room: String, to users: [User]) {
-		guard let serverAccessToken = serverAccessToken, let url = URL(string: serverAddress + "/notifications?access_token=" + serverAccessToken) else {
+	func sendInvite(forStream stream: String, to users: [User]) {
+		guard let serverAccessToken = serverAccessToken, let url = URL(string: serverAddress + "/invites?access_token=" + serverAccessToken) else {
 			return
 		}
+		let host = FacebookDataManager.sharedInstance.profile?.name ?? ""
 		var request = URLRequest(url: url)
 		request.httpMethod = "POST"
 		request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-		request.httpBody = try? JSONSerialization.data(withJSONObject: ["room": room, "users": users.map({$0.id})])
+		request.httpBody = try? JSONSerialization.data(withJSONObject: ["host": host, "stream": stream, "users": users.map({$0.id})])
 		sendToServer(request: request){_,_,_ in}
 	}
 	
@@ -61,7 +62,7 @@ class AccountDataManager {
 	}
 	
 	private func postDeviceTokenToServer() {
-		guard let serverAccessToken = serverAccessToken, let deviceToken = UserDefaults.standard.object(forKey: "deviceToken") as? String, let url = URL(string: serverAddress + "/notifications/device-token?access_token=" + serverAccessToken) else {
+		guard let serverAccessToken = serverAccessToken, let deviceToken = UserDefaults.standard.object(forKey: "deviceToken") as? String, let url = URL(string: serverAddress + "/invites/device-token?access_token=" + serverAccessToken) else {
 			return
 		}
 		var request = URLRequest(url: url)

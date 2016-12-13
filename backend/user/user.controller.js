@@ -164,6 +164,39 @@ userController.processExternalAuthentication = function (req, externalAccount) {
     })
 };
 
+userController.getOrCreateStream = function (user) {
+    return new Promise(function (resolve, reject) {
+        var client = new pg.Client(appVars.postgres.uri);
+        client.connect();
+        client.query("SELECT * FROM streams WHERE user_id=$1", [user.id],
+            function (err, result) {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                if (result.rowCount > 0) {
+                    resolve(result.rows[0])
+                }
+                else {
+                    client.query("INSERT INTO streams (user_id) VALUES ($1) RETURNING id", [user.id],
+                        function (err, result) {
+                            if (err) {
+                                reject(err);
+                                return;
+                            }
+                            if (result.rowCount < 1) {
+                                reject(null);
+                                client.end();
+                            }
+                            resolve({id: result.rows[0].id, user_id: user.id});
+                            client.end();
+                        });
+                }
+            }
+        );
+    })
+};
+
 function generateId() {
     return new Promise(function (resolve, reject) {
         var generateAttempt = function () {
