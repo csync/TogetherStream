@@ -18,6 +18,7 @@ class FacebookDataManager {
 	
 	private let urlSession = URLSession.shared
 	private let accountDataManager = AccountDataManager.sharedInstance
+	private let csyncDataManager = CSyncDataManager.sharedInstance
 	
 	func setupLoginButton(_ button: FBSDKLoginButton) {
 		button.readPermissions = ["public_profile", "email", "user_friends"]
@@ -50,6 +51,10 @@ class FacebookDataManager {
 	private init() {
 		NotificationCenter.default.addObserver(self, selector: #selector(accessTokenDidChange), name: NSNotification.Name.FBSDKAccessTokenDidChange, object: nil)
 		NotificationCenter.default.addObserver(self, selector: #selector(profileDidChange), name: NSNotification.Name.FBSDKProfileDidChange, object: nil)
+		
+		if let profile = profile {
+			csyncDataManager.authenticate(withID: profile.userID)
+		}
 	}
 	
 	
@@ -60,7 +65,9 @@ class FacebookDataManager {
 	}
 	
 	@objc private func profileDidChange(notification: Notification) {
-		print(notification.userInfo)
+		if let profile = profile {
+			csyncDataManager.authenticate(withID: profile.userID)
+		}
 	}
 	
 	deinit {
