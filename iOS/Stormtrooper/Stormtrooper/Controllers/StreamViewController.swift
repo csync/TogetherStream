@@ -14,12 +14,18 @@ class StreamViewController: UIViewController {
     @IBOutlet weak var mediaControllerView: UIView!
     
     var isPlaying = false
+	
+	fileprivate var cSyncDataManager = CSyncDataManager.sharedInstance
+	fileprivate let cSyncPath = "streams.\(FacebookDataManager.sharedInstance.profile?.userID ?? "")"
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
         self.setupPlayerView()
+		
+		// Create node so others can listen to it
+		cSyncDataManager.write("", toKey: cSyncPath)
         
         NotificationCenter.default.addObserver(self, selector: #selector(StreamViewController.rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
 		
@@ -92,6 +98,10 @@ class StreamViewController: UIViewController {
 
 extension StreamViewController: YTPlayerViewDelegate {
     func playerView(_ playerView: YTPlayerView, didPlayTime playTime: Float) {
+		cSyncDataManager.write(String(playerView.currentTime()), toKey: cSyncPath + ".playTime")
+		if let url = playerView.videoUrl() {
+			cSyncDataManager.write(url.absoluteString, toKey: cSyncPath + ".currentURL")
+		}
         print("Current Time: \(playerView.currentTime()) out of \(playerView.duration()) - Video Loaded \(playerView.videoLoadedFraction() * 100)%")
     }
     
@@ -126,12 +136,14 @@ extension StreamViewController: YTPlayerViewDelegate {
         case .paused:
             self.playPauseButton.setTitle("▶️", for: .normal)
             self.isPlaying = false
+			cSyncDataManager.write("false", toKey: cSyncPath + ".isPlaying")
             break
         case .buffering:
             break
         case .playing:
             self.playPauseButton.setTitle("⏸", for: .normal)
             self.isPlaying = true
+			cSyncDataManager.write("true", toKey: cSyncPath + ".isPlaying")
             break
         case .ended:
             break
