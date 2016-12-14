@@ -23,10 +23,26 @@ class CSyncDataManager {
 		}
 	}
 	
-	func write(_ value: String, toKey key: String) {
-		let key = app.key(key)
+	func write(_ value: String, toKeyPath path: String) {
+		let key = app.key(path)
 		key.write(value, with: .PublicRead) { value, error in
 			
+		}
+	}
+	
+	func deleteKey(atPath path: String) {
+		let key = app.key(path)
+		key.delete()
+	}
+	
+	func createKey(atPath path: String) -> Key {
+		return app.key(path)
+	}
+	
+	func listenOnce(toKey key: Key, callback: @escaping (Value?, NSError?) -> ()) {
+		key.listen() { value, error in
+			key.unlisten()
+			callback(value, error)
 		}
 	}
 	

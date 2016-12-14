@@ -33,6 +33,7 @@
 		34DA473A1DEDEF3300E989A9 /* YTPlayerView.h in Sources */ = {isa = PBXBuildFile; fileRef = 34DA47371DEDE63600E989A9 /* YTPlayerView.h */; };
 		34DA473C1DEDEFA000E989A9 /* Assets.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 34DA473B1DEDEFA000E989A9 /* Assets.bundle */; };
 		34E57BE61DFB0B6800C8BAEA /* AddVideosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34E57BE51DFB0B6800C8BAEA /* AddVideosViewController.swift */; };
+		A23377A91E01DDD500E43DA0 /* HeartbeatDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23377A81E01DDD500E43DA0 /* HeartbeatDataManager.swift */; };
 		A29D11021DF5FC4E00FA0EEC /* AccountDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29D11011DF5FC4E00FA0EEC /* AccountDataManager.swift */; };
 		A29D11041DF8B30D00FA0EEC /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29D11031DF8B30D00FA0EEC /* User.swift */; };
 		A2A436081DFA04C7008C2FB2 /* CSyncSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2A436051DFA04C7008C2FB2 /* CSyncSDK.framework */; };
@@ -96,6 +97,7 @@
 		34DA47381DEDE63600E989A9 /* YTPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YTPlayerView.m; sourceTree = "<group>"; };
 		34DA473B1DEDEFA000E989A9 /* Assets.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Assets.bundle; sourceTree = "<group>"; };
 		34E57BE51DFB0B6800C8BAEA /* AddVideosViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddVideosViewController.swift; sourceTree = "<group>"; };
+		A23377A81E01DDD500E43DA0 /* HeartbeatDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeartbeatDataManager.swift; sourceTree = "<group>"; };
 		A29D11011DF5FC4E00FA0EEC /* AccountDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountDataManager.swift; sourceTree = "<group>"; };
 		A29D11031DF8B30D00FA0EEC /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		A2A436051DFA04C7008C2FB2 /* CSyncSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CSyncSDK.framework; path = Carthage/Build/iOS/CSyncSDK.framework; sourceTree = "<group>"; };
@@ -232,6 +234,7 @@
 				A2A4360C1DFB2421008C2FB2 /* FacebookDataManager.swift */,
 				A2A4360E1DFB24CE008C2FB2 /* ServerError.swift */,
 				A2A436101DFB3D7F008C2FB2 /* CSyncDataManager.swift */,
+				A23377A81E01DDD500E43DA0 /* HeartbeatDataManager.swift */,
 			);
 			path = DataManagers;
 			sourceTree = "<group>";
@@ -492,6 +495,7 @@
 			files = (
 				3419A1FC1DF883AF00A11D53 /* MainNavigationController.swift in Sources */,
 				3419A1FA1DF8839100A11D53 /* InviteStreamViewController.swift in Sources */,
+				A23377A91E01DDD500E43DA0 /* HeartbeatDataManager.swift in Sources */,
 				34DA473A1DEDEF3300E989A9 /* YTPlayerView.h in Sources */,
 				34DA47131DECA2E600E989A9 /* NSDateExtension.swift in Sources */,
 				34C6E5331DF23D4600EB4972 /* StreamViewController.swift in Sources */,
