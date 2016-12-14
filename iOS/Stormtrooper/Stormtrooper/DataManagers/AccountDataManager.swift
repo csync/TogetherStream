@@ -40,6 +40,21 @@ class AccountDataManager {
 		sendToServer(request: request){_,_,_ in}
 	}
 	
+	func retrieveInvites(callback: @escaping (Error?, [String]?) -> Void) {
+		guard let serverAccessToken = serverAccessToken, let url = URL(string: serverAddress + "/invites?access_token=" + serverAccessToken) else {
+			callback(ServerError.invalidConfiguration, nil)
+			return
+		}
+		sendToServer(request: URLRequest(url: url)) {data, response, error in
+			if let error = error {
+				callback(error, nil)
+			}
+			else {
+				callback(nil, [response.debugDescription])
+			}
+		}
+	}
+	
 	func signup(withFacebookAccessToken accessToken: String) {
 		guard let url = URL(string: serverAddress + "/auth/facebook/token/login") else {
 			return

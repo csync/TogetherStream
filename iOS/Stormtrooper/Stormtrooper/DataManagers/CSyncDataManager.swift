@@ -25,7 +25,7 @@ class CSyncDataManager {
 	
 	func write(_ value: String, toKey key: String) {
 		let key = app.key(key)
-		key.write(value, with: .PublicReadWrite) { value, error in
+		key.write(value, with: .PublicRead) { value, error in
 			
 		}
 	}

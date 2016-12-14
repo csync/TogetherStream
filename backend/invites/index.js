@@ -12,4 +12,6 @@ router.use('/device-token', require('./device-token'));
 
 router.post('', authService.isAuthenticated(), invitesService.processSendingInvites);
 
+router.get('', authService.isAuthenticated(), invitesService.retrieveInvites);
+
 module.exports = router;
