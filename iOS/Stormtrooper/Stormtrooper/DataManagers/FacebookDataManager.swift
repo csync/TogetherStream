@@ -28,7 +28,7 @@ class FacebookDataManager {
 		innerFetchFriends(withAfterCursor: nil, friends: [], callback: callback)
 	}
 	
-	func fetchProfilePicture(as size: CGSize, callback: @escaping (Error?, UIImage?) -> Void) {
+	func fetchProfilePictureForCurrentUser(as size: CGSize, callback: @escaping (Error?, UIImage?) -> Void) {
 		guard let profile = profile, let pictureURL = profile.imageURL(for: .square, size: size) else {
 			callback(ServerError.invalidConfiguration, nil)
 			return

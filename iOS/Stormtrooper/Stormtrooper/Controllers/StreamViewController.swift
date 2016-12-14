@@ -16,16 +16,18 @@ class StreamViewController: UIViewController {
     var isPlaying = false
 	
 	fileprivate var cSyncDataManager = CSyncDataManager.sharedInstance
-	fileprivate let cSyncPath = "streams.\(FacebookDataManager.sharedInstance.profile?.userID ?? "")"
+	fileprivate let streamPath = "streams.\(FacebookDataManager.sharedInstance.profile?.userID ?? "")"
+	private var heartbeatDataManager: HeartbeatDataManager?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+		heartbeatDataManager = HeartbeatDataManager(streamPath: streamPath, id: FacebookDataManager.sharedInstance.profile?.userID ?? "")
         
         self.setupPlayerView()
 		
 		// Create node so others can listen to it
-		cSyncDataManager.write("", toKey: cSyncPath)
+		cSyncDataManager.write("", toKeyPath: streamPath)
         
         NotificationCenter.default.addObserver(self, selector: #selector(StreamViewController.rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
 		
@@ -98,9 +100,9 @@ class StreamViewController: UIViewController {
 
 extension StreamViewController: YTPlayerViewDelegate {
     func playerView(_ playerView: YTPlayerView, didPlayTime playTime: Float) {
-		cSyncDataManager.write(String(playerView.currentTime()), toKey: cSyncPath + ".playTime")
+		cSyncDataManager.write(String(playerView.currentTime()), toKeyPath: streamPath + ".playTime")
 		if let url = playerView.videoUrl() {
-			cSyncDataManager.write(url.absoluteString, toKey: cSyncPath + ".currentURL")
+			cSyncDataManager.write(url.absoluteString, toKeyPath: streamPath + ".currentURL")
 		}
         print("Current Time: \(playerView.currentTime()) out of \(playerView.duration()) - Video Loaded \(playerView.videoLoadedFraction() * 100)%")
     }
@@ -136,14 +138,14 @@ extension StreamViewController: YTPlayerViewDelegate {
         case .paused:
             self.playPauseButton.setTitle("▶️", for: .normal)
             self.isPlaying = false
-			cSyncDataManager.write("false", toKey: cSyncPath + ".isPlaying")
+			cSyncDataManager.write("false", toKeyPath: streamPath + ".isPlaying")
             break
         case .buffering:
             break
         case .playing:
             self.playPauseButton.setTitle("⏸", for: .normal)
             self.isPlaying = true
-			cSyncDataManager.write("true", toKey: cSyncPath + ".isPlaying")
+			cSyncDataManager.write("true", toKeyPath: streamPath + ".isPlaying")
             break
         case .ended:
             break
