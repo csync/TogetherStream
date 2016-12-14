@@ -10,7 +10,7 @@ var pg = require('pg');
 var invitesService = {};
 
 invitesService.processSendingInvites = function (req, res) {
-    userController.getOrCreateStream(req.user)
+    userController.getOrCreateStream(req.user, req.body['stream'])
         .then(function (stream) {
             var users = req.body['users'];
             for(var i = 0; i < users.length; i++) {
@@ -23,6 +23,13 @@ invitesService.processSendingInvites = function (req, res) {
         });
 
     res.sendStatus(200);
+};
+
+invitesService.retrieveInvites = function (req, res) {
+    getInvites(req.user)
+        .then(function (invites) {
+            res.json(invites)
+        })
 };
 
 var sendNotification = function (user, req) {
@@ -50,6 +57,23 @@ var saveInvite = function (user, stream) {
                 }
                 else {
                     resolve(null);
+                }
+            }
+        );
+    })
+};
+
+var getInvites = function (user) {
+    return new Promise(function (resolve, reject) {
+        var client = new pg.Client(appVars.postgres.uri);
+        client.connect();
+        client.query("SELECT streams.user_id, streams.csync_path FROM streams INNER JOIN stream_invites ON streams.id = stream_invites.stream_id WHERE stream_invites.user_id = $1", [user.id],
+            function (err, result) {
+                if (err) {
+                    reject(err);
+                }
+                else {
+                    resolve(result.rows);
                 }
             }
         );
