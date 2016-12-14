@@ -36,7 +36,7 @@ class AccountDataManager {
 		var request = URLRequest(url: url)
 		request.httpMethod = "POST"
 		request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-		request.httpBody = try? JSONSerialization.data(withJSONObject: ["host": host, "stream": stream, "users": users.map({$0.id})])
+		request.httpBody = try? JSONSerialization.data(withJSONObject: ["host": host, "stream": stream, "users": users.map({$0.id}), "currentBadgeCount": UIApplication.shared.applicationIconBadgeNumber])
 		sendToServer(request: request){_,_,_ in}
 	}
 	
