@@ -22,6 +22,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.setAudioToPlayWhileSilenced()
 		requestAuthorizationForNotifications(for: application)
 		
+		UNUserNotificationCenter.current().delegate = self
+		// Clear notifications
+		UIApplication.shared.applicationIconBadgeNumber = 0
+		
 		// autoupdates profile when access token changes
 		FBSDKProfile.enableUpdates(onAccessTokenChange: true)
 		FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
@@ -50,7 +54,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
-        // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+		// Clear notifications
+		UIApplication.shared.applicationIconBadgeNumber = 0
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
@@ -86,5 +91,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	}
 
 
+}
+
+extension AppDelegate: UNUserNotificationCenterDelegate {
+	// Called when a user clicks on a notification outside the app
+	func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+		// Logic to go directly to stream here
+		print(response.notification.request.content.userInfo)
+		completionHandler()
+	}
+	
+	// Called when a notification comes in while the app is in the foreground
+	func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+		// Logic to present custom notification here
+		completionHandler([])
+	}
 }
 
