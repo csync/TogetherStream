@@ -34,10 +34,10 @@ invitesService.retrieveInvites = function (req, res) {
 
 var sendNotification = function (user, req) {
     var note = new apn.Notification();
-    note.badge = 1;
+    note.badge = req.body["currentBadgeCount"] + 1;
     note.sound = "ping.aiff";
     note.alert = "You've been invited by " + req.body["host"] + "!";
-    note.payload = {room: req.body["stream"]};
+    note.payload = {stream: req.body["stream"]};
     note.topic = 'com.NTH.stormtrooper';
 
     var apnProvider = appVars.apn;
