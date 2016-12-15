@@ -12,25 +12,35 @@ class StreamViewController: UIViewController {
     @IBOutlet weak var playerView: YTPlayerView!
     @IBOutlet weak var playPauseButton: UIButton!
     @IBOutlet weak var mediaControllerView: UIView!
+	@IBOutlet weak var chatTextView: UITextView!
+	@IBOutlet weak var chatInputTextField: UITextField!
     
     var isPlaying = false
 	
 	fileprivate var cSyncDataManager = CSyncDataManager.sharedInstance
 	fileprivate let streamPath = "streams.10153854936447000"
 	private var heartbeatDataManager: HeartbeatDataManager?
+	private var chatDataManager: ChatDataManager?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-		heartbeatDataManager = HeartbeatDataManager(streamPath: streamPath, id: FacebookDataManager.sharedInstance.profile?.userID ?? "")
         
         self.setupPlayerView()
 		
 		// Create node so others can listen to it
 		cSyncDataManager.write("", toKeyPath: streamPath)
-		// Creat hearbeat node so others can create in it
+		// Creat heartbeat node so others can create in it
 		cSyncDataManager.write("", toKeyPath: streamPath + ".heartbeat", withACL: .PublicReadCreate)
-        
+		// Creat chat node so others can create in it
+		cSyncDataManager.write("", toKeyPath: streamPath + ".chat", withACL: .PublicReadCreate)
+		
+		heartbeatDataManager = HeartbeatDataManager(streamPath: streamPath, id: FacebookDataManager.sharedInstance.profile?.userID ?? "")
+		chatDataManager = ChatDataManager(streamPath: streamPath, id: FacebookDataManager.sharedInstance.profile?.userID ?? "")
+		chatDataManager?.didRecieveMessage = {[unowned self] message in
+			self.chatTextView.text = (self.chatTextView.text ?? "") + "\(message.id): \(message.content)\n"
+		}
+		
         NotificationCenter.default.addObserver(self, selector: #selector(StreamViewController.rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
 		
     }
@@ -105,6 +115,13 @@ class StreamViewController: UIViewController {
         }
         self.present(addVideosVC, animated: true, completion: nil)
     }
+	@IBAction func chatInputActionTriggered(_ sender: UITextField) {
+		if let text = sender.text {
+			chatDataManager?.send(message: text)
+		}
+		sender.resignFirstResponder()
+		sender.text = nil
+	}
 
 }
 
