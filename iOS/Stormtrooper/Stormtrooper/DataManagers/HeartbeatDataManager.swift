@@ -19,7 +19,7 @@ class HeartbeatDataManager {
 	private var heartbeatTimer: Timer?
 	private var pulseTimer: Timer?
 	private var pulseKey: Key
-	private var pulseValue: Value?
+	private var streamHeartbeats: [String: String] = [:]
 	
 	private let beatInterval: TimeInterval = 0.5
 	private let checkPulseInterval: TimeInterval = 1
@@ -30,13 +30,14 @@ class HeartbeatDataManager {
 		pulseKey = csyncDataManager.createKey(atPath: rootHeartbeatPath + ".*")
 		setupSendingHeartbeat()
 		setupCheckingPulse()
+		csyncDataManager.write("blah", toKeyPath: "x.y.c")
 	}
 	
 	private func setupSendingHeartbeat() {
 		heartbeatTimer = Timer.scheduledTimer(withTimeInterval: beatInterval, repeats: true) {[weak self] _ in
 			if let `self` = self {
 				let currentTime = String(Date.timeIntervalSinceReferenceDate)
-				self.csyncDataManager.write(currentTime, toKeyPath: self.userHeartbeatPath)
+				self.csyncDataManager.write(currentTime, toKeyPath: self.userHeartbeatPath, withACL: .PublicReadWriteCreate)
 			}
 		}
 	}
@@ -47,14 +48,21 @@ class HeartbeatDataManager {
 				//  handle error
 				print(error)
 			}
-			
-			self.pulseValue = value
+			if let value = value {
+				let userID = value.key.components(separatedBy: ".").last ?? ""
+				if value.exists == false {
+					self.streamHeartbeats[userID] = nil
+				}
+				else {
+					self.streamHeartbeats[userID] = value.data
+				}
+			}
 		}
 		
 		pulseTimer = Timer.scheduledTimer(withTimeInterval: checkPulseInterval, repeats: true) {[weak self] _ in
 			if let `self` = self {
 				// TODO determine who is listening
-				print(self.pulseValue?.data)
+				print(self.streamHeartbeats)
 			}
 		}
 	}

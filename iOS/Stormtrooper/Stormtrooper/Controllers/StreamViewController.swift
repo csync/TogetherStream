@@ -16,7 +16,7 @@ class StreamViewController: UIViewController {
     var isPlaying = false
 	
 	fileprivate var cSyncDataManager = CSyncDataManager.sharedInstance
-	fileprivate let streamPath = "streams.\(FacebookDataManager.sharedInstance.profile?.userID ?? "")"
+	fileprivate let streamPath = "streams.10153854936447000"
 	private var heartbeatDataManager: HeartbeatDataManager?
 
     override func viewDidLoad() {
