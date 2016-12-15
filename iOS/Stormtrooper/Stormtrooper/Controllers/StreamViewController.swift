@@ -28,10 +28,20 @@ class StreamViewController: UIViewController {
 		
 		// Create node so others can listen to it
 		cSyncDataManager.write("", toKeyPath: streamPath)
+		// Creat hearbeat node so others can create in it
+		cSyncDataManager.write("", toKeyPath: streamPath + ".heartbeat", withACL: .PublicReadCreate)
         
         NotificationCenter.default.addObserver(self, selector: #selector(StreamViewController.rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
 		
     }
+	
+	override func viewWillDisappear(_ animated: Bool) {
+		super.viewWillDisappear(animated)
+		
+		if self.isBeingDismissed {
+			NotificationCenter.default.removeObserver(self)
+		}
+	}
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

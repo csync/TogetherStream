@@ -23,6 +23,7 @@ class HeartbeatDataManager {
 	
 	private let beatInterval: TimeInterval = 0.5
 	private let checkPulseInterval: TimeInterval = 1
+	private let heartbeatExpiredInterval: TimeInterval = 10
 	
 	init(streamPath: String, id: String) {
 		self.id = id
@@ -43,7 +44,7 @@ class HeartbeatDataManager {
 	}
 	
 	private func setupCheckingPulse() {
-		pulseKey.listen() { value, error in
+		pulseKey.listen() { [weak self] value, error in
 			if let error = error {
 				//  handle error
 				print(error)
@@ -51,23 +52,27 @@ class HeartbeatDataManager {
 			if let value = value {
 				let userID = value.key.components(separatedBy: ".").last ?? ""
 				if value.exists == false {
-					self.streamHeartbeats[userID] = nil
+					self?.streamHeartbeats[userID] = nil
 				}
 				else {
-					self.streamHeartbeats[userID] = value.data
+					self?.streamHeartbeats[userID] = value.data
 				}
 			}
 		}
 		
 		pulseTimer = Timer.scheduledTimer(withTimeInterval: checkPulseInterval, repeats: true) {[weak self] _ in
 			if let `self` = self {
-				// TODO determine who is listening
-				print(self.streamHeartbeats)
+				let currentTime = Date.timeIntervalSinceReferenceDate
+				let currentHeartbeats = self.streamHeartbeats
+					.filter{currentTime - (TimeInterval($0.1) ?? 0) < self.heartbeatExpiredInterval}
+					.map {$0.0}
+				print(currentHeartbeats)
 			}
 		}
 	}
 	
 	deinit {
+		pulseKey.unlisten()
 		heartbeatTimer?.invalidate()
 		pulseTimer?.invalidate()
 		csyncDataManager.deleteKey(atPath: userHeartbeatPath)
