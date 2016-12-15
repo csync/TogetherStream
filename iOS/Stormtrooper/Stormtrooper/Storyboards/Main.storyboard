@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="3ka-qo-nCZ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="3ka-qo-nCZ">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -101,22 +101,46 @@
                                     <action selector="addToStreamTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tLF-8y-7FU"/>
                                 </connections>
                             </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Zah-ZU-plM">
+                                <rect key="frame" x="16" y="464" width="288" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="chatInputActionTriggered:" destination="BYZ-38-t0r" eventType="primaryActionTriggered" id="Hcp-vu-5of"/>
+                                </connections>
+                            </textField>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="go3-yk-IWa">
+                                <rect key="frame" x="16" y="343" width="288" height="113"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                         <color key="backgroundColor" red="0.90823972230000005" green="0.92638683320000004" blue="0.93171715740000005" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="lt2-Nk-1YZ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="0BT-ZX-ayr"/>
+                            <constraint firstItem="j8A-8z-cfk" firstAttribute="top" secondItem="Zah-ZU-plM" secondAttribute="bottom" constant="-1" id="0gn-OS-J2z"/>
+                            <constraint firstItem="Zah-ZU-plM" firstAttribute="top" secondItem="go3-yk-IWa" secondAttribute="bottom" constant="8" id="29y-1S-Ldd"/>
                             <constraint firstItem="beo-Df-gum" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="842-Co-mYd"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="j8A-8z-cfk" secondAttribute="bottom" constant="45" id="Bb7-or-Ed1"/>
+                            <constraint firstItem="go3-yk-IWa" firstAttribute="top" secondItem="fKU-Jj-50I" secondAttribute="bottom" constant="-3" id="FdC-F8-e7a"/>
                             <constraint firstItem="j8A-8z-cfk" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="GUa-gg-f3d"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="go3-yk-IWa" secondAttribute="leading" id="OES-3K-EmY"/>
                             <constraint firstAttribute="trailingMargin" secondItem="beo-Df-gum" secondAttribute="trailing" id="Sfe-yg-y9b"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Zah-ZU-plM" secondAttribute="trailing" id="Vzu-lK-gVl"/>
                             <constraint firstItem="g4f-7A-fEP" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="32" id="ZhY-g9-Zf0"/>
                             <constraint firstItem="g4f-7A-fEP" firstAttribute="top" secondItem="lt2-Nk-1YZ" secondAttribute="bottom" constant="14" id="bdp-29-yZm"/>
                             <constraint firstItem="lt2-Nk-1YZ" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="eNP-5T-cVp"/>
                             <constraint firstAttribute="trailingMargin" secondItem="g4f-7A-fEP" secondAttribute="trailing" constant="33" id="miP-Ad-bPk"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="Zah-ZU-plM" secondAttribute="leading" id="vG5-2j-eha"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="go3-yk-IWa" secondAttribute="trailing" id="x19-t4-ORN"/>
                             <constraint firstItem="lt2-Nk-1YZ" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="38" id="zOk-hq-TKs"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="chatInputTextField" destination="Zah-ZU-plM" id="pH0-wC-umg"/>
+                        <outlet property="chatTextView" destination="go3-yk-IWa" id="iqY-op-g16"/>
                         <outlet property="mediaControllerView" destination="g4f-7A-fEP" id="iBP-6P-a37"/>
                         <outlet property="playPauseButton" destination="fKU-Jj-50I" id="1Vn-VJ-7fW"/>
                         <outlet property="playerView" destination="lt2-Nk-1YZ" id="lxf-Lz-SRg"/>
