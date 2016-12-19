@@ -48,6 +48,23 @@ class FacebookDataManager {
 		task.resume()
 	}
 	
+	func fetchInfoForUser(withID id: String, callback: @escaping (Error?, User?) -> Void) {
+		let parameters = ["fields": "name, picture"]
+		let request = FBSDKGraphRequest(graphPath: id, parameters: parameters)
+		let _ = request?.start(){ (request, result, error) in
+			guard error == nil else {
+				callback(error, nil)
+				return
+			}
+			guard let result = result as? [String: Any] else {
+				callback(ServerError.unexpectedResponse, nil)
+				return
+			}
+			let user = User(facebookResponse: result)
+			callback(nil, user)
+		}
+	}
+	
 	private init() {
 		NotificationCenter.default.addObserver(self, selector: #selector(accessTokenDidChange), name: NSNotification.Name.FBSDKAccessTokenDidChange, object: nil)
 		NotificationCenter.default.addObserver(self, selector: #selector(profileDidChange), name: NSNotification.Name.FBSDKProfileDidChange, object: nil)
@@ -77,7 +94,7 @@ class FacebookDataManager {
 	private func innerFetchFriends(withAfterCursor afterCursor: String?, friends: [User], callback: @escaping (Error?, [User]?) -> Void) {
 		var afterCursor = afterCursor
 		var friends = friends
-		var parameters = ["fields": "friends"]
+		var parameters = ["fields": "friends{name, picture}"]
 		if let afterCursor = afterCursor {
 			parameters["after"] = afterCursor
 		}
@@ -88,11 +105,11 @@ class FacebookDataManager {
 			}
 			else {
 				let friendsResult = (result as? [String: Any])?["friends"] as? [String: Any]
-				guard let friendsPage = friendsResult?["data"] as? [[String: String]] else {
+				guard let friendsPage = friendsResult?["data"] as? [[String: Any]] else {
 					return
 				}
 				for friend in friendsPage {
-					friends.append(User(id: friend["id"] ?? "", name: friend["name"] ?? ""))
+					friends.append(User(facebookResponse: friend))
 				}
 				let paging = friendsResult?["paging"] as? [String: Any]
 				if paging?["next"] != nil {

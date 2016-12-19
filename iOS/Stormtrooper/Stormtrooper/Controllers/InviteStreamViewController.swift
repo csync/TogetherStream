@@ -13,7 +13,7 @@ class InviteStreamViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-		AccountDataManager.sharedInstance.sendInvite(forStream: "Blah", to: [User(id: FacebookDataManager.sharedInstance.profile?.userID ?? "", name: "Daniel")])
+//		AccountDataManager.sharedInstance.sendInvite(forStream: "Blah", to: [User(id: FacebookDataManager.sharedInstance.profile?.userID ?? "", name: "Daniel")])
         // Do any additional setup after loading the view.
     }
 
