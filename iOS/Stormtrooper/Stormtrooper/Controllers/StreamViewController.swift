@@ -38,7 +38,11 @@ class StreamViewController: UIViewController {
 		heartbeatDataManager = HeartbeatDataManager(streamPath: streamPath, id: FacebookDataManager.sharedInstance.profile?.userID ?? "")
 		chatDataManager = ChatDataManager(streamPath: streamPath, id: FacebookDataManager.sharedInstance.profile?.userID ?? "")
 		chatDataManager?.didRecieveMessage = {[unowned self] message in
-			self.chatTextView.text = (self.chatTextView.text ?? "") + "\(message.id): \(message.content)\n"
+			FacebookDataManager.sharedInstance.fetchInfoForUser(withID: message.id) { error, user in
+				if let user = user {
+					self.chatTextView.text = (self.chatTextView.text ?? "") + "\(user.name): \(message.content)\n"
+				}
+			}
 		}
 		
         NotificationCenter.default.addObserver(self, selector: #selector(StreamViewController.rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
