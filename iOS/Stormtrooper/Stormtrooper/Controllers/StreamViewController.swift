@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CSyncSDK
 
 class StreamViewController: UIViewController {
     @IBOutlet weak var playerView: YTPlayerView!
@@ -17,10 +18,14 @@ class StreamViewController: UIViewController {
     
     var isPlaying = false
 	
+	private let maximumDesyncTime: Float = 1.0
+	
 	fileprivate var cSyncDataManager = CSyncDataManager.sharedInstance
 	fileprivate let streamPath = "streams.10153854936447000"
 	private var heartbeatDataManager: HeartbeatDataManager?
 	private var chatDataManager: ChatDataManager?
+	
+	private var listenerKey: Key?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,6 +50,28 @@ class StreamViewController: UIViewController {
 			}
 		}
 		
+		if FacebookDataManager.sharedInstance.profile?.userID != "10153854936447000" {
+			listenerKey = cSyncDataManager.createKey(atPath: streamPath + ".*")
+			listenerKey?.listen() {value, error in
+				if let value = value {
+					switch value.key.components(separatedBy: ".").last ?? "" {
+						case "currentURL" where value.data ?? "" != self.playerView.videoUrl()?.absoluteString:
+							self.playerView.loadVideo(byURL: value.data ?? "", startSeconds: 0, suggestedQuality: .auto)
+						case "isPlaying" where value.data == "true" && self.playerView.playerState() != .playing:
+							self.playerView.playVideo()
+						case "isPlaying" where value.data == "false" && self.playerView.playerState() != .paused:
+							self.playerView.pauseVideo()
+						case "playTime":
+							if let time = Float(value.data ?? ""), abs(time - self.playerView.currentTime()) > self.maximumDesyncTime {
+								self.playerView.seek(toSeconds: time, allowSeekAhead: true)
+							}
+						default:
+							break
+					}
+				}
+			}
+		}
+		
         NotificationCenter.default.addObserver(self, selector: #selector(StreamViewController.rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
 		
     }
@@ -56,7 +83,7 @@ class StreamViewController: UIViewController {
 			NotificationCenter.default.removeObserver(self)
 		}
 	}
-    
+	
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -132,9 +159,6 @@ class StreamViewController: UIViewController {
 extension StreamViewController: YTPlayerViewDelegate {
     func playerView(_ playerView: YTPlayerView, didPlayTime playTime: Float) {
 		cSyncDataManager.write(String(playerView.currentTime()), toKeyPath: streamPath + ".playTime")
-		if let url = playerView.videoUrl() {
-			cSyncDataManager.write(url.absoluteString, toKeyPath: streamPath + ".currentURL")
-		}
         print("Current Time: \(playerView.currentTime()) out of \(playerView.duration()) - Video Loaded \(playerView.videoLoadedFraction() * 100)%")
     }
     
@@ -150,6 +174,9 @@ extension StreamViewController: YTPlayerViewDelegate {
         // player ready --
         // could show loading before this is called, and hide loading when this is called
         print("player ready!")
+		if let url = playerView.videoUrl() {
+			cSyncDataManager.write(url.absoluteString, toKeyPath: streamPath + ".currentURL")
+		}
     }
     
 //    func playerViewPreferredInitialLoading(_ playerView: YTPlayerView) -> UIView? {
