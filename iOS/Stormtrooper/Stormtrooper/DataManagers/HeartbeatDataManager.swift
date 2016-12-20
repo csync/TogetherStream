@@ -10,7 +10,7 @@ import Foundation
 import CSyncSDK
 
 class HeartbeatDataManager {
-	var didRecieveHeartbeats: (([String]) -> Void)?
+	var didRecieveHeartbeats: ((Set<String>) -> Void)?
 	private let csyncDataManager = CSyncDataManager.sharedInstance
 	private let id: String
 	private var rootHeartbeatPath: String
@@ -67,7 +67,7 @@ class HeartbeatDataManager {
 				let currentHeartbeats = self.streamHeartbeats
 					.filter{currentTime - (TimeInterval($0.1) ?? 0) < self.heartbeatExpiredInterval}
 					.map {$0.0}
-				self.didRecieveHeartbeats?(currentHeartbeats)
+				self.didRecieveHeartbeats?(Set(currentHeartbeats))
 			}
 		}
 	}
