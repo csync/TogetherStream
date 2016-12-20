@@ -20,6 +20,8 @@ class FacebookDataManager {
 	private let accountDataManager = AccountDataManager.sharedInstance
 	private let csyncDataManager = CSyncDataManager.sharedInstance
 	
+	private var userCache: [String: User] = [:]
+	
 	func setupLoginButton(_ button: FBSDKLoginButton) {
 		button.readPermissions = ["public_profile", "email", "user_friends"]
 	}
@@ -49,6 +51,9 @@ class FacebookDataManager {
 	}
 	
 	func fetchInfoForUser(withID id: String, callback: @escaping (Error?, User?) -> Void) {
+		if let user = userCache[id] {
+			callback(nil, user)
+		}
 		let parameters = ["fields": "name, picture"]
 		let request = FBSDKGraphRequest(graphPath: id, parameters: parameters)
 		let _ = request?.start(){ (request, result, error) in
@@ -61,6 +66,7 @@ class FacebookDataManager {
 				return
 			}
 			let user = User(facebookResponse: result)
+			self.userCache[id] = user
 			callback(nil, user)
 		}
 	}
@@ -109,7 +115,9 @@ class FacebookDataManager {
 					return
 				}
 				for friend in friendsPage {
-					friends.append(User(facebookResponse: friend))
+					let user = User(facebookResponse: friend)
+					friends.append(user)
+					self.userCache[user.id] = user
 				}
 				let paging = friendsResult?["paging"] as? [String: Any]
 				if paging?["next"] != nil {
