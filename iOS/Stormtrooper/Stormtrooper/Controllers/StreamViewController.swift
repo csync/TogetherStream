@@ -15,7 +15,8 @@ class StreamViewController: UIViewController {
     @IBOutlet weak var mediaControllerView: UIView!
 	@IBOutlet weak var chatTextView: UITextView!
 	@IBOutlet weak var chatInputTextField: UITextField!
-    
+	@IBOutlet weak var userCountLabel: UILabel!
+	
     var isPlaying = false
 	
 	private let maximumDesyncTime: Float = 1.0
@@ -25,6 +26,7 @@ class StreamViewController: UIViewController {
 	private var heartbeatDataManager: HeartbeatDataManager?
 	private var chatDataManager: ChatDataManager?
 	private var messages: [Message] = []
+	private var currentUsers: Set<String> = []
 	
 	private var listenerKey: Key?
 
@@ -42,6 +44,18 @@ class StreamViewController: UIViewController {
 		cSyncDataManager.write("", toKeyPath: streamPath + ".chat", withACL: .PublicReadCreate)
 		
 		heartbeatDataManager = HeartbeatDataManager(streamPath: streamPath, id: FacebookDataManager.sharedInstance.profile?.userID ?? "")
+		heartbeatDataManager?.didRecieveHeartbeats = {[unowned self] heartbeats in
+			let leavingUsers = self.currentUsers.subtracting(heartbeats)
+			let newUsers = heartbeats.subtracting(self.currentUsers)
+			for user in leavingUsers {
+				self.chatTextView.text = (self.chatTextView.text ?? "") + "\(user) has left\n"
+			}
+			for user in newUsers {
+				self.chatTextView.text = (self.chatTextView.text ?? "") + "\(user) has joined\n"
+			}
+			self.userCountLabel.text = "\(heartbeats.count) Users"
+			self.currentUsers = heartbeats
+		}
 		chatDataManager = ChatDataManager(streamPath: streamPath, id: FacebookDataManager.sharedInstance.profile?.userID ?? "")
 		chatDataManager?.didRecieveMessage = {[unowned self] message in
 			self.insertIntoMessages(message)
@@ -58,7 +72,7 @@ class StreamViewController: UIViewController {
 		
 		if FacebookDataManager.sharedInstance.profile?.userID != "10153854936447000" {
 			listenerKey = cSyncDataManager.createKey(atPath: streamPath + ".*")
-			listenerKey?.listen() {value, error in
+			listenerKey?.listen() {[unowned self] value, error in
 				if let value = value {
 					switch value.key.components(separatedBy: ".").last ?? "" {
 						case "currentURL" where value.data ?? "" != self.playerView.videoUrl()?.absoluteString:

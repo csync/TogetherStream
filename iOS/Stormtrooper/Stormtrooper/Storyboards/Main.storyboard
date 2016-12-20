@@ -116,6 +116,12 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0 Users" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yLh-6L-jBa">
+                                <rect key="frame" x="244" y="498" width="60" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.90823972230000005" green="0.92638683320000004" blue="0.93171715740000005" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -126,6 +132,7 @@
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="j8A-8z-cfk" secondAttribute="bottom" constant="45" id="Bb7-or-Ed1"/>
                             <constraint firstItem="go3-yk-IWa" firstAttribute="top" secondItem="fKU-Jj-50I" secondAttribute="bottom" constant="-3" id="FdC-F8-e7a"/>
                             <constraint firstItem="j8A-8z-cfk" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="GUa-gg-f3d"/>
+                            <constraint firstItem="yLh-6L-jBa" firstAttribute="top" secondItem="Zah-ZU-plM" secondAttribute="bottom" constant="4" id="Kbp-H0-Xxf"/>
                             <constraint firstAttribute="leadingMargin" secondItem="go3-yk-IWa" secondAttribute="leading" id="OES-3K-EmY"/>
                             <constraint firstAttribute="trailingMargin" secondItem="beo-Df-gum" secondAttribute="trailing" id="Sfe-yg-y9b"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Zah-ZU-plM" secondAttribute="trailing" id="Vzu-lK-gVl"/>
@@ -133,6 +140,7 @@
                             <constraint firstItem="g4f-7A-fEP" firstAttribute="top" secondItem="lt2-Nk-1YZ" secondAttribute="bottom" constant="14" id="bdp-29-yZm"/>
                             <constraint firstItem="lt2-Nk-1YZ" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="eNP-5T-cVp"/>
                             <constraint firstAttribute="trailingMargin" secondItem="g4f-7A-fEP" secondAttribute="trailing" constant="33" id="miP-Ad-bPk"/>
+                            <constraint firstItem="yLh-6L-jBa" firstAttribute="leading" secondItem="j8A-8z-cfk" secondAttribute="trailing" constant="34" id="rVe-kU-IZp"/>
                             <constraint firstAttribute="leadingMargin" secondItem="Zah-ZU-plM" secondAttribute="leading" id="vG5-2j-eha"/>
                             <constraint firstAttribute="trailingMargin" secondItem="go3-yk-IWa" secondAttribute="trailing" id="x19-t4-ORN"/>
                             <constraint firstItem="lt2-Nk-1YZ" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="38" id="zOk-hq-TKs"/>
@@ -144,6 +152,7 @@
                         <outlet property="mediaControllerView" destination="g4f-7A-fEP" id="iBP-6P-a37"/>
                         <outlet property="playPauseButton" destination="fKU-Jj-50I" id="1Vn-VJ-7fW"/>
                         <outlet property="playerView" destination="lt2-Nk-1YZ" id="lxf-Lz-SRg"/>
+                        <outlet property="userCountLabel" destination="yLh-6L-jBa" id="UlQ-iZ-Kxy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
