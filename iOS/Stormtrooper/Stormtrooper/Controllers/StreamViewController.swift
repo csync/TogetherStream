@@ -174,9 +174,6 @@ extension StreamViewController: YTPlayerViewDelegate {
         // player ready --
         // could show loading before this is called, and hide loading when this is called
         print("player ready!")
-		if let url = playerView.videoUrl() {
-			cSyncDataManager.write(url.absoluteString, toKeyPath: streamPath + ".currentURL")
-		}
     }
     
 //    func playerViewPreferredInitialLoading(_ playerView: YTPlayerView) -> UIView? {
@@ -199,7 +196,9 @@ extension StreamViewController: YTPlayerViewDelegate {
 			cSyncDataManager.write("false", toKeyPath: streamPath + ".isPlaying")
             break
         case .buffering:
-            break
+			if let url = playerView.videoUrl() {
+				cSyncDataManager.write(url.absoluteString, toKeyPath: streamPath + ".currentURL")
+			}
         case .playing:
             self.playPauseButton.setTitle("⏸", for: .normal)
             self.isPlaying = true
