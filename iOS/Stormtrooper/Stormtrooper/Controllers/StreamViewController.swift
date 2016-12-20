@@ -45,13 +45,14 @@ class StreamViewController: UIViewController {
 		
 		heartbeatDataManager = HeartbeatDataManager(streamPath: streamPath, id: FacebookDataManager.sharedInstance.profile?.userID ?? "")
 		heartbeatDataManager?.didRecieveHeartbeats = {[unowned self] heartbeats in
-			let leavingUsers = self.currentUsers.subtracting(heartbeats)
-			let newUsers = heartbeats.subtracting(self.currentUsers)
-			for user in leavingUsers {
-				self.chatTextView.text = (self.chatTextView.text ?? "") + "\(user) has left\n"
-			}
-			for user in newUsers {
-				self.chatTextView.text = (self.chatTextView.text ?? "") + "\(user) has joined\n"
+			let changedUsers = self.currentUsers.symmetricDifference(heartbeats)
+			for user in changedUsers {
+				if heartbeats.contains(user) {
+					self.chatTextView.text = (self.chatTextView.text ?? "") + "\(user) has joined\n"
+				}
+				else {
+					self.chatTextView.text = (self.chatTextView.text ?? "") + "\(user) has left\n"
+				}
 			}
 			self.userCountLabel.text = "\(heartbeats.count) Users"
 			self.currentUsers = heartbeats
