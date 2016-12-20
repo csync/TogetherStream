@@ -24,6 +24,7 @@ class StreamViewController: UIViewController {
 	fileprivate let streamPath = "streams.10153854936447000"
 	private var heartbeatDataManager: HeartbeatDataManager?
 	private var chatDataManager: ChatDataManager?
+	private var messages: [Message] = []
 	
 	private var listenerKey: Key?
 
@@ -43,11 +44,16 @@ class StreamViewController: UIViewController {
 		heartbeatDataManager = HeartbeatDataManager(streamPath: streamPath, id: FacebookDataManager.sharedInstance.profile?.userID ?? "")
 		chatDataManager = ChatDataManager(streamPath: streamPath, id: FacebookDataManager.sharedInstance.profile?.userID ?? "")
 		chatDataManager?.didRecieveMessage = {[unowned self] message in
-			FacebookDataManager.sharedInstance.fetchInfoForUser(withID: message.id) { error, user in
-				if let user = user {
-					self.chatTextView.text = (self.chatTextView.text ?? "") + "\(user.name): \(message.content)\n"
-				}
+			self.insertIntoMessages(message)
+			self.chatTextView.text = ""
+			for message in self.messages {
+				self.chatTextView.text = (self.chatTextView.text ?? "") + "\(message.id): \(message.content)\n"
 			}
+//			FacebookDataManager.sharedInstance.fetchInfoForUser(withID: message.id) { error, user in
+//				if let user = user {
+//					self.chatTextView.text = (self.chatTextView.text ?? "") + "\(user.name): \(message.content)\n"
+//				}
+//			}
 		}
 		
 		if FacebookDataManager.sharedInstance.profile?.userID != "10153854936447000" {
@@ -152,6 +158,32 @@ class StreamViewController: UIViewController {
 		}
 		sender.resignFirstResponder()
 		sender.text = nil
+	}
+	
+	private func insertIntoMessages(_ message: Message) {
+		if messages.isEmpty {
+			messages.append(message)
+			return
+		}
+		let timestamp = message.timestamp
+		var lowIndex = 0
+		var highIndex = messages.count
+		while lowIndex < highIndex {
+			let midIndex = (lowIndex + highIndex) / 2
+			let midTimestamp = messages[midIndex].timestamp
+			if midTimestamp < timestamp {
+				lowIndex = midIndex + 1
+			}
+			else if midTimestamp > timestamp {
+				highIndex = midIndex - 1
+			}
+			else {
+				// rare case where time is exactly the same
+				messages.insert(message, at: midIndex + 1)
+				return
+			}
+		}
+		messages.insert(message, at: highIndex)
 	}
 
 }
