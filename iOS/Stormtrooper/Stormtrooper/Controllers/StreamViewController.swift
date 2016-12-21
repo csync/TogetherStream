@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import CSyncSDK
 
 class StreamViewController: UIViewController {
     @IBOutlet weak var playerView: YTPlayerView!
@@ -19,79 +18,14 @@ class StreamViewController: UIViewController {
 	
     var isPlaying = false
 	
-	private let maximumDesyncTime: Float = 1.0
-	
-	fileprivate var cSyncDataManager = CSyncDataManager.sharedInstance
-	fileprivate let streamPath = "streams.10153854936447000"
-	private var heartbeatDataManager: HeartbeatDataManager?
-	private var chatDataManager: ChatDataManager?
-	private var messages: [Message] = []
-	private var currentUsers: Set<String> = []
-	
-	private var listenerKey: Key?
+	fileprivate let viewModel = StreamViewModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
         self.setupPlayerView()
-		
-		// Create node so others can listen to it
-		cSyncDataManager.write("", toKeyPath: streamPath)
-		// Creat heartbeat node so others can create in it
-		cSyncDataManager.write("", toKeyPath: streamPath + ".heartbeat", withACL: .PublicReadCreate)
-		// Creat chat node so others can create in it
-		cSyncDataManager.write("", toKeyPath: streamPath + ".chat", withACL: .PublicReadCreate)
-		
-		heartbeatDataManager = HeartbeatDataManager(streamPath: streamPath, id: FacebookDataManager.sharedInstance.profile?.userID ?? "")
-		heartbeatDataManager?.didRecieveHeartbeats = {[unowned self] heartbeats in
-			let changedUsers = self.currentUsers.symmetricDifference(heartbeats)
-			for user in changedUsers {
-				if heartbeats.contains(user) {
-					self.chatTextView.text = (self.chatTextView.text ?? "") + "\(user) has joined\n"
-				}
-				else {
-					self.chatTextView.text = (self.chatTextView.text ?? "") + "\(user) has left\n"
-				}
-			}
-			self.userCountLabel.text = "\(heartbeats.count) Users"
-			self.currentUsers = heartbeats
-		}
-		chatDataManager = ChatDataManager(streamPath: streamPath, id: FacebookDataManager.sharedInstance.profile?.userID ?? "")
-		chatDataManager?.didRecieveMessage = {[unowned self] message in
-			self.insertIntoMessages(message)
-			self.chatTextView.text = ""
-			for message in self.messages {
-				self.chatTextView.text = (self.chatTextView.text ?? "") + "\(message.id): \(message.content)\n"
-			}
-//			FacebookDataManager.sharedInstance.fetchInfoForUser(withID: message.id) { error, user in
-//				if let user = user {
-//					self.chatTextView.text = (self.chatTextView.text ?? "") + "\(user.name): \(message.content)\n"
-//				}
-//			}
-		}
-		
-		if FacebookDataManager.sharedInstance.profile?.userID != "10153854936447000" {
-			listenerKey = cSyncDataManager.createKey(atPath: streamPath + ".*")
-			listenerKey?.listen() {[unowned self] value, error in
-				if let value = value {
-					switch value.key.components(separatedBy: ".").last ?? "" {
-						case "currentURL" where value.data ?? "" != self.playerView.videoUrl()?.absoluteString:
-							self.playerView.loadVideo(byURL: value.data ?? "", startSeconds: 0, suggestedQuality: .auto)
-						case "isPlaying" where value.data == "true" && self.playerView.playerState() != .playing:
-							self.playerView.playVideo()
-						case "isPlaying" where value.data == "false" && self.playerView.playerState() != .paused:
-							self.playerView.pauseVideo()
-						case "playTime":
-							if let time = Float(value.data ?? ""), abs(time - self.playerView.currentTime()) > self.maximumDesyncTime {
-								self.playerView.seek(toSeconds: time, allowSeekAhead: true)
-							}
-						default:
-							break
-					}
-				}
-			}
-		}
+		setupViewModel()
 		
         NotificationCenter.default.addObserver(self, selector: #selector(StreamViewController.rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
 		
@@ -113,7 +47,7 @@ class StreamViewController: UIViewController {
     private func setupPlayerView() {
         self.playerView.delegate = self
         //self.playerView.loadPlaylist(byVideos: ["4NFDhxhWyIw", "RTDuUiVSCo4"], index: 0, startSeconds: 0, suggestedQuality: .auto)
-        self.playerView.load(withVideoId: "4NFDhxhWyIw", playerVars: [
+        self.playerView.load(withVideoId: "VGfn-NFMrXg", playerVars: [
             "playsinline" : 1,
             "modestbranding" : 1,
             "showinfo" : 0,
@@ -122,6 +56,51 @@ class StreamViewController: UIViewController {
             ])
         
     }
+	
+	private func setupViewModel() {
+		viewModel.userJoinedRoom = {[unowned self] user in
+			self.chatTextView.text = (self.chatTextView.text ?? "") + "\(user.name) has joined\n"
+			self.userCountLabel.text = "\(self.viewModel.userCount) Users"
+		}
+		
+		viewModel.userLeftRoom = {[unowned self] user in
+			self.chatTextView.text = (self.chatTextView.text ?? "") + "\(user.name) has left\n"
+			self.userCountLabel.text = "\(self.viewModel.userCount) Users"
+		}
+		
+		viewModel.didRecieveMessage = {[unowned self] message in
+			self.chatTextView.text = ""
+			for message in self.viewModel.messages {
+				self.chatTextView.text = (self.chatTextView.text ?? "") + "\(message.id): \(message.content)\n"
+			}
+			//			FacebookDataManager.sharedInstance.fetchInfoForUser(withID: message.id) { error, user in
+			//				if let user = user {
+			//					self.chatTextView.text = (self.chatTextView.text ?? "") + "\(user.name): \(message.content)\n"
+			//				}
+			//			}
+		}
+		
+		viewModel.recievedCurrentURLUpdate = {[unowned self] url in
+			if url != self.playerView.videoUrl()?.absoluteString {
+				self.playerView.loadVideo(byURL: url, startSeconds: 0, suggestedQuality: .auto)
+			}
+		}
+		
+		viewModel.recievedIsPlayingUpdate = {[unowned self] isPlaying in
+			if isPlaying && self.playerView.playerState() != .playing {
+				self.playerView.playVideo()
+			}
+			else if !isPlaying && self.playerView.playerState() != .paused {
+				self.playerView.pauseVideo()
+			}
+		}
+		
+		viewModel.recievedPlaytimeUpdate = {[unowned self] playTime in
+			if abs(playTime - self.playerView.currentTime()) > self.viewModel.maximumDesyncTime {
+				self.playerView.seek(toSeconds: playTime, allowSeekAhead: true)
+			}
+		}
+	}
     
     func rotated() {
         if UIDeviceOrientationIsLandscape(UIDevice.current.orientation) {
@@ -169,43 +148,17 @@ class StreamViewController: UIViewController {
     }
 	@IBAction func chatInputActionTriggered(_ sender: UITextField) {
 		if let text = sender.text {
-			chatDataManager?.send(message: text)
+			viewModel.send(chatMessage: text)
 		}
 		sender.resignFirstResponder()
 		sender.text = nil
-	}
-	
-	private func insertIntoMessages(_ message: Message) {
-		if messages.isEmpty {
-			messages.append(message)
-			return
-		}
-		let timestamp = message.timestamp
-		var lowIndex = 0
-		var highIndex = messages.count
-		while lowIndex < highIndex {
-			let midIndex = (lowIndex + highIndex) / 2
-			let midTimestamp = messages[midIndex].timestamp
-			if midTimestamp < timestamp {
-				lowIndex = midIndex + 1
-			}
-			else if midTimestamp > timestamp {
-				highIndex = midIndex - 1
-			}
-			else {
-				// rare case where time is exactly the same
-				messages.insert(message, at: midIndex + 1)
-				return
-			}
-		}
-		messages.insert(message, at: highIndex)
 	}
 
 }
 
 extension StreamViewController: YTPlayerViewDelegate {
     func playerView(_ playerView: YTPlayerView, didPlayTime playTime: Float) {
-		cSyncDataManager.write(String(playerView.currentTime()), toKeyPath: streamPath + ".playTime")
+		viewModel.send(currentPlayTime: playerView.currentTime())
         print("Current Time: \(playerView.currentTime()) out of \(playerView.duration()) - Video Loaded \(playerView.videoLoadedFraction() * 100)%")
     }
     
@@ -240,16 +193,16 @@ extension StreamViewController: YTPlayerViewDelegate {
         case .paused:
             self.playPauseButton.setTitle("▶️", for: .normal)
             self.isPlaying = false
-			cSyncDataManager.write("false", toKeyPath: streamPath + ".isPlaying")
+			viewModel.send(playState: false)
             break
         case .buffering:
 			if let url = playerView.videoUrl() {
-				cSyncDataManager.write(url.absoluteString, toKeyPath: streamPath + ".currentURL")
+				viewModel.send(currentURL: url)
 			}
         case .playing:
             self.playPauseButton.setTitle("⏸", for: .normal)
             self.isPlaying = true
-			cSyncDataManager.write("true", toKeyPath: streamPath + ".isPlaying")
+			viewModel.send(playState: true)
             break
         case .ended:
             break

@@ -36,6 +36,7 @@
 		A23377A91E01DDD500E43DA0 /* HeartbeatDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23377A81E01DDD500E43DA0 /* HeartbeatDataManager.swift */; };
 		A25D96201E0341A3008FD996 /* ChatDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25D961F1E0341A3008FD996 /* ChatDataManager.swift */; };
 		A25D96221E0344B3008FD996 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25D96211E0344B3008FD996 /* Message.swift */; };
+		A25D96241E0B16BA008FD996 /* StreamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25D96231E0B16BA008FD996 /* StreamViewModel.swift */; };
 		A29D11021DF5FC4E00FA0EEC /* AccountDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29D11011DF5FC4E00FA0EEC /* AccountDataManager.swift */; };
 		A29D11041DF8B30D00FA0EEC /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29D11031DF8B30D00FA0EEC /* User.swift */; };
 		A2A436081DFA04C7008C2FB2 /* CSyncSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2A436051DFA04C7008C2FB2 /* CSyncSDK.framework */; };
@@ -102,6 +103,7 @@
 		A23377A81E01DDD500E43DA0 /* HeartbeatDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeartbeatDataManager.swift; sourceTree = "<group>"; };
 		A25D961F1E0341A3008FD996 /* ChatDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatDataManager.swift; sourceTree = "<group>"; };
 		A25D96211E0344B3008FD996 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		A25D96231E0B16BA008FD996 /* StreamViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamViewModel.swift; sourceTree = "<group>"; };
 		A29D11011DF5FC4E00FA0EEC /* AccountDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountDataManager.swift; sourceTree = "<group>"; };
 		A29D11031DF8B30D00FA0EEC /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		A2A436051DFA04C7008C2FB2 /* CSyncSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CSyncSDK.framework; path = Carthage/Build/iOS/CSyncSDK.framework; sourceTree = "<group>"; };
@@ -224,6 +226,7 @@
 				34C6E5351DF23DBC00EB4972 /* LoginViewController.swift */,
 				34C6E5361DF23DBC00EB4972 /* SettingsViewController.swift */,
 				34C6E5321DF23D4600EB4972 /* StreamViewController.swift */,
+				A25D96231E0B16BA008FD996 /* StreamViewModel.swift */,
 				3419A1F71DF8837E00A11D53 /* NameStreamViewController.swift */,
 				3419A1F91DF8839100A11D53 /* InviteStreamViewController.swift */,
 				34E57BE51DFB0B6800C8BAEA /* AddVideosViewController.swift */,
@@ -503,6 +506,7 @@
 				3419A1FA1DF8839100A11D53 /* InviteStreamViewController.swift in Sources */,
 				A23377A91E01DDD500E43DA0 /* HeartbeatDataManager.swift in Sources */,
 				34DA473A1DEDEF3300E989A9 /* YTPlayerView.h in Sources */,
+				A25D96241E0B16BA008FD996 /* StreamViewModel.swift in Sources */,
 				34DA47131DECA2E600E989A9 /* NSDateExtension.swift in Sources */,
 				34C6E5331DF23D4600EB4972 /* StreamViewController.swift in Sources */,
 				A29D11021DF5FC4E00FA0EEC /* AccountDataManager.swift in Sources */,
