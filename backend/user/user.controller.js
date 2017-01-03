@@ -164,7 +164,10 @@ userController.processExternalAuthentication = function (req, externalAccount) {
     })
 };
 
-userController.getOrCreateStream = function (user, stream) {
+userController.getOrCreateStream = function (req) {
+    var user = req.user;
+    var streamPath = req.body["streamPath"];
+    var streamName = req.body["streamName"];
     return new Promise(function (resolve, reject) {
         var client = new pg.Client(appVars.postgres.uri);
         client.connect();
@@ -178,7 +181,7 @@ userController.getOrCreateStream = function (user, stream) {
                     resolve(result.rows[0])
                 }
                 else {
-                    client.query("INSERT INTO streams (user_id, csync_path) VALUES ($1, $2) RETURNING id", [user.id, stream],
+                    client.query("INSERT INTO streams (user_id, csync_path, stream_name) VALUES ($1, $2, $3) RETURNING id", [user.id, streamPath, streamName],
                         function (err, result) {
                             if (err) {
                                 reject(err);
@@ -188,7 +191,7 @@ userController.getOrCreateStream = function (user, stream) {
                                 reject(null);
                                 client.end();
                             }
-                            resolve({id: result.rows[0].id, user_id: user.id, csync_path: stream});
+                            resolve({id: result.rows[0].id, user_id: user.id, csync_path: streamPath, stream_name: streamName});
                             client.end();
                         });
                 }

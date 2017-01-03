@@ -16,7 +16,9 @@ class StreamViewController: UIViewController {
 	@IBOutlet weak var chatInputTextField: UITextField!
 	@IBOutlet weak var userCountLabel: UILabel!
 	
-    var isPlaying = false
+	var streamName: String?
+	
+    fileprivate var isPlaying = false
 	
 	fileprivate let viewModel = StreamViewModel()
 
