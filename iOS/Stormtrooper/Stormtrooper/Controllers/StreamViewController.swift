@@ -23,9 +23,9 @@ class StreamViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
+        viewModel.delegate = self
+		
         self.setupPlayerView()
-		setupViewModel()
 		
         NotificationCenter.default.addObserver(self, selector: #selector(StreamViewController.rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
 		
@@ -56,51 +56,6 @@ class StreamViewController: UIViewController {
             ])
         
     }
-	
-	private func setupViewModel() {
-		viewModel.userJoinedRoom = {[unowned self] user in
-			self.chatTextView.text = (self.chatTextView.text ?? "") + "\(user.name) has joined\n"
-			self.userCountLabel.text = "\(self.viewModel.userCount) Users"
-		}
-		
-		viewModel.userLeftRoom = {[unowned self] user in
-			self.chatTextView.text = (self.chatTextView.text ?? "") + "\(user.name) has left\n"
-			self.userCountLabel.text = "\(self.viewModel.userCount) Users"
-		}
-		
-		viewModel.didRecieveMessage = {[unowned self] message in
-			self.chatTextView.text = ""
-			for message in self.viewModel.messages {
-				self.chatTextView.text = (self.chatTextView.text ?? "") + "\(message.id): \(message.content)\n"
-			}
-			//			FacebookDataManager.sharedInstance.fetchInfoForUser(withID: message.id) { error, user in
-			//				if let user = user {
-			//					self.chatTextView.text = (self.chatTextView.text ?? "") + "\(user.name): \(message.content)\n"
-			//				}
-			//			}
-		}
-		
-		viewModel.recievedCurrentURLUpdate = {[unowned self] url in
-			if url != self.playerView.videoUrl()?.absoluteString {
-				self.playerView.loadVideo(byURL: url, startSeconds: 0, suggestedQuality: .auto)
-			}
-		}
-		
-		viewModel.recievedIsPlayingUpdate = {[unowned self] isPlaying in
-			if isPlaying && self.playerView.playerState() != .playing {
-				self.playerView.playVideo()
-			}
-			else if !isPlaying && self.playerView.playerState() != .paused {
-				self.playerView.pauseVideo()
-			}
-		}
-		
-		viewModel.recievedPlaytimeUpdate = {[unowned self] playTime in
-			if abs(playTime - self.playerView.currentTime()) > self.viewModel.maximumDesyncTime {
-				self.playerView.seek(toSeconds: playTime, allowSeekAhead: true)
-			}
-		}
-	}
     
     func rotated() {
         if UIDeviceOrientationIsLandscape(UIDevice.current.orientation) {
@@ -154,6 +109,47 @@ class StreamViewController: UIViewController {
 		sender.text = nil
 	}
 
+}
+
+extension StreamViewController: StreamViewModelDelegate {
+	func joinedRoom(user: User) {
+		chatTextView.text = (self.chatTextView.text ?? "") + "\(user.name) has joined\n"
+		userCountLabel.text = "\(self.viewModel.userCount) Users"
+	}
+	
+	func leftRoom(user: User) {
+		chatTextView.text = (self.chatTextView.text ?? "") + "\(user.name) has left\n"
+		userCountLabel.text = "\(self.viewModel.userCount) Users"
+	}
+	func recieved(message: Message) {
+		chatTextView.text = ""
+		for message in viewModel.messages {
+			chatTextView.text = (self.chatTextView.text ?? "") + "\(message.id): \(message.content)\n"
+		}
+		//			FacebookDataManager.sharedInstance.fetchInfoForUser(withID: message.id) { error, user in
+		//				if let user = user {
+		//					self.chatTextView.text = (self.chatTextView.text ?? "") + "\(user.name): \(message.content)\n"
+		//				}
+		//			}
+	}
+	func recievedUpdate(forCurrentURL currentURL: String) {
+		if currentURL != playerView.videoUrl()?.absoluteString {
+			playerView.loadVideo(byURL: currentURL, startSeconds: 0, suggestedQuality: .auto)
+		}
+	}
+	func recievedUpdate(forIsPlaying isPlaying: Bool) {
+		if isPlaying && playerView.playerState() != .playing {
+			playerView.playVideo()
+		}
+		else if !isPlaying && playerView.playerState() != .paused {
+			playerView.pauseVideo()
+		}
+	}
+	func recievedUpdate(forPlaytime playtime: Float) {
+		if abs(playtime - playerView.currentTime()) > viewModel.maximumDesyncTime {
+			playerView.seek(toSeconds: playtime, allowSeekAhead: true)
+		}
+	}
 }
 
 extension StreamViewController: YTPlayerViewDelegate {
