@@ -10,6 +10,8 @@ import UIKit
 
 class NameStreamViewController: UIViewController {
 
+	@IBOutlet weak var nameTextField: UITextField!
+	
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -35,7 +37,8 @@ class NameStreamViewController: UIViewController {
         guard let streamVC = Utils.vcWithNameFromStoryboardWithName("stream", storyboardName: "Main") as? StreamViewController else {
             return
         }
-        streamVC.navigationItem.title = "My Stream"
+		streamVC.streamName = nameTextField.text
+        streamVC.navigationItem.title = nameTextField.text ?? "My Stream"
         streamVC.navigationItem.hidesBackButton = true
         self.navigationController?.pushViewController(streamVC, animated: true)
     }
@@ -44,6 +47,7 @@ class NameStreamViewController: UIViewController {
         guard let inviteVC = Utils.vcWithNameFromStoryboardWithName("inviteStream", storyboardName: "Main") as? InviteStreamViewController else {
             return
         }
+		inviteVC.streamName = nameTextField.text
         inviteVC.navigationItem.title = "Invite to Stream"
         self.navigationController?.pushViewController(inviteVC, animated: true)
     }

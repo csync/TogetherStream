@@ -10,7 +10,7 @@ var pg = require('pg');
 var invitesService = {};
 
 invitesService.processSendingInvites = function (req, res) {
-    userController.getOrCreateStream(req.user, req.body['stream'])
+    userController.getOrCreateStream(req)
         .then(function (stream) {
             var users = req.body['users'];
             for(var i = 0; i < users.length; i++) {
@@ -37,7 +37,7 @@ var sendNotification = function (user, req) {
     note.badge = req.body["currentBadgeCount"] + 1;
     note.sound = "ping.aiff";
     note.alert = "You've been invited by " + req.body["host"] + "!";
-    note.payload = {stream: req.body["stream"]};
+    note.payload = {streamPath: req.body["streamPath"], streamName: req.body["streamName"]};
     note.topic = 'com.NTH.stormtrooper';
 
     var apnProvider = appVars.apn;
