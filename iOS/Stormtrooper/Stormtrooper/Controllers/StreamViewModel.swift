@@ -9,13 +9,18 @@
 import Foundation
 import CSyncSDK
 
+protocol StreamViewModelDelegate: class {
+	func joinedRoom(user: User) -> Void
+	func leftRoom(user: User) -> Void
+	func recieved(message: Message) -> Void
+	func recievedUpdate(forCurrentURL currentURL: String) -> Void
+	func recievedUpdate(forIsPlaying isPlaying: Bool) -> Void
+	func recievedUpdate(forPlaytime playtime: Float) -> Void
+}
+
 class StreamViewModel {
-	var userJoinedRoom: ((User) -> Void)?
-	var userLeftRoom: ((User) -> Void)?
-	var didRecieveMessage: ((Message) -> Void)?
-	var recievedCurrentURLUpdate: ((String) -> Void)?
-	var recievedIsPlayingUpdate: ((Bool) -> Void)?
-	var recievedPlaytimeUpdate: ((Float) -> Void)?
+	
+	weak var delegate: StreamViewModelDelegate?
 	
 	var userCount: Int {
 		return currentUserIDs.count
@@ -48,10 +53,10 @@ class StreamViewModel {
 				FacebookDataManager.sharedInstance.fetchInfoForUser(withID: userID) {error, user in
 					if let user = user {
 						if heartbeats.contains(userID) {
-							self.userJoinedRoom?(user)
+							self.delegate?.joinedRoom(user: user)
 						}
 						else {
-							self.userLeftRoom?(user)
+							self.delegate?.leftRoom(user: user)
 						}
 					}
 				}
@@ -61,7 +66,7 @@ class StreamViewModel {
 		chatDataManager = ChatDataManager(streamPath: streamPath, id: FacebookDataManager.sharedInstance.profile?.userID ?? "")
 		chatDataManager?.didRecieveMessage = {[unowned self] message in
 			self.insertIntoMessages(message)
-			self.didRecieveMessage?(message)
+			self.delegate?.recieved(message: message)
 		}
 	}
 	
@@ -98,15 +103,15 @@ class StreamViewModel {
 				switch value.key.components(separatedBy: ".").last ?? "" {
 				case "currentURL":
 					if let url = value.data {
-						self.recievedCurrentURLUpdate?(url)
+						self.delegate?.recievedUpdate(forCurrentURL: url)
 					}
 				case "isPlaying" where value.data == "true":
-					self.recievedIsPlayingUpdate?(true)
+					self.delegate?.recievedUpdate(forIsPlaying: true)
 				case "isPlaying" where value.data == "false":
-					self.recievedIsPlayingUpdate?(false)
+					self.delegate?.recievedUpdate(forIsPlaying: false)
 				case "playTime":
-					if let playTime = Float(value.data ?? "") {
-						self.recievedPlaytimeUpdate?(playTime)
+					if let playtime = Float(value.data ?? "") {
+						self.delegate?.recievedUpdate(forPlaytime: playtime)
 					}
 				default:
 					break
