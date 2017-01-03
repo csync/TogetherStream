@@ -110,6 +110,19 @@ class StreamViewController: UIViewController {
 		sender.resignFirstResponder()
 		sender.text = nil
 	}
+	
+	fileprivate func getVideoID(from url: URL) -> String? {
+		guard let queries = url.query?.components(separatedBy: "&") else {
+			return nil
+		}
+		for queryString in queries {
+			let query = queryString.components(separatedBy: "=")
+			if query.count > 1 && query[0] == "v" {
+				return query[1]
+			}
+		}
+		return nil
+	}
 
 }
 
@@ -134,9 +147,17 @@ extension StreamViewController: StreamViewModelDelegate {
 		//				}
 		//			}
 	}
-	func recievedUpdate(forCurrentURL currentURL: String) {
-		if currentURL != playerView.videoUrl()?.absoluteString {
-			playerView.loadVideo(byURL: currentURL, startSeconds: 0, suggestedQuality: .auto)
+	func recievedUpdate(forCurrentVideoID currentVideoID: String) {
+		guard let playerURL = playerView.videoUrl(), let playerID = getVideoID(from: playerURL) else {
+			return
+		}
+		if currentVideoID != playerID {
+			playerView.load(withVideoId: currentVideoID, playerVars: [
+				"playsinline" : 1,
+				"modestbranding" : 1,
+				"showinfo" : 0,
+				"controls" : 0
+				])
 		}
 	}
 	func recievedUpdate(forIsPlaying isPlaying: Bool) {
@@ -194,8 +215,8 @@ extension StreamViewController: YTPlayerViewDelegate {
 			viewModel.send(playState: false)
             break
         case .buffering:
-			if let url = playerView.videoUrl() {
-				viewModel.send(currentURL: url)
+			if let url = playerView.videoUrl(), let id = getVideoID(from: url) {
+				viewModel.send(currentVideoID: id)
 			}
         case .playing:
             self.playPauseButton.setTitle("⏸", for: .normal)
