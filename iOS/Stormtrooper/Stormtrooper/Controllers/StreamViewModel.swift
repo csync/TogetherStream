@@ -13,7 +13,7 @@ protocol StreamViewModelDelegate: class {
 	func joinedRoom(user: User) -> Void
 	func leftRoom(user: User) -> Void
 	func recieved(message: Message) -> Void
-	func recievedUpdate(forCurrentURL currentURL: String) -> Void
+	func recievedUpdate(forCurrentVideoID currentVideoID: String) -> Void
 	func recievedUpdate(forIsPlaying isPlaying: Bool) -> Void
 	func recievedUpdate(forPlaytime playtime: Float) -> Void
 }
@@ -83,8 +83,8 @@ class StreamViewModel {
 		cSyncDataManager.write(stateMessage, toKeyPath: streamPath + ".isPlaying")
 	}
 	
-	func send(currentURL: URL) {
-		cSyncDataManager.write(currentURL.absoluteString, toKeyPath: streamPath + ".currentURL")
+	func send(currentVideoID: String) {
+		cSyncDataManager.write(currentVideoID, toKeyPath: streamPath + ".currentVideoID")
 	}
 	
 	private func setupHost() {
@@ -101,9 +101,9 @@ class StreamViewModel {
 		listenerKey?.listen() {[unowned self] value, error in
 			if let value = value {
 				switch value.key.components(separatedBy: ".").last ?? "" {
-				case "currentURL":
-					if let url = value.data {
-						self.delegate?.recievedUpdate(forCurrentURL: url)
+				case "currentVideoID":
+					if let id = value.data {
+						self.delegate?.recievedUpdate(forCurrentVideoID: id)
 					}
 				case "isPlaying" where value.data == "true":
 					self.delegate?.recievedUpdate(forIsPlaying: true)
