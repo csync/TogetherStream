@@ -49,14 +49,16 @@ class StreamViewController: UIViewController {
     private func setupPlayerView() {
         self.playerView.delegate = self
         //self.playerView.loadPlaylist(byVideos: ["4NFDhxhWyIw", "RTDuUiVSCo4"], index: 0, startSeconds: 0, suggestedQuality: .auto)
-        self.playerView.load(withVideoId: "VGfn-NFMrXg", playerVars: [
-            "playsinline" : 1,
-            "modestbranding" : 1,
-            "showinfo" : 0,
-            "controls" : 0,
-            "playlist": "7D3Ud2JIFhA, 2VuFqm8re5c"
-            ])
-        
+		if viewModel.isHost {
+			self.playerView.load(withVideoId: "VGfn-NFMrXg", playerVars: [
+				"playsinline" : 1,
+				"modestbranding" : 1,
+				"showinfo" : 0,
+				"controls" : 0,
+				"playlist": "7D3Ud2JIFhA, 2VuFqm8re5c"
+				])
+		}
+		
     }
     
     func rotated() {
@@ -148,10 +150,11 @@ extension StreamViewController: StreamViewModelDelegate {
 		//			}
 	}
 	func recievedUpdate(forCurrentVideoID currentVideoID: String) {
-		guard let playerURL = playerView.videoUrl(), let playerID = getVideoID(from: playerURL) else {
-			return
+		var playerID: String?
+		if let playerURL = playerView.videoUrl() {
+			playerID = getVideoID(from: playerURL)
 		}
-		if currentVideoID != playerID {
+		if playerView.videoUrl() == nil || currentVideoID != playerID {
 			playerView.load(withVideoId: currentVideoID, playerVars: [
 				"playsinline" : 1,
 				"modestbranding" : 1,
@@ -212,16 +215,20 @@ extension StreamViewController: YTPlayerViewDelegate {
         case .paused:
             self.playPauseButton.setTitle("▶️", for: .normal)
             self.isPlaying = false
-			viewModel.send(playState: false)
+			if viewModel.isHost {
+				viewModel.send(playState: false)
+			}
             break
         case .buffering:
-			if let url = playerView.videoUrl(), let id = getVideoID(from: url) {
+			if viewModel.isHost, let url = playerView.videoUrl(), let id = getVideoID(from: url) {
 				viewModel.send(currentVideoID: id)
 			}
         case .playing:
             self.playPauseButton.setTitle("⏸", for: .normal)
             self.isPlaying = true
-			viewModel.send(playState: true)
+			if viewModel.isHost {
+				viewModel.send(playState: true)
+			}
             break
         case .ended:
             break
