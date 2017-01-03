@@ -16,7 +16,6 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-		FacebookDataManager.sharedInstance.fetchInfoForUser(withID: "10153854936447000") {_,_ in }
     }
     
     override func viewDidAppear(_ animated: Bool) {

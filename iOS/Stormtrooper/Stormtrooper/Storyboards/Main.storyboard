@@ -425,6 +425,9 @@
                             <constraint firstAttribute="trailingMargin" secondItem="mMX-wD-bgK" secondAttribute="trailing" constant="17" id="vkb-pE-W0M"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="nameTextField" destination="Mgl-N8-G1e" id="s67-4b-N8l"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fJF-25-AgS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -10,6 +10,8 @@ import UIKit
 import MessageUI
 
 class InviteStreamViewController: UIViewController {
+	
+	var streamName: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,7 +38,8 @@ class InviteStreamViewController: UIViewController {
         guard let streamVC = Utils.vcWithNameFromStoryboardWithName("stream", storyboardName: "Main") as? StreamViewController else {
             return
         }
-        streamVC.navigationItem.title = "My Stream"
+		streamVC.streamName = streamName
+        streamVC.navigationItem.title = streamName ?? "My Stream"
         streamVC.navigationItem.hidesBackButton = true
         self.navigationController?.pushViewController(streamVC, animated: true)
     }

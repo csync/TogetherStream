@@ -28,18 +28,20 @@ class AccountDataManager {
 		}
 	}
 	
-	func sendInvite(forStream stream: String, to users: [User]) {
-		guard let serverAccessToken = serverAccessToken, let url = URL(string: serverAddress + "/invites?access_token=" + serverAccessToken) else {
+	func sendInviteToStream(withName name: String, to users: [User]) {
+		guard let serverAccessToken = serverAccessToken, let url = URL(string: serverAddress + "/invites?access_token=" + serverAccessToken), let userID = FacebookDataManager.sharedInstance.profile?.userID else {
 			return
 		}
+		let streamPath = "streams." + userID
 		let host = FacebookDataManager.sharedInstance.profile?.name ?? ""
 		var request = URLRequest(url: url)
 		request.httpMethod = "POST"
 		request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-		request.httpBody = try? JSONSerialization.data(withJSONObject: ["host": host, "stream": stream, "users": users.map({$0.id}), "currentBadgeCount": UIApplication.shared.applicationIconBadgeNumber])
+		request.httpBody = try? JSONSerialization.data(withJSONObject: ["host": host, "streamPath": streamPath, "users": users.map({$0.id}), "currentBadgeCount": UIApplication.shared.applicationIconBadgeNumber, "streamName": name])
 		sendToServer(request: request){_,_,_ in}
 	}
 	
+	// TODO: create stream object
 	func retrieveInvites(callback: @escaping (Error?, [String]?) -> Void) {
 		guard let serverAccessToken = serverAccessToken, let url = URL(string: serverAddress + "/invites?access_token=" + serverAccessToken) else {
 			callback(ServerError.invalidConfiguration, nil)
