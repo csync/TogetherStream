@@ -27,9 +27,13 @@ class StreamViewModel {
 	}
 	
 	var messages: [Message] = []
-	let streamPath = "streams.10153854936447000"
 	let maximumDesyncTime: Float = 1.0
+	var isHost: Bool {
+		// TODO: not hardcode
+		return FacebookDataManager.sharedInstance.profile?.userID == "10153854936447000"
+	}
 	
+	private let streamPath = "streams.10153854936447000"
 	private var listenerKey: Key?
 	private var cSyncDataManager = CSyncDataManager.sharedInstance
 	private var heartbeatDataManager: HeartbeatDataManager?
@@ -37,8 +41,7 @@ class StreamViewModel {
 	private var currentUserIDs: Set<String> = []
 	
 	init() {
-		// TODO: Add real host distinction
-		if FacebookDataManager.sharedInstance.profile?.userID != "10153854936447000" {
+		if !isHost {
 			setupParticipant()
 		}
 		else {
