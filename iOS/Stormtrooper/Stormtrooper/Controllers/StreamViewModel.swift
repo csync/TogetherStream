@@ -12,7 +12,7 @@ import CSyncSDK
 protocol StreamViewModelDelegate: class {
 	func joinedRoom(user: User) -> Void
 	func leftRoom(user: User) -> Void
-	func recieved(message: Message) -> Void
+	func recieved(message: Message, for position: Int) -> Void
 	func recievedUpdate(forCurrentVideoID currentVideoID: String) -> Void
 	func recievedUpdate(forIsPlaying isPlaying: Bool) -> Void
 	func recievedUpdate(forPlaytime playtime: Float) -> Void
@@ -68,8 +68,8 @@ class StreamViewModel {
 		}
 		chatDataManager = ChatDataManager(streamPath: streamPath, id: FacebookDataManager.sharedInstance.profile?.userID ?? "")
 		chatDataManager?.didRecieveMessage = {[unowned self] message in
-			self.insertIntoMessages(message)
-			self.delegate?.recieved(message: message)
+			let position = self.insertIntoMessages(message)
+			self.delegate?.recieved(message: message, for: position)
 		}
 	}
 	
@@ -123,10 +123,11 @@ class StreamViewModel {
 		}
 	}
 	
-	private func insertIntoMessages(_ message: Message) {
+	// Returns position inserted in
+	private func insertIntoMessages(_ message: Message) -> Int {
 		if messages.isEmpty {
 			messages.append(message)
-			return
+			return 0
 		}
 		let timestamp = message.timestamp
 		var lowIndex = 0
@@ -143,9 +144,10 @@ class StreamViewModel {
 			else {
 				// rare case where time is exactly the same
 				messages.insert(message, at: midIndex + 1)
-				return
+				return midIndex + 1
 			}
 		}
 		messages.insert(message, at: highIndex)
+		return highIndex
 	}
 }

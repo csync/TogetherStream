@@ -12,8 +12,8 @@ class StreamViewController: UIViewController {
     @IBOutlet weak var playerView: YTPlayerView!
     @IBOutlet weak var playPauseButton: UIButton!
     @IBOutlet weak var mediaControllerView: UIView!
-	@IBOutlet weak var chatTextView: UITextView!
 	@IBOutlet weak var chatInputTextField: UITextField!
+	@IBOutlet weak var chatTableView: UITableView!
 	@IBOutlet weak var userCountLabel: UILabel!
 	
 	var streamName: String?
@@ -130,19 +130,20 @@ class StreamViewController: UIViewController {
 
 extension StreamViewController: StreamViewModelDelegate {
 	func joinedRoom(user: User) {
-		chatTextView.text = (self.chatTextView.text ?? "") + "\(user.name) has joined\n"
+		//chatTextView.text = (self.chatTextView.text ?? "") + "\(user.name) has joined\n"
 		userCountLabel.text = "\(self.viewModel.userCount) Users"
 	}
 	
 	func leftRoom(user: User) {
-		chatTextView.text = (self.chatTextView.text ?? "") + "\(user.name) has left\n"
+		//chatTextView.text = (self.chatTextView.text ?? "") + "\(user.name) has left\n"
 		userCountLabel.text = "\(self.viewModel.userCount) Users"
 	}
-	func recieved(message: Message) {
-		chatTextView.text = ""
-		for message in viewModel.messages {
-			chatTextView.text = (self.chatTextView.text ?? "") + "\(message.id): \(message.content)\n"
-		}
+	func recieved(message: Message, for position: Int) {
+		chatTableView.insertRows(at: [IndexPath(row: position, section: 0)], with: .automatic)
+		//chatTextView.text = ""
+		//for message in viewModel.messages {
+		//	chatTextView.text = (self.chatTextView.text ?? "") + "\(message.authorID): \(message.content)\n"
+		//}
 		//			FacebookDataManager.sharedInstance.fetchInfoForUser(withID: message.id) { error, user in
 		//				if let user = user {
 		//					self.chatTextView.text = (self.chatTextView.text ?? "") + "\(user.name): \(message.content)\n"
@@ -176,6 +177,33 @@ extension StreamViewController: StreamViewModelDelegate {
 			playerView.seek(toSeconds: playtime, allowSeekAhead: true)
 		}
 	}
+}
+
+extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
+	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		guard let cell = tableView.dequeueReusableCell(withIdentifier: "chatCell") as? ChatTableViewCell else {
+			return UITableViewCell()
+		}
+		let message = viewModel.messages[indexPath.row]
+		cell.nameLabel.text = nil
+		cell.messageLabel.text = nil
+		cell.profileImageView.image = nil
+		FacebookDataManager.sharedInstance.fetchInfoForUser(withID: message.authorID) { error, user in
+			cell.nameLabel.text = user?.name
+			cell.messageLabel.text = message.content
+			user?.fetchProfileImage { error, image in
+				cell.profileImageView.image = image
+			}
+		}
+		
+		return cell
+	}
+	
+	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+		return viewModel.messages.count
+	}
+	
+	
 }
 
 extension StreamViewController: YTPlayerViewDelegate {
