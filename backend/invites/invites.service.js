@@ -67,7 +67,7 @@ var getInvites = function (user) {
     return new Promise(function (resolve, reject) {
         var client = new pg.Client(appVars.postgres.uri);
         client.connect();
-        client.query("SELECT streams.user_id, streams.csync_path FROM streams INNER JOIN stream_invites ON streams.id = stream_invites.stream_id WHERE stream_invites.user_id = $1", [user.id],
+        client.query("SELECT streams.user_id, streams.csync_path, streams.stream_name FROM streams INNER JOIN stream_invites ON streams.id = stream_invites.stream_id WHERE stream_invites.user_id = $1", [user.id],
             function (err, result) {
                 if (err) {
                     reject(err);
