@@ -8,13 +8,15 @@
 
 struct Stream {
 	let name: String
+	let hostID: String
 	let csyncPath: String
 	
-	init?(jsonDictionary: [String: Any]) {
-		guard let name = jsonDictionary["name"] as? String, let csyncPath = jsonDictionary["csyncPath"] as? String else {
+	init?(jsonDictionary: [String: String]) {
+		guard let hostID = jsonDictionary["user_id"], let csyncPath = jsonDictionary["csync_path"], let name = jsonDictionary["stream_name"] else {
 			return nil
 		}
 		self.name = name
+		self.hostID = hostID
 		self.csyncPath = csyncPath
 	}
 }

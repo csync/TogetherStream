@@ -41,8 +41,7 @@ class AccountDataManager {
 		sendToServer(request: request){_,_,_ in}
 	}
 	
-	// TODO: create stream object
-	func retrieveInvites(callback: @escaping (Error?, [String]?) -> Void) {
+	func retrieveInvites(callback: @escaping (Error?, [Stream]?) -> Void) {
 		guard let serverAccessToken = serverAccessToken, let url = URL(string: serverAddress + "/invites?access_token=" + serverAccessToken) else {
 			callback(ServerError.invalidConfiguration, nil)
 			return
@@ -52,7 +51,19 @@ class AccountDataManager {
 				callback(error, nil)
 			}
 			else {
-				callback(nil, [response.debugDescription])
+				do {
+					let jsonData = try JSONSerialization.jsonObject(with: data ?? Data()) as? [[String: String]] ?? []
+					var streams: [Stream] = []
+					for streamData in jsonData {
+						if let stream = Stream(jsonDictionary: streamData) {
+							streams.append(stream)
+						}
+					}
+					callback(nil, streams)
+				}
+				catch {
+					callback(error, nil)
+				}
 			}
 		}
 	}
