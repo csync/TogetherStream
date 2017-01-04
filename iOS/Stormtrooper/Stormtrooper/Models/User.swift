@@ -9,11 +9,11 @@
 import Foundation
 import UIKit
 
-struct User {
+class User {
 	let id: String
 	let name: String
 	let pictureURL: String
-	var profileImage: UIImage?
+	private var profileImage: UIImage?
 	
 	/*
 	Response format of GraphAPI 2.8
@@ -33,19 +33,24 @@ struct User {
 		pictureURL = picture?["url"] as? String ?? ""
 	}
 	
-	/// Note: Does not set profileImage var
-	func fetchProfileImage(callback: @escaping (UIImage?) -> Void) {
+	func fetchProfileImage(callback: @escaping (Error?, UIImage?) -> Void) {
+		if profileImage != nil {
+			callback(nil, profileImage)
+		}
 		guard let url = URL(string: pictureURL) else {
-			callback(nil)
+			callback(ServerError.cannotFormURL, nil)
 			return
 		}
-		URLSession.shared.dataTask(with: url) {data, response, error in
-			if let data = data {
-				callback(UIImage(data: data))
+		let task = URLSession.shared.dataTask(with: url) {data, response, error in
+			if let data = data, let profileImage = UIImage(data: data) {
+				self.profileImage = profileImage
+				callback(nil, profileImage)
 			}
 			else {
-				
+				callback(error, nil)
 			}
 		}
+		
+		task.resume()
 	}
 }

@@ -9,7 +9,7 @@
 import Foundation
 
 struct Message {
-	let id: String
+	let authorID: String
 	let content: String
 	let timestamp: TimeInterval
 	
@@ -21,7 +21,7 @@ struct Message {
 			guard let messageJson = try JSONSerialization.jsonObject(with: data) as? [String: String], let id = messageJson["id"], let content = messageJson["content"], let timestamp = TimeInterval(messageJson["timestamp"] ?? "") else {
 				return nil
 			}
-			self.id = id
+			self.authorID = id
 			self.content = content
 			self.timestamp = timestamp
 		}
