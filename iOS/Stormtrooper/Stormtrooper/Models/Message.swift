@@ -9,6 +9,7 @@
 import Foundation
 
 struct Message {
+	// Note: This is the application user ID, not FB
 	let authorID: String
 	let content: String
 	let timestamp: TimeInterval

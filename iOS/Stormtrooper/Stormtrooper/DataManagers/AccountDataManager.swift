@@ -28,6 +28,27 @@ class AccountDataManager {
 		}
 	}
 	
+	func getExternalIds(forUserID id: String, callback: @escaping (Error?, [String: String]?) -> Void) {
+		guard let url = URL(string: serverAddress + "/id/\(id)") else {
+			callback(ServerError.cannotFormURL, nil)
+			return
+		}
+		sendToServer(request: URLRequest(url: url)) {data, response, error in
+			if let error = error {
+				callback(error, nil)
+			}
+			else {
+				do {
+					let ids = try JSONSerialization.jsonObject(with: data ?? Data()) as? [String: String] ?? [:]
+					callback(nil, ids)
+				}
+				catch {
+					callback(error, nil)
+				}
+			}
+		}
+	}
+	
 	func sendInviteToStream(withName name: String, to users: [User]) {
 		guard let serverAccessToken = serverAccessToken, let url = URL(string: serverAddress + "/invites?access_token=" + serverAccessToken), let userID = FacebookDataManager.sharedInstance.profile?.userID else {
 			return

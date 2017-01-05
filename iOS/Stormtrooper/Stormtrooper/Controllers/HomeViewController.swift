@@ -7,11 +7,14 @@
 //
 
 import UIKit
-
+import Foundation
 
 class HomeViewController: UIViewController {
+	@IBOutlet weak var streamsTableView: UITableView!
 
     var hasShownLogin = false
+	
+	fileprivate let viewModel = HomeViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +29,9 @@ class HomeViewController: UIViewController {
         if !hasShownLogin {
             self.displayLoginIfNeeded()
         }
+		viewModel.refreshStreams { error, streams in
+			self.streamsTableView.reloadData()
+		}
     }
     
 
@@ -62,4 +68,35 @@ class HomeViewController: UIViewController {
         self.navigationController?.pushViewController(nameStreamVC, animated: true)
     }
 
+}
+
+extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
+	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+		return viewModel.streams.count
+	}
+	
+	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		guard let cell = tableView.dequeueReusableCell(withIdentifier: "streamCell") as? StreamTableViewCell else {
+			return UITableViewCell()
+		}
+		let stream = viewModel.streams[indexPath.row]
+		cell.streamNameLabel.text = stream.name
+		AccountDataManager.sharedInstance.getExternalIds(forUserID: stream.hostID) {error, ids in
+			guard let ids = ids else {
+				return
+			}
+			FacebookDataManager.sharedInstance.fetchInfoForUser(withID: ids["facebook-token"] ?? "") {error, user in
+				DispatchQueue.main.async {
+					cell.hostNameLabel.text = user?.name
+				}
+				user?.fetchProfileImage {error, image in
+					DispatchQueue.main.async {
+						cell.profileImageView.image = image
+					}
+				}
+			}
+		}
+		
+		return cell
+	}
 }
