@@ -1,5 +1,5 @@
 //
-//  ChatTableViewCell.swift
+//  StreamTableViewCell.swift
 //  Stormtrooper
 //
 //  Created by Daniel Firsht on 1/4/17.
@@ -8,11 +8,12 @@
 
 import UIKit
 
-class ChatTableViewCell: UITableViewCell {
+class StreamTableViewCell: UITableViewCell {
 	@IBOutlet weak var profileImageView: UIImageView!
-	@IBOutlet weak var messageLabel: UILabel!
-	@IBOutlet weak var nameLabel: UILabel!
-	
+	@IBOutlet weak var streamNameLabel: UILabel!
+	@IBOutlet weak var hostNameLabel: UILabel!
+	@IBOutlet weak var currentVideoThumbnailImageView: UIImageView!
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

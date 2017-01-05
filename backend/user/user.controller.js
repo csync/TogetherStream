@@ -67,7 +67,7 @@ userController.getUserByID = function (id) {
               else {
                   var user = {id: result.rows[0].id, deviceToken: result.rows[0].device_token};
                   // Get external accounts
-                  client.query("SELECT provider, access_token, at_iv, at_tag FROM external_auth WHERE user_id=$1", [id],
+                  client.query("SELECT id, provider, access_token, at_iv, at_tag FROM external_auth WHERE user_id=$1", [id],
                       function (err, result) {
                           if (err) reject(err);
                           user.externalAccounts = result.rows;
