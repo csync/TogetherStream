@@ -38,6 +38,8 @@
 		A25D96241E0B16BA008FD996 /* StreamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25D96231E0B16BA008FD996 /* StreamViewModel.swift */; };
 		A25D96261E1D55E9008FD996 /* Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25D96251E1D55E9008FD996 /* Stream.swift */; };
 		A25D96281E1D6964008FD996 /* ChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25D96271E1D6964008FD996 /* ChatTableViewCell.swift */; };
+		A25D962A1E1D92EB008FD996 /* StreamTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25D96291E1D92EB008FD996 /* StreamTableViewCell.swift */; };
+		A25D962C1E1D965A008FD996 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25D962B1E1D965A008FD996 /* HomeViewModel.swift */; };
 		A29D11021DF5FC4E00FA0EEC /* AccountDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29D11011DF5FC4E00FA0EEC /* AccountDataManager.swift */; };
 		A29D11041DF8B30D00FA0EEC /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29D11031DF8B30D00FA0EEC /* User.swift */; };
 		A2A436081DFA04C7008C2FB2 /* CSyncSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2A436051DFA04C7008C2FB2 /* CSyncSDK.framework */; };
@@ -107,6 +109,8 @@
 		A25D96231E0B16BA008FD996 /* StreamViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StreamViewModel.swift; path = ../Controllers/StreamViewModel.swift; sourceTree = "<group>"; };
 		A25D96251E1D55E9008FD996 /* Stream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stream.swift; sourceTree = "<group>"; };
 		A25D96271E1D6964008FD996 /* ChatTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatTableViewCell.swift; sourceTree = "<group>"; };
+		A25D96291E1D92EB008FD996 /* StreamTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamTableViewCell.swift; sourceTree = "<group>"; };
+		A25D962B1E1D965A008FD996 /* HomeViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		A29D11011DF5FC4E00FA0EEC /* AccountDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountDataManager.swift; sourceTree = "<group>"; };
 		A29D11031DF8B30D00FA0EEC /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		A2A436051DFA04C7008C2FB2 /* CSyncSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CSyncSDK.framework; path = Carthage/Build/iOS/CSyncSDK.framework; sourceTree = "<group>"; };
@@ -314,6 +318,7 @@
 			isa = PBXGroup;
 			children = (
 				A25D96231E0B16BA008FD996 /* StreamViewModel.swift */,
+				A25D962B1E1D965A008FD996 /* HomeViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -322,6 +327,7 @@
 			isa = PBXGroup;
 			children = (
 				A25D96271E1D6964008FD996 /* ChatTableViewCell.swift */,
+				A25D96291E1D92EB008FD996 /* StreamTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -509,6 +515,7 @@
 				3419A1FC1DF883AF00A11D53 /* MainNavigationController.swift in Sources */,
 				3419A1FA1DF8839100A11D53 /* InviteStreamViewController.swift in Sources */,
 				A23377A91E01DDD500E43DA0 /* HeartbeatDataManager.swift in Sources */,
+				A25D962A1E1D92EB008FD996 /* StreamTableViewCell.swift in Sources */,
 				34DA473A1DEDEF3300E989A9 /* YTPlayerView.h in Sources */,
 				A25D96241E0B16BA008FD996 /* StreamViewModel.swift in Sources */,
 				34DA47131DECA2E600E989A9 /* NSDateExtension.swift in Sources */,
@@ -534,6 +541,7 @@
 				A29D11041DF8B30D00FA0EEC /* User.swift in Sources */,
 				A2A4360D1DFB2421008C2FB2 /* FacebookDataManager.swift in Sources */,
 				A2A4360F1DFB24CE008C2FB2 /* ServerError.swift in Sources */,
+				A25D962C1E1D965A008FD996 /* HomeViewModel.swift in Sources */,
 				A25D96261E1D55E9008FD996 /* Stream.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
