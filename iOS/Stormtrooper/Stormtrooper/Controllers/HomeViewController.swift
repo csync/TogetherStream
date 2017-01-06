@@ -33,6 +33,12 @@ class HomeViewController: UIViewController {
 			self.streamsTableView.reloadData()
 		}
     }
+	
+	override func viewWillDisappear(_ animated: Bool) {
+		super.viewWillDisappear(animated)
+		
+		viewModel.stopStreamsListening()
+	}
     
 
     override func didReceiveMemoryWarning() {
@@ -81,6 +87,18 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 		}
 		let stream = viewModel.streams[indexPath.row]
 		cell.streamNameLabel.text = stream.name
+		stream.listenForCurrentVideo {[unowned self] error, videoID in
+			if let videoID = videoID {
+				self.viewModel.getThumbnailForVideo(withID: videoID) {error, thumbnail in
+					if let thumbnail = thumbnail {
+						DispatchQueue.main.async {
+							cell.currentVideoThumbnailImageView.image = thumbnail
+						}
+					}
+				}
+			}
+		}
+		
 		AccountDataManager.sharedInstance.getExternalIds(forUserID: stream.hostID) {error, ids in
 			guard let ids = ids else {
 				return
