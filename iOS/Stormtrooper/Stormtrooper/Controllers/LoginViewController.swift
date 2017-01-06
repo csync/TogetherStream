@@ -26,10 +26,6 @@ class LoginViewController: UIViewController {
         facebookDataManager.setupLoginButton(facebookLoginButton)
 		facebookLoginButton.delegate = self
     }
-
-    @IBAction func skipTapped(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
-    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
