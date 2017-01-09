@@ -129,26 +129,11 @@ class StreamViewController: UIViewController {
 }
 
 extension StreamViewController: StreamViewModelDelegate {
-	func joinedRoom(user: User) {
-		//chatTextView.text = (self.chatTextView.text ?? "") + "\(user.name) has joined\n"
-		userCountLabel.text = "\(self.viewModel.userCount) Users"
-	}
-	
-	func leftRoom(user: User) {
-		//chatTextView.text = (self.chatTextView.text ?? "") + "\(user.name) has left\n"
-		userCountLabel.text = "\(self.viewModel.userCount) Users"
+	func userCountChanged(toCount count: Int) {
+		userCountLabel.text = "\(count) Users"
 	}
 	func recieved(message: Message, for position: Int) {
 		chatTableView.insertRows(at: [IndexPath(row: position, section: 0)], with: .automatic)
-		//chatTextView.text = ""
-		//for message in viewModel.messages {
-		//	chatTextView.text = (self.chatTextView.text ?? "") + "\(message.authorID): \(message.content)\n"
-		//}
-		//			FacebookDataManager.sharedInstance.fetchInfoForUser(withID: message.id) { error, user in
-		//				if let user = user {
-		//					self.chatTextView.text = (self.chatTextView.text ?? "") + "\(user.name): \(message.content)\n"
-		//				}
-		//			}
 	}
 	func recievedUpdate(forCurrentVideoID currentVideoID: String) {
 		var playerID: String?
@@ -188,9 +173,14 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
 		cell.nameLabel.text = nil
 		cell.messageLabel.text = nil
 		cell.profileImageView.image = nil
-		FacebookDataManager.sharedInstance.fetchInfoForUser(withID: message.authorID) { error, user in
+		FacebookDataManager.sharedInstance.fetchInfoForUser(withID: message.subjectID) { error, user in
 			cell.nameLabel.text = user?.name
-			cell.messageLabel.text = message.content
+			if let message = message as? ChatMessage {
+				cell.messageLabel.text = message.content
+			}
+			else if let message = message as? ParticipantMessage {
+				cell.messageLabel.text = message.isJoining ? "joined the stream." : "left the stream."
+			}
 			user?.fetchProfileImage { error, image in
 				cell.profileImageView.image = image
 			}

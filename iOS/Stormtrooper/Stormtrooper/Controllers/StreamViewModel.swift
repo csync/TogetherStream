@@ -10,8 +10,7 @@ import Foundation
 import CSyncSDK
 
 protocol StreamViewModelDelegate: class {
-	func joinedRoom(user: User) -> Void
-	func leftRoom(user: User) -> Void
+	func userCountChanged(toCount count: Int)
 	func recieved(message: Message, for position: Int) -> Void
 	func recievedUpdate(forCurrentVideoID currentVideoID: String) -> Void
 	func recievedUpdate(forIsPlaying isPlaying: Bool) -> Void
@@ -38,6 +37,7 @@ class StreamViewModel {
 	private var cSyncDataManager = CSyncDataManager.sharedInstance
 	private var heartbeatDataManager: HeartbeatDataManager?
 	private var chatDataManager: ChatDataManager?
+	private var participantsDataManager: ParticipantsDataManager?
 	private var currentUserIDs: Set<String> = []
 	
 	init() {
@@ -48,26 +48,32 @@ class StreamViewModel {
 			setupHost()
 		}
 		
-		heartbeatDataManager = HeartbeatDataManager(streamPath: streamPath, id: FacebookDataManager.sharedInstance.profile?.userID ?? "")
+		let userID = FacebookDataManager.sharedInstance.profile?.userID ?? ""
+		heartbeatDataManager = HeartbeatDataManager(streamPath: streamPath, id: userID)
 		heartbeatDataManager?.didRecieveHeartbeats = {[unowned self] heartbeats in
 			let changedUsers = self.currentUserIDs.symmetricDifference(heartbeats)
 			self.currentUserIDs = heartbeats
-			for userID in changedUsers {
-				FacebookDataManager.sharedInstance.fetchInfoForUser(withID: userID) {error, user in
-					if let user = user {
-						if heartbeats.contains(userID) {
-							self.delegate?.joinedRoom(user: user)
-						}
-						else {
-							self.delegate?.leftRoom(user: user)
-						}
+			self.delegate?.userCountChanged(toCount: self.userCount)
+			if self.isHost {
+				for userID in changedUsers {
+					if heartbeats.contains(userID) {
+						self.send(participantID: userID, isJoining: true)
+					}
+					else {
+						self.send(participantID: userID, isJoining: false)
 					}
 				}
-				
 			}
 		}
+		
 		chatDataManager = ChatDataManager(streamPath: streamPath, id: FacebookDataManager.sharedInstance.profile?.userID ?? "")
 		chatDataManager?.didRecieveMessage = {[unowned self] message in
+			let position = self.insertIntoMessages(message)
+			self.delegate?.recieved(message: message, for: position)
+		}
+		
+		participantsDataManager = ParticipantsDataManager(streamPath: streamPath)
+		participantsDataManager?.didRecieveMessage = {[unowned self] message in
 			let position = self.insertIntoMessages(message)
 			self.delegate?.recieved(message: message, for: position)
 		}
@@ -75,6 +81,10 @@ class StreamViewModel {
 	
 	func send(chatMessage: String) {
 		chatDataManager?.send(message: chatMessage)
+	}
+	
+	func send(participantID: String, isJoining: Bool) {
+		participantsDataManager?.send(participantID: participantID, isJoining: isJoining)
 	}
 	
 	func send(currentPlayTime: Float) {
@@ -139,7 +149,7 @@ class StreamViewModel {
 				lowIndex = midIndex + 1
 			}
 			else if midTimestamp > timestamp {
-				highIndex = midIndex - 1
+				highIndex = midIndex
 			}
 			else {
 				// rare case where time is exactly the same
