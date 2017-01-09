@@ -10,7 +10,7 @@ import Foundation
 import CSyncSDK
 
 class ChatDataManager {
-	var didRecieveMessage: ((Message) -> Void)?
+	var didRecieveMessage: ((ChatMessage) -> Void)?
 	private let csyncDataManager = CSyncDataManager.sharedInstance
 	private let streamPath: String
 	private let id: String
@@ -33,7 +33,7 @@ class ChatDataManager {
 			if let error = error {
 				print(error)
 			}
-			if let content = value?.data, let message = Message(content: content) {
+			if let content = value?.data, let message = ChatMessage(content: content) {
 				self?.didRecieveMessage?(message)
 			}
 		}
