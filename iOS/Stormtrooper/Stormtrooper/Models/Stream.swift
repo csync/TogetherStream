@@ -10,6 +10,7 @@ import CSyncSDK
 
 struct Stream {
 	let name: String
+	// Note: This is the application user ID, not FB
 	let hostID: String
 	let csyncPath: String
 	
