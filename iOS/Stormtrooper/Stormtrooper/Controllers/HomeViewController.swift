@@ -11,8 +11,6 @@ import Foundation
 
 class HomeViewController: UIViewController {
 	@IBOutlet weak var streamsTableView: UITableView!
-
-    var hasShownLogin = false
 	
 	fileprivate let viewModel = HomeViewModel()
     
@@ -24,11 +22,7 @@ class HomeViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        //show login once for now
-        //TODO: save logged in state
-        if !hasShownLogin {
-            self.displayLoginIfNeeded()
-        }
+        displayLoginIfNeeded()
 		viewModel.refreshStreams { error, streams in
 			self.streamsTableView.reloadData()
 		}
@@ -48,13 +42,15 @@ class HomeViewController: UIViewController {
     
     
     private func displayLoginIfNeeded() {
-        guard let loginVC = Utils.vcWithNameFromStoryboardWithName("login", storyboardName: "Main") as? LoginViewController else {
-            return
+        if let _ = FacebookDataManager.sharedInstance.profile { //logged in
         }
-        self.present(loginVC, animated: true, completion: { _ in
-            self.hasShownLogin = true
-        })
-        
+        else { //if nil, not logged in, show login
+            guard let loginVC = Utils.vcWithNameFromStoryboardWithName("login", storyboardName: "Main") as? LoginViewController else {
+                return
+            }
+            self.present(loginVC, animated: true, completion: { _ in
+            })
+        }
     }
     
     @IBAction func settingsTapped(_ sender: Any) {
