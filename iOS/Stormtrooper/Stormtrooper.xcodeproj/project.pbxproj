@@ -516,7 +516,7 @@
 					34DA46AE1DE61FC600E989A9 = {
 						CreatedOnToolsVersion = 8.1;
 						DevelopmentTeam = PETKK2G752;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 0;
@@ -817,8 +817,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ibm.cloud.stormtrooper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "a1f0bce2-ba52-4f43-8c50-619d282b2ded";
+				PROVISIONING_PROFILE_SPECIFIER = "IBM Cloud Stormtrooper - Dev Profile";
 				SWIFT_OBJC_BRIDGING_HEADER = "Stormtrooper/SupportingFiles/Stormtrooper-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
@@ -840,6 +840,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ibm.cloud.stormtrooper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "a1f0bce2-ba52-4f43-8c50-619d282b2ded";
+				PROVISIONING_PROFILE_SPECIFIER = "IBM Cloud Stormtrooper - Dev Profile";
 				SWIFT_OBJC_BRIDGING_HEADER = "Stormtrooper/SupportingFiles/Stormtrooper-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
