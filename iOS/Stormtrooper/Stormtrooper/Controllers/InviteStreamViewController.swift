@@ -34,7 +34,7 @@ class InviteStreamViewController: UIViewController {
     }
     */
     @IBAction func doneTapped(_ sender: Any) {
-        guard let streamVC = Utils.vcWithNameFromStoryboardWithName("stream", storyboardName: "Main") as? StreamViewController else {
+        guard let streamVC = Utils.vcWithNameFromStoryboardWithName("stream", storyboardName: "Stream") as? StreamViewController else {
             return
         }
 		streamVC.streamName = streamName

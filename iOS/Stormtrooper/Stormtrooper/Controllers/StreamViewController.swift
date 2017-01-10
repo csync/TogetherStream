@@ -100,7 +100,7 @@ class StreamViewController: UIViewController {
     }
 
     @IBAction func addToStreamTapped(_ sender: Any) {
-        guard let addVideosVC = Utils.vcWithNameFromStoryboardWithName("addVideos", storyboardName: "Main") as? AddVideosViewController else {
+        guard let addVideosVC = Utils.vcWithNameFromStoryboardWithName("addVideos", storyboardName: "AddVideos") as? AddVideosViewController else {
             return
         }
         self.present(addVideosVC, animated: true, completion: nil)
