@@ -16,6 +16,7 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+		YouTubeDataManager.sharedInstance.getTitleForVideo(withID: "VGfn-NFMrXg") {_,_ in}
         // Do any additional setup after loading the view, typically from a nib.
     }
     
@@ -85,6 +86,13 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 		cell.streamNameLabel.text = stream.name
 		stream.listenForCurrentVideo {[unowned self] error, videoID in
 			if let videoID = videoID {
+				self.viewModel.getTitleForVideo(withID: videoID) {error, title in
+					if let title = title {
+						DispatchQueue.main.async {
+							cell.videoTitleLabel.text = title
+						}
+					}
+				}
 				self.viewModel.getThumbnailForVideo(withID: videoID) {error, thumbnail in
 					if let thumbnail = thumbnail {
 						DispatchQueue.main.async {

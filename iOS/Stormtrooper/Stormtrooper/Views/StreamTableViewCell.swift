@@ -13,6 +13,7 @@ class StreamTableViewCell: UITableViewCell {
 	@IBOutlet weak var streamNameLabel: UILabel!
 	@IBOutlet weak var hostNameLabel: UILabel!
 	@IBOutlet weak var currentVideoThumbnailImageView: UIImageView!
+	@IBOutlet weak var videoTitleLabel: UILabel!
 
     override func awakeFromNib() {
         super.awakeFromNib()

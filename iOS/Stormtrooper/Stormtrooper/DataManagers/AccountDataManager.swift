@@ -153,7 +153,7 @@ class AccountDataManager {
 			return
 		}
 		let task = urlSession.dataTask(with: url) {data, response, error in
-			guard let data = data, error != nil else {
+			guard let data = data, error == nil else {
 				callback(error)
 				return
 			}
