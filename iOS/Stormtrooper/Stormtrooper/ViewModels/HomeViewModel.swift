@@ -16,6 +16,10 @@ class HomeViewModel {
 	private let youtubeDataManager = YouTubeDataManager.sharedInstance
 	
 	func refreshStreams(callback: @escaping (Error?, [Stream]?) -> Void) {
+//		let stream = Stream(jsonDictionary: ["user_id" : "123", "csync_path": "streams.10153854936447000", "stream_name": "Test"])
+//		streams = [stream!]
+//		callback(nil, streams)
+//		return
 		accountDataManager.retrieveInvites {[weak self] error, streams in
 			if let error = error {
 				callback(error, nil)
