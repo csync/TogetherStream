@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="3ka-qo-nCZ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="3ka-qo-nCZ">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -418,13 +418,21 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="17S-v1-AEE">
+                                                    <rect key="frame" x="8" y="98" width="42" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstAttribute="leadingMargin" secondItem="17S-v1-AEE" secondAttribute="leading" id="4wc-ME-m4q"/>
                                                 <constraint firstItem="BMo-jk-qez" firstAttribute="bottom" secondItem="VXh-Ld-6tb" secondAttribute="bottomMargin" id="74o-Vi-0EV"/>
                                                 <constraint firstItem="BMo-jk-qez" firstAttribute="leading" secondItem="und-bC-AaW" secondAttribute="leading" id="Bzh-Rx-sfr"/>
                                                 <constraint firstItem="E1p-Q9-YaO" firstAttribute="top" secondItem="B8M-ti-Sdt" secondAttribute="bottom" constant="3" id="KmV-b7-cCd"/>
                                                 <constraint firstItem="und-bC-AaW" firstAttribute="top" secondItem="VXh-Ld-6tb" secondAttribute="topMargin" id="Lmi-nH-Oa1"/>
                                                 <constraint firstItem="BMo-jk-qez" firstAttribute="top" secondItem="und-bC-AaW" secondAttribute="bottom" constant="8" symbolic="YES" id="S06-x4-eYg"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="17S-v1-AEE" secondAttribute="bottom" constant="0.5" id="Wen-dX-b1g"/>
                                                 <constraint firstItem="B8M-ti-Sdt" firstAttribute="leading" secondItem="und-bC-AaW" secondAttribute="trailing" constant="8" id="b1S-DJ-GXA"/>
                                                 <constraint firstItem="und-bC-AaW" firstAttribute="leading" secondItem="VXh-Ld-6tb" secondAttribute="leadingMargin" id="iNt-bd-vDF"/>
                                                 <constraint firstItem="E1p-Q9-YaO" firstAttribute="leading" secondItem="und-bC-AaW" secondAttribute="trailing" constant="8" id="jgq-OE-nQL"/>
@@ -437,6 +445,7 @@
                                             <outlet property="hostNameLabel" destination="E1p-Q9-YaO" id="6ar-KD-cGX"/>
                                             <outlet property="profileImageView" destination="und-bC-AaW" id="sSj-Xw-944"/>
                                             <outlet property="streamNameLabel" destination="B8M-ti-Sdt" id="rK4-ew-u4S"/>
+                                            <outlet property="videoTitleLabel" destination="17S-v1-AEE" id="Axb-1Q-RtX"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -466,7 +475,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="d4f-rg-AST" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1541.25" y="31.690140845070424"/>
+            <point key="canvasLocation" x="1540" y="31.03448275862069"/>
         </scene>
         <!--Main Navigation Controller-->
         <scene sceneID="gWR-xo-do2">
