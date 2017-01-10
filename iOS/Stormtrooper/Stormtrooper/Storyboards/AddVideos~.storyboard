@@ -41,7 +41,7 @@
                                 <constraints>
                                     <constraint firstAttribute="width" constant="66" id="baj-oV-z48"/>
                                 </constraints>
-                                <state key="normal" title="Profile"/>
+                                <state key="normal" title="Settings"/>
                                 <connections>
                                     <action selector="settingsTapped:" destination="Moa-Ve-qFV" eventType="touchUpInside" id="B5p-AK-YPz"/>
                                 </connections>
@@ -155,6 +155,63 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HM8-ZR-E87" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="803" y="32"/>
+        </scene>
+        <!--Add Videos View Controller-->
+        <scene sceneID="MJG-wb-zSc">
+            <objects>
+                <viewController storyboardIdentifier="addVideos" useStoryboardIdentifierAsRestorationIdentifier="YES" id="hAC-JX-Bvz" customClass="AddVideosViewController" customModule="Stormtrooper" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="4E9-rL-QPP"/>
+                        <viewControllerLayoutGuide type="bottom" id="XDw-Ej-px8"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="1yX-4Y-uzS">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QbR-yf-g0O">
+                                <rect key="frame" x="0.0" y="602" width="375" height="65"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="65" id="F15-T8-Bl0"/>
+                                </constraints>
+                                <state key="normal" title="DONE">
+                                    <color key="titleColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </state>
+                                <connections>
+                                    <action selector="doneTapped:" destination="hAC-JX-Bvz" eventType="touchUpInside" id="YFw-xc-wlg"/>
+                                    <action selector="startStreamTapped:" destination="Moa-Ve-qFV" eventType="touchUpInside" id="4yR-f4-cDQ"/>
+                                </connections>
+                            </button>
+                            <searchBar contentMode="redraw" placeholder="Search for a video" translatesAutoresizingMaskIntoConstraints="NO" id="qyZ-Hg-N4X">
+                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="search"/>
+                            </searchBar>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kg6-OU-1q4">
+                                <rect key="frame" x="124" y="99" width="72" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Trending"/>
+                                <connections>
+                                    <action selector="trendingTapped:" destination="hAC-JX-Bvz" eventType="touchUpInside" id="vvw-lo-HtE"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.90823972230000005" green="0.92638683320000004" blue="0.93171715740000005" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="QbR-yf-g0O" firstAttribute="width" secondItem="1yX-4Y-uzS" secondAttribute="width" id="2NI-uc-Ty1"/>
+                            <constraint firstItem="qyZ-Hg-N4X" firstAttribute="centerX" secondItem="1yX-4Y-uzS" secondAttribute="centerX" id="8oz-A4-VOW"/>
+                            <constraint firstItem="QbR-yf-g0O" firstAttribute="centerX" secondItem="1yX-4Y-uzS" secondAttribute="centerX" id="HmM-RQ-S2Y"/>
+                            <constraint firstItem="qyZ-Hg-N4X" firstAttribute="top" secondItem="4E9-rL-QPP" secondAttribute="bottom" id="K2G-9F-y0k"/>
+                            <constraint firstItem="XDw-Ej-px8" firstAttribute="top" secondItem="QbR-yf-g0O" secondAttribute="bottom" id="p63-Ws-ZfO"/>
+                            <constraint firstItem="qyZ-Hg-N4X" firstAttribute="width" secondItem="1yX-4Y-uzS" secondAttribute="width" id="yf8-0t-QUP"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="searchBar" destination="qyZ-Hg-N4X" id="C2x-Ui-gc9"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Q67-0q-lHt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4860" y="745.77464788732391"/>
         </scene>
     </scenes>
 </document>

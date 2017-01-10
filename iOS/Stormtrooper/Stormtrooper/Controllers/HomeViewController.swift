@@ -45,7 +45,7 @@ class HomeViewController: UIViewController {
         if let _ = FacebookDataManager.sharedInstance.profile { //logged in
         }
         else { //if nil, not logged in, show login
-            guard let loginVC = Utils.vcWithNameFromStoryboardWithName("login", storyboardName: "Main") as? LoginViewController else {
+            guard let loginVC = Utils.vcWithNameFromStoryboardWithName("login", storyboardName: "Login") as? LoginViewController else {
                 return
             }
             self.present(loginVC, animated: true, completion: { _ in
@@ -54,7 +54,7 @@ class HomeViewController: UIViewController {
     }
     
     @IBAction func settingsTapped(_ sender: Any) {
-        guard let settingsVC = Utils.vcWithNameFromStoryboardWithName("settings", storyboardName: "Main") as? SettingsViewController else {
+        guard let settingsVC = Utils.vcWithNameFromStoryboardWithName("profile", storyboardName: "Profile") as? ProfileViewController else {
             return
         }
         self.present(settingsVC, animated: true, completion: { _ in
@@ -63,7 +63,7 @@ class HomeViewController: UIViewController {
     }
 
     @IBAction func startStreamTapped(_ sender: Any) {
-        guard let nameStreamVC = Utils.vcWithNameFromStoryboardWithName("nameStream", storyboardName: "Main") as? NameStreamViewController else {
+        guard let nameStreamVC = Utils.vcWithNameFromStoryboardWithName("nameStream", storyboardName: "NameStream") as? NameStreamViewController else {
             return
         }
         nameStreamVC.navigationItem.title = "New Stream"

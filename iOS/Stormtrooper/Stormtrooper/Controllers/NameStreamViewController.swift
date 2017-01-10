@@ -34,7 +34,7 @@ class NameStreamViewController: UIViewController {
     }
     */
     @IBAction func skipToStreamTapped(_ sender: Any) {
-        guard let streamVC = Utils.vcWithNameFromStoryboardWithName("stream", storyboardName: "Main") as? StreamViewController else {
+        guard let streamVC = Utils.vcWithNameFromStoryboardWithName("stream", storyboardName: "Stream") as? StreamViewController else {
             return
         }
 		streamVC.streamName = nameTextField.text
@@ -44,7 +44,7 @@ class NameStreamViewController: UIViewController {
     }
     
     @IBAction func addVideosTapped(_ sender: Any) {
-        guard let addVideosVC = Utils.vcWithNameFromStoryboardWithName("addVideos", storyboardName: "Main") as? AddVideosViewController else {
+        guard let addVideosVC = Utils.vcWithNameFromStoryboardWithName("addVideos", storyboardName: "AddVideos") as? AddVideosViewController else {
             return
         }
 		addVideosVC.streamName = nameTextField.text
