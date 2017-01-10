@@ -33,8 +33,7 @@ class YouTubeDataManager {
 			callback(ServerError.cannotFormURL, nil)
 			return
 		}
-		let session = URLSession.shared
-		let task = session.dataTask(with: url) {data, response, error in
+		let task = URLSession.shared.dataTask(with: url) {data, response, error in
 			guard let data = data, error == nil else {
 				callback(error, nil)
 				return
@@ -52,6 +51,50 @@ class YouTubeDataManager {
 			catch {
 				callback(error, nil)
 			}
+		}
+		
+		task.resume()
+	}
+	
+	func fetchTrendingVideos(callback: @escaping (Error?, String?) -> Void) {
+		guard let apiKey = apiKey, let url = URL(string: "https://www.googleapis.com/youtube/v3/videos?chart=mostPopular&part=snippet&maxResults=5&videoEmbeddable=true&videoSyndicated=true&key=\(apiKey)") else {
+			callback(ServerError.cannotFormURL, nil)
+			return
+		}
+		let task = URLSession.shared.dataTask(with: url) {data, response, error in
+			
+			guard let data = data, error == nil else {
+				callback(error, nil)
+				return
+			}
+			
+			//TODO: replace with model object creation
+			//TODO: filter out restricted/premium videos from the popular video list
+			let json = try! JSONSerialization.jsonObject(with: data, options: [])
+			print(json)
+		}
+		
+		task.resume()
+	}
+	
+	func searchForVideos(withQuery query: String, callback: @escaping (Error?, String?) -> Void) {
+		//need to replace spaces with "+"
+		let spaceFreeQuery = query.replacingOccurrences(of: " ", with: "+")
+		
+		guard let apiKey = apiKey, let url = URL(string: "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&q=\(spaceFreeQuery)&type=video&videoEmbeddable=true&videoSyndicated=true&key=\(apiKey)") else {
+			callback(ServerError.cannotFormURL, nil)
+			return
+		}
+		let task = URLSession.shared.dataTask(with: url) {data, response, error in
+			
+			guard let data = data, error == nil else {
+				callback(error, nil)
+				return
+			}
+			
+			//TODO: replace with model object creation
+			let json = try! JSONSerialization.jsonObject(with: data, options: [])
+			print(json)
 		}
 		
 		task.resume()
