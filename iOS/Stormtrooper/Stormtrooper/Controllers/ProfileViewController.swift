@@ -1,5 +1,5 @@
 //
-//  SettingsViewController.swift
+//  ProfileViewController.swift
 //  Stormtrooper
 //
 //  Created by Nathan Hekman on 11/23/16.
@@ -10,7 +10,7 @@ import UIKit
 import FBSDKLoginKit
 
 
-class SettingsViewController: UIViewController {
+class ProfileViewController: UIViewController {
 	@IBOutlet weak var facebookLoginButton: FBSDKLoginButton!
 	let facebookDataManager = FacebookDataManager.sharedInstance
 

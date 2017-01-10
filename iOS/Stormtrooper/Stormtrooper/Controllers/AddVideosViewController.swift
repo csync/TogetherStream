@@ -32,7 +32,7 @@ class AddVideosViewController: UIViewController {
     }
 	
     @IBAction func doneTapped(_ sender: Any) {
-		guard let inviteVC = Utils.vcWithNameFromStoryboardWithName("inviteStream", storyboardName: "Main") as? InviteStreamViewController else {
+		guard let inviteVC = Utils.vcWithNameFromStoryboardWithName("inviteStream", storyboardName: "InviteStream") as? InviteStreamViewController else {
 			return
 		}
 		inviteVC.streamName = streamName

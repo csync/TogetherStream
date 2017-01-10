@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Name Stream View Controller-->
+        <scene sceneID="Edf-Fx-hO2">
+            <objects>
+                <viewController storyboardIdentifier="nameStream" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Mx7-Sk-Jgf" customClass="NameStreamViewController" customModule="Stormtrooper" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="vQ3-t6-piw"/>
+                        <viewControllerLayoutGuide type="bottom" id="Jkz-tx-zeR"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Fuz-bi-iqW">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Name your Stream" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Mgl-N8-G1e">
+                                <rect key="frame" x="33" y="83" width="309" height="30"/>
+                                <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="xxQ-AH-WZH"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="4"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Description (optional)" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mMX-wD-bgK">
+                                <rect key="frame" x="33" y="148" width="309" height="149"/>
+                                <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="149" id="e6w-03-zrF"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="4"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hmi-3k-jaa">
+                                <rect key="frame" x="137" y="305" width="101" height="30"/>
+                                <state key="normal" title="Skip to Stream"/>
+                                <connections>
+                                    <action selector="skipToStreamTapped:" destination="Mx7-Sk-Jgf" eventType="touchUpInside" id="BlT-zZ-yEj"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5MU-lf-j6G">
+                                <rect key="frame" x="0.0" y="343" width="375" height="65"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="65" id="csC-tu-bmh"/>
+                                </constraints>
+                                <state key="normal" title="ADD VIDEOS">
+                                    <color key="titleColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </state>
+                                <connections>
+                                    <action selector="addVideosTapped:" destination="Mx7-Sk-Jgf" eventType="touchUpInside" id="ysb-uh-Iny"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.90823972230000005" green="0.92638683320000004" blue="0.93171715740000005" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="mMX-wD-bgK" firstAttribute="top" secondItem="Mgl-N8-G1e" secondAttribute="bottom" constant="35" id="1rp-ls-d0j"/>
+                            <constraint firstItem="5MU-lf-j6G" firstAttribute="top" secondItem="Hmi-3k-jaa" secondAttribute="bottom" constant="8" id="3P7-19-lzB"/>
+                            <constraint firstItem="5MU-lf-j6G" firstAttribute="centerX" secondItem="Fuz-bi-iqW" secondAttribute="centerX" id="BjC-wP-yJJ"/>
+                            <constraint firstItem="Mgl-N8-G1e" firstAttribute="leading" secondItem="Fuz-bi-iqW" secondAttribute="leadingMargin" constant="17" id="G3B-nB-hLI"/>
+                            <constraint firstItem="Mgl-N8-G1e" firstAttribute="top" secondItem="vQ3-t6-piw" secondAttribute="bottom" constant="63" id="Hrq-ur-l59"/>
+                            <constraint firstItem="mMX-wD-bgK" firstAttribute="leading" secondItem="Fuz-bi-iqW" secondAttribute="leadingMargin" constant="17" id="KIw-nk-AjC"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Mgl-N8-G1e" secondAttribute="trailing" constant="17" id="mix-dr-6ka"/>
+                            <constraint firstItem="5MU-lf-j6G" firstAttribute="width" secondItem="Fuz-bi-iqW" secondAttribute="width" id="oAW-Iv-p0N"/>
+                            <constraint firstItem="Hmi-3k-jaa" firstAttribute="centerX" secondItem="Fuz-bi-iqW" secondAttribute="centerX" id="oi4-C5-GXY"/>
+                            <constraint firstItem="Hmi-3k-jaa" firstAttribute="top" secondItem="mMX-wD-bgK" secondAttribute="bottom" constant="8" id="p14-wU-DCY"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="mMX-wD-bgK" secondAttribute="trailing" constant="17" id="vkb-pE-W0M"/>
+                        </constraints>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4_7.fullscreen"/>
+                    <connections>
+                        <outlet property="nameTextField" destination="Mgl-N8-G1e" id="s67-4b-N8l"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fJF-25-AgS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2261.25" y="745.77464788732391"/>
+        </scene>
+    </scenes>
+</document>

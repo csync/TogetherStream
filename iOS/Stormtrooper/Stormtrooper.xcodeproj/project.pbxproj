@@ -10,6 +10,12 @@
 		3419A1F81DF8837E00A11D53 /* NameStreamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3419A1F71DF8837E00A11D53 /* NameStreamViewController.swift */; };
 		3419A1FA1DF8839100A11D53 /* InviteStreamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3419A1F91DF8839100A11D53 /* InviteStreamViewController.swift */; };
 		3419A1FC1DF883AF00A11D53 /* MainNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3419A1FB1DF883AF00A11D53 /* MainNavigationController.swift */; };
+		34AB45881E259A63000730DC /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 34AB45871E259A63000730DC /* Login.storyboard */; };
+		34AB458A1E259B67000730DC /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 34AB45891E259B67000730DC /* Profile.storyboard */; };
+		34AB458C1E259BDD000730DC /* NameStream.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 34AB458B1E259BDD000730DC /* NameStream.storyboard */; };
+		34AB458E1E259BFE000730DC /* InviteStream.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 34AB458D1E259BFE000730DC /* InviteStream.storyboard */; };
+		34AB45901E259C15000730DC /* Stream.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 34AB458F1E259C15000730DC /* Stream.storyboard */; };
+		34AB45921E259C29000730DC /* AddVideos.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 34AB45911E259C29000730DC /* AddVideos.storyboard */; };
 		34AD4BFB1E20400E00210F61 /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 34AD4BE51E20400E00210F61 /* LICENSE.txt */; };
 		34AD4BFC1E20400E00210F61 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 34AD4BE61E20400E00210F61 /* OpenSans-Bold.ttf */; };
 		34AD4BFD1E20400E00210F61 /* OpenSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 34AD4BE71E20400E00210F61 /* OpenSans-BoldItalic.ttf */; };
@@ -35,7 +41,7 @@
 		34C6E5331DF23D4600EB4972 /* StreamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C6E5321DF23D4600EB4972 /* StreamViewController.swift */; };
 		34C6E5371DF23DBC00EB4972 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C6E5341DF23DBC00EB4972 /* HomeViewController.swift */; };
 		34C6E5381DF23DBC00EB4972 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C6E5351DF23DBC00EB4972 /* LoginViewController.swift */; };
-		34C6E5391DF23DBC00EB4972 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C6E5361DF23DBC00EB4972 /* SettingsViewController.swift */; };
+		34C6E5391DF23DBC00EB4972 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C6E5361DF23DBC00EB4972 /* ProfileViewController.swift */; };
 		34DA46B31DE61FC600E989A9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34DA46B21DE61FC600E989A9 /* AppDelegate.swift */; };
 		34DA46BA1DE61FC600E989A9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 34DA46B91DE61FC600E989A9 /* Assets.xcassets */; };
 		34DA46C81DE61FC600E989A9 /* StormtrooperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34DA46C71DE61FC600E989A9 /* StormtrooperTests.swift */; };
@@ -101,6 +107,12 @@
 		3419A1F71DF8837E00A11D53 /* NameStreamViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NameStreamViewController.swift; sourceTree = "<group>"; };
 		3419A1F91DF8839100A11D53 /* InviteStreamViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InviteStreamViewController.swift; sourceTree = "<group>"; };
 		3419A1FB1DF883AF00A11D53 /* MainNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainNavigationController.swift; sourceTree = "<group>"; };
+		34AB45871E259A63000730DC /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
+		34AB45891E259B67000730DC /* Profile.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
+		34AB458B1E259BDD000730DC /* NameStream.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = NameStream.storyboard; sourceTree = "<group>"; };
+		34AB458D1E259BFE000730DC /* InviteStream.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = InviteStream.storyboard; sourceTree = "<group>"; };
+		34AB458F1E259C15000730DC /* Stream.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Stream.storyboard; sourceTree = "<group>"; };
+		34AB45911E259C29000730DC /* AddVideos.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = AddVideos.storyboard; sourceTree = "<group>"; };
 		34AD4BE51E20400E00210F61 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		34AD4BE61E20400E00210F61 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
 		34AD4BE71E20400E00210F61 /* OpenSans-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-BoldItalic.ttf"; sourceTree = "<group>"; };
@@ -127,7 +139,7 @@
 		34C6E5321DF23D4600EB4972 /* StreamViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamViewController.swift; sourceTree = "<group>"; };
 		34C6E5341DF23DBC00EB4972 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		34C6E5351DF23DBC00EB4972 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		34C6E5361DF23DBC00EB4972 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		34C6E5361DF23DBC00EB4972 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		34DA46AF1DE61FC600E989A9 /* Stormtrooper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Stormtrooper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		34DA46B21DE61FC600E989A9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		34DA46B91DE61FC600E989A9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -300,6 +312,7 @@
 				34DA46B91DE61FC600E989A9 /* Assets.xcassets */,
 				34C6E52D1DF21B8600EB4972 /* Configuration */,
 				34DA46E01DECA2E500E989A9 /* Controllers */,
+				34DA47091DECA2E500E989A9 /* ViewModels */,
 				34DA46E21DECA2E500E989A9 /* DataManagers */,
 				34DA46E51DECA2E500E989A9 /* Extensions */,
 				34DA46F21DECA2E500E989A9 /* ExternalLibraries */,
@@ -307,7 +320,6 @@
 				34DA46F91DECA2E500E989A9 /* Storyboards */,
 				34DA47031DECA2E500E989A9 /* SupportingFiles */,
 				34DA47061DECA2E500E989A9 /* Utilities */,
-				34DA47091DECA2E500E989A9 /* ViewModels */,
 				34DA470C1DECA2E500E989A9 /* Views */,
 				34AD4BB61E203CE800210F61 /* Resources */,
 			);
@@ -338,11 +350,11 @@
 				3419A1FB1DF883AF00A11D53 /* MainNavigationController.swift */,
 				34C6E5341DF23DBC00EB4972 /* HomeViewController.swift */,
 				34C6E5351DF23DBC00EB4972 /* LoginViewController.swift */,
-				34C6E5361DF23DBC00EB4972 /* SettingsViewController.swift */,
-				34C6E5321DF23D4600EB4972 /* StreamViewController.swift */,
 				3419A1F71DF8837E00A11D53 /* NameStreamViewController.swift */,
-				3419A1F91DF8839100A11D53 /* InviteStreamViewController.swift */,
 				34E57BE51DFB0B6800C8BAEA /* AddVideosViewController.swift */,
+				3419A1F91DF8839100A11D53 /* InviteStreamViewController.swift */,
+				34C6E5321DF23D4600EB4972 /* StreamViewController.swift */,
+				34C6E5361DF23DBC00EB4972 /* ProfileViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -406,6 +418,12 @@
 			children = (
 				34DA472D1DECA31300E989A9 /* LaunchScreen.storyboard */,
 				34DA472E1DECA31300E989A9 /* Main.storyboard */,
+				34AB45871E259A63000730DC /* Login.storyboard */,
+				34AB458B1E259BDD000730DC /* NameStream.storyboard */,
+				34AB45911E259C29000730DC /* AddVideos.storyboard */,
+				34AB458D1E259BFE000730DC /* InviteStream.storyboard */,
+				34AB458F1E259C15000730DC /* Stream.storyboard */,
+				34AB45891E259B67000730DC /* Profile.storyboard */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -585,7 +603,9 @@
 				34AD4C081E20400E00210F61 /* WorkSans-Bold.ttf in Resources */,
 				34AD4C0B1E20400E00210F61 /* WorkSans-Light.ttf in Resources */,
 				34AD4BFC1E20400E00210F61 /* OpenSans-Bold.ttf in Resources */,
+				34AB458C1E259BDD000730DC /* NameStream.storyboard in Resources */,
 				34AD4BFE1E20400E00210F61 /* OpenSans-ExtraBold.ttf in Resources */,
+				34AB45901E259C15000730DC /* Stream.storyboard in Resources */,
 				34AD4C0A1E20400E00210F61 /* WorkSans-ExtraLight.ttf in Resources */,
 				34DA473C1DEDEFA000E989A9 /* Assets.bundle in Resources */,
 				34AD4C0F1E20400E00210F61 /* WorkSans-Thin.ttf in Resources */,
@@ -594,6 +614,8 @@
 				34AD4C0C1E20400E00210F61 /* WorkSans-Medium.ttf in Resources */,
 				34AD4C011E20400E00210F61 /* OpenSans-Light.ttf in Resources */,
 				34C6E5311DF21BAD00EB4972 /* keys.plist in Resources */,
+				34AB45881E259A63000730DC /* Login.storyboard in Resources */,
+				34AB458E1E259BFE000730DC /* InviteStream.storyboard in Resources */,
 				34AD4C0D1E20400E00210F61 /* WorkSans-Regular.ttf in Resources */,
 				34DA47301DECA31300E989A9 /* Main.storyboard in Resources */,
 				34AD4C041E20400E00210F61 /* OpenSans-Semibold.ttf in Resources */,
@@ -602,6 +624,8 @@
 				34AD4C031E20400E00210F61 /* OpenSans-Regular.ttf in Resources */,
 				34AD4BFD1E20400E00210F61 /* OpenSans-BoldItalic.ttf in Resources */,
 				34AD4C021E20400E00210F61 /* OpenSans-LightItalic.ttf in Resources */,
+				34AB458A1E259B67000730DC /* Profile.storyboard in Resources */,
+				34AB45921E259C29000730DC /* AddVideos.storyboard in Resources */,
 				34DA472F1DECA31300E989A9 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -670,7 +694,7 @@
 				34DA47141DECA2E600E989A9 /* UIImageExtension.swift in Sources */,
 				34DA47151DECA2E600E989A9 /* UILabelExtension.swift in Sources */,
 				34DA47271DECA2E600E989A9 /* Utils.swift in Sources */,
-				34C6E5391DF23DBC00EB4972 /* SettingsViewController.swift in Sources */,
+				34C6E5391DF23DBC00EB4972 /* ProfileViewController.swift in Sources */,
 				A2A436111DFB3D7F008C2FB2 /* CSyncDataManager.swift in Sources */,
 				34DA47161DECA2E600E989A9 /* UIViewControllerExtension.swift in Sources */,
 				34E57BE61DFB0B6800C8BAEA /* AddVideosViewController.swift in Sources */,
