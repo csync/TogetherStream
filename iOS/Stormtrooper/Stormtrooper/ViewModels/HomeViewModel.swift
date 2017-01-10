@@ -13,6 +13,7 @@ class HomeViewModel {
 	var streams: [Stream] = []
 	
 	private let accountDataManager = AccountDataManager.sharedInstance
+	private let youtubeDataManager = YouTubeDataManager.sharedInstance
 	
 	func refreshStreams(callback: @escaping (Error?, [Stream]?) -> Void) {
 		accountDataManager.retrieveInvites {[weak self] error, streams in
@@ -32,19 +33,12 @@ class HomeViewModel {
 		}
 	}
 	
+	func getTitleForVideo(withID id: String, callback: @escaping (Error?, String?) -> Void) {
+		youtubeDataManager.getTitleForVideo(withID: id, callback: callback)
+	}
+	
 	func getThumbnailForVideo(withID id: String, callback: @escaping (Error?, UIImage?) -> Void) {
-		guard let url = URL(string: "https://img.youtube.com/vi/\(id)/hqdefault.jpg") else {
-			callback(ServerError.cannotFormURL, nil)
-			return
-		}
-		let task = URLSession.shared.dataTask(with: url) {data, response, error in
-			guard let data = data, let image = UIImage(data: data) else {
-				callback(ServerError.unexpectedResponse, nil)
-				return
-			}
-			callback(nil, image)
-		}
-		task.resume()
+		youtubeDataManager.getThumbnailForVideo(withID: id, callback: callback)
 	}
 	
 }
