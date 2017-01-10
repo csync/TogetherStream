@@ -85,10 +85,10 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 		cell.streamNameLabel.text = stream.name
 		stream.listenForCurrentVideo {[unowned self] error, videoID in
 			if let videoID = videoID {
-				self.viewModel.getTitleForVideo(withID: videoID) {error, title in
-					if let title = title {
+				self.viewModel.getVideo(withID: videoID) {error, video in
+					if let video = video {
 						DispatchQueue.main.async {
-							cell.videoTitleLabel.text = title
+							cell.videoTitleLabel.text = video.title
 						}
 					}
 				}

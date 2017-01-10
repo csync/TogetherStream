@@ -73,6 +73,8 @@
 		A2C1BD7F1E23FA9400F515E7 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C1BD7E1E23FA9400F515E7 /* Message.swift */; };
 		A2C1BD811E24024800F515E7 /* ParticipantsDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C1BD801E24024800F515E7 /* ParticipantsDataManager.swift */; };
 		A2D44DAC1E253D4C00053099 /* YouTubeDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D44DAB1E253D4C00053099 /* YouTubeDataManager.swift */; };
+		A2D44DAE1E25739300053099 /* AddVideosViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D44DAD1E25739300053099 /* AddVideosViewModel.swift */; };
+		A2D44DB01E25754C00053099 /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D44DAF1E25754C00053099 /* Video.swift */; };
 		A2F714731DF1F34300BC7335 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2F714721DF1F34300BC7335 /* FBSDKLoginKit.framework */; };
 		A2F714751DF1F39E00BC7335 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2F714741DF1F39E00BC7335 /* Bolts.framework */; };
 		A2F714771DF1F51400BC7335 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2F714761DF1F51400BC7335 /* FBSDKCoreKit.framework */; };
@@ -169,6 +171,8 @@
 		A2C1BD7E1E23FA9400F515E7 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		A2C1BD801E24024800F515E7 /* ParticipantsDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticipantsDataManager.swift; sourceTree = "<group>"; };
 		A2D44DAB1E253D4C00053099 /* YouTubeDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YouTubeDataManager.swift; sourceTree = "<group>"; };
+		A2D44DAD1E25739300053099 /* AddVideosViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddVideosViewModel.swift; sourceTree = "<group>"; };
+		A2D44DAF1E25754C00053099 /* Video.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
 		A2F714721DF1F34300BC7335 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		A2F714741DF1F39E00BC7335 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		A2F714761DF1F51400BC7335 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
@@ -392,6 +396,7 @@
 				A25D96251E1D55E9008FD996 /* Stream.swift */,
 				A2C1BD7C1E23EE6C00F515E7 /* ParticipantMessage.swift */,
 				A2C1BD7E1E23FA9400F515E7 /* Message.swift */,
+				A2D44DAF1E25754C00053099 /* Video.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -426,6 +431,7 @@
 			children = (
 				A25D96231E0B16BA008FD996 /* StreamViewModel.swift */,
 				A25D962B1E1D965A008FD996 /* HomeViewModel.swift */,
+				A2D44DAD1E25739300053099 /* AddVideosViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -642,6 +648,7 @@
 			files = (
 				3419A1FC1DF883AF00A11D53 /* MainNavigationController.swift in Sources */,
 				3419A1FA1DF8839100A11D53 /* InviteStreamViewController.swift in Sources */,
+				A2D44DB01E25754C00053099 /* Video.swift in Sources */,
 				A23377A91E01DDD500E43DA0 /* HeartbeatDataManager.swift in Sources */,
 				A25D962A1E1D92EB008FD996 /* StreamTableViewCell.swift in Sources */,
 				34DA473A1DEDEF3300E989A9 /* YTPlayerView.h in Sources */,
@@ -654,6 +661,7 @@
 				34DA47121DECA2E600E989A9 /* NSAttributedStringExtension.swift in Sources */,
 				3419A1F81DF8837E00A11D53 /* NameStreamViewController.swift in Sources */,
 				A25D96221E0344B3008FD996 /* ChatMessage.swift in Sources */,
+				A2D44DAE1E25739300053099 /* AddVideosViewModel.swift in Sources */,
 				A2D44DAC1E253D4C00053099 /* YouTubeDataManager.swift in Sources */,
 				A25D96201E0341A3008FD996 /* ChatDataManager.swift in Sources */,
 				34DA47171DECA2E600E989A9 /* UIViewExtensions.swift in Sources */,

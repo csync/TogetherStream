@@ -548,12 +548,11 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="65" id="csC-tu-bmh"/>
                                 </constraints>
-                                <state key="normal" title="INVITE FRIENDS">
+                                <state key="normal" title="ADD VIDEOS">
                                     <color key="titleColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </state>
                                 <connections>
-                                    <action selector="inviteFriendsTapped:" destination="Mx7-Sk-Jgf" eventType="touchUpInside" id="tIp-ji-RFg"/>
-                                    <action selector="startStreamTapped:" destination="Moa-Ve-qFV" eventType="touchUpInside" id="eY4-Dh-QOd"/>
+                                    <action selector="addVideosTapped:" destination="Mx7-Sk-Jgf" eventType="touchUpInside" id="ysb-uh-Iny"/>
                                 </connections>
                             </button>
                         </subviews>
