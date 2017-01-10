@@ -11,15 +11,17 @@ import UIKit
 class AddVideosViewController: UIViewController {
 
     @IBOutlet weak var searchBar: UISearchBar!
+	
+	var streamName: String?
+	
+	fileprivate let viewModel = AddVideosViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupSearchBar()
     }
-    
-    
-
+	
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -27,67 +29,19 @@ class AddVideosViewController: UIViewController {
     
     private func setupSearchBar() {
         searchBar.delegate = self
-        
     }
-    
-    
-    
-    func requestTrendingVideos() {
-        guard let key = Utils.getStringValueWithKeyFromPlist("keys", key: "youtube_api_key") else {
-            return
-        }
-        let urlString = "https://www.googleapis.com/youtube/v3/videos?chart=mostPopular&part=snippet&maxResults=5&videoEmbeddable=true&videoSyndicated=true&key=" + key
-        Utils.performGetRequest(targetURLString: urlString, completion: { data, responseCode, error in
-            
-            guard error == nil else {
-                print("Error receiving videos: \(error!.localizedDescription)")
-                return
-            }
-            guard let data = data else {
-                print("Data is empty")
-                return
-            }
-            
-            //TODO: replace with model object creation
-            //TODO: filter out restricted/premium videos from the popular video list
-            let json = try! JSONSerialization.jsonObject(with: data, options: [])
-            print(json)
-        })
-    }
-    
-    
-    func searchForVideosWithString(videoString: String) {
-        guard let key = Utils.getStringValueWithKeyFromPlist("keys", key: "youtube_api_key") else {
-            return
-        }
-        
-        //need to replace spaces with "+"
-        let spaceFreeString = videoString.replacingOccurrences(of: " ", with: "+")
-        
-        let urlString = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&q=" + spaceFreeString + "&type=video&videoEmbeddable=true&videoSyndicated=true&key=" + key
-        Utils.performGetRequest(targetURLString: urlString, completion: { data, responseCode, error in
-            
-            guard error == nil else {
-                print("Error receiving videos: \(error!.localizedDescription)")
-                return
-            }
-            guard let data = data else {
-                print("Data is empty")
-                return
-            }
-            
-            //TODO: replace with model object creation
-            let json = try! JSONSerialization.jsonObject(with: data, options: [])
-            print(json)
-        })
-    }
-    
+	
     @IBAction func doneTapped(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
+		guard let inviteVC = Utils.vcWithNameFromStoryboardWithName("inviteStream", storyboardName: "Main") as? InviteStreamViewController else {
+			return
+		}
+		inviteVC.streamName = streamName
+		inviteVC.navigationItem.title = "Invite to Stream"
+		self.navigationController?.pushViewController(inviteVC, animated: true)
     }
-    
+	
     @IBAction func trendingTapped(_ sender: Any) {
-        requestTrendingVideos()
+		viewModel.fetchTrendingVideos() {_, _ in }
     }
     
 
@@ -118,7 +72,7 @@ extension AddVideosViewController: UISearchBarDelegate {
         guard let searchString = searchBar.text else {
             return
         }
-        self.searchForVideosWithString(videoString: searchString)
-        
+		viewModel.searchForVideos(withQuery: searchString) {_, _ in }
+			
     }
 }

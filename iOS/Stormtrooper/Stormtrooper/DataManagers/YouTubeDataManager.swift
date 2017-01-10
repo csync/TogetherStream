@@ -12,6 +12,7 @@ class YouTubeDataManager {
 	static let sharedInstance = YouTubeDataManager()
 	
 	private let apiKey = Utils.getStringValueWithKeyFromPlist("keys", key: "youtube_api_key")
+	private let maxSearchResults = 10
 	
 	func getThumbnailForVideo(withID id: String, callback: @escaping (Error?, UIImage?) -> Void) {
 		guard let url = URL(string: "https://img.youtube.com/vi/\(id)/hqdefault.jpg") else {
@@ -28,7 +29,7 @@ class YouTubeDataManager {
 		task.resume()
 	}
 	
-	func getTitleForVideo(withID id: String, callback: @escaping (Error?, String?) -> Void) {
+	func getVideo(withID id: String, callback: @escaping (Error?, Video?) -> Void) {
 		guard let apiKey = apiKey, let url = URL(string: "https://www.googleapis.com/youtube/v3/videos?key=\(apiKey)&part=snippet&id=\(id)") else {
 			callback(ServerError.cannotFormURL, nil)
 			return
@@ -39,14 +40,10 @@ class YouTubeDataManager {
 				return
 			}
 			do {
-				let videoInfo = try JSONSerialization.jsonObject(with: data) as? [String: Any]
-				let snippetInfo = ((videoInfo?["items"] as? [Any])?[0] as? [String: Any])?["snippet"] as? [String: Any]
-				let title = (snippetInfo?["localized"] as? [String: String])?["title"]
-				if title == nil {
-					callback(ServerError.unexpectedResponse, nil)
-					return
-				}
-				callback(nil, title)
+				let result = try JSONSerialization.jsonObject(with: data)
+				let videos = self.parseVideosResponse(result, fromSearchRequest: false)
+				let video = videos.count > 0 ? videos[0] : nil
+				callback(nil, video)
 			}
 			catch {
 				callback(error, nil)
@@ -56,8 +53,8 @@ class YouTubeDataManager {
 		task.resume()
 	}
 	
-	func fetchTrendingVideos(callback: @escaping (Error?, String?) -> Void) {
-		guard let apiKey = apiKey, let url = URL(string: "https://www.googleapis.com/youtube/v3/videos?chart=mostPopular&part=snippet&maxResults=5&videoEmbeddable=true&videoSyndicated=true&key=\(apiKey)") else {
+	func fetchTrendingVideos(callback: @escaping (Error?, [Video]?) -> Void) {
+		guard let apiKey = apiKey, let url = URL(string: "https://www.googleapis.com/youtube/v3/videos?chart=mostPopular&part=snippet&maxResults=\(maxSearchResults)&videoEmbeddable=true&videoSyndicated=true&key=\(apiKey)") else {
 			callback(ServerError.cannotFormURL, nil)
 			return
 		}
@@ -68,16 +65,21 @@ class YouTubeDataManager {
 				return
 			}
 			
-			//TODO: replace with model object creation
 			//TODO: filter out restricted/premium videos from the popular video list
-			let json = try! JSONSerialization.jsonObject(with: data, options: [])
-			print(json)
+			do {
+				let result = try JSONSerialization.jsonObject(with: data)
+				let videos = self.parseVideosResponse(result, fromSearchRequest: false)
+				callback(nil, videos)
+			}
+			catch {
+				callback(error, nil)
+			}
 		}
 		
 		task.resume()
 	}
 	
-	func searchForVideos(withQuery query: String, callback: @escaping (Error?, String?) -> Void) {
+	func searchForVideos(withQuery query: String, callback: @escaping (Error?, [Video]?) -> Void) {
 		//need to replace spaces with "+"
 		let spaceFreeQuery = query.replacingOccurrences(of: " ", with: "+")
 		
@@ -92,14 +94,37 @@ class YouTubeDataManager {
 				return
 			}
 			
-			//TODO: replace with model object creation
-			let json = try! JSONSerialization.jsonObject(with: data, options: [])
-			print(json)
+			//TODO: filter out restricted/premium videos from the popular video list
+			do {
+				let result = try JSONSerialization.jsonObject(with: data)
+				let videos = self.parseVideosResponse(result, fromSearchRequest: true)
+				callback(nil, videos)
+			}
+			catch {
+				callback(error, nil)
+			}
 		}
 		
 		task.resume()
 	}
 	
 	private init() {}
+	
+	private func parseVideosResponse(_ data: Any, fromSearchRequest: Bool) -> [Video] {
+		let data = data as? [String: Any]
+		let videosData = data?["items"] as? [[String : Any]] ?? []
+		var videos: [Video] = []
+		for videoData in videosData {
+			if fromSearchRequest {
+				if let video = Video(searchResultData: videoData) {
+					videos.append(video)
+				}
+			}
+			else if let video = Video(listVideoData: videoData) {
+				videos.append(video)
+			}
+		}
+		return videos
+	}
 
 }

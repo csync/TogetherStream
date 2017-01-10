@@ -43,13 +43,13 @@ class NameStreamViewController: UIViewController {
         self.navigationController?.pushViewController(streamVC, animated: true)
     }
     
-    @IBAction func inviteFriendsTapped(_ sender: Any) {
-        guard let inviteVC = Utils.vcWithNameFromStoryboardWithName("inviteStream", storyboardName: "Main") as? InviteStreamViewController else {
+    @IBAction func addVideosTapped(_ sender: Any) {
+        guard let addVideosVC = Utils.vcWithNameFromStoryboardWithName("addVideos", storyboardName: "Main") as? AddVideosViewController else {
             return
         }
-		inviteVC.streamName = nameTextField.text
-        inviteVC.navigationItem.title = "Invite to Stream"
-        self.navigationController?.pushViewController(inviteVC, animated: true)
+		addVideosVC.streamName = nameTextField.text
+        addVideosVC.navigationItem.title = "Add Videos"
+        self.navigationController?.pushViewController(addVideosVC, animated: true)
     }
     
 
