@@ -12,7 +12,7 @@ class YouTubeDataManager {
 	static let sharedInstance = YouTubeDataManager()
 	
 	private let apiKey = Utils.getStringValueWithKeyFromPlist("keys", key: "youtube_api_key")
-	private let maxSearchResults = 10
+	private let maxVideoResults = 10
 	
 	func getThumbnailForVideo(withID id: String, callback: @escaping (Error?, UIImage?) -> Void) {
 		guard let url = URL(string: "https://img.youtube.com/vi/\(id)/hqdefault.jpg") else {
@@ -30,7 +30,7 @@ class YouTubeDataManager {
 	}
 	
 	func getVideo(withID id: String, callback: @escaping (Error?, Video?) -> Void) {
-		guard let apiKey = apiKey, let url = URL(string: "https://www.googleapis.com/youtube/v3/videos?key=\(apiKey)&part=snippet&id=\(id)") else {
+		guard let apiKey = apiKey, let url = URL(string: "https://www.googleapis.com/youtube/v3/videos?key=\(apiKey)&part=snippet,status&id=\(id)") else {
 			callback(ServerError.cannotFormURL, nil)
 			return
 		}
@@ -54,7 +54,7 @@ class YouTubeDataManager {
 	}
 	
 	func fetchTrendingVideos(callback: @escaping (Error?, [Video]?) -> Void) {
-		guard let apiKey = apiKey, let url = URL(string: "https://www.googleapis.com/youtube/v3/videos?chart=mostPopular&part=snippet&maxResults=\(maxSearchResults)&videoEmbeddable=true&videoSyndicated=true&key=\(apiKey)") else {
+		guard let apiKey = apiKey, let url = URL(string: "https://www.googleapis.com/youtube/v3/videos?chart=mostPopular&part=snippet,status&maxResults=\(maxVideoResults)&videoEmbeddable=true&videoSyndicated=true&key=\(apiKey)") else {
 			callback(ServerError.cannotFormURL, nil)
 			return
 		}
@@ -65,7 +65,6 @@ class YouTubeDataManager {
 				return
 			}
 			
-			//TODO: filter out restricted/premium videos from the popular video list
 			do {
 				let result = try JSONSerialization.jsonObject(with: data)
 				let videos = self.parseVideosResponse(result, fromSearchRequest: false)
@@ -83,7 +82,7 @@ class YouTubeDataManager {
 		//need to replace spaces with "+"
 		let spaceFreeQuery = query.replacingOccurrences(of: " ", with: "+")
 		
-		guard let apiKey = apiKey, let url = URL(string: "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&q=\(spaceFreeQuery)&type=video&videoEmbeddable=true&videoSyndicated=true&key=\(apiKey)") else {
+		guard let apiKey = apiKey, let url = URL(string: "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=\(maxVideoResults)&q=\(spaceFreeQuery)&type=video&videoEmbeddable=true&videoSyndicated=true&key=\(apiKey)") else {
 			callback(ServerError.cannotFormURL, nil)
 			return
 		}
@@ -94,7 +93,6 @@ class YouTubeDataManager {
 				return
 			}
 			
-			//TODO: filter out restricted/premium videos from the popular video list
 			do {
 				let result = try JSONSerialization.jsonObject(with: data)
 				let videos = self.parseVideosResponse(result, fromSearchRequest: true)
