@@ -13,6 +13,8 @@ class AddVideosViewController: UIViewController {
     @IBOutlet weak var searchBar: UISearchBar!
 	
 	var streamName: String?
+    
+    var isCreatingStream = false
 	
 	fileprivate let viewModel = AddVideosViewModel()
     
@@ -20,6 +22,7 @@ class AddVideosViewController: UIViewController {
         super.viewDidLoad()
 
         setupSearchBar()
+        checkIfCreatingStream()
     }
 	
     override func didReceiveMemoryWarning() {
@@ -27,22 +30,32 @@ class AddVideosViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    private func checkIfCreatingStream() {
+        guard let _ = self.navigationController else {
+            //if inviting from stream, not in nav controller, so will dismiss when done is tapped rather than moving forward in stream creation process
+            isCreatingStream = false
+            return
+        }
+        //if navigation controller exists, user is creating stream, so push forward in flow
+        isCreatingStream = true
+    }
+    
     private func setupSearchBar() {
         searchBar.delegate = self
     }
 	
     @IBAction func doneTapped(_ sender: Any) {
-		guard let inviteVC = Utils.vcWithNameFromStoryboardWithName("inviteStream", storyboardName: "InviteStream") as? InviteStreamViewController else {
-			return
-		}
-        guard let _ = self.navigationController else {
-            //if adding videos from stream, just dismiss when done is tapped
-            self.dismiss(animated: true, completion: nil)
-            return
+        if isCreatingStream { //move to next screen in flow
+            guard let inviteVC = Utils.vcWithNameFromStoryboardWithName("inviteStream", storyboardName: "InviteStream") as? InviteStreamViewController else {
+                return
+            }
+            inviteVC.streamName = streamName
+            inviteVC.navigationItem.title = "Invite to Stream"
+            self.navigationController?.pushViewController(inviteVC, animated: true)
         }
-		inviteVC.streamName = streamName
-		inviteVC.navigationItem.title = "Invite to Stream"
-		self.navigationController?.pushViewController(inviteVC, animated: true)
+        else { //dismiss
+            self.dismiss(animated: true, completion: nil)
+        }
     }
 	
     @IBAction func trendingTapped(_ sender: Any) {
