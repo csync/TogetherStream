@@ -17,6 +17,7 @@ class StreamViewController: UIViewController {
 	@IBOutlet weak var userCountLabel: UILabel!
 	
 	var streamName: String?
+	var hostID: String?
 	
     fileprivate var isPlaying = false
 	
@@ -26,6 +27,9 @@ class StreamViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         viewModel.delegate = self
+		// TODO: Not hardcode this
+		hostID = "10153854936447000"
+		viewModel.hostID = hostID ?? ""
 		
         setupPlayerView()
         setupBarButtonItems()
@@ -159,9 +163,11 @@ extension StreamViewController: StreamViewModelDelegate {
 	func userCountChanged(toCount count: Int) {
 		userCountLabel.text = "\(count) Users"
 	}
+	
 	func recieved(message: Message, for position: Int) {
 		chatTableView.insertRows(at: [IndexPath(row: position, section: 0)], with: .automatic)
 	}
+	
 	func recievedUpdate(forCurrentVideoID currentVideoID: String) {
 		var playerID: String?
 		if let playerURL = playerView.videoUrl() {
@@ -176,6 +182,7 @@ extension StreamViewController: StreamViewModelDelegate {
 				])
 		}
 	}
+	
 	func recievedUpdate(forIsPlaying isPlaying: Bool) {
 		if isPlaying && playerView.playerState() != .playing {
 			playerView.playVideo()
@@ -184,10 +191,16 @@ extension StreamViewController: StreamViewModelDelegate {
 			playerView.pauseVideo()
 		}
 	}
+	
 	func recievedUpdate(forPlaytime playtime: Float) {
 		if abs(playtime - playerView.currentTime()) > viewModel.maximumDesyncTime {
 			playerView.seek(toSeconds: playtime, allowSeekAhead: true)
 		}
+	}
+	
+	func streamEnded() {
+		playerView.pauseVideo()
+		 // TODO: Logic for displaying end stream popup
 	}
 }
 
