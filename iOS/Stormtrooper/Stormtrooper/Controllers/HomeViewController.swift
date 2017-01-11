@@ -17,6 +17,8 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        setupBarButtonItems()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -41,6 +43,17 @@ class HomeViewController: UIViewController {
     }
     
     
+    ///Set bar button items and their actions programmatically
+    private func setupBarButtonItems() {
+        let profileButton = UIButton(type: .custom)
+        profileButton.setImage(UIImage(named: "stormtrooper_helmet"), for: .normal)
+        profileButton.frame = CGRect(x: 0, y: 0, width: 17, height: 19)
+        profileButton.addTarget(self, action: #selector(HomeViewController.profileTapped), for: .touchUpInside)
+        let item1 = UIBarButtonItem(customView: profileButton)
+        
+        self.navigationItem.setRightBarButtonItems([item1], animated: false)
+    }
+    
     private func displayLoginIfNeeded() {
         if let _ = FacebookDataManager.sharedInstance.profile { //logged in
         }
@@ -53,11 +66,11 @@ class HomeViewController: UIViewController {
         }
     }
     
-    @IBAction func settingsTapped(_ sender: Any) {
-        guard let settingsVC = Utils.vcWithNameFromStoryboardWithName("profile", storyboardName: "Profile") as? ProfileViewController else {
+    func profileTapped() {
+        guard let profileVC = Utils.vcWithNameFromStoryboardWithName("profile", storyboardName: "Profile") as? ProfileViewController else {
             return
         }
-        self.present(settingsVC, animated: true, completion: { _ in
+        self.present(profileVC, animated: true, completion: { _ in
             
         })
     }
