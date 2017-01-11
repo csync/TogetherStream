@@ -175,12 +175,14 @@ extension StreamViewController: StreamViewModelDelegate {
 			playerID = getVideoID(from: playerURL)
 		}
 		if playerView.videoUrl() == nil || currentVideoID != playerID {
-			playerView.load(withVideoId: currentVideoID, playerVars: [
-				"playsinline" : 1,
-				"modestbranding" : 1,
-				"showinfo" : 0,
-				"controls" : 0
-				])
+			DispatchQueue.main.async {
+				self.playerView.load(withVideoId: currentVideoID, playerVars: [
+					"playsinline" : 1,
+					"modestbranding" : 1,
+					"showinfo" : 0,
+					"controls" : 0,
+					])
+			}
 		}
 	}
 	
@@ -189,6 +191,12 @@ extension StreamViewController: StreamViewModelDelegate {
 			playerView.playVideo()
 		}
 		else if !isPlaying && playerView.playerState() != .paused {
+			playerView.pauseVideo()
+		}
+	}
+	
+	func recievedUpdate(forIsBuffering isBuffering: Bool) {
+		if isBuffering && playerView.playerState() == .playing {
 			playerView.pauseVideo()
 		}
 	}
@@ -239,7 +247,9 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension StreamViewController: YTPlayerViewDelegate {
     func playerView(_ playerView: YTPlayerView, didPlayTime playTime: Float) {
-		viewModel.send(currentPlayTime: playerView.currentTime())
+		if viewModel.isHost {
+			viewModel.send(currentPlayTime: playerView.currentTime())
+		}
         print("Current Time: \(playerView.currentTime()) out of \(playerView.duration()) - Video Loaded \(playerView.videoLoadedFraction() * 100)%")
     }
     
@@ -255,6 +265,9 @@ extension StreamViewController: YTPlayerViewDelegate {
         // player ready --
         // could show loading before this is called, and hide loading when this is called
         print("player ready!")
+		if !viewModel.isHost {
+			playerView.playVideo()
+		}
     }
     
 //    func playerViewPreferredInitialLoading(_ playerView: YTPlayerView) -> UIView? {
@@ -281,12 +294,17 @@ extension StreamViewController: YTPlayerViewDelegate {
         case .buffering:
 			if viewModel.isHost, let url = playerView.videoUrl(), let id = getVideoID(from: url) {
 				viewModel.send(currentVideoID: id)
+				viewModel.send(isBuffering: true)
 			}
         case .playing:
             self.playPauseButton.setTitle("⏸", for: .normal)
             self.isPlaying = true
 			if viewModel.isHost {
+				viewModel.send(isBuffering: false)
 				viewModel.send(playState: true)
+			}
+			else if !viewModel.hostPlaying {
+				playerView.pauseVideo()
 			}
             break
         case .ended:
