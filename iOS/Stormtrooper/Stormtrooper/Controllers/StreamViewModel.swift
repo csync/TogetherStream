@@ -15,17 +15,20 @@ protocol StreamViewModelDelegate: class {
 	func recievedUpdate(forCurrentVideoID currentVideoID: String) -> Void
 	func recievedUpdate(forIsPlaying isPlaying: Bool) -> Void
 	func recievedUpdate(forPlaytime playtime: Float) -> Void
+	func streamEnded() -> Void
 }
 
 class StreamViewModel {
 	
 	weak var delegate: StreamViewModelDelegate?
 	
+	var hostID = ""
+	
 	var userCount: Int {
 		return currentUserIDs.count
 	}
 	
-	var messages: [Message] = []
+	fileprivate(set) var messages: [Message] = []
 	let maximumDesyncTime: Float = 1.0
 	var isHost: Bool {
 		// TODO: not hardcode
@@ -54,14 +57,17 @@ class StreamViewModel {
 			let changedUsers = self.currentUserIDs.symmetricDifference(heartbeats)
 			self.currentUserIDs = heartbeats
 			self.delegate?.userCountChanged(toCount: self.userCount)
-			if self.isHost {
-				for userID in changedUsers {
+			for userID in changedUsers {
+				if self.isHost {
 					if heartbeats.contains(userID) {
 						self.send(participantID: userID, isJoining: true)
 					}
 					else {
 						self.send(participantID: userID, isJoining: false)
 					}
+				}
+				else if userID == self.hostID && !heartbeats.contains(userID) {
+					self.delegate?.streamEnded()
 				}
 			}
 		}
