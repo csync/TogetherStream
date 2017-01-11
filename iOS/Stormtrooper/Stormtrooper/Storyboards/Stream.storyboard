@@ -10,6 +10,17 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="OpenSans-Regular.ttf">
+            <string>OpenSans</string>
+        </array>
+        <array key="OpenSans-Semibold.ttf">
+            <string>OpenSans-Semibold</string>
+        </array>
+        <array key="WorkSans-SemiBold.ttf">
+            <string>WorkSans-SemiBold</string>
+        </array>
+    </customFonts>
     <scenes>
         <!--Stream View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -158,9 +169,6 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lt2-Nk-1YZ" customClass="YTPlayerView">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="211"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="211" id="b2a-u8-gDa"/>
-                                        </constraints>
                                     </view>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -168,14 +176,63 @@
                                     <constraint firstItem="lt2-Nk-1YZ" firstAttribute="centerY" secondItem="EzR-Jl-0IJ" secondAttribute="centerY" id="42g-fC-j8P"/>
                                     <constraint firstItem="lt2-Nk-1YZ" firstAttribute="width" secondItem="EzR-Jl-0IJ" secondAttribute="width" id="L98-QJ-P2u"/>
                                     <constraint firstItem="lt2-Nk-1YZ" firstAttribute="centerX" secondItem="EzR-Jl-0IJ" secondAttribute="centerX" id="TyD-Ea-rbR"/>
+                                    <constraint firstItem="lt2-Nk-1YZ" firstAttribute="height" secondItem="EzR-Jl-0IJ" secondAttribute="height" id="e3g-yz-2R9"/>
                                     <constraint firstAttribute="height" constant="211" id="njr-JM-xXR"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y1Z-hD-o7e">
+                                <rect key="frame" x="0.0" y="231" width="375" height="87"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CURRENTLY STREAMING" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zhP-gS-mwN">
+                                        <rect key="frame" x="10" y="13" width="160" height="18"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="18" id="3HD-92-q5B"/>
+                                            <constraint firstAttribute="width" constant="160" id="ucz-Mt-2uI"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="WorkSans-SemiBold" family="Work Sans" pointSize="12"/>
+                                        <color key="textColor" red="0.88627450980392153" green="0.27843137254901962" blue="0.043137254901960784" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Beyoncé - XO, Official Video" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oTw-lu-Z7R">
+                                        <rect key="frame" x="10" y="34" width="174" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="21" id="NWF-Dc-a8W"/>
+                                            <constraint firstAttribute="width" constant="174" id="hdf-4s-LxW"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="OpenSans-Semibold" family="Open Sans" pointSize="12"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BeyoncéOfficial – 6,785,584 views" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="knW-fA-GaK">
+                                        <rect key="frame" x="10" y="53" width="174" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="21" id="CmU-FD-BFk"/>
+                                            <constraint firstAttribute="width" constant="174" id="je2-N1-Yl3"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="11"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.16470588235294117" green="0.14901960784313725" blue="0.14901960784313725" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstItem="oTw-lu-Z7R" firstAttribute="top" secondItem="zhP-gS-mwN" secondAttribute="bottom" constant="3" id="0Ea-4c-soA"/>
+                                    <constraint firstItem="oTw-lu-Z7R" firstAttribute="leading" secondItem="Y1Z-hD-o7e" secondAttribute="leading" constant="10" id="1he-qX-igW"/>
+                                    <constraint firstItem="zhP-gS-mwN" firstAttribute="top" secondItem="Y1Z-hD-o7e" secondAttribute="top" constant="13" id="2hc-aL-co7"/>
+                                    <constraint firstAttribute="height" constant="87" id="8RW-43-RGV"/>
+                                    <constraint firstItem="knW-fA-GaK" firstAttribute="leading" secondItem="Y1Z-hD-o7e" secondAttribute="leading" constant="10" id="dSA-om-3l0"/>
+                                    <constraint firstItem="knW-fA-GaK" firstAttribute="top" secondItem="oTw-lu-Z7R" secondAttribute="bottom" constant="-2" id="eqG-Rx-xu8"/>
+                                    <constraint firstItem="zhP-gS-mwN" firstAttribute="leading" secondItem="Y1Z-hD-o7e" secondAttribute="leading" constant="10" id="lHL-Jn-8KH"/>
                                 </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="j8A-8z-cfk" firstAttribute="top" secondItem="Zah-ZU-plM" secondAttribute="bottom" constant="-1" id="0gn-OS-J2z"/>
+                            <constraint firstItem="Y1Z-hD-o7e" firstAttribute="top" secondItem="EzR-Jl-0IJ" secondAttribute="bottom" id="2AH-g0-VEZ"/>
                             <constraint firstItem="EzR-Jl-0IJ" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="5ZE-bm-gkF"/>
+                            <constraint firstItem="Y1Z-hD-o7e" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="5wf-dB-j7k"/>
+                            <constraint firstItem="Y1Z-hD-o7e" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="8Ef-mj-MDl"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="j8A-8z-cfk" secondAttribute="bottom" constant="45" id="Bb7-or-Ed1"/>
                             <constraint firstItem="j8A-8z-cfk" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="GUa-gg-f3d"/>
                             <constraint firstItem="Zah-ZU-plM" firstAttribute="top" secondItem="u6G-sD-SZi" secondAttribute="bottom" constant="8" id="Gcf-os-xXS"/>
