@@ -152,32 +152,44 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="hJI-3r-HnT"/>
                                 </connections>
                             </tableView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lt2-Nk-1YZ" customClass="YTPlayerView">
-                                <rect key="frame" x="0.0" y="20" width="375" height="226"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EzR-Jl-0IJ">
+                                <rect key="frame" x="0.0" y="20" width="375" height="211"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lt2-Nk-1YZ" customClass="YTPlayerView">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="211"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="211" id="b2a-u8-gDa"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="226" id="b2a-u8-gDa"/>
+                                    <constraint firstItem="lt2-Nk-1YZ" firstAttribute="centerY" secondItem="EzR-Jl-0IJ" secondAttribute="centerY" id="42g-fC-j8P"/>
+                                    <constraint firstItem="lt2-Nk-1YZ" firstAttribute="width" secondItem="EzR-Jl-0IJ" secondAttribute="width" id="L98-QJ-P2u"/>
+                                    <constraint firstItem="lt2-Nk-1YZ" firstAttribute="centerX" secondItem="EzR-Jl-0IJ" secondAttribute="centerX" id="TyD-Ea-rbR"/>
+                                    <constraint firstAttribute="height" constant="211" id="njr-JM-xXR"/>
                                 </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="0.90823972230000005" green="0.92638683320000004" blue="0.93171715740000005" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="lt2-Nk-1YZ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="0BT-ZX-ayr"/>
                             <constraint firstItem="j8A-8z-cfk" firstAttribute="top" secondItem="Zah-ZU-plM" secondAttribute="bottom" constant="-1" id="0gn-OS-J2z"/>
+                            <constraint firstItem="EzR-Jl-0IJ" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="5ZE-bm-gkF"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="j8A-8z-cfk" secondAttribute="bottom" constant="45" id="Bb7-or-Ed1"/>
                             <constraint firstItem="j8A-8z-cfk" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="GUa-gg-f3d"/>
                             <constraint firstItem="Zah-ZU-plM" firstAttribute="top" secondItem="u6G-sD-SZi" secondAttribute="bottom" constant="8" id="Gcf-os-xXS"/>
+                            <constraint firstItem="EzR-Jl-0IJ" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="Id9-8Y-4ns"/>
                             <constraint firstItem="yLh-6L-jBa" firstAttribute="top" secondItem="Zah-ZU-plM" secondAttribute="bottom" constant="4" id="Kbp-H0-Xxf"/>
-                            <constraint firstItem="u6G-sD-SZi" firstAttribute="top" secondItem="lt2-Nk-1YZ" secondAttribute="bottom" constant="97" id="PX2-PZ-em4"/>
+                            <constraint firstItem="g4f-7A-fEP" firstAttribute="top" secondItem="EzR-Jl-0IJ" secondAttribute="bottom" constant="67" id="MJy-bU-14f"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Zah-ZU-plM" secondAttribute="trailing" id="Vzu-lK-gVl"/>
                             <constraint firstItem="u6G-sD-SZi" firstAttribute="leading" secondItem="Zah-ZU-plM" secondAttribute="leading" id="YKl-5e-M5G"/>
                             <constraint firstItem="g4f-7A-fEP" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="32" id="ZhY-g9-Zf0"/>
-                            <constraint firstItem="g4f-7A-fEP" firstAttribute="top" secondItem="lt2-Nk-1YZ" secondAttribute="bottom" constant="52" id="bdp-29-yZm"/>
-                            <constraint firstItem="lt2-Nk-1YZ" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="eNP-5T-cVp"/>
+                            <constraint firstItem="u6G-sD-SZi" firstAttribute="top" secondItem="EzR-Jl-0IJ" secondAttribute="bottom" constant="112" id="fZS-Ci-4Ll"/>
                             <constraint firstAttribute="trailingMargin" secondItem="g4f-7A-fEP" secondAttribute="trailing" constant="33" id="miP-Ad-bPk"/>
                             <constraint firstItem="u6G-sD-SZi" firstAttribute="trailing" secondItem="Zah-ZU-plM" secondAttribute="trailing" id="pvS-Ep-UUR"/>
-                            <constraint firstItem="lt2-Nk-1YZ" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="rHS-Cu-5bT"/>
                             <constraint firstItem="yLh-6L-jBa" firstAttribute="leading" secondItem="j8A-8z-cfk" secondAttribute="trailing" constant="34" id="rVe-kU-IZp"/>
+                            <constraint firstItem="EzR-Jl-0IJ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="rVf-rs-IZ4"/>
                             <constraint firstAttribute="leadingMargin" secondItem="Zah-ZU-plM" secondAttribute="leading" id="vG5-2j-eha"/>
                         </constraints>
                     </view>
@@ -192,7 +204,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3739" y="746"/>
+            <point key="canvasLocation" x="3738.4000000000001" y="745.27736131934034"/>
         </scene>
     </scenes>
 </document>
