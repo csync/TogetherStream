@@ -35,6 +35,11 @@ class AddVideosViewController: UIViewController {
 		guard let inviteVC = Utils.vcWithNameFromStoryboardWithName("inviteStream", storyboardName: "InviteStream") as? InviteStreamViewController else {
 			return
 		}
+        guard let _ = self.navigationController else {
+            //if adding videos from stream, just dismiss when done is tapped
+            self.dismiss(animated: true, completion: nil)
+            return
+        }
 		inviteVC.streamName = streamName
 		inviteVC.navigationItem.title = "Invite to Stream"
 		self.navigationController?.pushViewController(inviteVC, animated: true)

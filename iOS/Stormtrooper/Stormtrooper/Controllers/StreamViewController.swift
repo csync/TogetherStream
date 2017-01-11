@@ -27,8 +27,8 @@ class StreamViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         viewModel.delegate = self
 		
-        self.setupPlayerView()
-        self.setupBarButtonItems()
+        setupPlayerView()
+        setupBarButtonItems()
 		
         NotificationCenter.default.addObserver(self, selector: #selector(StreamViewController.rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
 		
