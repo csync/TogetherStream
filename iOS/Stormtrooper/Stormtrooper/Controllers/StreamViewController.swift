@@ -28,6 +28,7 @@ class StreamViewController: UIViewController {
         viewModel.delegate = self
 		
         self.setupPlayerView()
+        self.setupBarButtonItems()
 		
         NotificationCenter.default.addObserver(self, selector: #selector(StreamViewController.rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
 		
@@ -44,6 +45,25 @@ class StreamViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    ///Set bar button items and their actions programmatically
+    private func setupBarButtonItems() {
+        let closeButton = UIButton(type: .custom)
+        //closeButton.setImage(UIImage(named: "stormtrooper_helmet"), for: .normal)
+        closeButton.setTitle("X", for: .normal)
+        closeButton.frame = CGRect(x: 0, y: 0, width: 17, height: 17)
+        closeButton.addTarget(self, action: #selector(StreamViewController.closeTapped), for: .touchUpInside)
+        let item1 = UIBarButtonItem(customView: closeButton)
+        
+        let profileButton = UIButton(type: .custom)
+        profileButton.setImage(UIImage(named: "stormtrooper_helmet"), for: .normal)
+        profileButton.frame = CGRect(x: 0, y: 0, width: 17, height: 19)
+        profileButton.addTarget(self, action: #selector(StreamViewController.profileTapped), for: .touchUpInside)
+        let item2 = UIBarButtonItem(customView: profileButton)
+        
+        self.navigationItem.setLeftBarButtonItems([item1], animated: false)
+        self.navigationItem.setRightBarButtonItems([item2], animated: false)
     }
     
     private func setupPlayerView() {
@@ -94,8 +114,15 @@ class StreamViewController: UIViewController {
     @IBAction func backTapped(_ sender: Any) {
         self.playerView.previousVideo()
     }
+    
+    func profileTapped() {
+        guard let profileVC = Utils.vcWithNameFromStoryboardWithName("profile", storyboardName: "Profile") as? ProfileViewController else {
+            return
+        }
+        self.present(profileVC, animated: true, completion: nil)
+    }
 
-    @IBAction func closeTapped(_ sender: Any) {
+    func closeTapped() {
         let _ = self.navigationController?.popToRootViewController(animated: true)
     }
 
