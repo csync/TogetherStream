@@ -22,6 +22,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.setAudioToPlayWhileSilenced()
 		requestAuthorizationForNotifications(for: application)
 		
+        //set status bar to light
+        UIApplication.shared.statusBarStyle = .lightContent
+        
 		UNUserNotificationCenter.current().delegate = self
 		// Clear notifications
 		UIApplication.shared.applicationIconBadgeNumber = 0
