@@ -14,6 +14,7 @@ protocol StreamViewModelDelegate: class {
 	func recieved(message: Message, for position: Int) -> Void
 	func recievedUpdate(forCurrentVideoID currentVideoID: String) -> Void
 	func recievedUpdate(forIsPlaying isPlaying: Bool) -> Void
+	func recievedUpdate(forIsBuffering isBuffering: Bool) -> Void
 	func recievedUpdate(forPlaytime playtime: Float) -> Void
 	func streamEnded() -> Void
 }
@@ -29,12 +30,14 @@ class StreamViewModel {
 	}
 	
 	fileprivate(set) var messages: [Message] = []
+	fileprivate(set) var hostPlaying = false
 	let maximumDesyncTime: Float = 1.0
 	var isHost: Bool {
 		// TODO: not hardcode
 		return FacebookDataManager.sharedInstance.profile?.userID == "10153854936447000"
 	}
 	
+	// TODO: not hardcode
 	private let streamPath = "streams.10153854936447000"
 	private var listenerKey: Key?
 	private var cSyncDataManager = CSyncDataManager.sharedInstance
@@ -102,6 +105,11 @@ class StreamViewModel {
 		cSyncDataManager.write(stateMessage, toKeyPath: streamPath + ".isPlaying")
 	}
 	
+	func send(isBuffering: Bool) {
+		let stateMessage = isBuffering ? "true" : "false"
+		cSyncDataManager.write(stateMessage, toKeyPath: streamPath + ".isBuffering")
+	}
+	
 	func send(currentVideoID: String) {
 		cSyncDataManager.write(currentVideoID, toKeyPath: streamPath + ".currentVideoID")
 	}
@@ -125,9 +133,15 @@ class StreamViewModel {
 						self.delegate?.recievedUpdate(forCurrentVideoID: id)
 					}
 				case "isPlaying" where value.data == "true":
+					self.hostPlaying = true
 					self.delegate?.recievedUpdate(forIsPlaying: true)
 				case "isPlaying" where value.data == "false":
+					self.hostPlaying = false
 					self.delegate?.recievedUpdate(forIsPlaying: false)
+				case "isBuffering" where value.data == "true":
+					self.delegate?.recievedUpdate(forIsBuffering: true)
+				case "isBuffering" where value.data == "false":
+					self.delegate?.recievedUpdate(forIsBuffering: false)
 				case "playTime":
 					if let playtime = Float(value.data ?? "") {
 						self.delegate?.recievedUpdate(forPlaytime: playtime)
