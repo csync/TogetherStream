@@ -30,11 +30,12 @@
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uLS-1R-2D0">
                                 <rect key="frame" x="0.0" y="538" width="375" height="65"/>
-                                <color key="backgroundColor" red="0.88627450980392153" green="0.27843137254901962" blue="0.039215686274509803" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.88627450980392153" green="0.27843137254901962" blue="0.043137254901960784" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="65" id="wdY-PZ-ACp"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="WorkSans-SemiBold" family="Work Sans" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <state key="normal" title="START STREAM">
                                     <color key="titleColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </state>
