@@ -12,10 +12,14 @@ import MessageUI
 class InviteStreamViewController: UIViewController {
 	
 	var streamName: String?
+    
+    var isCreatingStream = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        
+        checkIfCreatingStream()
     }
 
     override func didReceiveMemoryWarning() {
@@ -23,6 +27,16 @@ class InviteStreamViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    
+    private func checkIfCreatingStream() {
+        guard let _ = self.navigationController else {
+            //if inviting from stream, not in nav controller, so will dismiss when done is tapped rather than moving forward in stream creation process
+            isCreatingStream = false
+            return
+        }
+        //if navigation controller exists, user is creating stream, so push forward in flow
+        isCreatingStream = true
+    }
 
     /*
     // MARK: - Navigation
@@ -34,13 +48,18 @@ class InviteStreamViewController: UIViewController {
     }
     */
     @IBAction func doneTapped(_ sender: Any) {
-        guard let streamVC = Utils.vcWithNameFromStoryboardWithName("stream", storyboardName: "Stream") as? StreamViewController else {
-            return
+        if isCreatingStream { //move to next screen in flow
+            guard let streamVC = Utils.vcWithNameFromStoryboardWithName("stream", storyboardName: "Stream") as? StreamViewController else {
+                return
+            }
+            streamVC.streamName = streamName
+            streamVC.navigationItem.title = streamName ?? "My Stream"
+            streamVC.navigationItem.hidesBackButton = true
+            self.navigationController?.pushViewController(streamVC, animated: true)
         }
-		streamVC.streamName = streamName
-        streamVC.navigationItem.title = streamName ?? "My Stream"
-        streamVC.navigationItem.hidesBackButton = true
-        self.navigationController?.pushViewController(streamVC, animated: true)
+        else { //not creating stream, so dismiss
+            self.dismiss(animated: true, completion: nil)
+        }
     }
     
     @IBAction func textTapped(_ sender: Any) {

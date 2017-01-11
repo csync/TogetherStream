@@ -57,7 +57,8 @@ class StreamViewController: UIViewController {
         let item1 = UIBarButtonItem(customView: closeButton)
         
         let profileButton = UIButton(type: .custom)
-        profileButton.setImage(UIImage(named: "stormtrooper_helmet"), for: .normal)
+        //profileButton.setImage(UIImage(named: "stormtrooper_helmet"), for: .normal)
+        profileButton.setTitle("+", for: .normal)
         profileButton.frame = CGRect(x: 0, y: 0, width: 17, height: 19)
         profileButton.addTarget(self, action: #selector(StreamViewController.profileTapped), for: .touchUpInside)
         let item2 = UIBarButtonItem(customView: profileButton)
@@ -116,7 +117,7 @@ class StreamViewController: UIViewController {
     }
     
     func profileTapped() {
-        guard let profileVC = Utils.vcWithNameFromStoryboardWithName("profile", storyboardName: "Profile") as? ProfileViewController else {
+        guard let profileVC = Utils.vcWithNameFromStoryboardWithName("inviteStream", storyboardName: "InviteStream") as? InviteStreamViewController else {
             return
         }
         self.present(profileVC, animated: true, completion: nil)
