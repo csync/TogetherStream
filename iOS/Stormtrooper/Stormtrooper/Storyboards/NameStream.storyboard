@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="OpenSans-Semibold.ttf">
+            <string>OpenSans-Semibold</string>
+        </array>
+    </customFonts>
     <scenes>
         <!--Name Stream View Controller-->
         <scene sceneID="Edf-Fx-hO2">
@@ -15,7 +24,7 @@
                         <viewControllerLayoutGuide type="bottom" id="Jkz-tx-zeR"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Fuz-bi-iqW">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Name your Stream" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Mgl-N8-G1e">
@@ -57,10 +66,11 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5MU-lf-j6G">
                                 <rect key="frame" x="0.0" y="343" width="375" height="65"/>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.8862745098" green="0.2784313725" blue="0.039215686270000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="65" id="csC-tu-bmh"/>
                                 </constraints>
+                                <fontDescription key="fontDescription" name="OpenSans-Semibold" family="Open Sans" pointSize="15"/>
                                 <state key="normal" title="ADD VIDEOS">
                                     <color key="titleColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </state>
@@ -69,7 +79,7 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" red="0.90823972230000005" green="0.92638683320000004" blue="0.93171715740000005" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.96470588235294119" green="0.96470588235294119" blue="0.96470588235294119" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="mMX-wD-bgK" firstAttribute="top" secondItem="Mgl-N8-G1e" secondAttribute="bottom" constant="35" id="1rp-ls-d0j"/>
                             <constraint firstItem="5MU-lf-j6G" firstAttribute="top" secondItem="Hmi-3k-jaa" secondAttribute="bottom" constant="8" id="3P7-19-lzB"/>
@@ -84,7 +94,6 @@
                             <constraint firstAttribute="trailingMargin" secondItem="mMX-wD-bgK" secondAttribute="trailing" constant="17" id="vkb-pE-W0M"/>
                         </constraints>
                     </view>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4_7.fullscreen"/>
                     <connections>
                         <outlet property="nameTextField" destination="Mgl-N8-G1e" id="s67-4b-N8l"/>
                     </connections>
