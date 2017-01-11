@@ -158,9 +158,6 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lt2-Nk-1YZ" customClass="YTPlayerView">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="211"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="211" id="b2a-u8-gDa"/>
-                                        </constraints>
                                     </view>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -168,6 +165,7 @@
                                     <constraint firstItem="lt2-Nk-1YZ" firstAttribute="centerY" secondItem="EzR-Jl-0IJ" secondAttribute="centerY" id="42g-fC-j8P"/>
                                     <constraint firstItem="lt2-Nk-1YZ" firstAttribute="width" secondItem="EzR-Jl-0IJ" secondAttribute="width" id="L98-QJ-P2u"/>
                                     <constraint firstItem="lt2-Nk-1YZ" firstAttribute="centerX" secondItem="EzR-Jl-0IJ" secondAttribute="centerX" id="TyD-Ea-rbR"/>
+                                    <constraint firstItem="lt2-Nk-1YZ" firstAttribute="height" secondItem="EzR-Jl-0IJ" secondAttribute="height" id="e3g-yz-2R9"/>
                                     <constraint firstAttribute="height" constant="211" id="njr-JM-xXR"/>
                                 </constraints>
                             </view>
