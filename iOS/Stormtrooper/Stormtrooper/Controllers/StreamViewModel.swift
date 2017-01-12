@@ -88,6 +88,10 @@ class StreamViewModel {
 		}
 	}
 	
+	deinit {
+		listenerKey?.unlisten()
+	}
+	
 	func send(chatMessage: String) {
 		chatDataManager?.send(message: chatMessage)
 	}
@@ -125,26 +129,26 @@ class StreamViewModel {
 	
 	private func setupParticipant() {
 		listenerKey = cSyncDataManager.createKey(atPath: streamPath + ".*")
-		listenerKey?.listen() {[unowned self] value, error in
+		listenerKey?.listen() {[weak self] value, error in
 			if let value = value {
 				switch value.key.components(separatedBy: ".").last ?? "" {
 				case "currentVideoID":
 					if let id = value.data {
-						self.delegate?.recievedUpdate(forCurrentVideoID: id)
+						self?.delegate?.recievedUpdate(forCurrentVideoID: id)
 					}
 				case "isPlaying" where value.data == "true":
-					self.hostPlaying = true
-					self.delegate?.recievedUpdate(forIsPlaying: true)
+					self?.hostPlaying = true
+					self?.delegate?.recievedUpdate(forIsPlaying: true)
 				case "isPlaying" where value.data == "false":
-					self.hostPlaying = false
-					self.delegate?.recievedUpdate(forIsPlaying: false)
+					self?.hostPlaying = false
+					self?.delegate?.recievedUpdate(forIsPlaying: false)
 				case "isBuffering" where value.data == "true":
-					self.delegate?.recievedUpdate(forIsBuffering: true)
+					self?.delegate?.recievedUpdate(forIsBuffering: true)
 				case "isBuffering" where value.data == "false":
-					self.delegate?.recievedUpdate(forIsBuffering: false)
+					self?.delegate?.recievedUpdate(forIsBuffering: false)
 				case "playTime":
 					if let playtime = Float(value.data ?? "") {
-						self.delegate?.recievedUpdate(forPlaytime: playtime)
+						self?.delegate?.recievedUpdate(forPlaytime: playtime)
 					}
 				default:
 					break
