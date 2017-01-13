@@ -15,6 +15,12 @@ class StreamViewController: UIViewController {
 	@IBOutlet weak var chatInputTextField: UITextField!
 	@IBOutlet weak var chatTableView: UITableView!
 	@IBOutlet weak var userCountLabel: UILabel!
+    @IBOutlet weak var headerView: UIView!
+    @IBOutlet weak var queueView: UIView!
+    @IBOutlet weak var headerViewHeightConstraint: NSLayoutConstraint!
+    
+    //constraints
+    var originalHeaderViewHeightConstraint: CGFloat = 0
 	
 	var streamName: String?
 	var hostID: String?
@@ -33,6 +39,7 @@ class StreamViewController: UIViewController {
 		
         setupPlayerView()
         setupBarButtonItems()
+        setupConstraints()
 		
         NotificationCenter.default.addObserver(self, selector: #selector(StreamViewController.rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
 		
@@ -49,6 +56,11 @@ class StreamViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    private func setupConstraints() {
+        originalHeaderViewHeightConstraint = headerViewHeightConstraint.constant
+        
     }
     
     ///Set bar button items and their actions programmatically
@@ -119,6 +131,29 @@ class StreamViewController: UIViewController {
     @IBAction func backTapped(_ sender: Any) {
         self.playerView.previousVideo()
     }
+    
+    //header tapped, so show or hide queue if host
+    @IBAction func headerTapped(_ sender: Any) {
+        if queueView.isHidden {
+            
+            headerViewHeightConstraint.constant = originalHeaderViewHeightConstraint + queueView.frame.height
+            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: { _ in
+                self.view.layoutIfNeeded()
+            }, completion: { complete in
+                self.queueView.isHidden = false
+            })
+        }
+        else {
+            self.queueView.isHidden = true
+            headerViewHeightConstraint.constant = originalHeaderViewHeightConstraint
+            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: { _ in
+                self.view.layoutIfNeeded()
+            }, completion: { complete in
+                
+            })
+        }
+    }
+    
     
     func profileTapped() {
         guard let profileVC = Utils.vcWithNameFromStoryboardWithName("inviteStream", storyboardName: "InviteStream") as? InviteStreamViewController else {
