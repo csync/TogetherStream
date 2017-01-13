@@ -70,7 +70,7 @@ class StreamViewModel {
 					}
 				}
 				else if userID == self.hostID && !heartbeats.contains(userID) {
-					self.delegate?.streamEnded()
+					//self.delegate?.streamEnded()
 				}
 			}
 		}
@@ -90,6 +90,9 @@ class StreamViewModel {
 	
 	deinit {
 		listenerKey?.unlisten()
+		if isHost {
+			endStream()
+		}
 	}
 	
 	func send(chatMessage: String) {
@@ -101,60 +104,79 @@ class StreamViewModel {
 	}
 	
 	func send(currentPlayTime: Float) {
-		cSyncDataManager.write(String(currentPlayTime), toKeyPath: streamPath + ".playTime")
+		cSyncDataManager.write(String(currentPlayTime), toKeyPath: "\(streamPath).playTime")
 	}
 	
 	func send(playState: Bool) {
 		let stateMessage = playState ? "true" : "false"
-		cSyncDataManager.write(stateMessage, toKeyPath: streamPath + ".isPlaying")
+		cSyncDataManager.write(stateMessage, toKeyPath: "\(streamPath).isPlaying")
 	}
 	
 	func send(isBuffering: Bool) {
 		let stateMessage = isBuffering ? "true" : "false"
-		cSyncDataManager.write(stateMessage, toKeyPath: streamPath + ".isBuffering")
+		cSyncDataManager.write(stateMessage, toKeyPath: "\(streamPath).isBuffering")
 	}
 	
 	func send(currentVideoID: String) {
-		cSyncDataManager.write(currentVideoID, toKeyPath: streamPath + ".currentVideoID")
+		cSyncDataManager.write(currentVideoID, toKeyPath: "\(streamPath).currentVideoID")
+	}
+	
+	func endStream() {
+		cSyncDataManager.write("false", toKeyPath: "\(streamPath).isActive")
 	}
 	
 	private func setupHost() {
+		// Reset stream
+		cSyncDataManager.deleteKey(atPath: streamPath)
 		// Create node so others can listen to it
 		cSyncDataManager.write("", toKeyPath: streamPath)
 		// Creat heartbeat node so others can create in it
 		cSyncDataManager.write("", toKeyPath: streamPath + ".heartbeat", withACL: .PublicReadCreate)
 		// Creat chat node so others can create in it
 		cSyncDataManager.write("", toKeyPath: streamPath + ".chat", withACL: .PublicReadCreate)
+		// Set stream to active
+		cSyncDataManager.write("true", toKeyPath: streamPath + ".isActive")
+		
+		NotificationCenter.default.addObserver(self, selector: #selector(recievedWillTerminateNotification), name: NSNotification.Name.UIApplicationWillTerminate, object: nil)
 	}
 	
 	private func setupParticipant() {
 		listenerKey = cSyncDataManager.createKey(atPath: streamPath + ".*")
 		listenerKey?.listen() {[weak self] value, error in
-			if let value = value {
+			if let value = value, let `self` = self {
+				if !value.exists {
+					return
+				}
 				switch value.key.components(separatedBy: ".").last ?? "" {
 				case "currentVideoID":
 					if let id = value.data {
-						self?.delegate?.recievedUpdate(forCurrentVideoID: id)
+						self.delegate?.recievedUpdate(forCurrentVideoID: id)
 					}
 				case "isPlaying" where value.data == "true":
-					self?.hostPlaying = true
-					self?.delegate?.recievedUpdate(forIsPlaying: true)
+					self.hostPlaying = true
+					self.delegate?.recievedUpdate(forIsPlaying: true)
 				case "isPlaying" where value.data == "false":
-					self?.hostPlaying = false
-					self?.delegate?.recievedUpdate(forIsPlaying: false)
+					self.hostPlaying = false
+					self.delegate?.recievedUpdate(forIsPlaying: false)
 				case "isBuffering" where value.data == "true":
-					self?.delegate?.recievedUpdate(forIsBuffering: true)
+					self.delegate?.recievedUpdate(forIsBuffering: true)
 				case "isBuffering" where value.data == "false":
-					self?.delegate?.recievedUpdate(forIsBuffering: false)
+					self.delegate?.recievedUpdate(forIsBuffering: false)
 				case "playTime":
 					if let playtime = Float(value.data ?? "") {
-						self?.delegate?.recievedUpdate(forPlaytime: playtime)
+						self.delegate?.recievedUpdate(forPlaytime: playtime)
 					}
+				case "isActive" where value.data == "false":
+					self.delegate?.streamEnded()
 				default:
 					break
 				}
 			}
 		}
+	}
+	
+	@objc private func recievedWillTerminateNotification(_ notification: Notification) {
+		endStream()
 	}
 	
 	// Returns position inserted in

@@ -45,4 +45,9 @@ class HomeViewModel {
 		youtubeDataManager.getThumbnailForVideo(withID: id, callback: callback)
 	}
 	
+	func resetCurrentUserStream() {
+		if let username = FacebookDataManager.sharedInstance.profile?.userID {
+			CSyncDataManager.sharedInstance.write("false", toKeyPath: "streams.\(username).isActive")
+		}
+	}
 }
