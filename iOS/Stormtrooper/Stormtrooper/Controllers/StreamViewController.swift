@@ -18,6 +18,8 @@ class StreamViewController: UIViewController {
     @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var queueView: UIView!
     @IBOutlet weak var headerViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var headerArrowImageView: UIImageView!
+    @IBOutlet weak var headerViewButton: UIButton!
     
     //constraints
     var originalHeaderViewHeightConstraint: CGFloat = 0
@@ -37,8 +39,9 @@ class StreamViewController: UIViewController {
 		hostID = "10153854936447000"
 		viewModel.hostID = hostID ?? ""
 		
+        
         setupPlayerView()
-        setupBarButtonItems()
+        setupViewForHostOrParticipant()
         setupConstraints()
 		
         NotificationCenter.default.addObserver(self, selector: #selector(StreamViewController.rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
@@ -57,30 +60,49 @@ class StreamViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+
+    private func setupViewForHostOrParticipant() {
+        if viewModel.isHost { //host-- can view queue, can end stream, can invite people
+            headerArrowImageView.isHidden = false
+            headerViewButton.isHidden = false
+            
+            //Set bar button items and their actions programmatically
+            let closeButton = UIButton(type: .custom)
+            //closeButton.setImage(UIImage(named: "stormtrooper_helmet"), for: .normal)
+            closeButton.setTitle("X", for: .normal)
+            closeButton.frame = CGRect(x: 0, y: 0, width: 17, height: 17)
+            closeButton.addTarget(self, action: #selector(StreamViewController.closeTapped), for: .touchUpInside)
+            let item1 = UIBarButtonItem(customView: closeButton)
+            
+            let profileButton = UIButton(type: .custom)
+            //profileButton.setImage(UIImage(named: "stormtrooper_helmet"), for: .normal)
+            profileButton.setTitle("+", for: .normal)
+            profileButton.frame = CGRect(x: 0, y: 0, width: 17, height: 19)
+            profileButton.addTarget(self, action: #selector(StreamViewController.profileTapped), for: .touchUpInside)
+            let item2 = UIBarButtonItem(customView: profileButton)
+            
+            self.navigationItem.setLeftBarButtonItems([item1], animated: false)
+            self.navigationItem.setRightBarButtonItems([item2], animated: false)
+        }
+        else { //participant-- cannot view queue, can't end stream, can't invite people
+            headerArrowImageView.isHidden = true
+            headerViewButton.isHidden = true
+            
+            //Set bar button items and their actions programmatically
+            let closeButton = UIButton(type: .custom)
+            //closeButton.setImage(UIImage(named: "stormtrooper_helmet"), for: .normal)
+            closeButton.setTitle("<", for: .normal)
+            closeButton.frame = CGRect(x: 0, y: 0, width: 17, height: 17)
+            closeButton.addTarget(self, action: #selector(StreamViewController.closeTapped), for: .touchUpInside) //TODO: Change this to not end stream
+            let item1 = UIBarButtonItem(customView: closeButton)
+            
+            self.navigationItem.setLeftBarButtonItems([item1], animated: false)
+        }
+    }
     
     private func setupConstraints() {
         originalHeaderViewHeightConstraint = headerViewHeightConstraint.constant
         
-    }
-    
-    ///Set bar button items and their actions programmatically
-    private func setupBarButtonItems() {
-        let closeButton = UIButton(type: .custom)
-        //closeButton.setImage(UIImage(named: "stormtrooper_helmet"), for: .normal)
-        closeButton.setTitle("X", for: .normal)
-        closeButton.frame = CGRect(x: 0, y: 0, width: 17, height: 17)
-        closeButton.addTarget(self, action: #selector(StreamViewController.closeTapped), for: .touchUpInside)
-        let item1 = UIBarButtonItem(customView: closeButton)
-        
-        let profileButton = UIButton(type: .custom)
-        //profileButton.setImage(UIImage(named: "stormtrooper_helmet"), for: .normal)
-        profileButton.setTitle("+", for: .normal)
-        profileButton.frame = CGRect(x: 0, y: 0, width: 17, height: 19)
-        profileButton.addTarget(self, action: #selector(StreamViewController.profileTapped), for: .touchUpInside)
-        let item2 = UIBarButtonItem(customView: profileButton)
-        
-        self.navigationItem.setLeftBarButtonItems([item1], animated: false)
-        self.navigationItem.setRightBarButtonItems([item2], animated: false)
     }
     
     private func setupPlayerView() {

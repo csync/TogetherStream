@@ -222,6 +222,13 @@
                                             <action selector="headerTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="x2G-7k-hlx"/>
                                         </connections>
                                     </button>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="down_temp_arrow" translatesAutoresizingMaskIntoConstraints="NO" id="K2Q-JA-bv3">
+                                        <rect key="frame" x="341" y="14" width="26" height="16"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="16" id="DGG-9F-L8S"/>
+                                            <constraint firstAttribute="width" constant="26" id="YWR-Kv-uzP"/>
+                                        </constraints>
+                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" red="0.16470588235294117" green="0.14901960784313725" blue="0.14901960784313725" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -229,6 +236,8 @@
                                     <constraint firstItem="oTw-lu-Z7R" firstAttribute="leading" secondItem="Y1Z-hD-o7e" secondAttribute="leading" constant="10" id="1he-qX-igW"/>
                                     <constraint firstItem="zhP-gS-mwN" firstAttribute="top" secondItem="Y1Z-hD-o7e" secondAttribute="top" constant="13" id="2hc-aL-co7"/>
                                     <constraint firstAttribute="height" constant="87" id="8RW-43-RGV"/>
+                                    <constraint firstItem="K2Q-JA-bv3" firstAttribute="top" secondItem="Y1Z-hD-o7e" secondAttribute="top" constant="14" id="KAq-1H-vqx"/>
+                                    <constraint firstAttribute="trailing" secondItem="K2Q-JA-bv3" secondAttribute="trailing" constant="8" id="Z7M-Rb-3Z6"/>
                                     <constraint firstItem="uEy-me-ihE" firstAttribute="width" secondItem="Y1Z-hD-o7e" secondAttribute="width" id="by1-hP-RQQ"/>
                                     <constraint firstItem="knW-fA-GaK" firstAttribute="leading" secondItem="Y1Z-hD-o7e" secondAttribute="leading" constant="10" id="dSA-om-3l0"/>
                                     <constraint firstItem="knW-fA-GaK" firstAttribute="top" secondItem="oTw-lu-Z7R" secondAttribute="bottom" constant="-2" id="eqG-Rx-xu8"/>
@@ -273,7 +282,9 @@
                     <connections>
                         <outlet property="chatInputTextField" destination="Zah-ZU-plM" id="pH0-wC-umg"/>
                         <outlet property="chatTableView" destination="u6G-sD-SZi" id="JfH-Mp-mPH"/>
+                        <outlet property="headerArrowImageView" destination="K2Q-JA-bv3" id="V0n-f2-UfM"/>
                         <outlet property="headerView" destination="Y1Z-hD-o7e" id="HP5-fA-vNT"/>
+                        <outlet property="headerViewButton" destination="uEy-me-ihE" id="FEP-NB-V5i"/>
                         <outlet property="headerViewHeightConstraint" destination="8RW-43-RGV" id="nyp-x5-3Yz"/>
                         <outlet property="mediaControllerView" destination="g4f-7A-fEP" id="iBP-6P-a37"/>
                         <outlet property="playPauseButton" destination="fKU-Jj-50I" id="1Vn-VJ-7fW"/>
@@ -287,4 +298,7 @@
             <point key="canvasLocation" x="3738.4000000000001" y="745.27736131934034"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="down_temp_arrow" width="102" height="69"/>
+    </resources>
 </document>
