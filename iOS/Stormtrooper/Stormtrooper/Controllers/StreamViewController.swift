@@ -61,7 +61,7 @@ class StreamViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    private func setupViewForHostOrParticipant() {
+    private func setupViewForHostOrParticipant() { //TODO: add actual icons, add player setup (don't allow participant to pause, etc)
         if viewModel.isHost { //host-- can view queue, can end stream, can invite people
             headerArrowImageView.isHidden = false
             headerViewButton.isHidden = false
