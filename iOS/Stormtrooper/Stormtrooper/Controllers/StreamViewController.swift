@@ -23,6 +23,11 @@ class StreamViewController: UIViewController {
     
     //constraints
     var originalHeaderViewHeightConstraint: CGFloat = 0
+    
+    //constants
+    let closeButtonFrame = CGRect(x: 0, y: 0, width: 17, height: 17)
+    let profileButtonFrame = CGRect(x: 0, y: 0, width: 17, height: 19)
+    let headerViewAnimationDuration: TimeInterval = 0.3
 	
 	var streamName: String?
 	var hostID: String?
@@ -70,14 +75,14 @@ class StreamViewController: UIViewController {
             let closeButton = UIButton(type: .custom)
             //closeButton.setImage(UIImage(named: "stormtrooper_helmet"), for: .normal)
             closeButton.setTitle("X", for: .normal)
-            closeButton.frame = CGRect(x: 0, y: 0, width: 17, height: 17)
+            closeButton.frame = closeButtonFrame
             closeButton.addTarget(self, action: #selector(StreamViewController.closeTapped), for: .touchUpInside)
             let item1 = UIBarButtonItem(customView: closeButton)
             
             let profileButton = UIButton(type: .custom)
             //profileButton.setImage(UIImage(named: "stormtrooper_helmet"), for: .normal)
             profileButton.setTitle("+", for: .normal)
-            profileButton.frame = CGRect(x: 0, y: 0, width: 17, height: 19)
+            profileButton.frame = profileButtonFrame
             profileButton.addTarget(self, action: #selector(StreamViewController.profileTapped), for: .touchUpInside)
             let item2 = UIBarButtonItem(customView: profileButton)
             
@@ -92,7 +97,7 @@ class StreamViewController: UIViewController {
             let closeButton = UIButton(type: .custom)
             //closeButton.setImage(UIImage(named: "stormtrooper_helmet"), for: .normal)
             closeButton.setTitle("<", for: .normal)
-            closeButton.frame = CGRect(x: 0, y: 0, width: 17, height: 17)
+            closeButton.frame = closeButtonFrame
             closeButton.addTarget(self, action: #selector(StreamViewController.closeTapped), for: .touchUpInside) //TODO: Change this to not end stream
             let item1 = UIBarButtonItem(customView: closeButton)
             
@@ -109,11 +114,11 @@ class StreamViewController: UIViewController {
         self.playerView.delegate = self
         //self.playerView.loadPlaylist(byVideos: ["4NFDhxhWyIw", "RTDuUiVSCo4"], index: 0, startSeconds: 0, suggestedQuality: .auto)
 		if viewModel.isHost {
-			self.playerView.load(withVideoId: "VGfn-NFMrXg", playerVars: [
+			self.playerView.load(withVideoId: "VGfn-NFMrXg", playerVars: [ //TODO: hide controls if participant
 				"playsinline" : 1,
 				"modestbranding" : 1,
 				"showinfo" : 0,
-				"controls" : 0,
+				"controls" : 1,
 				"playlist": "7D3Ud2JIFhA, 2VuFqm8re5c"
 				])
 		}
@@ -159,7 +164,7 @@ class StreamViewController: UIViewController {
         if queueView.isHidden {
             
             headerViewHeightConstraint.constant = originalHeaderViewHeightConstraint + queueView.frame.height
-            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: { _ in
+            UIView.animate(withDuration: headerViewAnimationDuration, delay: 0, options: .curveEaseOut, animations: { _ in
                 self.view.layoutIfNeeded()
             }, completion: { complete in
                 self.queueView.isHidden = false
@@ -168,7 +173,7 @@ class StreamViewController: UIViewController {
         else {
             self.queueView.isHidden = true
             headerViewHeightConstraint.constant = originalHeaderViewHeightConstraint
-            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: { _ in
+            UIView.animate(withDuration: headerViewAnimationDuration, delay: 0, options: .curveEaseOut, animations: { _ in
                 self.view.layoutIfNeeded()
             }, completion: { complete in
                 
@@ -232,12 +237,12 @@ extension StreamViewController: StreamViewModelDelegate {
 			playerID = getVideoID(from: playerURL)
 		}
 		if playerView.videoUrl() == nil || currentVideoID != playerID {
-			DispatchQueue.main.async {
+			DispatchQueue.main.async { //TODO: hide controls if participant
 				self.playerView.load(withVideoId: currentVideoID, playerVars: [
 					"playsinline" : 1,
 					"modestbranding" : 1,
 					"showinfo" : 0,
-					"controls" : 0,
+					"controls" : 1,
 					])
 			}
 		}
