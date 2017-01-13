@@ -15,6 +15,19 @@ class StreamViewController: UIViewController {
 	@IBOutlet weak var chatInputTextField: UITextField!
 	@IBOutlet weak var chatTableView: UITableView!
 	@IBOutlet weak var userCountLabel: UILabel!
+    @IBOutlet weak var headerView: UIView!
+    @IBOutlet weak var queueView: UIView!
+    @IBOutlet weak var headerViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var headerArrowImageView: UIImageView!
+    @IBOutlet weak var headerViewButton: UIButton!
+    
+    //constraints
+    var originalHeaderViewHeightConstraint: CGFloat = 0
+    
+    //constants
+    let closeButtonFrame = CGRect(x: 0, y: 0, width: 17, height: 17)
+    let profileButtonFrame = CGRect(x: 0, y: 0, width: 17, height: 19)
+    let headerViewAnimationDuration: TimeInterval = 0.3
 	
 	var streamName: String?
 	var hostID: String?
@@ -31,8 +44,10 @@ class StreamViewController: UIViewController {
 		hostID = "10153854936447000"
 		viewModel.hostID = hostID ?? ""
 		
+        
         setupPlayerView()
-        setupBarButtonItems()
+        setupViewForHostOrParticipant()
+        setupConstraints()
 		
         NotificationCenter.default.addObserver(self, selector: #selector(StreamViewController.rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
 		
@@ -50,36 +65,60 @@ class StreamViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+
+    private func setupViewForHostOrParticipant() { //TODO: add actual icons, add player setup (don't allow participant to pause, etc)
+        if viewModel.isHost { //host-- can view queue, can end stream, can invite people
+            headerArrowImageView.isHidden = false
+            headerViewButton.isHidden = false
+            
+            //Set bar button items and their actions programmatically
+            let closeButton = UIButton(type: .custom)
+            //closeButton.setImage(UIImage(named: "stormtrooper_helmet"), for: .normal)
+            closeButton.setTitle("X", for: .normal)
+            closeButton.frame = closeButtonFrame
+            closeButton.addTarget(self, action: #selector(StreamViewController.closeTapped), for: .touchUpInside)
+            let item1 = UIBarButtonItem(customView: closeButton)
+            
+            let profileButton = UIButton(type: .custom)
+            //profileButton.setImage(UIImage(named: "stormtrooper_helmet"), for: .normal)
+            profileButton.setTitle("+", for: .normal)
+            profileButton.frame = profileButtonFrame
+            profileButton.addTarget(self, action: #selector(StreamViewController.profileTapped), for: .touchUpInside)
+            let item2 = UIBarButtonItem(customView: profileButton)
+            
+            self.navigationItem.setLeftBarButtonItems([item1], animated: false)
+            self.navigationItem.setRightBarButtonItems([item2], animated: false)
+        }
+        else { //participant-- cannot view queue, can't end stream, can't invite people
+            headerArrowImageView.isHidden = true
+            headerViewButton.isHidden = true
+            
+            //Set bar button items and their actions programmatically
+            let closeButton = UIButton(type: .custom)
+            //closeButton.setImage(UIImage(named: "stormtrooper_helmet"), for: .normal)
+            closeButton.setTitle("<", for: .normal)
+            closeButton.frame = closeButtonFrame
+            closeButton.addTarget(self, action: #selector(StreamViewController.closeTapped), for: .touchUpInside) //TODO: Change this to not end stream
+            let item1 = UIBarButtonItem(customView: closeButton)
+            
+            self.navigationItem.setLeftBarButtonItems([item1], animated: false)
+        }
+    }
     
-    ///Set bar button items and their actions programmatically
-    private func setupBarButtonItems() {
-        let closeButton = UIButton(type: .custom)
-        //closeButton.setImage(UIImage(named: "stormtrooper_helmet"), for: .normal)
-        closeButton.setTitle("X", for: .normal)
-        closeButton.frame = CGRect(x: 0, y: 0, width: 17, height: 17)
-        closeButton.addTarget(self, action: #selector(StreamViewController.closeTapped), for: .touchUpInside)
-        let item1 = UIBarButtonItem(customView: closeButton)
+    private func setupConstraints() {
+        originalHeaderViewHeightConstraint = headerViewHeightConstraint.constant
         
-        let profileButton = UIButton(type: .custom)
-        //profileButton.setImage(UIImage(named: "stormtrooper_helmet"), for: .normal)
-        profileButton.setTitle("+", for: .normal)
-        profileButton.frame = CGRect(x: 0, y: 0, width: 17, height: 19)
-        profileButton.addTarget(self, action: #selector(StreamViewController.profileTapped), for: .touchUpInside)
-        let item2 = UIBarButtonItem(customView: profileButton)
-        
-        self.navigationItem.setLeftBarButtonItems([item1], animated: false)
-        self.navigationItem.setRightBarButtonItems([item2], animated: false)
     }
     
     private func setupPlayerView() {
         self.playerView.delegate = self
         //self.playerView.loadPlaylist(byVideos: ["4NFDhxhWyIw", "RTDuUiVSCo4"], index: 0, startSeconds: 0, suggestedQuality: .auto)
 		if viewModel.isHost {
-			self.playerView.load(withVideoId: "VGfn-NFMrXg", playerVars: [
+			self.playerView.load(withVideoId: "VGfn-NFMrXg", playerVars: [ //TODO: hide controls if participant
 				"playsinline" : 1,
 				"modestbranding" : 1,
 				"showinfo" : 0,
-				"controls" : 0,
+				"controls" : 1,
 				"playlist": "7D3Ud2JIFhA, 2VuFqm8re5c"
 				])
 		}
@@ -119,6 +158,29 @@ class StreamViewController: UIViewController {
     @IBAction func backTapped(_ sender: Any) {
         self.playerView.previousVideo()
     }
+    
+    //header tapped, so show or hide queue if host
+    @IBAction func headerTapped(_ sender: Any) {
+        if queueView.isHidden {
+            
+            headerViewHeightConstraint.constant = originalHeaderViewHeightConstraint + queueView.frame.height
+            UIView.animate(withDuration: headerViewAnimationDuration, delay: 0, options: .curveEaseOut, animations: { _ in
+                self.view.layoutIfNeeded()
+            }, completion: { complete in
+                self.queueView.isHidden = false
+            })
+        }
+        else {
+            self.queueView.isHidden = true
+            headerViewHeightConstraint.constant = originalHeaderViewHeightConstraint
+            UIView.animate(withDuration: headerViewAnimationDuration, delay: 0, options: .curveEaseOut, animations: { _ in
+                self.view.layoutIfNeeded()
+            }, completion: { complete in
+                
+            })
+        }
+    }
+    
     
     func profileTapped() {
         guard let profileVC = Utils.vcWithNameFromStoryboardWithName("inviteStream", storyboardName: "InviteStream") as? InviteStreamViewController else {
@@ -175,12 +237,12 @@ extension StreamViewController: StreamViewModelDelegate {
 			playerID = getVideoID(from: playerURL)
 		}
 		if playerView.videoUrl() == nil || currentVideoID != playerID {
-			DispatchQueue.main.async {
+			DispatchQueue.main.async { //TODO: hide controls if participant
 				self.playerView.load(withVideoId: currentVideoID, playerVars: [
 					"playsinline" : 1,
 					"modestbranding" : 1,
 					"showinfo" : 0,
-					"controls" : 0,
+					"controls" : 1,
 					])
 			}
 		}
