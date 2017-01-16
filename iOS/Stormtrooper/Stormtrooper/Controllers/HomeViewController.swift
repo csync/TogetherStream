@@ -64,8 +64,10 @@ class HomeViewController: UIViewController {
             guard let loginVC = Utils.vcWithNameFromStoryboardWithName("login", storyboardName: "Login") as? LoginViewController else {
                 return
             }
-            self.present(loginVC, animated: true, completion: { _ in
-            })
+            DispatchQueue.main.async {
+                self.present(loginVC, animated: true, completion: { _ in
+                })
+            }
         }
     }
     
