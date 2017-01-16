@@ -21,6 +21,11 @@ class ProfileViewController: UIViewController {
 		facebookDataManager.setupLoginButton(facebookLoginButton)
 		
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        UIView.setAnimationsEnabled(true)
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -28,7 +33,9 @@ class ProfileViewController: UIViewController {
     }
     
     @IBAction func cancelTapped(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
+        DispatchQueue.main.async {
+            self.dismiss(animated: true, completion: nil)
+        }
     }
 
 

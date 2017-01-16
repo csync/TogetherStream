@@ -29,6 +29,8 @@ class HomeViewController: UIViewController {
 		viewModel.refreshStreams { error, streams in
 			self.streamsTableView.reloadData()
 		}
+        
+        UIView.setAnimationsEnabled(true)
     }
 	
 	override func viewWillDisappear(_ animated: Bool) {
@@ -52,7 +54,9 @@ class HomeViewController: UIViewController {
         profileButton.addTarget(self, action: #selector(HomeViewController.profileTapped), for: .touchUpInside)
         let item1 = UIBarButtonItem(customView: profileButton)
         
-        self.navigationItem.setRightBarButtonItems([item1], animated: false)
+        DispatchQueue.main.async {
+            self.navigationItem.setRightBarButtonItems([item1], animated: false)
+        }
     }
     
     private func displayLoginIfNeeded() {
@@ -62,8 +66,10 @@ class HomeViewController: UIViewController {
             guard let loginVC = Utils.vcWithNameFromStoryboardWithName("login", storyboardName: "Login") as? LoginViewController else {
                 return
             }
-            self.present(loginVC, animated: true, completion: { _ in
-            })
+            DispatchQueue.main.async {
+                self.present(loginVC, animated: true, completion: { _ in
+                })
+            }
         }
     }
     
@@ -71,17 +77,21 @@ class HomeViewController: UIViewController {
         guard let profileVC = Utils.vcWithNameFromStoryboardWithName("profile", storyboardName: "Profile") as? ProfileViewController else {
             return
         }
-        self.present(profileVC, animated: true, completion: { _ in
+        DispatchQueue.main.async {
+            self.present(profileVC, animated: true, completion: { _ in
             
-        })
+            })
+        }
     }
 
     @IBAction func startStreamTapped(_ sender: Any) {
         guard let nameStreamVC = Utils.vcWithNameFromStoryboardWithName("nameStream", storyboardName: "NameStream") as? NameStreamViewController else {
             return
         }
-        nameStreamVC.navigationItem.title = "New Stream"
-        self.navigationController?.pushViewController(nameStreamVC, animated: true)
+        DispatchQueue.main.async {
+            nameStreamVC.navigationItem.title = "New Stream"
+            self.navigationController?.pushViewController(nameStreamVC, animated: true)
+        }
     }
 
 }

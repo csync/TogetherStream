@@ -24,6 +24,11 @@ class AddVideosViewController: UIViewController {
         setupSearchBar()
         checkIfCreatingStream()
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        UIView.setAnimationsEnabled(true)
+    }
 	
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -51,10 +56,14 @@ class AddVideosViewController: UIViewController {
             }
             inviteVC.streamName = streamName
             inviteVC.navigationItem.title = "Invite to Stream"
-            self.navigationController?.pushViewController(inviteVC, animated: true)
+            DispatchQueue.main.async {
+                self.navigationController?.pushViewController(inviteVC, animated: true)
+            }
         }
         else { //dismiss
-            self.dismiss(animated: true, completion: nil)
+            DispatchQueue.main.async {
+                self.dismiss(animated: true, completion: nil)
+            }
         }
     }
 	

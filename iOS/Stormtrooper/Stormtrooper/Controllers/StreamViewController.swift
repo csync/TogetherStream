@@ -49,6 +49,11 @@ class StreamViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(StreamViewController.rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
 		
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        UIView.setAnimationsEnabled(true)
+    }
 	
 	override func viewWillDisappear(_ animated: Bool) {
 		super.viewWillDisappear(animated)
@@ -83,8 +88,10 @@ class StreamViewController: UIViewController {
             profileButton.addTarget(self, action: #selector(StreamViewController.profileTapped), for: .touchUpInside)
             let item2 = UIBarButtonItem(customView: profileButton)
             
-            self.navigationItem.setLeftBarButtonItems([item1], animated: false)
-            self.navigationItem.setRightBarButtonItems([item2], animated: false)
+            DispatchQueue.main.async {
+                self.navigationItem.setLeftBarButtonItems([item1], animated: false)
+                self.navigationItem.setRightBarButtonItems([item2], animated: false)
+            }
         }
         else { //participant-- cannot view queue, can't end stream, can't invite people
             headerArrowImageView.isHidden = true
@@ -98,7 +105,9 @@ class StreamViewController: UIViewController {
             closeButton.addTarget(self, action: #selector(StreamViewController.closeTapped), for: .touchUpInside) //TODO: Change this to not end stream
             let item1 = UIBarButtonItem(customView: closeButton)
             
-            self.navigationItem.setLeftBarButtonItems([item1], animated: false)
+            DispatchQueue.main.async {
+                self.navigationItem.setLeftBarButtonItems([item1], animated: false)
+            }
         }
     }
     
@@ -183,18 +192,24 @@ class StreamViewController: UIViewController {
         guard let profileVC = Utils.vcWithNameFromStoryboardWithName("inviteStream", storyboardName: "InviteStream") as? InviteStreamViewController else {
             return
         }
-        self.present(profileVC, animated: true, completion: nil)
+        DispatchQueue.main.async {
+            self.present(profileVC, animated: true, completion: nil)
+        }
     }
 
     func closeTapped() {
-        let _ = self.navigationController?.popToRootViewController(animated: true)
+        DispatchQueue.main.async {
+            let _ = self.navigationController?.popToRootViewController(animated: true)
+        }
     }
 
     @IBAction func addToStreamTapped(_ sender: Any) {
         guard let addVideosVC = Utils.vcWithNameFromStoryboardWithName("addVideos", storyboardName: "AddVideos") as? AddVideosViewController else {
             return
         }
-        self.present(addVideosVC, animated: true, completion: nil)
+        DispatchQueue.main.async {
+            self.present(addVideosVC, animated: true, completion: nil)
+        }
     }
 	@IBAction func chatInputActionTriggered(_ sender: UITextField) {
 		if let text = sender.text {

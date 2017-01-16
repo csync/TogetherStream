@@ -21,6 +21,11 @@ class InviteStreamViewController: UIViewController {
         
         checkIfCreatingStream()
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        UIView.setAnimationsEnabled(true)
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -55,10 +60,14 @@ class InviteStreamViewController: UIViewController {
 			streamVC.hostID = FacebookDataManager.sharedInstance.profile?.userID
             streamVC.navigationItem.title = streamName ?? "My Stream"
             streamVC.navigationItem.hidesBackButton = true
-            self.navigationController?.pushViewController(streamVC, animated: true)
+            DispatchQueue.main.async {
+                self.navigationController?.pushViewController(streamVC, animated: true)
+            }
         }
         else { //not creating stream, so dismiss
-            self.dismiss(animated: true, completion: nil)
+            DispatchQueue.main.async {
+                self.dismiss(animated: true, completion: nil)
+            }
         }
     }
     
@@ -68,8 +77,9 @@ class InviteStreamViewController: UIViewController {
         messageVC.body = "Download Stormtrooper to join my Stream: http://ibm.biz/BdsMEz";
         //messageVC.recipients = [""]
         messageVC.messageComposeDelegate = self
-        
-        self.present(messageVC, animated: true, completion: nil)
+        DispatchQueue.main.async {
+            self.present(messageVC, animated: true, completion: nil)
+        }
     }
     
     @IBAction func emailTapped(_ sender: Any) {
@@ -81,15 +91,19 @@ class InviteStreamViewController: UIViewController {
         mailComposerVC.setMessageBody("Download Stormtrooper to join my Stream: http://ibm.biz/BdsMEz", isHTML: false)
         
         if MFMailComposeViewController.canSendMail() {
-            self.present(mailComposerVC, animated: true, completion: nil)
+            DispatchQueue.main.async {
+                self.present(mailComposerVC, animated: true, completion: nil)
+            }
         } else {
             self.showSendMailErrorAlert()
         }
     }
     
     func showSendMailErrorAlert() {
-        let sendMailErrorAlert = UIAlertController(title: "Could Not Send Email", message: "Your device could not send e-mail.  Please check e-mail configuration and try again.", preferredStyle: .alert)
-        self.present(sendMailErrorAlert, animated: true, completion: nil)
+        DispatchQueue.main.async {
+            let sendMailErrorAlert = UIAlertController(title: "Could Not Send Email", message: "Your device could not send e-mail.  Please check e-mail configuration and try again.", preferredStyle: .alert)
+            self.present(sendMailErrorAlert, animated: true, completion: nil)
+        }
         
     }
 
@@ -100,13 +114,19 @@ extension InviteStreamViewController: MFMessageComposeViewControllerDelegate {
         switch (result) {
         case .cancelled:
             print("Message was cancelled")
-            controller.dismiss(animated: true, completion: nil)
+            DispatchQueue.main.async {
+                controller.dismiss(animated: true, completion: nil)
+            }
         case .failed:
             print("Message failed")
-            controller.dismiss(animated: true, completion: nil)
+            DispatchQueue.main.async {
+                controller.dismiss(animated: true, completion: nil)
+            }
         case .sent:
             print("Message was sent")
-            controller.dismiss(animated: true, completion: nil)
+            DispatchQueue.main.async {
+                controller.dismiss(animated: true, completion: nil)
+            }
         }
     }
     
@@ -118,16 +138,24 @@ extension InviteStreamViewController: MFMailComposeViewControllerDelegate {
         switch (result) {
         case .cancelled:
             print("Message was cancelled")
-            controller.dismiss(animated: true, completion: nil)
+            DispatchQueue.main.async {
+                controller.dismiss(animated: true, completion: nil)
+            }
         case .failed:
             print("Message failed")
-            controller.dismiss(animated: true, completion: nil)
+            DispatchQueue.main.async {
+                controller.dismiss(animated: true, completion: nil)
+            }
         case .sent:
             print("Message was sent")
-            controller.dismiss(animated: true, completion: nil)
+            DispatchQueue.main.async {
+                controller.dismiss(animated: true, completion: nil)
+            }
         case .saved:
             print("Message was saved")
-            controller.dismiss(animated: true, completion: nil)
+            DispatchQueue.main.async {
+                controller.dismiss(animated: true, completion: nil)
+            }
         }
     }
 }
