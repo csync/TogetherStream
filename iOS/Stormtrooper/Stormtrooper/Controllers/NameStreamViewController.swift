@@ -45,9 +45,7 @@ class NameStreamViewController: UIViewController {
 		streamVC.hostID = FacebookDataManager.sharedInstance.profile?.userID
         streamVC.navigationItem.title = nameTextField.text ?? "My Stream"
         streamVC.navigationItem.hidesBackButton = true
-        DispatchQueue.main.async {
-            self.navigationController?.pushViewController(streamVC, animated: true)
-        }
+        self.navigationController?.pushViewController(streamVC, animated: true)
     }
     
     @IBAction func addVideosTapped(_ sender: Any) {
@@ -55,10 +53,8 @@ class NameStreamViewController: UIViewController {
             return
         }
 		addVideosVC.streamName = nameTextField.text
-        DispatchQueue.main.async {
-            addVideosVC.navigationItem.title = "Add Videos"
-            self.navigationController?.pushViewController(addVideosVC, animated: true)
-        }
+        addVideosVC.navigationItem.title = "Add Videos"
+        self.navigationController?.pushViewController(addVideosVC, animated: true)
     }
     
 

@@ -56,14 +56,10 @@ class AddVideosViewController: UIViewController {
             }
             inviteVC.streamName = streamName
             inviteVC.navigationItem.title = "Invite to Stream"
-            DispatchQueue.main.async {
-                self.navigationController?.pushViewController(inviteVC, animated: true)
-            }
+            self.navigationController?.pushViewController(inviteVC, animated: true)
         }
         else { //dismiss
-            DispatchQueue.main.async {
-                self.dismiss(animated: true, completion: nil)
-            }
+            self.dismiss(animated: true, completion: nil)
         }
     }
 	

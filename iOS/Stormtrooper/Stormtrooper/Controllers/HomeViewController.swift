@@ -54,9 +54,7 @@ class HomeViewController: UIViewController {
         profileButton.addTarget(self, action: #selector(HomeViewController.profileTapped), for: .touchUpInside)
         let item1 = UIBarButtonItem(customView: profileButton)
         
-        DispatchQueue.main.async {
-            self.navigationItem.setRightBarButtonItems([item1], animated: false)
-        }
+        self.navigationItem.setRightBarButtonItems([item1], animated: false)
     }
     
     private func displayLoginIfNeeded() {
@@ -66,10 +64,8 @@ class HomeViewController: UIViewController {
             guard let loginVC = Utils.vcWithNameFromStoryboardWithName("login", storyboardName: "Login") as? LoginViewController else {
                 return
             }
-            DispatchQueue.main.async {
-                self.present(loginVC, animated: true, completion: { _ in
-                })
-            }
+            self.present(loginVC, animated: true, completion: { _ in
+            })
         }
     }
     

@@ -33,9 +33,7 @@ class ProfileViewController: UIViewController {
     }
     
     @IBAction func cancelTapped(_ sender: Any) {
-        DispatchQueue.main.async {
-            self.dismiss(animated: true, completion: nil)
-        }
+        self.dismiss(animated: true, completion: nil)
     }
 
 
