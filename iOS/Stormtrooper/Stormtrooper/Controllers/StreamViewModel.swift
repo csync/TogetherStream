@@ -33,12 +33,10 @@ class StreamViewModel {
 	fileprivate(set) var hostPlaying = false
 	let maximumDesyncTime: Float = 1.0
 	var isHost: Bool {
-		// TODO: not hardcode
-		return FacebookDataManager.sharedInstance.profile?.userID == "10153854936447000"
+		return FacebookDataManager.sharedInstance.profile?.userID == hostID
 	}
 	
-	// TODO: not hardcode
-	private let streamPath = "streams.10153854936447000"
+	private lazy var streamPath: String = {return "streams.\(self.hostID)"}()
 	private var listenerKey: Key?
 	private var cSyncDataManager = CSyncDataManager.sharedInstance
 	private var heartbeatDataManager: HeartbeatDataManager?
@@ -46,7 +44,8 @@ class StreamViewModel {
 	private var participantsDataManager: ParticipantsDataManager?
 	private var currentUserIDs: Set<String> = []
 	
-	init() {
+	init(hostID: String) {
+		self.hostID = hostID
 		if !isHost {
 			setupParticipant()
 		}
