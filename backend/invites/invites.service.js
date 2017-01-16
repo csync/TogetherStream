@@ -38,7 +38,7 @@ var sendNotification = function (user, req) {
     note.sound = "ping.aiff";
     note.alert = "You've been invited by " + req.body["host"] + "!";
     note.payload = {streamPath: req.body["streamPath"], streamName: req.body["streamName"]};
-    note.topic = 'com.NTH.stormtrooper';
+    note.topic = 'com.ibm.cloud.stormtrooper';
 
     var apnProvider = appVars.apn;
     apnProvider.send(note, user.deviceToken).then(function (result) {
