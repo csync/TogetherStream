@@ -14,4 +14,6 @@ router.post('', authService.isAuthenticated(), invitesService.processSendingInvi
 
 router.get('', authService.isAuthenticated(), invitesService.retrieveInvites);
 
+router.delete('', authService.isAuthenticated(), invitesService.deleteInvites);
+
 module.exports = router;
