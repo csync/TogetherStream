@@ -27,8 +27,12 @@ class HomeViewController: UIViewController {
         
         displayLoginIfNeeded()
 		viewModel.refreshStreams { error, streams in
-			self.streamsTableView.reloadData()
+            DispatchQueue.main.async {
+                self.streamsTableView.reloadData()
+            }
 		}
+        
+        UIView.setAnimationsEnabled(true)
     }
 	
 	override func viewWillDisappear(_ animated: Bool) {
