@@ -21,6 +21,11 @@ class ProfileViewController: UIViewController {
 		facebookDataManager.setupLoginButton(facebookLoginButton)
 		
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        UIView.setAnimationsEnabled(true)
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
