@@ -19,6 +19,7 @@ class HomeViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         
         setupBarButtonItems()
+		viewModel.resetCurrentUserStream()
     }
     
     override func viewDidAppear(_ animated: Bool) {
