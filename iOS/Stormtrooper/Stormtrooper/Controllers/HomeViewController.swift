@@ -64,10 +64,8 @@ class HomeViewController: UIViewController {
             guard let loginVC = Utils.vcWithNameFromStoryboardWithName("login", storyboardName: "Login") as? LoginViewController else {
                 return
             }
-            DispatchQueue.main.async {
-                self.present(loginVC, animated: true, completion: { _ in
-                })
-            }
+            self.present(loginVC, animated: true, completion: { _ in
+            })
         }
     }
     
@@ -75,21 +73,17 @@ class HomeViewController: UIViewController {
         guard let profileVC = Utils.vcWithNameFromStoryboardWithName("profile", storyboardName: "Profile") as? ProfileViewController else {
             return
         }
-        DispatchQueue.main.async {
-            self.present(profileVC, animated: true, completion: { _ in
+        self.present(profileVC, animated: true, completion: { _ in
             
-            })
-        }
+        })
     }
 
     @IBAction func startStreamTapped(_ sender: Any) {
         guard let nameStreamVC = Utils.vcWithNameFromStoryboardWithName("nameStream", storyboardName: "NameStream") as? NameStreamViewController else {
             return
         }
-        DispatchQueue.main.async {
-            nameStreamVC.navigationItem.title = "New Stream"
-            self.navigationController?.pushViewController(nameStreamVC, animated: true)
-        }
+        nameStreamVC.navigationItem.title = "New Stream"
+        self.navigationController?.pushViewController(nameStreamVC, animated: true)
     }
 
 }
