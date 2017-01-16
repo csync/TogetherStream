@@ -32,6 +32,12 @@ invitesService.retrieveInvites = function (req, res) {
         })
 };
 
+invitesService.deleteInvites = function (req, res) {
+    deleteInvites(req.user);
+
+    res.sendStatus(200);
+};
+
 var sendNotification = function (user, req) {
     var note = new apn.Notification();
     note.badge = req.body["currentBadgeCount"] + 1;
@@ -74,6 +80,23 @@ var getInvites = function (user) {
                 }
                 else {
                     resolve(result.rows);
+                }
+            }
+        );
+    })
+};
+
+var deleteInvites = function (user) {
+    return new Promise(function (resolve, reject) {
+        var client = new pg.Client(appVars.postgres.uri);
+        client.connect();
+        client.query("DELETE FROM streams WHERE user_id = $1", [user.id],
+            function (err, result) {
+                if (err) {
+                    reject(err);
+                }
+                else {
+                    resolve();
                 }
             }
         );

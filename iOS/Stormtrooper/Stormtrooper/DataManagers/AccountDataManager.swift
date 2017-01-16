@@ -89,6 +89,17 @@ class AccountDataManager {
 		}
 	}
 	
+	func deleteInvites() {
+		guard let serverAccessToken = serverAccessToken, let url = URL(string: serverAddress + "/invites?access_token=" + serverAccessToken) else {
+			return
+		}
+		var request = URLRequest(url: url)
+		request.httpMethod = "DELETE"
+		sendToServer(request: request) {data, response, error in
+			
+		}
+	}
+	
 	func signup(withFacebookAccessToken accessToken: String) {
 		guard let url = URL(string: serverAddress + "/auth/facebook/token/login") else {
 			return
