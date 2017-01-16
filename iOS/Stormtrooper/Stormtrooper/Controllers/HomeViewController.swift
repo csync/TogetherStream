@@ -116,11 +116,11 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 			}
 		}
 		
-		AccountDataManager.sharedInstance.getExternalIds(forUserID: stream.hostID) {error, ids in
-			guard let ids = ids else {
+		stream.getFacebookID() {error, facebookID in
+			guard let facebookID = facebookID else {
 				return
 			}
-			FacebookDataManager.sharedInstance.fetchInfoForUser(withID: ids["facebook-token"] ?? "") {error, user in
+			FacebookDataManager.sharedInstance.fetchInfoForUser(withID: facebookID) {error, user in
 				DispatchQueue.main.async {
 					cell.hostNameLabel.text = user?.name
 				}
@@ -133,5 +133,21 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 		}
 		
 		return cell
+	}
+	
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		let stream = viewModel.streams[indexPath.row]
+		stream.getFacebookID() {error, facebookID in
+			guard let streamVC = Utils.vcWithNameFromStoryboardWithName("stream", storyboardName: "Stream") as? StreamViewController else {
+				return
+			}
+			streamVC.hostID = facebookID
+			streamVC.navigationItem.title = stream.name
+			DispatchQueue.main.async {
+				self.navigationController?.pushViewController(streamVC, animated: true)
+				tableView.deselectRow(at: indexPath, animated: true)
+			}
+		}
+		
 	}
 }

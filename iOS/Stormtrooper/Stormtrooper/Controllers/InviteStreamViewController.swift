@@ -52,7 +52,7 @@ class InviteStreamViewController: UIViewController {
             guard let streamVC = Utils.vcWithNameFromStoryboardWithName("stream", storyboardName: "Stream") as? StreamViewController else {
                 return
             }
-            streamVC.streamName = streamName
+			streamVC.hostID = FacebookDataManager.sharedInstance.profile?.userID
             streamVC.navigationItem.title = streamName ?? "My Stream"
             streamVC.navigationItem.hidesBackButton = true
             self.navigationController?.pushViewController(streamVC, animated: true)
