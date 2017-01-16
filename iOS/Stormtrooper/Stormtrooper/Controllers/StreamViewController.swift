@@ -29,20 +29,17 @@ class StreamViewController: UIViewController {
     let profileButtonFrame = CGRect(x: 0, y: 0, width: 17, height: 19)
     let headerViewAnimationDuration: TimeInterval = 0.3
 	
-	var streamName: String?
 	var hostID: String?
 	
+	// TODO: Remove or move to viewModel
     fileprivate var isPlaying = false
 	
-	fileprivate let viewModel = StreamViewModel()
+	fileprivate var viewModel: StreamViewModel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+		viewModel = StreamViewModel(hostID: hostID ?? "")
         viewModel.delegate = self
-		// TODO: Not hardcode this
-		hostID = "10153854936447000"
-		viewModel.hostID = hostID ?? ""
 		
         
         setupPlayerView()

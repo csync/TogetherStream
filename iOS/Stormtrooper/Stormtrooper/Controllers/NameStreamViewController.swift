@@ -37,7 +37,7 @@ class NameStreamViewController: UIViewController {
         guard let streamVC = Utils.vcWithNameFromStoryboardWithName("stream", storyboardName: "Stream") as? StreamViewController else {
             return
         }
-		streamVC.streamName = nameTextField.text
+		streamVC.hostID = FacebookDataManager.sharedInstance.profile?.userID
         streamVC.navigationItem.title = nameTextField.text ?? "My Stream"
         streamVC.navigationItem.hidesBackButton = true
         self.navigationController?.pushViewController(streamVC, animated: true)
