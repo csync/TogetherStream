@@ -21,6 +21,11 @@ class InviteStreamViewController: UIViewController {
         
         checkIfCreatingStream()
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        UIView.setAnimationsEnabled(true)
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
