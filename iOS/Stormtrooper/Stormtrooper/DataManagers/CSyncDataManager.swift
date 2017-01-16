@@ -25,7 +25,7 @@ class CSyncDataManager {
 	
 	func write(_ value: String, toKeyPath path: String, withACL acl: ACL = .PublicRead) {
 		let key = app.key(path)
-		key.write(value, with: acl) { value, error in
+		key.write(value, with: acl) { key, error in
 			if let error = error {
 				print(error)
 			}

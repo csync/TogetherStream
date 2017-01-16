@@ -272,6 +272,7 @@ extension StreamViewController: StreamViewModelDelegate {
 	func streamEnded() {
 		playerView.pauseVideo()
 		 // TODO: Logic for displaying end stream popup
+		print("stream ended")
 	}
 }
 
