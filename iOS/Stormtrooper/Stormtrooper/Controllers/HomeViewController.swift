@@ -14,6 +14,8 @@ class HomeViewController: UIViewController {
 	
 	fileprivate let viewModel = HomeViewModel()
     
+    private let profileButtonFrame = CGRect(x: 0, y: 0, width: 23, height: 23)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -51,8 +53,17 @@ class HomeViewController: UIViewController {
     ///Set bar button items and their actions programmatically
     private func setupBarButtonItems() {
         let profileButton = UIButton(type: .custom)
-        profileButton.setImage(UIImage(named: "stormtrooper_helmet"), for: .normal)
-        profileButton.frame = CGRect(x: 0, y: 0, width: 17, height: 19)
+        profileButton.frame = profileButtonFrame
+        FacebookDataManager.sharedInstance.fetchProfilePictureForCurrentUser(as: profileButton.frame.size) {error, image in
+            if let image = image {
+                DispatchQueue.main.async {
+                    profileButton.setImage(image, for: .normal)
+                    profileButton.layer.cornerRadius = profileButton.frame.width / 2
+                    profileButton.clipsToBounds = true
+                }
+            }
+        }
+        
         profileButton.addTarget(self, action: #selector(HomeViewController.profileTapped), for: .touchUpInside)
         let item1 = UIBarButtonItem(customView: profileButton)
         
@@ -101,6 +112,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 		}
 		let stream = viewModel.streams[indexPath.row]
 		cell.streamNameLabel.text = stream.name
+        cell.descriptionLabel.text = stream.description
 		stream.listenForCurrentVideo {[unowned self] error, videoID in
 			if let videoID = videoID {
 				self.viewModel.getVideo(withID: videoID) {error, video in
@@ -108,20 +120,22 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 						DispatchQueue.main.async {
 							cell.videoTitleLabel.text = video.title
 						}
+                        self.viewModel.getThumbnailForVideo(with: video.thumbnailURL) {error, thumbnail in
+                            if let thumbnail = thumbnail {
+                                DispatchQueue.main.async {
+                                    cell.currentVideoThumbnailImageView.image = thumbnail
+                                }
+                            }
+                        }
 					}
 				}
-				self.viewModel.getThumbnailForVideo(withID: videoID) {error, thumbnail in
-					if let thumbnail = thumbnail {
-						DispatchQueue.main.async {
-							cell.currentVideoThumbnailImageView.image = thumbnail
-						}
-					}
-				}
+				
 			}
 		}
 		
 		stream.getFacebookID() {error, facebookID in
 			guard let facebookID = facebookID else {
+                print(error!)
 				return
 			}
 			FacebookDataManager.sharedInstance.fetchInfoForUser(withID: facebookID) {error, user in
@@ -131,6 +145,8 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 				user?.fetchProfileImage {error, image in
 					DispatchQueue.main.async {
 						cell.profileImageView.image = image
+                        cell.profileImageView.layer.cornerRadius = cell.profileImageView.frame.width / 2
+                        cell.profileImageView.clipsToBounds = true
 					}
 				}
 			}
