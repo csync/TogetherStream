@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3401B4321E2EDDB9005ACB96 /* ChatTextFieldAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3401B4311E2EDDB9005ACB96 /* ChatTextFieldAccessoryView.swift */; };
+		3401B4341E2EDDCF005ACB96 /* ChatTextFieldAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3401B4331E2EDDCF005ACB96 /* ChatTextFieldAccessoryView.xib */; };
 		3419A1F81DF8837E00A11D53 /* NameStreamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3419A1F71DF8837E00A11D53 /* NameStreamViewController.swift */; };
 		3419A1FA1DF8839100A11D53 /* InviteStreamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3419A1F91DF8839100A11D53 /* InviteStreamViewController.swift */; };
 		3419A1FC1DF883AF00A11D53 /* MainNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3419A1FB1DF883AF00A11D53 /* MainNavigationController.swift */; };
@@ -104,6 +106,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3401B4311E2EDDB9005ACB96 /* ChatTextFieldAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatTextFieldAccessoryView.swift; sourceTree = "<group>"; };
+		3401B4331E2EDDCF005ACB96 /* ChatTextFieldAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatTextFieldAccessoryView.xib; sourceTree = "<group>"; };
 		3419A1F71DF8837E00A11D53 /* NameStreamViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NameStreamViewController.swift; sourceTree = "<group>"; };
 		3419A1F91DF8839100A11D53 /* InviteStreamViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InviteStreamViewController.swift; sourceTree = "<group>"; };
 		3419A1FB1DF883AF00A11D53 /* MainNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainNavigationController.swift; sourceTree = "<group>"; };
@@ -459,6 +463,8 @@
 			children = (
 				A25D96271E1D6964008FD996 /* ChatTableViewCell.swift */,
 				A25D96291E1D92EB008FD996 /* StreamTableViewCell.swift */,
+				3401B4311E2EDDB9005ACB96 /* ChatTextFieldAccessoryView.swift */,
+				3401B4331E2EDDCF005ACB96 /* ChatTextFieldAccessoryView.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -615,6 +621,7 @@
 				34AD4C011E20400E00210F61 /* OpenSans-Light.ttf in Resources */,
 				34C6E5311DF21BAD00EB4972 /* keys.plist in Resources */,
 				34AB45881E259A63000730DC /* Login.storyboard in Resources */,
+				3401B4341E2EDDCF005ACB96 /* ChatTextFieldAccessoryView.xib in Resources */,
 				34AB458E1E259BFE000730DC /* InviteStream.storyboard in Resources */,
 				34AD4C0D1E20400E00210F61 /* WorkSans-Regular.ttf in Resources */,
 				34DA47301DECA31300E989A9 /* Main.storyboard in Resources */,
@@ -670,6 +677,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3401B4321E2EDDB9005ACB96 /* ChatTextFieldAccessoryView.swift in Sources */,
 				3419A1FC1DF883AF00A11D53 /* MainNavigationController.swift in Sources */,
 				3419A1FA1DF8839100A11D53 /* InviteStreamViewController.swift in Sources */,
 				A2D44DB01E25754C00053099 /* Video.swift in Sources */,

@@ -43,6 +43,7 @@ class StreamViewController: UIViewController {
 		
         
         setupPlayerView()
+        setupChatTextFieldView()
         setupViewForHostOrParticipant()
         setupConstraints()
 		
@@ -105,6 +106,12 @@ class StreamViewController: UIViewController {
             
             self.navigationItem.setLeftBarButtonItems([item1], animated: false)
         }
+    }
+    
+    /// Adds a textfield view above keyboard when user starts typing in chat
+    private func setupChatTextFieldView() {
+        let chatAccessoryView = ChatTextFieldAccessoryView.instanceFromNib()
+        chatInputTextField.inputAccessoryView = chatAccessoryView
     }
     
     private func setupConstraints() {
