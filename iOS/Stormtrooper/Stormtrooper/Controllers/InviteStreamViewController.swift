@@ -36,6 +36,11 @@ class InviteStreamViewController: UIViewController {
             self.navigationItem.setRightBarButtonItems([skipItem], animated: false)
         }
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        UIView.setAnimationsEnabled(true)
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -75,7 +80,7 @@ class InviteStreamViewController: UIViewController {
             guard let streamVC = Utils.vcWithNameFromStoryboardWithName("stream", storyboardName: "Stream") as? StreamViewController else {
                 return
             }
-            streamVC.streamName = streamName
+			streamVC.hostID = FacebookDataManager.sharedInstance.profile?.userID
             streamVC.navigationItem.title = streamName ?? "My Stream"
             streamVC.navigationItem.hidesBackButton = true
             self.navigationController?.pushViewController(streamVC, animated: true)

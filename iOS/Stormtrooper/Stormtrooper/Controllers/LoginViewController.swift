@@ -21,6 +21,10 @@ class LoginViewController: UIViewController {
 		self.setupFacebookLogin()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        UIView.setAnimationsEnabled(true)
+    }
     
     func setupFacebookLogin() {
         facebookDataManager.setupLoginButton(facebookLoginButton)

@@ -49,7 +49,7 @@ class AccountDataManager {
 		}
 	}
 	
-	func sendInviteToStream(withName name: String, to users: [User]) {
+    func sendInviteToStream(withName name: String, andDescription description: String, to users: [User]) {
 		guard let serverAccessToken = serverAccessToken, let url = URL(string: serverAddress + "/invites?access_token=" + serverAccessToken), let userID = FacebookDataManager.sharedInstance.profile?.userID else {
 			return
 		}
@@ -58,7 +58,7 @@ class AccountDataManager {
 		var request = URLRequest(url: url)
 		request.httpMethod = "POST"
 		request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-		request.httpBody = try? JSONSerialization.data(withJSONObject: ["host": host, "streamPath": streamPath, "users": users.map({$0.id}), "currentBadgeCount": UIApplication.shared.applicationIconBadgeNumber, "streamName": name])
+		request.httpBody = try? JSONSerialization.data(withJSONObject: ["host": host, "streamPath": streamPath, "users": users.map({$0.id}), "currentBadgeCount": UIApplication.shared.applicationIconBadgeNumber, "streamName": name, "streamDescription": description])
 		sendToServer(request: request){_,_,_ in}
 	}
 	
@@ -86,6 +86,17 @@ class AccountDataManager {
 					callback(error, nil)
 				}
 			}
+		}
+	}
+	
+	func deleteInvites() {
+		guard let serverAccessToken = serverAccessToken, let url = URL(string: serverAddress + "/invites?access_token=" + serverAccessToken) else {
+			return
+		}
+		var request = URLRequest(url: url)
+		request.httpMethod = "DELETE"
+		sendToServer(request: request) {data, response, error in
+			
 		}
 	}
 	

@@ -32,13 +32,19 @@ invitesService.retrieveInvites = function (req, res) {
         })
 };
 
+invitesService.deleteInvites = function (req, res) {
+    deleteInvites(req.user);
+
+    res.sendStatus(200);
+};
+
 var sendNotification = function (user, req) {
     var note = new apn.Notification();
     note.badge = req.body["currentBadgeCount"] + 1;
     note.sound = "ping.aiff";
     note.alert = "You've been invited by " + req.body["host"] + "!";
     note.payload = {streamPath: req.body["streamPath"], streamName: req.body["streamName"]};
-    note.topic = 'com.NTH.stormtrooper';
+    note.topic = 'com.ibm.cloud.stormtrooper';
 
     var apnProvider = appVars.apn;
     apnProvider.send(note, user.deviceToken).then(function (result) {
@@ -74,6 +80,23 @@ var getInvites = function (user) {
                 }
                 else {
                     resolve(result.rows);
+                }
+            }
+        );
+    })
+};
+
+var deleteInvites = function (user) {
+    return new Promise(function (resolve, reject) {
+        var client = new pg.Client(appVars.postgres.uri);
+        client.connect();
+        client.query("DELETE FROM streams WHERE user_id = $1", [user.id],
+            function (err, result) {
+                if (err) {
+                    reject(err);
+                }
+                else {
+                    resolve();
                 }
             }
         );

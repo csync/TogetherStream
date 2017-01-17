@@ -17,6 +17,11 @@ class NameStreamViewController: UIViewController {
 
         // Do any additional setup after loading the view.
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        UIView.setAnimationsEnabled(true)
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -37,7 +42,7 @@ class NameStreamViewController: UIViewController {
         guard let streamVC = Utils.vcWithNameFromStoryboardWithName("stream", storyboardName: "Stream") as? StreamViewController else {
             return
         }
-		streamVC.streamName = nameTextField.text
+		streamVC.hostID = FacebookDataManager.sharedInstance.profile?.userID
         streamVC.navigationItem.title = nameTextField.text ?? "My Stream"
         streamVC.navigationItem.hidesBackButton = true
         self.navigationController?.pushViewController(streamVC, animated: true)
