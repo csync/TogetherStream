@@ -13,17 +13,19 @@ class Stream {
 	// Note: This is the application user ID, not FB
 	let hostID: String
 	let csyncPath: String
+    let description: String
 	
 	private var key: Key
 	private var facebookID: String?
 	
 	init?(jsonDictionary: [String: String]) {
-		guard let hostID = jsonDictionary["user_id"], let csyncPath = jsonDictionary["csync_path"], let name = jsonDictionary["stream_name"] else {
+		guard let hostID = jsonDictionary["user_id"], let csyncPath = jsonDictionary["csync_path"], let name = jsonDictionary["stream_name"], let description = jsonDictionary["description"] else {
 			return nil
 		}
 		self.name = name
 		self.hostID = hostID
 		self.csyncPath = csyncPath
+        self.description = description
 		key = CSyncDataManager.sharedInstance.createKey(atPath: csyncPath + ".currentVideoID")
 	}
 	

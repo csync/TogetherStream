@@ -168,6 +168,7 @@ userController.getOrCreateStream = function (req) {
     var user = req.user;
     var streamPath = req.body["streamPath"];
     var streamName = req.body["streamName"];
+    var streamDescription = req.body["streamDescription"];
     return new Promise(function (resolve, reject) {
         var client = new pg.Client(appVars.postgres.uri);
         client.connect();
@@ -178,10 +179,11 @@ userController.getOrCreateStream = function (req) {
                     return;
                 }
                 if (result.rowCount > 0) {
-                    resolve(result.rows[0])
+                    resolve(result.rows[0]);
+                    client.end();
                 }
                 else {
-                    client.query("INSERT INTO streams (user_id, csync_path, stream_name) VALUES ($1, $2, $3) RETURNING id", [user.id, streamPath, streamName],
+                    client.query("INSERT INTO streams (user_id, csync_path, stream_name, description) VALUES ($1, $2, $3, $4) RETURNING id", [user.id, streamPath, streamName, streamDescription],
                         function (err, result) {
                             if (err) {
                                 reject(err);
