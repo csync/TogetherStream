@@ -12,9 +12,12 @@ import MessageUI
 class InviteStreamViewController: UIViewController {
 	
     @IBOutlet weak var tableView: UITableView!
+
+    let skipButtonFrame = CGRect(x: 0, y: 0, width: 35, height: 17)
+
 	var streamName: String?
-    
     var isCreatingStream = false
+    var showSkipButton = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +25,16 @@ class InviteStreamViewController: UIViewController {
         
         checkIfCreatingStream()
         setupTableView()
+
+        if (showSkipButton) {
+            let skipButton = UIButton(type: .custom)
+            skipButton.setTitle("Skip", for: .normal)
+            skipButton.frame = skipButtonFrame
+            skipButton.addTarget(self, action: #selector(InviteStreamViewController.doneTapped), for: .touchUpInside)
+            let skipItem = UIBarButtonItem(customView: skipButton)
+
+            self.navigationItem.setRightBarButtonItems([skipItem], animated: false)
+        }
     }
 
     override func didReceiveMemoryWarning() {

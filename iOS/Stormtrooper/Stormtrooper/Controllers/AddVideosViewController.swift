@@ -11,7 +11,7 @@ import UIKit
 class AddVideosViewController: UIViewController {
 
     @IBOutlet weak var searchBar: UISearchBar!
-	
+
 	var streamName: String?
     
     var isCreatingStream = false
@@ -51,7 +51,9 @@ class AddVideosViewController: UIViewController {
             }
             inviteVC.streamName = streamName
             inviteVC.navigationItem.title = "Invite to Stream"
+            inviteVC.showSkipButton = true
             self.navigationController?.pushViewController(inviteVC, animated: true)
+
         }
         else { //dismiss
             self.dismiss(animated: true, completion: nil)
