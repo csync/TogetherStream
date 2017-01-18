@@ -20,6 +20,7 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         setupBarButtonItems()
+        setupTableView()
         
 		viewModel.resetCurrentUserStream()
     }
@@ -70,6 +71,11 @@ class HomeViewController: UIViewController {
         self.navigationItem.setRightBarButtonItems([item1], animated: false)
     }
     
+    private func setupTableView() {
+        streamsTableView.register(UINib(nibName: "StreamTableViewCell", bundle: nil), forCellReuseIdentifier: "streamCell")
+        streamsTableView.register(UINib(nibName: "NoStreamsTableViewCell", bundle: nil), forCellReuseIdentifier: "noStreamsCell")
+    }
+    
     private func displayLoginIfNeeded() {
         if let _ = FacebookDataManager.sharedInstance.profile { //logged in
         }
@@ -103,10 +109,17 @@ class HomeViewController: UIViewController {
 
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return viewModel.streams.count
+		return viewModel.numberOfRows
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1 {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "noStreamsCell") as? NoStreamsTableViewCell else {
+                return UITableViewCell()
+            }
+            return cell
+        }
+        
 		guard let cell = tableView.dequeueReusableCell(withIdentifier: "streamCell") as? StreamTableViewCell else {
 			return UITableViewCell()
 		}
@@ -154,6 +167,14 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 		
 		return cell
 	}
+    
+    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        return viewModel.shouldSelectCell(at: indexPath) ? indexPath : nil
+    }
+    
+    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+        return viewModel.shouldSelectCell(at: indexPath)
+    }
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		let stream = viewModel.streams[indexPath.row]

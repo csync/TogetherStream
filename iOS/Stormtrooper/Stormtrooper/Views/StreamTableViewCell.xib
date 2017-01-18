@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="OpenSans-Regular.ttf">
+            <string>OpenSans</string>
+        </array>
+        <array key="OpenSans-Semibold.ttf">
+            <string>OpenSans-Semibold</string>
+        </array>
+        <array key="WorkSans-SemiBold.ttf">
+            <string>WorkSans-SemiBold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="streamCell" id="2mH-qJ-w5O" customClass="StreamTableViewCell" customModule="Stormtrooper" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="300"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2mH-qJ-w5O" id="StK-xE-YrS">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="299"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="EvI-gA-R0v">
+                        <rect key="frame" x="11.5" y="8" width="34" height="34"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="EvI-gA-R0v" secondAttribute="height" multiplier="1:1" id="FCa-SD-nsi"/>
+                            <constraint firstAttribute="width" constant="34" id="Rxu-3q-J1n"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                <real key="value" value="0.0"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="v2k-tT-2Gc">
+                        <rect key="frame" x="11.5" y="53" width="352" height="180"/>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7gl-1v-qNA">
+                        <rect key="frame" x="58.5" y="8" width="34" height="18"/>
+                        <fontDescription key="fontDescription" name="OpenSans-Semibold" family="Open Sans" pointSize="13"/>
+                        <color key="textColor" red="0.2901960784" green="0.2901960784" blue="0.2901960784" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zBg-MP-7fF">
+                        <rect key="frame" x="58.5" y="26" width="30.5" height="16.5"/>
+                        <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="12"/>
+                        <color key="textColor" red="0.2901960784" green="0.2901960784" blue="0.2901960784" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eSZ-5Z-Mw6">
+                        <rect key="frame" x="24.5" y="206" width="32" height="17"/>
+                        <fontDescription key="fontDescription" name="OpenSans-Semibold" family="Open Sans" pointSize="12"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="JOIN STREAM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PlC-EX-dae">
+                        <rect key="frame" x="270" y="8" width="82" height="15"/>
+                        <fontDescription key="fontDescription" name="WorkSans-SemiBold" family="Work Sans" pointSize="12"/>
+                        <color key="textColor" red="0.84705882349999995" green="0.25490196079999999" blue="0.027450980390000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sideways_arrow" translatesAutoresizingMaskIntoConstraints="NO" id="FfH-L1-58f">
+                        <rect key="frame" x="357" y="8" width="8" height="12"/>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CURRENTLY STREAMING" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vvc-ye-igT">
+                        <rect key="frame" x="24.5" y="192" width="121" height="12"/>
+                        <fontDescription key="fontDescription" name="WorkSans-SemiBold" family="Work Sans" pointSize="10"/>
+                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CJv-5p-fnp">
+                        <rect key="frame" x="11.5" y="245" width="352" height="18"/>
+                        <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="13"/>
+                        <color key="textColor" red="0.2901960784" green="0.2901960784" blue="0.2901960784" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="zBg-MP-7fF" firstAttribute="leading" secondItem="7gl-1v-qNA" secondAttribute="leading" id="2kS-s7-mdG"/>
+                    <constraint firstItem="v2k-tT-2Gc" firstAttribute="leading" secondItem="EvI-gA-R0v" secondAttribute="leading" id="6Xw-D9-W9q"/>
+                    <constraint firstItem="PlC-EX-dae" firstAttribute="top" secondItem="7gl-1v-qNA" secondAttribute="top" id="7Xl-aL-C4b"/>
+                    <constraint firstItem="FfH-L1-58f" firstAttribute="trailing" secondItem="v2k-tT-2Gc" secondAttribute="trailing" constant="1.5" id="9ax-UK-Ic4"/>
+                    <constraint firstItem="PlC-EX-dae" firstAttribute="top" secondItem="FfH-L1-58f" secondAttribute="top" id="AiC-7d-YFq"/>
+                    <constraint firstItem="FfH-L1-58f" firstAttribute="leading" secondItem="PlC-EX-dae" secondAttribute="trailing" constant="5" id="B7T-js-Lac"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="v2k-tT-2Gc" secondAttribute="bottom" constant="59" id="G68-v7-qGJ"/>
+                    <constraint firstItem="zBg-MP-7fF" firstAttribute="top" secondItem="7gl-1v-qNA" secondAttribute="bottom" id="Jpq-Qo-SeX"/>
+                    <constraint firstItem="CJv-5p-fnp" firstAttribute="top" secondItem="v2k-tT-2Gc" secondAttribute="bottom" constant="12" id="Qge-b0-OrM"/>
+                    <constraint firstItem="CJv-5p-fnp" firstAttribute="leading" secondItem="v2k-tT-2Gc" secondAttribute="leading" id="RGn-9U-aAo"/>
+                    <constraint firstItem="7gl-1v-qNA" firstAttribute="leading" secondItem="EvI-gA-R0v" secondAttribute="trailing" constant="13" id="RSA-6O-38g"/>
+                    <constraint firstAttribute="topMargin" secondItem="7gl-1v-qNA" secondAttribute="top" id="WLL-Bw-yJP"/>
+                    <constraint firstItem="v2k-tT-2Gc" firstAttribute="top" secondItem="zBg-MP-7fF" secondAttribute="bottom" constant="10" id="cqF-Tp-r1x"/>
+                    <constraint firstItem="eSZ-5Z-Mw6" firstAttribute="top" secondItem="vvc-ye-igT" secondAttribute="bottom" constant="2" id="eeL-3b-kSO"/>
+                    <constraint firstItem="eSZ-5Z-Mw6" firstAttribute="bottom" secondItem="v2k-tT-2Gc" secondAttribute="bottom" constant="-10" id="emE-xv-R46"/>
+                    <constraint firstItem="CJv-5p-fnp" firstAttribute="trailing" secondItem="v2k-tT-2Gc" secondAttribute="trailing" id="fRG-zi-fDQ"/>
+                    <constraint firstItem="EvI-gA-R0v" firstAttribute="bottom" secondItem="zBg-MP-7fF" secondAttribute="bottom" id="feX-Qu-VWA"/>
+                    <constraint firstItem="EvI-gA-R0v" firstAttribute="top" secondItem="7gl-1v-qNA" secondAttribute="top" id="hNW-fM-AXX"/>
+                    <constraint firstItem="vvc-ye-igT" firstAttribute="leading" secondItem="eSZ-5Z-Mw6" secondAttribute="leading" id="nmJ-Ch-vRs"/>
+                    <constraint firstItem="v2k-tT-2Gc" firstAttribute="leading" secondItem="eSZ-5Z-Mw6" secondAttribute="leading" constant="-13" id="tW7-0l-b3L"/>
+                    <constraint firstItem="EvI-gA-R0v" firstAttribute="leading" secondItem="StK-xE-YrS" secondAttribute="leadingMargin" constant="3.5" id="uTK-qE-cMx"/>
+                    <constraint firstItem="v2k-tT-2Gc" firstAttribute="trailing" secondItem="StK-xE-YrS" secondAttribute="trailingMargin" constant="-3.5" id="vFP-U5-kB6"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="currentVideoThumbnailImageView" destination="v2k-tT-2Gc" id="OEM-Hp-LKs"/>
+                <outlet property="descriptionLabel" destination="CJv-5p-fnp" id="Qrs-jT-WfU"/>
+                <outlet property="hostNameLabel" destination="zBg-MP-7fF" id="dmy-R8-AGd"/>
+                <outlet property="profileImageView" destination="EvI-gA-R0v" id="ADN-SJ-SqL"/>
+                <outlet property="streamNameLabel" destination="7gl-1v-qNA" id="T7l-Vo-2dm"/>
+                <outlet property="videoTitleLabel" destination="eSZ-5Z-Mw6" id="Hlq-Dg-bXo"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="sideways_arrow" width="8" height="12"/>
+    </resources>
+</document>
