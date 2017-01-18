@@ -260,8 +260,10 @@ class StreamViewController: UIViewController {
         }
         self.present(addVideosVC, animated: true, completion: nil)
     }
-	@IBAction func chatInputActionTriggered(_ sender: UITextField) {
-		if let text = sender.text {
+    
+    
+    func chatInputActionTriggered(textField: UITextField) {
+		if let text = textField.text {
 			viewModel.send(chatMessage: text)
 		}
         
@@ -454,7 +456,7 @@ extension StreamViewController: YTPlayerViewDelegate {
 
 extension StreamViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        chatInputActionTriggered(textField) //send the chat
+        chatInputActionTriggered(textField: textField) //send the chat
         visualEffectView.isHidden = true
         return true
     }

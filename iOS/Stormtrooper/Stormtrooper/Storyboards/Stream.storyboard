@@ -96,9 +96,6 @@
                                                 <color key="textColor" red="0.2901960784" green="0.2901960784" blue="0.2901960784" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="11"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="no" returnKeyType="send"/>
-                                                <connections>
-                                                    <action selector="chatInputActionTriggered:" destination="BYZ-38-t0r" eventType="editingDidEnd" id="6Eh-Po-e5s"/>
-                                                </connections>
                                             </textField>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
