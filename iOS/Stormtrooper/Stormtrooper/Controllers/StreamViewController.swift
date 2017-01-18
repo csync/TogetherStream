@@ -136,6 +136,7 @@ class StreamViewController: UIViewController {
         chatTableView.delegate = self
         chatTableView.dataSource = self
         chatTableView.register(UINib(nibName: "ChatMessageTableViewCell", bundle: nil), forCellReuseIdentifier: "chatMessage")
+        chatTableView.register(UINib(nibName: "ChatEventTableViewCell", bundle: nil), forCellReuseIdentifier: "chatEvent")
         
     }
     
@@ -349,27 +350,45 @@ extension StreamViewController: StreamViewModelDelegate {
 
 extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		guard let cell = tableView.dequeueReusableCell(withIdentifier: "chatMessage") as? ChatMessageTableViewCell else {
-			return UITableViewCell()
-		}
+        var messageCell: ChatMessageTableViewCell?
+        var eventCell: ChatEventTableViewCell?
+        
+        messageCell = tableView.dequeueReusableCell(withIdentifier: "chatMessage") as? ChatMessageTableViewCell
+        eventCell = tableView.dequeueReusableCell(withIdentifier: "chatEvent") as? ChatEventTableViewCell
+        
 		let message = viewModel.messages[indexPath.row]
-		cell.nameLabel.text = nil
-		cell.messageLabel.text = nil
-		cell.profileImageView.image = nil
+		
 		FacebookDataManager.sharedInstance.fetchInfoForUser(withID: message.subjectID) { error, user in
-			cell.nameLabel.text = user?.name
 			if let message = message as? ChatMessage {
-				cell.messageLabel.text = message.content
+                eventCell = nil
+				messageCell?.messageLabel.text = message.content
+                messageCell?.nameLabel.text = user?.name
 			}
 			else if let message = message as? ParticipantMessage {
-				cell.messageLabel.text = message.isJoining ? "joined the stream." : "left the stream."
+                messageCell = nil
+				eventCell?.messageLabel.text = message.isJoining ? " joined the stream." : " left the stream."
+                eventCell?.nameLabel.text = "Blkajlkdsjfl EHEHlkjlkwje"
 			}
 			user?.fetchProfileImage { error, image in
-				cell.profileImageView.image = image
+                messageCell?.profileImageView.image = image
+				eventCell?.profileImageView.image = image
 			}
 		}
-		
-		return cell
+        
+        //return messageCell ?? eventCell ?? UITableViewCell()
+        if let messageTableViewCell = messageCell {
+            return messageTableViewCell
+        }
+        else if let eventTableViewCell = eventCell {
+            return eventTableViewCell
+        }
+        else {
+            return UITableViewCell()
+        }
+        
+        
+        
+        
 	}
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

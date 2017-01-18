@@ -12,6 +12,8 @@
 		3401B4361E2EEA58005ACB96 /* UITextFieldExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3401B4351E2EEA58005ACB96 /* UITextFieldExtension.swift */; };
 		3401B4381E2F0C75005ACB96 /* UITableViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3401B4371E2F0C75005ACB96 /* UITableViewExtension.swift */; };
 		3401B43A1E2F1FF1005ACB96 /* ChatMessageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3401B4391E2F1FF1005ACB96 /* ChatMessageTableViewCell.xib */; };
+		3401B43D1E2F2C61005ACB96 /* ChatEventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3401B43B1E2F2C61005ACB96 /* ChatEventTableViewCell.swift */; };
+		3401B43E1E2F2C61005ACB96 /* ChatEventTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3401B43C1E2F2C61005ACB96 /* ChatEventTableViewCell.xib */; };
 		3419A1F81DF8837E00A11D53 /* NameStreamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3419A1F71DF8837E00A11D53 /* NameStreamViewController.swift */; };
 		3419A1FA1DF8839100A11D53 /* InviteStreamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3419A1F91DF8839100A11D53 /* InviteStreamViewController.swift */; };
 		3419A1FC1DF883AF00A11D53 /* MainNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3419A1FB1DF883AF00A11D53 /* MainNavigationController.swift */; };
@@ -114,6 +116,8 @@
 		3401B4351E2EEA58005ACB96 /* UITextFieldExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITextFieldExtension.swift; sourceTree = "<group>"; };
 		3401B4371E2F0C75005ACB96 /* UITableViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITableViewExtension.swift; sourceTree = "<group>"; };
 		3401B4391E2F1FF1005ACB96 /* ChatMessageTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatMessageTableViewCell.xib; sourceTree = "<group>"; };
+		3401B43B1E2F2C61005ACB96 /* ChatEventTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatEventTableViewCell.swift; sourceTree = "<group>"; };
+		3401B43C1E2F2C61005ACB96 /* ChatEventTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatEventTableViewCell.xib; sourceTree = "<group>"; };
 		3419A1F71DF8837E00A11D53 /* NameStreamViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NameStreamViewController.swift; sourceTree = "<group>"; };
 		3419A1F91DF8839100A11D53 /* InviteStreamViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InviteStreamViewController.swift; sourceTree = "<group>"; };
 		3419A1FB1DF883AF00A11D53 /* MainNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainNavigationController.swift; sourceTree = "<group>"; };
@@ -469,6 +473,8 @@
 		34DA470C1DECA2E500E989A9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				3401B43B1E2F2C61005ACB96 /* ChatEventTableViewCell.swift */,
+				3401B43C1E2F2C61005ACB96 /* ChatEventTableViewCell.xib */,
 				A25D96271E1D6964008FD996 /* ChatMessageTableViewCell.swift */,
 				3401B4391E2F1FF1005ACB96 /* ChatMessageTableViewCell.xib */,
 				A25D96291E1D92EB008FD996 /* StreamTableViewCell.swift */,
@@ -642,6 +648,7 @@
 				34AD4BFD1E20400E00210F61 /* OpenSans-BoldItalic.ttf in Resources */,
 				34AD4C021E20400E00210F61 /* OpenSans-LightItalic.ttf in Resources */,
 				34AB458A1E259B67000730DC /* Profile.storyboard in Resources */,
+				3401B43E1E2F2C61005ACB96 /* ChatEventTableViewCell.xib in Resources */,
 				34AB45921E259C29000730DC /* AddVideos.storyboard in Resources */,
 				34DA472F1DECA31300E989A9 /* LaunchScreen.storyboard in Resources */,
 			);
@@ -688,6 +695,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3401B4321E2EDDB9005ACB96 /* ChatTextFieldAccessoryView.swift in Sources */,
+				3401B43D1E2F2C61005ACB96 /* ChatEventTableViewCell.swift in Sources */,
 				3419A1FC1DF883AF00A11D53 /* MainNavigationController.swift in Sources */,
 				3419A1FA1DF8839100A11D53 /* InviteStreamViewController.swift in Sources */,
 				A2D44DB01E25754C00053099 /* Video.swift in Sources */,
