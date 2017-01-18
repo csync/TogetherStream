@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="OpenSans-Bold.ttf">
+            <string>OpenSans-Bold</string>
+        </array>
+        <array key="OpenSans-Regular.ttf">
+            <string>OpenSans</string>
+        </array>
+        <array key="WorkSans-SemiBold.ttf">
+            <string>WorkSans-SemiBold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="noStreamsCell" rowHeight="211" id="66H-Tf-uPu" customClass="NoStreamsTableViewCell" customModule="Stormtrooper" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="211"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="66H-Tf-uPu" id="yHu-OI-6sb">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="210"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="There are no more streams available" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JMv-BD-w4O">
+                        <rect key="frame" x="51" y="43" width="274" height="21"/>
+                        <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="15"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Invite friends to stream with you on Media Sync Stream" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LNw-lL-Pnl">
+                        <rect key="frame" x="45" y="78" width="285" height="35.5"/>
+                        <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="13"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h4t-t4-0WJ">
+                        <rect key="frame" x="105" y="135.5" width="166" height="33"/>
+                        <fontDescription key="fontDescription" name="WorkSans-SemiBold" family="Work Sans" pointSize="12"/>
+                        <inset key="contentEdgeInsets" minX="35" minY="9" maxX="35" maxY="9"/>
+                        <state key="normal" title="INVITE FRIENDS">
+                            <color key="titleColor" red="0.84705882349999995" green="0.25490196079999999" blue="0.027450980390000001" alpha="1" colorSpace="calibratedRGB"/>
+                        </state>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                <real key="value" value="0.0"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="h4t-t4-0WJ" firstAttribute="centerX" secondItem="yHu-OI-6sb" secondAttribute="centerX" id="Dmr-kf-3nV"/>
+                    <constraint firstItem="JMv-BD-w4O" firstAttribute="top" secondItem="yHu-OI-6sb" secondAttribute="topMargin" constant="35" id="I6x-F5-Uvu"/>
+                    <constraint firstItem="LNw-lL-Pnl" firstAttribute="top" secondItem="JMv-BD-w4O" secondAttribute="bottom" constant="14" id="J6d-C7-hfq"/>
+                    <constraint firstItem="LNw-lL-Pnl" firstAttribute="leading" secondItem="yHu-OI-6sb" secondAttribute="leadingMargin" constant="37" id="JDd-gr-NtA"/>
+                    <constraint firstItem="LNw-lL-Pnl" firstAttribute="centerX" secondItem="yHu-OI-6sb" secondAttribute="centerX" id="Ryt-eb-HwI"/>
+                    <constraint firstItem="JMv-BD-w4O" firstAttribute="centerX" secondItem="yHu-OI-6sb" secondAttribute="centerX" id="gg9-hF-hSM"/>
+                    <constraint firstItem="h4t-t4-0WJ" firstAttribute="top" secondItem="LNw-lL-Pnl" secondAttribute="bottom" constant="22" id="gtO-b4-vVb"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="LNw-lL-Pnl" secondAttribute="trailing" constant="37" id="rxX-Gx-gy0"/>
+                </constraints>
+            </tableViewCellContentView>
+            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+            <connections>
+                <outlet property="inviteFriendsButton" destination="h4t-t4-0WJ" id="hgb-ip-yRF"/>
+            </connections>
+            <point key="canvasLocation" x="34.5" y="39.5"/>
+        </tableViewCell>
+    </objects>
+</document>

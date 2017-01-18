@@ -11,6 +11,10 @@ import Foundation
 
 class HomeViewModel {
 	var streams: [Stream] = []
+    
+    var numberOfRows: Int {
+        return streams.count + 1
+    }
 	
 	private let accountDataManager = AccountDataManager.sharedInstance
 	private let youtubeDataManager = YouTubeDataManager.sharedInstance
@@ -30,6 +34,10 @@ class HomeViewModel {
 //			}
 //		}
 	}
+    
+    func shouldSelectCell(at indexPath: IndexPath) -> Bool {
+        return indexPath.row < streams.count
+    }
 	
 	func stopStreamsListening() {
 		for stream in streams {
