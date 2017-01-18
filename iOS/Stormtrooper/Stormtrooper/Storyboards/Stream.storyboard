@@ -157,7 +157,7 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="hJI-3r-HnT"/>
                                 </connections>
                             </tableView>
-                            <visualEffectView hidden="YES" opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1FR-Ex-Q2W">
+                            <visualEffectView hidden="YES" opaque="NO" alpha="0.84999999999999998" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1FR-Ex-Q2W">
                                 <rect key="frame" x="0.0" y="231" width="375" height="436"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="9nJ-dW-vya">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="436"/>
