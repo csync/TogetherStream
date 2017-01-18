@@ -367,7 +367,7 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
 			else if let message = message as? ParticipantMessage {
                 messageCell = nil
 				eventCell?.messageLabel.text = message.isJoining ? " joined the stream." : " left the stream."
-                eventCell?.nameLabel.text = "Blkajlkdsjfl EHEHlkjlkwje"
+                eventCell?.nameLabel.text = user?.name
 			}
 			user?.fetchProfileImage { error, image in
                 messageCell?.profileImageView.image = image

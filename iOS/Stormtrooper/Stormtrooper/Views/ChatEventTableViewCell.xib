@@ -39,7 +39,7 @@
                         </userDefinedRuntimeAttributes>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="joined the stream." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LOT-N6-I4P">
-                        <rect key="frame" x="165" y="13" width="159" height="31"/>
+                        <rect key="frame" x="165" y="12" width="159" height="31"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="159" id="Mrs-Sc-vb0"/>
                             <constraint firstAttribute="height" constant="31" id="i8Z-vS-nMm"/>
@@ -64,7 +64,7 @@
                     <constraint firstItem="RHn-dD-ned" firstAttribute="centerY" secondItem="8KZ-a8-S7k" secondAttribute="centerY" id="Pfh-Sd-j9F"/>
                     <constraint firstItem="LOT-N6-I4P" firstAttribute="leading" secondItem="RHn-dD-ned" secondAttribute="trailing" constant="5" id="UJL-Tv-BKg"/>
                     <constraint firstItem="Zt3-P9-Heg" firstAttribute="centerY" secondItem="8KZ-a8-S7k" secondAttribute="centerY" id="ayH-5h-zZz"/>
-                    <constraint firstItem="LOT-N6-I4P" firstAttribute="centerY" secondItem="8KZ-a8-S7k" secondAttribute="centerY" constant="1" id="whl-0J-ZNw"/>
+                    <constraint firstItem="LOT-N6-I4P" firstAttribute="centerY" secondItem="8KZ-a8-S7k" secondAttribute="centerY" id="whl-0J-ZNw"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
