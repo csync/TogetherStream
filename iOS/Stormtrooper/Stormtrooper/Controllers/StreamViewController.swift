@@ -222,6 +222,7 @@ class StreamViewController: UIViewController {
     
     //header tapped, so show or hide queue if host
     @IBAction func headerTapped(_ sender: Any) {
+        UIView.setAnimationsEnabled(true) //fix for animations breaking
         if queueView.isHidden {
             
             headerViewHeightConstraint.constant = originalHeaderViewHeightConstraint + queueView.frame.height
@@ -485,6 +486,7 @@ extension StreamViewController: UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
+        UIView.setAnimationsEnabled(true) //fix for animations breaking
         visualEffectView.isHidden = false
     }
     
