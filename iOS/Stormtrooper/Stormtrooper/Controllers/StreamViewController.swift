@@ -21,6 +21,7 @@ class StreamViewController: UIViewController {
     @IBOutlet weak var headerArrowImageView: UIImageView!
     @IBOutlet weak var headerViewButton: UIButton!
     @IBOutlet weak var visualEffectView: UIVisualEffectView!
+    @IBOutlet weak var profileImageView: UIImageView!
     
     //constraints
     var originalHeaderViewHeightConstraint: CGFloat = 0
@@ -48,6 +49,7 @@ class StreamViewController: UIViewController {
         setupChatTableView()
         setupPlayerView()
         setupChatTextFieldView()
+        setupProfilePictures()
         setupViewForHostOrParticipant()
         setupConstraints()
 		
@@ -130,6 +132,17 @@ class StreamViewController: UIViewController {
         chatInputTextField.inputAccessoryView = accessoryView
         
         
+    }
+    
+    private func setupProfilePictures() {
+        FacebookDataManager.sharedInstance.fetchProfilePictureForCurrentUser(as: profileImageView.frame.size) {error, image in
+            if let image = image {
+                DispatchQueue.main.async {
+                    self.profileImageView.image = image
+                    self.accessoryView.profileImageView.image = image
+                }
+            }
+        }
     }
     
     private func setupChatTableView() {

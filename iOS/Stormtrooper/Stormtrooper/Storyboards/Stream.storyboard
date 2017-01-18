@@ -354,6 +354,7 @@
                         <outlet property="mediaControllerView" destination="g4f-7A-fEP" id="iBP-6P-a37"/>
                         <outlet property="playPauseButton" destination="fKU-Jj-50I" id="1Vn-VJ-7fW"/>
                         <outlet property="playerView" destination="lt2-Nk-1YZ" id="lxf-Lz-SRg"/>
+                        <outlet property="profileImageView" destination="A15-q2-X7f" id="rJC-er-b3v"/>
                         <outlet property="queueView" destination="q4i-Y2-lar" id="WHj-gP-3VR"/>
                         <outlet property="userCountLabel" destination="yLh-6L-jBa" id="UlQ-iZ-Kxy"/>
                         <outlet property="visualEffectView" destination="1FR-Ex-Q2W" id="jhs-Xk-h85"/>
