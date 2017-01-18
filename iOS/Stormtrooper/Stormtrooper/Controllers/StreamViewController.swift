@@ -220,6 +220,7 @@ class StreamViewController: UIViewController {
             UIView.animate(withDuration: headerViewAnimationDuration, delay: 0, options: .curveEaseOut, animations: { _ in
                 self.view.layoutIfNeeded()
             }, completion: { complete in
+                //TODO: swap arrow images here!
                 self.queueView.isHidden = false
             })
         }
@@ -229,7 +230,7 @@ class StreamViewController: UIViewController {
             UIView.animate(withDuration: headerViewAnimationDuration, delay: 0, options: .curveEaseOut, animations: { _ in
                 self.view.layoutIfNeeded()
             }, completion: { complete in
-                
+                //TODO: swap arrow images here!
             })
         }
     }
