@@ -340,9 +340,10 @@ extension StreamViewController: StreamViewModelDelegate {
 
 extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		guard let cell = tableView.dequeueReusableCell(withIdentifier: "chatCell") as? ChatTableViewCell else {
-			return UITableViewCell()
-		}
+//		guard let cell = tableView.dequeueReusableCell(withIdentifier: "chatCell") as? ChatMessageTableViewCell else {
+//			return UITableViewCell()
+//		}
+        guard let cell = 
 		let message = viewModel.messages[indexPath.row]
 		cell.nameLabel.text = nil
 		cell.messageLabel.text = nil

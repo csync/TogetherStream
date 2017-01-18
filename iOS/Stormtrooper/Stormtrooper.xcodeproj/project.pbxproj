@@ -11,6 +11,7 @@
 		3401B4341E2EDDCF005ACB96 /* ChatTextFieldAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3401B4331E2EDDCF005ACB96 /* ChatTextFieldAccessoryView.xib */; };
 		3401B4361E2EEA58005ACB96 /* UITextFieldExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3401B4351E2EEA58005ACB96 /* UITextFieldExtension.swift */; };
 		3401B4381E2F0C75005ACB96 /* UITableViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3401B4371E2F0C75005ACB96 /* UITableViewExtension.swift */; };
+		3401B43A1E2F1FF1005ACB96 /* ChatMessageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3401B4391E2F1FF1005ACB96 /* ChatMessageTableViewCell.xib */; };
 		3419A1F81DF8837E00A11D53 /* NameStreamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3419A1F71DF8837E00A11D53 /* NameStreamViewController.swift */; };
 		3419A1FA1DF8839100A11D53 /* InviteStreamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3419A1F91DF8839100A11D53 /* InviteStreamViewController.swift */; };
 		3419A1FC1DF883AF00A11D53 /* MainNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3419A1FB1DF883AF00A11D53 /* MainNavigationController.swift */; };
@@ -68,7 +69,7 @@
 		A25D96221E0344B3008FD996 /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25D96211E0344B3008FD996 /* ChatMessage.swift */; };
 		A25D96241E0B16BA008FD996 /* StreamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25D96231E0B16BA008FD996 /* StreamViewModel.swift */; };
 		A25D96261E1D55E9008FD996 /* Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25D96251E1D55E9008FD996 /* Stream.swift */; };
-		A25D96281E1D6964008FD996 /* ChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25D96271E1D6964008FD996 /* ChatTableViewCell.swift */; };
+		A25D96281E1D6964008FD996 /* ChatMessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25D96271E1D6964008FD996 /* ChatMessageTableViewCell.swift */; };
 		A25D962A1E1D92EB008FD996 /* StreamTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25D96291E1D92EB008FD996 /* StreamTableViewCell.swift */; };
 		A25D962C1E1D965A008FD996 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25D962B1E1D965A008FD996 /* HomeViewModel.swift */; };
 		A29D11021DF5FC4E00FA0EEC /* AccountDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29D11011DF5FC4E00FA0EEC /* AccountDataManager.swift */; };
@@ -112,6 +113,7 @@
 		3401B4331E2EDDCF005ACB96 /* ChatTextFieldAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatTextFieldAccessoryView.xib; sourceTree = "<group>"; };
 		3401B4351E2EEA58005ACB96 /* UITextFieldExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITextFieldExtension.swift; sourceTree = "<group>"; };
 		3401B4371E2F0C75005ACB96 /* UITableViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITableViewExtension.swift; sourceTree = "<group>"; };
+		3401B4391E2F1FF1005ACB96 /* ChatMessageTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatMessageTableViewCell.xib; sourceTree = "<group>"; };
 		3419A1F71DF8837E00A11D53 /* NameStreamViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NameStreamViewController.swift; sourceTree = "<group>"; };
 		3419A1F91DF8839100A11D53 /* InviteStreamViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InviteStreamViewController.swift; sourceTree = "<group>"; };
 		3419A1FB1DF883AF00A11D53 /* MainNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainNavigationController.swift; sourceTree = "<group>"; };
@@ -176,7 +178,7 @@
 		A25D96211E0344B3008FD996 /* ChatMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
 		A25D96231E0B16BA008FD996 /* StreamViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StreamViewModel.swift; path = ../Controllers/StreamViewModel.swift; sourceTree = "<group>"; };
 		A25D96251E1D55E9008FD996 /* Stream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stream.swift; sourceTree = "<group>"; };
-		A25D96271E1D6964008FD996 /* ChatTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatTableViewCell.swift; sourceTree = "<group>"; };
+		A25D96271E1D6964008FD996 /* ChatMessageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatMessageTableViewCell.swift; sourceTree = "<group>"; };
 		A25D96291E1D92EB008FD996 /* StreamTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamTableViewCell.swift; sourceTree = "<group>"; };
 		A25D962B1E1D965A008FD996 /* HomeViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		A29D11011DF5FC4E00FA0EEC /* AccountDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountDataManager.swift; sourceTree = "<group>"; };
@@ -467,7 +469,8 @@
 		34DA470C1DECA2E500E989A9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				A25D96271E1D6964008FD996 /* ChatTableViewCell.swift */,
+				A25D96271E1D6964008FD996 /* ChatMessageTableViewCell.swift */,
+				3401B4391E2F1FF1005ACB96 /* ChatMessageTableViewCell.xib */,
 				A25D96291E1D92EB008FD996 /* StreamTableViewCell.swift */,
 				3401B4311E2EDDB9005ACB96 /* ChatTextFieldAccessoryView.swift */,
 				3401B4331E2EDDCF005ACB96 /* ChatTextFieldAccessoryView.xib */,
@@ -614,6 +617,7 @@
 				34AD4C001E20400E00210F61 /* OpenSans-Italic.ttf in Resources */,
 				34AD4C081E20400E00210F61 /* WorkSans-Bold.ttf in Resources */,
 				34AD4C0B1E20400E00210F61 /* WorkSans-Light.ttf in Resources */,
+				3401B43A1E2F1FF1005ACB96 /* ChatMessageTableViewCell.xib in Resources */,
 				34AD4BFC1E20400E00210F61 /* OpenSans-Bold.ttf in Resources */,
 				34AB458C1E259BDD000730DC /* NameStream.storyboard in Resources */,
 				34AD4BFE1E20400E00210F61 /* OpenSans-ExtraBold.ttf in Resources */,
@@ -706,7 +710,7 @@
 				A25D96201E0341A3008FD996 /* ChatDataManager.swift in Sources */,
 				34DA47171DECA2E600E989A9 /* UIViewExtensions.swift in Sources */,
 				34DA46B31DE61FC600E989A9 /* AppDelegate.swift in Sources */,
-				A25D96281E1D6964008FD996 /* ChatTableViewCell.swift in Sources */,
+				A25D96281E1D6964008FD996 /* ChatMessageTableViewCell.swift in Sources */,
 				34DA47141DECA2E600E989A9 /* UIImageExtension.swift in Sources */,
 				34DA47151DECA2E600E989A9 /* UILabelExtension.swift in Sources */,
 				34DA47271DECA2E600E989A9 /* Utils.swift in Sources */,
