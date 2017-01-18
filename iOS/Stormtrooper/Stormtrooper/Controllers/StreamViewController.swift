@@ -45,7 +45,7 @@ class StreamViewController: UIViewController {
 		viewModel = StreamViewModel(hostID: hostID ?? "")
         viewModel.delegate = self
 		
-        
+        setupChatTableView()
         setupPlayerView()
         setupChatTextFieldView()
         setupViewForHostOrParticipant()
@@ -129,6 +129,13 @@ class StreamViewController: UIViewController {
         //actually set accessory view
         chatInputTextField.inputAccessoryView = accessoryView
         
+        
+    }
+    
+    private func setupChatTableView() {
+        chatTableView.delegate = self
+        chatTableView.dataSource = self
+        chatTableView.register(UINib(nibName: "ChatMessageTableViewCell", bundle: nil), forCellReuseIdentifier: "chatMessage")
         
     }
     
@@ -340,10 +347,9 @@ extension StreamViewController: StreamViewModelDelegate {
 
 extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//		guard let cell = tableView.dequeueReusableCell(withIdentifier: "chatCell") as? ChatMessageTableViewCell else {
-//			return UITableViewCell()
-//		}
-        guard let cell = 
+		guard let cell = tableView.dequeueReusableCell(withIdentifier: "chatMessage") as? ChatMessageTableViewCell else {
+			return UITableViewCell()
+		}
 		let message = viewModel.messages[indexPath.row]
 		cell.nameLabel.text = nil
 		cell.messageLabel.text = nil
