@@ -156,7 +156,7 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="hJI-3r-HnT"/>
                                 </connections>
                             </tableView>
-                            <visualEffectView hidden="YES" opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1FR-Ex-Q2W">
+                            <visualEffectView hidden="YES" opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1FR-Ex-Q2W">
                                 <rect key="frame" x="0.0" y="231" width="375" height="436"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="9nJ-dW-vya">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="436"/>
@@ -175,7 +175,11 @@
                                         </visualEffectView>
                                     </subviews>
                                 </view>
+                                <gestureRecognizers/>
                                 <blurEffect style="dark"/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="qsT-sX-kvv" appends="YES" id="ugz-iR-FOP"/>
+                                </connections>
                             </visualEffectView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EzR-Jl-0IJ">
                                 <rect key="frame" x="0.0" y="20" width="375" height="211"/>
@@ -363,6 +367,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="qsT-sX-kvv">
+                    <connections>
+                        <action selector="visualEffectViewTapped:" destination="BYZ-38-t0r" id="GrQ-Z1-qjY"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="3738.4000000000001" y="745.27736131934034"/>
         </scene>

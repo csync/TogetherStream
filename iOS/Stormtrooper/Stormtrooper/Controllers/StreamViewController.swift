@@ -157,12 +157,18 @@ class StreamViewController: UIViewController {
         
     }
     
+    
+    
     func cancelChatTapped() {
         accessoryView.textField.resignFirstResponder()
         chatInputTextField.resignFirstResponder()
         
     }
     
+    @IBAction func visualEffectViewTapped(_ sender: Any) {
+        //visual effect view tapped, so dismiss keyboard if shown
+        cancelChatTapped()
+    }
     
     func rotated() {
         if UIDeviceOrientationIsLandscape(UIDevice.current.orientation) {
