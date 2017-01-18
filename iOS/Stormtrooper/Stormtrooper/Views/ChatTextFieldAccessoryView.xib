@@ -37,6 +37,7 @@
                         </imageView>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" highlighted="YES" selected="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Say hello!" textAlignment="natural" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PgI-ae-nKY">
                             <rect key="frame" x="47" y="5" width="255" height="30"/>
+                            <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <color key="textColor" red="0.29019607843137252" green="0.29019607843137252" blue="0.29019607843137252" alpha="1" colorSpace="calibratedRGB"/>
                             <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="11"/>
                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="send"/>
