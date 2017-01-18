@@ -11,9 +11,10 @@ import MessageUI
 
 class InviteStreamViewController: UIViewController {
 	
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet private weak var tableView: UITableView!
 
-    let skipButtonFrame = CGRect(x: 0, y: 0, width: 35, height: 17)
+    private let skipButtonFrame = CGRect(x: 0, y: 0, width: 35, height: 17)
+    let DEFAULT_CELL_HEIGHT = CGFloat(64.0)
 
 	var streamName: String?
     var isCreatingStream = false
@@ -117,6 +118,9 @@ class InviteStreamViewController: UIViewController {
     
     func showSendMailErrorAlert() {
         let sendMailErrorAlert = UIAlertController(title: "Could Not Send Email", message: "Your device could not send e-mail.  Please check e-mail configuration and try again.", preferredStyle: .alert)
+        let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+
+        sendMailErrorAlert.addAction(defaultAction)
         self.present(sendMailErrorAlert, animated: true, completion: nil)
         
     }
@@ -190,7 +194,10 @@ extension InviteStreamViewController: UITableViewDelegate, UITableViewDataSource
             return friendsHeaderCell
         case 3...10:
             //number of stormtrooper friends
-            let friendCell = tableView.dequeueReusableCell(withIdentifier: "friendCell") as! FriendTableViewCell
+            guard let friendCell = tableView.dequeueReusableCell(withIdentifier: "friendCell") as? FriendTableViewCell else {
+                return UITableViewCell()
+            }
+            friendCell.selectionStyle = .none
             return friendCell
         default:
             return UITableViewCell()
@@ -219,18 +226,18 @@ extension InviteStreamViewController: UITableViewDelegate, UITableViewDataSource
         switch indexPath.item {
         case 0:
             //show text
-            return 64
+            return DEFAULT_CELL_HEIGHT
         case 1:
             //show email
-            return 64
+            return DEFAULT_CELL_HEIGHT
         case 2:
             //show header view
-            return 64
+            return DEFAULT_CELL_HEIGHT
         case 3...10:
             //number of stormtrooper friends
-            return 64
+            return DEFAULT_CELL_HEIGHT
         default:
-            return 64
+            return DEFAULT_CELL_HEIGHT
         }
     }
 
