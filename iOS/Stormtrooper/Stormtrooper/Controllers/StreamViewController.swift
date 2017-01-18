@@ -363,7 +363,7 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
 	}
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return viewModel.messages.count
+		return viewModel.messages.count //TODO: limit this to 50 or whatever performance allows
 	}
 	
 	
