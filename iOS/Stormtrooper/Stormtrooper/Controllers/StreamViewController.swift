@@ -289,6 +289,7 @@ extension StreamViewController: StreamViewModelDelegate {
 	
 	func recieved(message: Message, for position: Int) {
 		chatTableView.insertRows(at: [IndexPath(row: position, section: 0)], with: .automatic)
+        chatTableView.scrollTableViewToBottom(animated: false)
 	}
 	
 	func recievedUpdate(forCurrentVideoID currentVideoID: String) {

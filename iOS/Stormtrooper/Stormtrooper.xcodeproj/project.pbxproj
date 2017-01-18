@@ -10,6 +10,7 @@
 		3401B4321E2EDDB9005ACB96 /* ChatTextFieldAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3401B4311E2EDDB9005ACB96 /* ChatTextFieldAccessoryView.swift */; };
 		3401B4341E2EDDCF005ACB96 /* ChatTextFieldAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3401B4331E2EDDCF005ACB96 /* ChatTextFieldAccessoryView.xib */; };
 		3401B4361E2EEA58005ACB96 /* UITextFieldExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3401B4351E2EEA58005ACB96 /* UITextFieldExtension.swift */; };
+		3401B4381E2F0C75005ACB96 /* UITableViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3401B4371E2F0C75005ACB96 /* UITableViewExtension.swift */; };
 		3419A1F81DF8837E00A11D53 /* NameStreamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3419A1F71DF8837E00A11D53 /* NameStreamViewController.swift */; };
 		3419A1FA1DF8839100A11D53 /* InviteStreamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3419A1F91DF8839100A11D53 /* InviteStreamViewController.swift */; };
 		3419A1FC1DF883AF00A11D53 /* MainNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3419A1FB1DF883AF00A11D53 /* MainNavigationController.swift */; };
@@ -110,6 +111,7 @@
 		3401B4311E2EDDB9005ACB96 /* ChatTextFieldAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatTextFieldAccessoryView.swift; sourceTree = "<group>"; };
 		3401B4331E2EDDCF005ACB96 /* ChatTextFieldAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatTextFieldAccessoryView.xib; sourceTree = "<group>"; };
 		3401B4351E2EEA58005ACB96 /* UITextFieldExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITextFieldExtension.swift; sourceTree = "<group>"; };
+		3401B4371E2F0C75005ACB96 /* UITableViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITableViewExtension.swift; sourceTree = "<group>"; };
 		3419A1F71DF8837E00A11D53 /* NameStreamViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NameStreamViewController.swift; sourceTree = "<group>"; };
 		3419A1F91DF8839100A11D53 /* InviteStreamViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InviteStreamViewController.swift; sourceTree = "<group>"; };
 		3419A1FB1DF883AF00A11D53 /* MainNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainNavigationController.swift; sourceTree = "<group>"; };
@@ -390,6 +392,7 @@
 				3401B4351E2EEA58005ACB96 /* UITextFieldExtension.swift */,
 				34DA46EA1DECA2E500E989A9 /* UIViewControllerExtension.swift */,
 				34DA46EB1DECA2E500E989A9 /* UIViewExtensions.swift */,
+				3401B4371E2F0C75005ACB96 /* UITableViewExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -691,6 +694,7 @@
 				A25D96241E0B16BA008FD996 /* StreamViewModel.swift in Sources */,
 				A2C1BD7F1E23FA9400F515E7 /* Message.swift in Sources */,
 				34DA47131DECA2E600E989A9 /* NSDateExtension.swift in Sources */,
+				3401B4381E2F0C75005ACB96 /* UITableViewExtension.swift in Sources */,
 				34C6E5331DF23D4600EB4972 /* StreamViewController.swift in Sources */,
 				A2C1BD7D1E23EE6C00F515E7 /* ParticipantMessage.swift in Sources */,
 				A29D11021DF5FC4E00FA0EEC /* AccountDataManager.swift in Sources */,
