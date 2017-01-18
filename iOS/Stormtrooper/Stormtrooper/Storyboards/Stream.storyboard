@@ -156,6 +156,27 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="hJI-3r-HnT"/>
                                 </connections>
                             </tableView>
+                            <visualEffectView hidden="YES" opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1FR-Ex-Q2W">
+                                <rect key="frame" x="0.0" y="231" width="375" height="436"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="9nJ-dW-vya">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="436"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <visualEffectView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NSa-K5-rAD">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="436"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" id="eAg-US-xvU">
+                                                <rect key="frame" x="0.0" y="0.0" width="375" height="436"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            </view>
+                                            <vibrancyEffect>
+                                                <blurEffect style="light"/>
+                                            </vibrancyEffect>
+                                        </visualEffectView>
+                                    </subviews>
+                                </view>
+                                <blurEffect style="dark"/>
+                            </visualEffectView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EzR-Jl-0IJ">
                                 <rect key="frame" x="0.0" y="20" width="375" height="211"/>
                                 <subviews>
@@ -309,14 +330,18 @@
                             <constraint firstItem="g4f-7A-fEP" firstAttribute="top" secondItem="EzR-Jl-0IJ" secondAttribute="bottom" constant="67" id="MJy-bU-14f"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="yLh-6L-jBa" secondAttribute="bottom" constant="49" id="QTX-3n-gPQ"/>
                             <constraint firstItem="q4i-Y2-lar" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="SRh-qb-RUA"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="1FR-Ex-Q2W" secondAttribute="bottom" id="TX9-Q7-hYz"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Zah-ZU-plM" secondAttribute="trailing" id="Vzu-lK-gVl"/>
                             <constraint firstItem="u6G-sD-SZi" firstAttribute="leading" secondItem="Zah-ZU-plM" secondAttribute="leading" id="YKl-5e-M5G"/>
+                            <constraint firstItem="1FR-Ex-Q2W" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="Yor-Uj-RHt"/>
                             <constraint firstItem="g4f-7A-fEP" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="32" id="ZhY-g9-Zf0"/>
                             <constraint firstItem="q4i-Y2-lar" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="b8Z-gM-Mas"/>
                             <constraint firstAttribute="trailingMargin" secondItem="yLh-6L-jBa" secondAttribute="trailing" constant="28" id="cgQ-pp-aRi"/>
                             <constraint firstItem="u6G-sD-SZi" firstAttribute="top" secondItem="EzR-Jl-0IJ" secondAttribute="bottom" constant="112" id="fZS-Ci-4Ll"/>
+                            <constraint firstItem="1FR-Ex-Q2W" firstAttribute="top" secondItem="lt2-Nk-1YZ" secondAttribute="bottom" id="kXC-9C-FCT"/>
                             <constraint firstAttribute="trailingMargin" secondItem="g4f-7A-fEP" secondAttribute="trailing" constant="33" id="miP-Ad-bPk"/>
                             <constraint firstItem="u6G-sD-SZi" firstAttribute="trailing" secondItem="Zah-ZU-plM" secondAttribute="trailing" id="pvS-Ep-UUR"/>
+                            <constraint firstItem="1FR-Ex-Q2W" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="q9o-SQ-wXE"/>
                             <constraint firstItem="EzR-Jl-0IJ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="rVf-rs-IZ4"/>
                             <constraint firstItem="q4i-Y2-lar" firstAttribute="top" secondItem="uEy-me-ihE" secondAttribute="bottom" id="tfp-Iy-PYQ"/>
                             <constraint firstAttribute="leadingMargin" secondItem="Zah-ZU-plM" secondAttribute="leading" id="vG5-2j-eha"/>
@@ -334,6 +359,7 @@
                         <outlet property="playerView" destination="lt2-Nk-1YZ" id="lxf-Lz-SRg"/>
                         <outlet property="queueView" destination="q4i-Y2-lar" id="WHj-gP-3VR"/>
                         <outlet property="userCountLabel" destination="yLh-6L-jBa" id="UlQ-iZ-Kxy"/>
+                        <outlet property="visualEffectView" destination="1FR-Ex-Q2W" id="jhs-Xk-h85"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

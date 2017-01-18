@@ -20,6 +20,7 @@ class StreamViewController: UIViewController {
     @IBOutlet weak var headerViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var headerArrowImageView: UIImageView!
     @IBOutlet weak var headerViewButton: UIButton!
+    @IBOutlet weak var visualEffectView: UIVisualEffectView!
     
     //constraints
     var originalHeaderViewHeightConstraint: CGFloat = 0
@@ -431,6 +432,7 @@ extension StreamViewController: YTPlayerViewDelegate {
 extension StreamViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         chatInputActionTriggered(textField) //send the chat
+        visualEffectView.isHidden = true
         return true
     }
     
@@ -439,11 +441,11 @@ extension StreamViewController: UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-
+        visualEffectView.isHidden = false
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        
+        visualEffectView.isHidden = true
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
