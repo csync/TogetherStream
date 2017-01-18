@@ -284,7 +284,7 @@ class StreamViewController: UIViewController {
 
 extension StreamViewController: StreamViewModelDelegate {
 	func userCountChanged(toCount count: Int) {
-		userCountLabel.text = "\(count) Users"
+		userCountLabel.text = "\(count)"
 	}
 	
 	func recieved(message: Message, for position: Int) {
