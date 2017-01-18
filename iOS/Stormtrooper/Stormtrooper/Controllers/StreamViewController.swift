@@ -35,6 +35,9 @@ class StreamViewController: UIViewController {
     fileprivate var isPlaying = false
 	
 	fileprivate var viewModel: StreamViewModel!
+    
+    //accessory view shown above keyboard while chatting
+    fileprivate var accessoryView: ChatTextFieldAccessoryView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -110,8 +113,21 @@ class StreamViewController: UIViewController {
     
     /// Adds a textfield view above keyboard when user starts typing in chat
     private func setupChatTextFieldView() {
-        let chatAccessoryView = ChatTextFieldAccessoryView.instanceFromNib()
-        chatInputTextField.inputAccessoryView = chatAccessoryView
+        //new instance of accessory view
+        accessoryView = ChatTextFieldAccessoryView.instanceFromNib()
+        
+        //set delegates of text fields
+        accessoryView.textField.delegate = self
+        chatInputTextField.delegate = self
+        
+        //add selector to dismiss and when editing to sync up both textfields
+        accessoryView.cancelButton.addTarget(self, action: #selector(StreamViewController.cancelChatTapped), for: .touchUpInside)
+        chatInputTextField.addTarget(self, action: #selector(StreamViewController.chatEditingChanged), for: .editingChanged)
+        
+        //actually set accessory view
+        chatInputTextField.inputAccessoryView = accessoryView
+        
+        
     }
     
     private func setupConstraints() {
@@ -133,6 +149,19 @@ class StreamViewController: UIViewController {
 		}
 		
     }
+    
+    
+    func chatEditingChanged(textField: UITextField) {
+        accessoryView.textField.text = chatInputTextField.text
+        
+    }
+    
+    func cancelChatTapped() {
+        accessoryView.textField.resignFirstResponder()
+        chatInputTextField.resignFirstResponder()
+        
+    }
+    
     
     func rotated() {
         if UIDeviceOrientationIsLandscape(UIDevice.current.orientation) {
@@ -212,8 +241,15 @@ class StreamViewController: UIViewController {
 		if let text = sender.text {
 			viewModel.send(chatMessage: text)
 		}
-		sender.resignFirstResponder()
-		sender.text = nil
+        
+        //reset textfields
+        accessoryView.textField.text = nil
+        chatInputTextField.text = nil
+        
+        //dismiss keyboard
+        accessoryView.textField.resignFirstResponder()
+        chatInputTextField.resignFirstResponder()
+        
 	}
 	
 	fileprivate func getVideoID(from url: URL) -> String? {
@@ -390,4 +426,29 @@ extension StreamViewController: YTPlayerViewDelegate {
         }
     }
     
+}
+
+extension StreamViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        chatInputActionTriggered(textField) //send the chat
+        return true
+    }
+    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        return true
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+
+        
+        return true
+    }
 }
