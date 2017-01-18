@@ -124,6 +124,7 @@ class StreamViewController: UIViewController {
         //add selector to dismiss and when editing to sync up both textfields
         accessoryView.cancelButton.addTarget(self, action: #selector(StreamViewController.cancelChatTapped), for: .touchUpInside)
         chatInputTextField.addTarget(self, action: #selector(StreamViewController.chatEditingChanged), for: .editingChanged)
+        accessoryView.textField.addTarget(self, action: #selector(StreamViewController.accessoryViewEditingChanged), for: .editingChanged)
         
         //actually set accessory view
         chatInputTextField.inputAccessoryView = accessoryView
@@ -152,8 +153,15 @@ class StreamViewController: UIViewController {
     }
     
     
+    //copy text from main screen chat input textfield to accessory view textfield
     func chatEditingChanged(textField: UITextField) {
         accessoryView.textField.text = chatInputTextField.text
+        
+    }
+    
+    //copy text from accessory view textfield to main screen chat input textfield
+    func accessoryViewEditingChanged(textField: UITextField) {
+        chatInputTextField.text = accessoryView.textField.text
         
     }
     
