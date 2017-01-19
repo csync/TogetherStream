@@ -75,6 +75,9 @@ class HomeViewController: UIViewController {
         streamsTableView.register(UINib(nibName: "StreamTableViewCell", bundle: nil), forCellReuseIdentifier: "streamCell")
         streamsTableView.register(UINib(nibName: "NoStreamsTableViewCell", bundle: nil), forCellReuseIdentifier: "noStreamsCell")
         streamsTableView.contentInset = UIEdgeInsets(top: 7, left: 0, bottom: 0, right: 0)
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
+        streamsTableView.refreshControl = refreshControl
     }
     
     private func displayLoginIfNeeded() {
@@ -86,6 +89,12 @@ class HomeViewController: UIViewController {
             }
             self.present(loginVC, animated: true, completion: { _ in
             })
+        }
+    }
+    
+    func refresh(_ refreshControl: UIRefreshControl) {
+        viewModel.refreshStreams() { error, streams in
+            refreshControl.endRefreshing()
         }
     }
     
