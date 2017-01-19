@@ -49,7 +49,7 @@
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                         <connections>
-                            <action selector="didTouchDownOnInviteFriends:" destination="66H-Tf-uPu" eventType="touchDown" id="Dos-js-DB4"/>
+                            <action selector="didSelectInviteFriends:" destination="66H-Tf-uPu" eventType="touchUpInside" id="xQd-A7-hMu"/>
                         </connections>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LNw-lL-Pnl">
