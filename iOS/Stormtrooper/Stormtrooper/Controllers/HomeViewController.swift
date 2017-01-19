@@ -75,6 +75,7 @@ class HomeViewController: UIViewController {
         streamsTableView.register(UINib(nibName: "StreamTableViewCell", bundle: nil), forCellReuseIdentifier: "streamCell")
         streamsTableView.register(UINib(nibName: "NoStreamsTableViewCell", bundle: nil), forCellReuseIdentifier: "noStreamsCell")
         streamsTableView.contentInset = UIEdgeInsets(top: 9, left: 0, bottom: 0, right: 0)
+        
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
         streamsTableView.refreshControl = refreshControl
@@ -92,19 +93,26 @@ class HomeViewController: UIViewController {
         }
     }
     
-    func refresh(_ refreshControl: UIRefreshControl) {
+    @objc private func refresh(_ refreshControl: UIRefreshControl) {
         viewModel.refreshStreams() { error, streams in
             refreshControl.endRefreshing()
         }
     }
     
-    func profileTapped() {
+    @objc private func profileTapped() {
         guard let profileVC = Utils.vcWithNameFromStoryboardWithName("profile", storyboardName: "Profile") as? ProfileViewController else {
             return
         }
         self.present(profileVC, animated: true, completion: { _ in
             
         })
+    }
+    
+    fileprivate func didSelectInviteFriends() {
+        guard let profileVC = Utils.vcWithNameFromStoryboardWithName("inviteStream", storyboardName: "InviteStream") as? InviteStreamViewController else {
+            return
+        }
+        self.present(profileVC, animated: true, completion: nil)
     }
 
     @IBAction func startStreamTapped(_ sender: Any) {
@@ -127,6 +135,8 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "noStreamsCell") as? NoStreamsTableViewCell else {
                 return UITableViewCell()
             }
+            cell.didSelectInviteFriends = {[unowned self] in self.didSelectInviteFriends()}
+            cell.selectionStyle = .none
             return cell
         }
         
@@ -174,7 +184,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 				}
 			}
 		}
-		
+		cell.selectionStyle = .none
 		return cell
 	}
     
@@ -188,10 +198,6 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         return viewModel.shouldSelectCell(at: indexPath) ? indexPath : nil
-    }
-    
-    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
-        return viewModel.shouldSelectCell(at: indexPath)
     }
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
