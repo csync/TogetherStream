@@ -74,7 +74,7 @@ class HomeViewController: UIViewController {
     private func setupTableView() {
         streamsTableView.register(UINib(nibName: "StreamTableViewCell", bundle: nil), forCellReuseIdentifier: "streamCell")
         streamsTableView.register(UINib(nibName: "NoStreamsTableViewCell", bundle: nil), forCellReuseIdentifier: "noStreamsCell")
-        streamsTableView.contentInset = UIEdgeInsets(top: 7, left: 0, bottom: 0, right: 0)
+        streamsTableView.contentInset = UIEdgeInsets(top: 9, left: 0, bottom: 0, right: 0)
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
         streamsTableView.refreshControl = refreshControl
