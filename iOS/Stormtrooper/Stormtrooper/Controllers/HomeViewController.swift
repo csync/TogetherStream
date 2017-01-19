@@ -74,6 +74,7 @@ class HomeViewController: UIViewController {
     private func setupTableView() {
         streamsTableView.register(UINib(nibName: "StreamTableViewCell", bundle: nil), forCellReuseIdentifier: "streamCell")
         streamsTableView.register(UINib(nibName: "NoStreamsTableViewCell", bundle: nil), forCellReuseIdentifier: "noStreamsCell")
+        streamsTableView.contentInset = UIEdgeInsets(top: 7, left: 0, bottom: 0, right: 0)
     }
     
     private func displayLoginIfNeeded() {
@@ -109,7 +110,6 @@ class HomeViewController: UIViewController {
 
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(viewModel.numberOfRows)
 		return viewModel.numberOfRows
 	}
 	

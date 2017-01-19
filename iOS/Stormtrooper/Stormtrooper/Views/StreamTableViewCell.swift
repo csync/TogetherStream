@@ -21,8 +21,9 @@ class StreamTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         cardView.layer.shadowColor = UIColor.stormtrooperShadow.cgColor
-        cardView.layer.shadowRadius = 4
+        cardView.layer.shadowRadius = 3
         cardView.layer.shadowOpacity = 0.5
+        cardView.layer.shadowOffset = CGSize(width: 0, height: 3)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
