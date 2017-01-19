@@ -1,14 +1,14 @@
 //
-//  ChatTableViewCell.swift
+//  ChatEventTableViewCell.swift
 //  Stormtrooper
 //
-//  Created by Daniel Firsht on 1/4/17.
+//  Created by Nathan Hekman on 1/17/17.
 //  Copyright © 2017 IBM. All rights reserved.
 //
 
 import UIKit
 
-class ChatTableViewCell: UITableViewCell {
+class ChatEventTableViewCell: UITableViewCell {
 	@IBOutlet weak var profileImageView: UIImageView!
 	@IBOutlet weak var messageLabel: UILabel!
 	@IBOutlet weak var nameLabel: UILabel!
