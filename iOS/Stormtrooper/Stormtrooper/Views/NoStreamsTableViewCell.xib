@@ -31,19 +31,13 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="There are no more streams available" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JMv-BD-w4O">
-                        <rect key="frame" x="51" y="43" width="274" height="21"/>
+                        <rect key="frame" x="51" y="43" width="274" height="20.5"/>
                         <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="15"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Invite friends to stream with you on Media Sync Stream" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LNw-lL-Pnl">
-                        <rect key="frame" x="45" y="78" width="285" height="35.5"/>
-                        <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="13"/>
-                        <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h4t-t4-0WJ">
-                        <rect key="frame" x="105" y="135.5" width="166" height="33"/>
+                        <rect key="frame" x="105" y="135" width="166" height="33.5"/>
                         <fontDescription key="fontDescription" name="WorkSans-SemiBold" family="Work Sans" pointSize="12"/>
                         <inset key="contentEdgeInsets" minX="35" minY="9" maxX="35" maxY="9"/>
                         <state key="normal" title="INVITE FRIENDS">
@@ -55,17 +49,23 @@
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LNw-lL-Pnl">
+                        <rect key="frame" x="80" y="77" width="215.5" height="36"/>
+                        <string key="text">Invite friends to stream with you on
+Media Sync Stream.</string>
+                        <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="13"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstItem="h4t-t4-0WJ" firstAttribute="centerX" secondItem="yHu-OI-6sb" secondAttribute="centerX" id="Dmr-kf-3nV"/>
                     <constraint firstItem="JMv-BD-w4O" firstAttribute="top" secondItem="yHu-OI-6sb" secondAttribute="topMargin" constant="35" id="I6x-F5-Uvu"/>
                     <constraint firstItem="LNw-lL-Pnl" firstAttribute="top" secondItem="JMv-BD-w4O" secondAttribute="bottom" constant="14" id="J6d-C7-hfq"/>
-                    <constraint firstItem="LNw-lL-Pnl" firstAttribute="leading" secondItem="yHu-OI-6sb" secondAttribute="leadingMargin" constant="37" id="JDd-gr-NtA"/>
                     <constraint firstItem="LNw-lL-Pnl" firstAttribute="centerX" secondItem="yHu-OI-6sb" secondAttribute="centerX" id="Ryt-eb-HwI"/>
                     <constraint firstAttribute="bottomMargin" secondItem="h4t-t4-0WJ" secondAttribute="bottom" constant="33.5" id="g6c-jq-7RO"/>
                     <constraint firstItem="JMv-BD-w4O" firstAttribute="centerX" secondItem="yHu-OI-6sb" secondAttribute="centerX" id="gg9-hF-hSM"/>
                     <constraint firstItem="h4t-t4-0WJ" firstAttribute="top" secondItem="LNw-lL-Pnl" secondAttribute="bottom" constant="22" id="gtO-b4-vVb"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="LNw-lL-Pnl" secondAttribute="trailing" constant="37" id="rxX-Gx-gy0"/>
                 </constraints>
             </tableViewCellContentView>
             <color key="backgroundColor" red="0.96470588235294119" green="0.96470588235294119" blue="0.96470588235294119" alpha="1" colorSpace="calibratedRGB"/>
