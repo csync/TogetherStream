@@ -6,16 +6,9 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
-        <array key="OpenSans-Bold.ttf">
-            <string>OpenSans-Bold</string>
-        </array>
-        <array key="OpenSans-Regular.ttf">
-            <string>OpenSans</string>
-        </array>
         <array key="WorkSans-SemiBold.ttf">
             <string>WorkSans-SemiBold</string>
         </array>
@@ -50,65 +43,15 @@
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="300" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ozw-Vf-J5s">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="538"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="noStreamsCell" id="b9i-Bc-MAt" customClass="NoStreamsTableViewCell" customModule="Stormtrooper" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="300"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="b9i-Bc-MAt" id="tbH-kB-MTX">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="300"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="There are no more streams available" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="emo-rM-cgx">
-                                                    <rect key="frame" x="50.5" y="43" width="274" height="20.5"/>
-                                                    <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="15"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Invite friends to stream with you on Media Sync Stream" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w9J-DO-BU3">
-                                                    <rect key="frame" x="45" y="77.5" width="285" height="35.5"/>
-                                                    <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="13"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nkT-no-DSn">
-                                                    <rect key="frame" x="104.5" y="135" width="166" height="33"/>
-                                                    <fontDescription key="fontDescription" name="WorkSans-SemiBold" family="Work Sans" pointSize="12"/>
-                                                    <inset key="contentEdgeInsets" minX="35" minY="9" maxX="35" maxY="9"/>
-                                                    <state key="normal" title="INVITE FRIENDS">
-                                                        <color key="titleColor" red="0.84705882352941175" green="0.25490196078431371" blue="0.027450980392156862" alpha="1" colorSpace="calibratedRGB"/>
-                                                    </state>
-                                                    <userDefinedRuntimeAttributes>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                            <real key="value" value="0.0"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                    </userDefinedRuntimeAttributes>
-                                                </button>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="emo-rM-cgx" firstAttribute="top" secondItem="tbH-kB-MTX" secondAttribute="topMargin" constant="35" id="Bal-La-hco"/>
-                                                <constraint firstItem="w9J-DO-BU3" firstAttribute="leading" secondItem="tbH-kB-MTX" secondAttribute="leadingMargin" constant="37" id="PWN-Kk-HlO"/>
-                                                <constraint firstItem="w9J-DO-BU3" firstAttribute="centerX" secondItem="tbH-kB-MTX" secondAttribute="centerX" id="SUk-Hg-q7r"/>
-                                                <constraint firstItem="nkT-no-DSn" firstAttribute="top" secondItem="w9J-DO-BU3" secondAttribute="bottom" constant="22" id="VmJ-5S-j6v"/>
-                                                <constraint firstItem="w9J-DO-BU3" firstAttribute="top" secondItem="emo-rM-cgx" secondAttribute="bottom" constant="14" id="aJR-3Z-FOu"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="w9J-DO-BU3" secondAttribute="trailing" constant="37" id="dFr-Oq-NLz"/>
-                                                <constraint firstItem="nkT-no-DSn" firstAttribute="centerX" secondItem="tbH-kB-MTX" secondAttribute="centerX" id="fTs-it-jDR"/>
-                                                <constraint firstItem="emo-rM-cgx" firstAttribute="centerX" secondItem="tbH-kB-MTX" secondAttribute="centerX" id="ui2-8u-CVv"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                        <connections>
-                                            <outlet property="inviteFriendsButton" destination="nkT-no-DSn" id="gGL-Ev-Hmj"/>
-                                        </connections>
-                                    </tableViewCell>
-                                </prototypes>
+                                <color key="backgroundColor" red="0.96470588235294119" green="0.96470588235294119" blue="0.96470588235294119" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="sectionIndexBackgroundColor" red="0.96470588235294119" green="0.96470588235294119" blue="0.96470588235294119" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
                                     <outlet property="dataSource" destination="Moa-Ve-qFV" id="D8t-li-RJF"/>
                                     <outlet property="delegate" destination="Moa-Ve-qFV" id="m9b-ie-uYf"/>
                                 </connections>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.96470588235294119" green="0.96470588235294119" blue="0.96470588235294119" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="uLS-1R-2D0" firstAttribute="centerX" secondItem="fl9-V7-LBY" secondAttribute="centerX" id="8Th-9h-wOS"/>
                             <constraint firstItem="ozw-Vf-J5s" firstAttribute="top" secondItem="bmR-g5-YRa" secondAttribute="bottom" id="D6q-ya-6b7"/>

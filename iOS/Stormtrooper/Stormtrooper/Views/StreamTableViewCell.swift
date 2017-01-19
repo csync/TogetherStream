@@ -16,9 +16,13 @@ class StreamTableViewCell: UITableViewCell {
 	@IBOutlet weak var videoTitleLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
 
+    @IBOutlet weak var cardView: UIView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        cardView.layer.shadowColor = UIColor.stormtrooperShadow.cgColor
+        cardView.layer.shadowRadius = 4
+        cardView.layer.shadowOpacity = 0.5
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
