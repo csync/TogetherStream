@@ -12,4 +12,8 @@ extension UIColor {
     class var stormtrooperOrange: UIColor {
         return UIColor(colorLiteralRed: 216.0 / 255, green: 65.0 / 255, blue: 6.0 / 255, alpha: 1)
     }
+    
+    class var stormtrooperShadow: UIColor {
+        return UIColor(colorLiteralRed: 206.0 / 255, green: 206.0 / 255, blue: 206.0 / 255, alpha: 1)
+    }
 }

@@ -109,11 +109,12 @@ class HomeViewController: UIViewController {
 
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print(viewModel.numberOfRows)
 		return viewModel.numberOfRows
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1 {
+        if indexPath.row == viewModel.numberOfRows - 1 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "noStreamsCell") as? NoStreamsTableViewCell else {
                 return UITableViewCell()
             }
@@ -167,6 +168,14 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 		
 		return cell
 	}
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
     
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         return viewModel.shouldSelectCell(at: indexPath) ? indexPath : nil
