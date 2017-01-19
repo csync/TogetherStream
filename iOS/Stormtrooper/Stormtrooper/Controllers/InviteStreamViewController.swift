@@ -176,15 +176,17 @@ extension InviteStreamViewController: UITableViewDelegate, UITableViewDataSource
             guard let textCell = tableView.dequeueReusableCell(withIdentifier: "textEmailCell") as? TextEmailTableViewCell else {
                 return UITableViewCell()
             }
+            textCell.selectionStyle = .none
             textCell.textEmailLabel.text = "Invite via Text"
             return textCell
         case 1:
             //show email
-            guard let textEmailCell = tableView.dequeueReusableCell(withIdentifier: "textEmailCell") as? TextEmailTableViewCell else {
+            guard let emailCell = tableView.dequeueReusableCell(withIdentifier: "textEmailCell") as? TextEmailTableViewCell else {
                 return UITableViewCell()
             }
-            textEmailCell.textEmailLabel.text = "Invite via Email"
-            return textEmailCell
+            emailCell.selectionStyle = .none
+            emailCell.textEmailLabel.text = "Invite via Email"
+            return emailCell
         case 2:
             //show header view
             guard let friendsHeaderCell = tableView.dequeueReusableCell(withIdentifier: "friendsHeaderCell") as? InviteFriendsHeaderTableViewCell else {
