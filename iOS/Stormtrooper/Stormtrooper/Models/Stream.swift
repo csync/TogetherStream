@@ -47,6 +47,7 @@ class Stream {
 	func getFacebookID(callback: @escaping (Error?, String?) -> Void) {
 		if let facebookID = facebookID {
 			callback(nil, facebookID)
+            return
 		}
 		AccountDataManager.sharedInstance.getExternalIds(forUserID: hostID) {error, ids in
 			if let error = error {
