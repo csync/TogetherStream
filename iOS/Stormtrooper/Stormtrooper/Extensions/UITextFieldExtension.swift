@@ -36,7 +36,7 @@ extension UITextField {
         self.attributedText = attrString
     }
     
-    func isTruncated() -> Bool {
+    var isTruncated: Bool {
         
         if let string = self.text {
             
