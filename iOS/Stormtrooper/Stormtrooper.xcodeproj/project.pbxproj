@@ -94,6 +94,10 @@
 		A2D44DAC1E253D4C00053099 /* YouTubeDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D44DAB1E253D4C00053099 /* YouTubeDataManager.swift */; };
 		A2D44DAE1E25739300053099 /* AddVideosViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D44DAD1E25739300053099 /* AddVideosViewModel.swift */; };
 		A2D44DB01E25754C00053099 /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D44DAF1E25754C00053099 /* Video.swift */; };
+		A2D44DB41E2FF4E300053099 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D44DB31E2FF4E300053099 /* UIColor.swift */; };
+		A2D44DBA1E301E9400053099 /* NoStreamsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D44DB91E301E9400053099 /* NoStreamsTableViewCell.swift */; };
+		A2D44DBC1E30225500053099 /* StreamTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2D44DBB1E30225500053099 /* StreamTableViewCell.xib */; };
+		A2D44DBE1E3024DC00053099 /* NoStreamsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2D44DBD1E3024DC00053099 /* NoStreamsTableViewCell.xib */; };
 		A2F714731DF1F34300BC7335 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2F714721DF1F34300BC7335 /* FBSDKLoginKit.framework */; };
 		A2F714751DF1F39E00BC7335 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2F714741DF1F39E00BC7335 /* Bolts.framework */; };
 		A2F714771DF1F51400BC7335 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2F714761DF1F51400BC7335 /* FBSDKCoreKit.framework */; };
@@ -211,6 +215,10 @@
 		A2D44DAB1E253D4C00053099 /* YouTubeDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YouTubeDataManager.swift; sourceTree = "<group>"; };
 		A2D44DAD1E25739300053099 /* AddVideosViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddVideosViewModel.swift; sourceTree = "<group>"; };
 		A2D44DAF1E25754C00053099 /* Video.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
+		A2D44DB31E2FF4E300053099 /* UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
+		A2D44DB91E301E9400053099 /* NoStreamsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoStreamsTableViewCell.swift; sourceTree = "<group>"; };
+		A2D44DBB1E30225500053099 /* StreamTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StreamTableViewCell.xib; sourceTree = "<group>"; };
+		A2D44DBD1E3024DC00053099 /* NoStreamsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoStreamsTableViewCell.xib; sourceTree = "<group>"; };
 		A2F714721DF1F34300BC7335 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		A2F714741DF1F39E00BC7335 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		A2F714761DF1F51400BC7335 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
@@ -423,6 +431,7 @@
 				3401B4351E2EEA58005ACB96 /* UITextFieldExtension.swift */,
 				34DA46EA1DECA2E500E989A9 /* UIViewControllerExtension.swift */,
 				34DA46EB1DECA2E500E989A9 /* UIViewExtensions.swift */,
+				A2D44DB31E2FF4E300053099 /* UIColor.swift */,
 				3401B4371E2F0C75005ACB96 /* UITableViewExtension.swift */,
 			);
 			path = Extensions;
@@ -499,6 +508,10 @@
 		34DA470C1DECA2E500E989A9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				A2D44DB91E301E9400053099 /* NoStreamsTableViewCell.swift */,
+				A25D96291E1D92EB008FD996 /* StreamTableViewCell.swift */,
+				A2D44DBB1E30225500053099 /* StreamTableViewCell.xib */,
+				A2D44DBD1E3024DC00053099 /* NoStreamsTableViewCell.xib */,
 				3401B43B1E2F2C61005ACB96 /* ChatEventTableViewCell.swift */,
 				3401B43C1E2F2C61005ACB96 /* ChatEventTableViewCell.xib */,
 				A25D96271E1D6964008FD996 /* ChatMessageTableViewCell.swift */,
@@ -642,6 +655,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A2D44DBE1E3024DC00053099 /* NoStreamsTableViewCell.xib in Resources */,
 				34AD4C0E1E20400E00210F61 /* WorkSans-SemiBold.ttf in Resources */,
 				34AD4C061E20400E00210F61 /* OFL.txt in Resources */,
 				34AD4C051E20400E00210F61 /* OpenSans-SemiboldItalic.ttf in Resources */,
@@ -668,6 +682,7 @@
 				34AB458E1E259BFE000730DC /* InviteStream.storyboard in Resources */,
 				34AD4C0D1E20400E00210F61 /* WorkSans-Regular.ttf in Resources */,
 				34DA47301DECA31300E989A9 /* Main.storyboard in Resources */,
+				A2D44DBC1E30225500053099 /* StreamTableViewCell.xib in Resources */,
 				34AD4C041E20400E00210F61 /* OpenSans-Semibold.ttf in Resources */,
 				34AD4C071E20400E00210F61 /* WorkSans-Black.ttf in Resources */,
 				34AD4BFF1E20400E00210F61 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
@@ -729,6 +744,7 @@
 				A23377A91E01DDD500E43DA0 /* HeartbeatDataManager.swift in Sources */,
 				A25D962A1E1D92EB008FD996 /* StreamTableViewCell.swift in Sources */,
 				34DA473A1DEDEF3300E989A9 /* YTPlayerView.h in Sources */,
+				A2D44DBA1E301E9400053099 /* NoStreamsTableViewCell.swift in Sources */,
 				3401B4361E2EEA58005ACB96 /* UITextFieldExtension.swift in Sources */,
 				A25D96241E0B16BA008FD996 /* StreamViewModel.swift in Sources */,
 				A2C1BD7F1E23FA9400F515E7 /* Message.swift in Sources */,
@@ -747,6 +763,7 @@
 				A25D96201E0341A3008FD996 /* ChatDataManager.swift in Sources */,
 				34DA47171DECA2E600E989A9 /* UIViewExtensions.swift in Sources */,
 				34DA46B31DE61FC600E989A9 /* AppDelegate.swift in Sources */,
+				A2D44DB41E2FF4E300053099 /* UIColor.swift in Sources */,
 				A25D96281E1D6964008FD996 /* ChatMessageTableViewCell.swift in Sources */,
 				34DA47141DECA2E600E989A9 /* UIImageExtension.swift in Sources */,
 				3401B4461E2FE39E005ACB96 /* ALKeyboardObservingView.swift in Sources */,
