@@ -9,8 +9,13 @@
 import UIKit
 
 class NoStreamsTableViewCell: UITableViewCell {
+    var didSelectInviteFriends: (() -> Void)?
     @IBOutlet weak var inviteFriendsButton: UIButton!
 
+    @IBAction func didSelectInviteFriends(_ sender: Any) {
+        didSelectInviteFriends?()
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         inviteFriendsButton.layer.borderWidth = 1

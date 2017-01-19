@@ -41,13 +41,16 @@
                         <fontDescription key="fontDescription" name="WorkSans-SemiBold" family="Work Sans" pointSize="12"/>
                         <inset key="contentEdgeInsets" minX="35" minY="9" maxX="35" maxY="9"/>
                         <state key="normal" title="INVITE FRIENDS">
-                            <color key="titleColor" red="0.84705882349999995" green="0.25490196079999999" blue="0.027450980390000001" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="titleColor" red="0.88627450980392153" green="0.3411764705882353" blue="0.0039215686274509803" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </state>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
                                 <real key="value" value="0.0"/>
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
+                        <connections>
+                            <action selector="didTouchDownOnInviteFriends:" destination="66H-Tf-uPu" eventType="touchDown" id="Dos-js-DB4"/>
+                        </connections>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LNw-lL-Pnl">
                         <rect key="frame" x="80" y="77" width="215.5" height="36"/>
