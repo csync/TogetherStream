@@ -20,6 +20,8 @@ class StreamViewController: UIViewController {
     @IBOutlet weak var headerViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var headerArrowImageView: UIImageView!
     @IBOutlet weak var headerViewButton: UIButton!
+    @IBOutlet weak var visualEffectView: UIVisualEffectView!
+    @IBOutlet weak var profileImageView: UIImageView!
     
     //constraints
     var originalHeaderViewHeightConstraint: CGFloat = 0
@@ -35,14 +37,19 @@ class StreamViewController: UIViewController {
     fileprivate var isPlaying = false
 	
 	fileprivate var viewModel: StreamViewModel!
+    
+    //accessory view shown above keyboard while chatting
+    fileprivate var accessoryView: ChatTextFieldAccessoryView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 		viewModel = StreamViewModel(hostID: hostID ?? "")
         viewModel.delegate = self
 		
-        
+        setupChatTableView()
         setupPlayerView()
+        setupChatTextFieldView()
+        setupProfilePictures()
         setupViewForHostOrParticipant()
         setupConstraints()
 		
@@ -107,6 +114,45 @@ class StreamViewController: UIViewController {
         }
     }
     
+    /// Adds a textfield view above keyboard when user starts typing in chat
+    private func setupChatTextFieldView() {
+        //new instance of accessory view
+        accessoryView = ChatTextFieldAccessoryView.instanceFromNib()
+        
+        //set delegates of text fields
+        accessoryView.textField.delegate = self
+        chatInputTextField.delegate = self
+        
+        //add selector to dismiss and when editing to sync up both textfields
+        accessoryView.cancelButton.addTarget(self, action: #selector(StreamViewController.cancelChatTapped), for: .touchUpInside)
+        chatInputTextField.addTarget(self, action: #selector(StreamViewController.chatEditingChanged), for: [.editingChanged, .editingDidEnd])
+        accessoryView.textField.addTarget(self, action: #selector(StreamViewController.accessoryViewEditingChanged), for: [.editingChanged, .editingDidEnd])
+        
+        //actually set accessory view
+        chatInputTextField.inputAccessoryView = accessoryView
+        
+        
+    }
+    
+    private func setupProfilePictures() {
+        FacebookDataManager.sharedInstance.fetchProfilePictureForCurrentUser(as: profileImageView.frame.size) {error, image in
+            if let image = image {
+                DispatchQueue.main.async {
+                    self.profileImageView.image = image
+                    self.accessoryView.profileImageView.image = image
+                }
+            }
+        }
+    }
+    
+    private func setupChatTableView() {
+        chatTableView.delegate = self
+        chatTableView.dataSource = self
+        chatTableView.register(UINib(nibName: "ChatMessageTableViewCell", bundle: nil), forCellReuseIdentifier: "chatMessage")
+        chatTableView.register(UINib(nibName: "ChatEventTableViewCell", bundle: nil), forCellReuseIdentifier: "chatEvent")
+        
+    }
+    
     private func setupConstraints() {
         originalHeaderViewHeightConstraint = headerViewHeightConstraint.constant
         
@@ -125,6 +171,32 @@ class StreamViewController: UIViewController {
 				])
 		}
 		
+    }
+    
+    
+    //copy text from main screen chat input textfield to accessory view textfield when editing changes or ends
+    func chatEditingChanged(textField: UITextField) {
+        accessoryView.textField.text = chatInputTextField.text
+        
+    }
+    
+    //copy text from accessory view textfield to main screen chat input textfield when editing changes or ends
+    func accessoryViewEditingChanged(textField: UITextField) {
+        chatInputTextField.text = accessoryView.textField.text
+        
+    }
+    
+    
+    
+    func cancelChatTapped() {
+        accessoryView.textField.resignFirstResponder()
+        chatInputTextField.resignFirstResponder()
+        
+    }
+    
+    @IBAction func visualEffectViewTapped(_ sender: Any) {
+        //visual effect view tapped, so dismiss keyboard if shown
+        cancelChatTapped()
     }
     
     func rotated() {
@@ -163,12 +235,14 @@ class StreamViewController: UIViewController {
     
     //header tapped, so show or hide queue if host
     @IBAction func headerTapped(_ sender: Any) {
+        UIView.setAnimationsEnabled(true) //fix for animations breaking
         if queueView.isHidden {
             
             headerViewHeightConstraint.constant = originalHeaderViewHeightConstraint + queueView.frame.height
             UIView.animate(withDuration: headerViewAnimationDuration, delay: 0, options: .curveEaseOut, animations: { _ in
                 self.view.layoutIfNeeded()
             }, completion: { complete in
+                //TODO: swap arrow images here!
                 self.queueView.isHidden = false
             })
         }
@@ -178,7 +252,7 @@ class StreamViewController: UIViewController {
             UIView.animate(withDuration: headerViewAnimationDuration, delay: 0, options: .curveEaseOut, animations: { _ in
                 self.view.layoutIfNeeded()
             }, completion: { complete in
-                
+                //TODO: swap arrow images here!
             })
         }
     }
@@ -201,12 +275,21 @@ class StreamViewController: UIViewController {
         }
         self.present(addVideosVC, animated: true, completion: nil)
     }
-	@IBAction func chatInputActionTriggered(_ sender: UITextField) {
-		if let text = sender.text {
+    
+    
+    func chatInputActionTriggered(textField: UITextField) {
+		if let text = textField.text {
 			viewModel.send(chatMessage: text)
 		}
-		sender.resignFirstResponder()
-		sender.text = nil
+        
+        //reset textfields
+        accessoryView.textField.text = nil
+        chatInputTextField.text = nil
+        
+        //dismiss keyboard
+        accessoryView.textField.resignFirstResponder()
+        chatInputTextField.resignFirstResponder()
+        
 	}
 	
 	fileprivate func getVideoID(from url: URL) -> String? {
@@ -226,11 +309,12 @@ class StreamViewController: UIViewController {
 
 extension StreamViewController: StreamViewModelDelegate {
 	func userCountChanged(toCount count: Int) {
-		userCountLabel.text = "\(count) Users"
+		userCountLabel.text = "\(count)"
 	}
 	
 	func recieved(message: Message, for position: Int) {
 		chatTableView.insertRows(at: [IndexPath(row: position, section: 0)], with: .automatic)
+        chatTableView.scrollTableViewToBottom(animated: false)
 	}
 	
 	func recievedUpdate(forCurrentVideoID currentVideoID: String) {
@@ -280,31 +364,49 @@ extension StreamViewController: StreamViewModelDelegate {
 
 extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		guard let cell = tableView.dequeueReusableCell(withIdentifier: "chatCell") as? ChatTableViewCell else {
-			return UITableViewCell()
-		}
+        var messageCell: ChatMessageTableViewCell?
+        var eventCell: ChatEventTableViewCell?
+        
+        messageCell = tableView.dequeueReusableCell(withIdentifier: "chatMessage") as? ChatMessageTableViewCell
+        eventCell = tableView.dequeueReusableCell(withIdentifier: "chatEvent") as? ChatEventTableViewCell
+        
 		let message = viewModel.messages[indexPath.row]
-		cell.nameLabel.text = nil
-		cell.messageLabel.text = nil
-		cell.profileImageView.image = nil
+		
 		FacebookDataManager.sharedInstance.fetchInfoForUser(withID: message.subjectID) { error, user in
-			cell.nameLabel.text = user?.name
 			if let message = message as? ChatMessage {
-				cell.messageLabel.text = message.content
+                eventCell = nil
+				messageCell?.messageLabel.text = message.content
+                messageCell?.nameLabel.text = user?.name
 			}
 			else if let message = message as? ParticipantMessage {
-				cell.messageLabel.text = message.isJoining ? "joined the stream." : "left the stream."
+                messageCell = nil
+				eventCell?.messageLabel.text = message.isJoining ? " joined the stream." : " left the stream."
+                eventCell?.nameLabel.text = user?.name
 			}
 			user?.fetchProfileImage { error, image in
-				cell.profileImageView.image = image
+                messageCell?.profileImageView.image = image
+				eventCell?.profileImageView.image = image
 			}
 		}
-		
-		return cell
+        
+        //return messageCell ?? eventCell ?? UITableViewCell()
+        if let messageTableViewCell = messageCell {
+            return messageTableViewCell
+        }
+        else if let eventTableViewCell = eventCell {
+            return eventTableViewCell
+        }
+        else {
+            return UITableViewCell()
+        }
+        
+        
+        
+        
 	}
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return viewModel.messages.count
+		return viewModel.messages.count //TODO: limit this to 50 or whatever performance allows
 	}
 	
 	
@@ -383,4 +485,31 @@ extension StreamViewController: YTPlayerViewDelegate {
         }
     }
     
+}
+
+extension StreamViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        chatInputActionTriggered(textField: textField) //send the chat
+        visualEffectView.isHidden = true
+        return true
+    }
+    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        return true
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        UIView.setAnimationsEnabled(true) //fix for animations breaking
+        visualEffectView.isHidden = false
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        visualEffectView.isHidden = true
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+
+        
+        return true
+    }
 }
