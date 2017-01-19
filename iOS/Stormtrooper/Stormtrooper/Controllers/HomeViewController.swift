@@ -14,10 +14,13 @@ class HomeViewController: UIViewController {
 	
 	fileprivate let viewModel = HomeViewModel()
     
+    private let profileButtonFrame = CGRect(x: 0, y: 0, width: 23, height: 23)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         setupBarButtonItems()
+        setupTableView()
         
 		viewModel.resetCurrentUserStream()
     }
@@ -51,12 +54,31 @@ class HomeViewController: UIViewController {
     ///Set bar button items and their actions programmatically
     private func setupBarButtonItems() {
         let profileButton = UIButton(type: .custom)
-        profileButton.setImage(UIImage(named: "stormtrooper_helmet"), for: .normal)
-        profileButton.frame = CGRect(x: 0, y: 0, width: 17, height: 19)
+        profileButton.frame = profileButtonFrame
+        FacebookDataManager.sharedInstance.fetchProfilePictureForCurrentUser(as: profileButton.frame.size) {error, image in
+            if let image = image {
+                DispatchQueue.main.async {
+                    profileButton.setImage(image, for: .normal)
+                    profileButton.layer.cornerRadius = profileButton.frame.width / 2
+                    profileButton.clipsToBounds = true
+                }
+            }
+        }
+        
         profileButton.addTarget(self, action: #selector(HomeViewController.profileTapped), for: .touchUpInside)
         let item1 = UIBarButtonItem(customView: profileButton)
         
         self.navigationItem.setRightBarButtonItems([item1], animated: false)
+    }
+    
+    private func setupTableView() {
+        streamsTableView.register(UINib(nibName: "StreamTableViewCell", bundle: nil), forCellReuseIdentifier: "streamCell")
+        streamsTableView.register(UINib(nibName: "NoStreamsTableViewCell", bundle: nil), forCellReuseIdentifier: "noStreamsCell")
+        streamsTableView.contentInset = UIEdgeInsets(top: 9, left: 0, bottom: 0, right: 0)
+        
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
+        streamsTableView.refreshControl = refreshControl
     }
     
     private func displayLoginIfNeeded() {
@@ -71,13 +93,26 @@ class HomeViewController: UIViewController {
         }
     }
     
-    func profileTapped() {
+    @objc private func refresh(_ refreshControl: UIRefreshControl) {
+        viewModel.refreshStreams() { error, streams in
+            refreshControl.endRefreshing()
+        }
+    }
+    
+    @objc private func profileTapped() {
         guard let profileVC = Utils.vcWithNameFromStoryboardWithName("profile", storyboardName: "Profile") as? ProfileViewController else {
             return
         }
         self.present(profileVC, animated: true, completion: { _ in
             
         })
+    }
+    
+    fileprivate func didSelectInviteFriends() {
+        guard let profileVC = Utils.vcWithNameFromStoryboardWithName("inviteStream", storyboardName: "InviteStream") as? InviteStreamViewController else {
+            return
+        }
+        self.present(profileVC, animated: true, completion: nil)
     }
 
     @IBAction func startStreamTapped(_ sender: Any) {
@@ -92,15 +127,25 @@ class HomeViewController: UIViewController {
 
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return viewModel.streams.count
+		return viewModel.numberOfRows
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if indexPath.row == viewModel.numberOfRows - 1 {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "noStreamsCell") as? NoStreamsTableViewCell else {
+                return UITableViewCell()
+            }
+            cell.didSelectInviteFriends = {[unowned self] in self.didSelectInviteFriends()}
+            cell.selectionStyle = .none
+            return cell
+        }
+        
 		guard let cell = tableView.dequeueReusableCell(withIdentifier: "streamCell") as? StreamTableViewCell else {
 			return UITableViewCell()
 		}
 		let stream = viewModel.streams[indexPath.row]
 		cell.streamNameLabel.text = stream.name
+        cell.descriptionLabel.text = stream.description
 		stream.listenForCurrentVideo {[unowned self] error, videoID in
 			if let videoID = videoID {
 				self.viewModel.getVideo(withID: videoID) {error, video in
@@ -108,20 +153,22 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 						DispatchQueue.main.async {
 							cell.videoTitleLabel.text = video.title
 						}
+                        self.viewModel.getThumbnailForVideo(with: video.thumbnailURL) {error, thumbnail in
+                            if let thumbnail = thumbnail {
+                                DispatchQueue.main.async {
+                                    cell.currentVideoThumbnailImageView.image = thumbnail
+                                }
+                            }
+                        }
 					}
 				}
-				self.viewModel.getThumbnailForVideo(withID: videoID) {error, thumbnail in
-					if let thumbnail = thumbnail {
-						DispatchQueue.main.async {
-							cell.currentVideoThumbnailImageView.image = thumbnail
-						}
-					}
-				}
+				
 			}
 		}
 		
 		stream.getFacebookID() {error, facebookID in
 			guard let facebookID = facebookID else {
+                print(error!)
 				return
 			}
 			FacebookDataManager.sharedInstance.fetchInfoForUser(withID: facebookID) {error, user in
@@ -131,13 +178,27 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 				user?.fetchProfileImage {error, image in
 					DispatchQueue.main.async {
 						cell.profileImageView.image = image
+                        cell.profileImageView.layer.cornerRadius = cell.profileImageView.frame.width / 2
+                        cell.profileImageView.clipsToBounds = true
 					}
 				}
 			}
 		}
-		
+		cell.selectionStyle = .none
 		return cell
 	}
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        return viewModel.shouldSelectCell(at: indexPath) ? indexPath : nil
+    }
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		let stream = viewModel.streams[indexPath.row]
