@@ -38,3 +38,29 @@ class ProfileViewController: UIViewController {
 
 
 }
+
+extension ProfileViewController: FBSDKLoginButtonDelegate {
+    func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
+        if result.isCancelled {
+            // User canceled login
+        }
+        else if result.declinedPermissions.count == 0 {
+            // User accepted all permissions
+            if facebookDataManager.profile != nil {
+                // done
+            }
+            else{
+                FBSDKProfile.loadCurrentProfile() { profile, error in
+                    if let error = error {
+                        print(error)
+                    }
+                    else {
+                        // done
+                    }
+                }
+            }
+        }
+    }
+    
+    func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {}
+}
