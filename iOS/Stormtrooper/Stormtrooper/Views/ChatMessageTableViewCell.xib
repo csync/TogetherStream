@@ -35,7 +35,7 @@
                         <color key="textColor" red="0.11181893199682236" green="0.1118365004658699" blue="0.1118125319480896" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="down_temp_arrow" translatesAutoresizingMaskIntoConstraints="NO" id="Zt3-P9-Heg">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Profile_50" translatesAutoresizingMaskIntoConstraints="NO" id="Zt3-P9-Heg">
                         <rect key="frame" x="17" y="11" width="30" height="30"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="30" id="LnA-hw-uMk"/>
@@ -75,6 +75,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="down_temp_arrow" width="102" height="69"/>
+        <image name="Profile_50" width="50" height="50"/>
     </resources>
 </document>

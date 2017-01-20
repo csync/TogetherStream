@@ -23,7 +23,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="khE-19-brP">
                     <rect key="frame" x="10" y="10" width="310" height="40"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="down_temp_arrow" translatesAutoresizingMaskIntoConstraints="NO" id="VNV-by-Kbb">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Profile_50" translatesAutoresizingMaskIntoConstraints="NO" id="VNV-by-Kbb">
                             <rect key="frame" x="13" y="8" width="25" height="25"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="25" id="K7g-HB-5ar"/>
@@ -87,7 +87,7 @@
         </view>
     </objects>
     <resources>
-        <image name="down_temp_arrow" width="102" height="69"/>
+        <image name="Profile_50" width="50" height="50"/>
         <image name="temp_x" width="90" height="90"/>
     </resources>
 </document>
