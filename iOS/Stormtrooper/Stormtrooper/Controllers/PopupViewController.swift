@@ -8,7 +8,7 @@
 
 import UIKit
 
-internal class PopupViewController: UIViewController {
+class PopupViewController: UIViewController {
     
     @IBOutlet weak private var titleLabel: UILabel!
     @IBOutlet weak private var imageView: UIImageView!
@@ -17,51 +17,51 @@ internal class PopupViewController: UIViewController {
     @IBOutlet weak private var primaryButton: UIButton!
     @IBOutlet weak private var secondaryButton: UIButton!
     
-    internal var titleText: String? {
+    var titleText: String? {
         get { return titleLabel.text }
         set { titleLabel.text = newValue }
     }
     
-    internal var image: UIImage? {
+    var image: UIImage? {
         get { return imageView.image }
         set { imageView.image = newValue }
     }
     
-    internal var messageText: String? {
+    var messageText: String? {
         get { return messageLabel.text }
         set { messageLabel.text = newValue }
     }
     
-    internal var descriptionText: String? {
+    var descriptionText: String? {
         get { return descriptionLabel.text }
         set { descriptionLabel.text = newValue }
     }
     
-    internal var primaryButtonText: String? {
+    var primaryButtonText: String? {
         get { return primaryButton.titleLabel?.text }
         set { primaryButton.setTitle(newValue, for: .normal) }
     }
     
-    internal var secondaryButtonText: String? {
+    var secondaryButtonText: String? {
         get { return secondaryButton.titleLabel?.text }
         set { secondaryButton.setTitle(newValue, for: .normal) }
     }
     
-    internal var completion: () -> Void = { }
+    var completion: () -> Void = { }
     
     private let presentationManager = PopupPresentationManager()
     
-    internal init() {
+    init() {
         super.init(nibName: nil, bundle: nil)
         setupViewController()
     }
     
-    required internal init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setupViewController()
     }
     
-    internal static func instantiate(
+    static func instantiate(
         titleText: String,
         image: UIImage,
         messageText: String,
