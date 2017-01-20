@@ -173,8 +173,6 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             user?.fetchProfileImage {error, image in
                 DispatchQueue.main.async {
                     cell.profileImageView.image = image
-                    cell.profileImageView.layer.cornerRadius = cell.profileImageView.frame.width / 2
-                    cell.profileImageView.clipsToBounds = true
                 }
             }
         }
