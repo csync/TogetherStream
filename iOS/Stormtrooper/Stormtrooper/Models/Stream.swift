@@ -14,18 +14,24 @@ class Stream {
 	let hostID: String
 	let csyncPath: String
     let description: String
+    let facebookID: String
 	
 	private var key: Key
-	private var facebookID: String?
 	
-	init?(jsonDictionary: [String: String]) {
-		guard let hostID = jsonDictionary["user_id"], let csyncPath = jsonDictionary["csync_path"], let name = jsonDictionary["stream_name"], let description = jsonDictionary["description"] else {
+	init?(jsonDictionary: [String: Any]) {
+		guard let hostID = jsonDictionary["user_id"] as? String,
+            let csyncPath = jsonDictionary["csync_path"] as? String,
+            let name = jsonDictionary["stream_name"] as? String,
+            let description = jsonDictionary["description"] as? String,
+            let externalAccounts = jsonDictionary["external_accounts"] as? [String: String],
+            let facebookID = externalAccounts["facebook-token"] else {
 			return nil
 		}
 		self.name = name
 		self.hostID = hostID
 		self.csyncPath = csyncPath
         self.description = description
+        self.facebookID = facebookID
 		key = CSyncDataManager.sharedInstance.createKey(atPath: csyncPath + ".currentVideoID")
 	}
 	
@@ -44,21 +50,5 @@ class Stream {
 		key.unlisten()
 	}
 	
-	func getFacebookID(callback: @escaping (Error?, String?) -> Void) {
-		if let facebookID = facebookID {
-			callback(nil, facebookID)
-            return
-		}
-		AccountDataManager.sharedInstance.getExternalIds(forUserID: hostID) {error, ids in
-			if let error = error {
-				callback(error, nil)
-			}
-			else {
-				self.facebookID = ids?["facebook-token"]
-				callback(nil, self.facebookID)
-			}
-			
-		}
-	}
 	
 }
