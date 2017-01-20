@@ -73,43 +73,13 @@ var getInvites = function (user) {
     return new Promise(function (resolve, reject) {
         var client = new pg.Client(appVars.postgres.uri);
         client.connect();
-        client.query("SELECT streams.user_id, streams.csync_path, streams.stream_name, streams.description, external_auth.id, external_auth.provider " +
-            "FROM streams INNER JOIN stream_invites ON streams.id = stream_invites.stream_id " +
-            "INNER JOIN external_auth ON streams.user_id = external_auth.user_id " +
-            "WHERE (stream_invites.user_id = $1 AND external_auth.user_id = streams.user_id)", [user.id],
+        client.query("SELECT streams.user_id, streams.csync_path, streams.stream_name FROM streams INNER JOIN stream_invites ON streams.id = stream_invites.stream_id WHERE stream_invites.user_id = $1", [user.id],
             function (err, result) {
                 if (err) {
                     reject(err);
                 }
                 else {
-                    var results = result.rows;
-                    if (results.length == 0) {
-                        resolve(results);
-                    }
-                    else {
-                        // flatten external accounts into invites
-                        var invites = {};
-
-                        for (var i = 0; i < results.length; i++) {
-                            var userId = results[i].user_id;
-                            if(invites[userId] == null) {
-                                invites[userId] = results[i];
-                                invites[userId].external_accounts = {};
-                                invites[userId].external_accounts[results[i].provider] = results[i].id;
-                                // clear properties that have been moved to external_accounts
-                                delete invites[userId].id;
-                                delete invites[userId].provider;
-                            }
-                            else {
-                                invites[userId].external_accounts[results[i].provider] = results[i].id;
-                            }
-                        }
-                        var flattenedInvites = [];
-                        for (var invite in invites) {
-                            flattenedInvites.push(invites[invite])
-                        }
-                        resolve(flattenedInvites);
-                    }
+                    resolve(result.rows);
                 }
             }
         );
