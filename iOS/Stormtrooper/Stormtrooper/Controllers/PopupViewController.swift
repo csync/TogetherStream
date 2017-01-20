@@ -132,12 +132,16 @@ private class PopupPresentationController: UIPresentationController {
     
     override init(presentedViewController: UIViewController, presenting presentingViewController: UIViewController?) {
         super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
-        dimView.frame = presentingViewController!.view.bounds
+        if let presentingViewController = presentingViewController {
+            dimView.frame = presentingViewController.view.bounds
+        }
     }
     
     override func presentationTransitionWillBegin() {
-        dimView.frame = containerView!.bounds
-        containerView!.insertSubview(dimView, at: 0)
+        if let containerView = containerView {
+            dimView.frame = containerView.bounds
+            containerView.insertSubview(dimView, at: 0)
+        }
         presentedViewController.transitionCoordinator?.animate(alongsideTransition: { _ in
             self.dimView.alpha = 0.7
         })
@@ -166,8 +170,8 @@ private class ZoomTransition: NSObject, UIViewControllerAnimatedTransitioning {
     }
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-        let to = transitionContext.viewController(forKey: .to)!
-        let from = transitionContext.viewController(forKey: .from)!
+        guard let to = transitionContext.viewController(forKey: .to) else { return }
+        guard let from = transitionContext.viewController(forKey: .from) else { return }
         switch direction {
         case .in:
             let container = transitionContext.containerView
