@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
-        <array key="OpenSans-Semibold.ttf">
-            <string>OpenSans-Semibold</string>
+        <array key="WorkSans-SemiBold.ttf">
+            <string>WorkSans-SemiBold</string>
         </array>
     </customFonts>
     <scenes>
@@ -26,50 +28,109 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QbR-yf-g0O">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Queue" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TjL-uR-eES">
+                                <rect key="frame" x="16" y="36" width="38" height="15"/>
+                                <fontDescription key="fontDescription" name="WorkSans-SemiBold" family="Work Sans" pointSize="12"/>
+                                <color key="textColor" red="0.84705882352941175" green="0.25490196078431371" blue="0.023529411764705882" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KBT-iN-06U">
+                                <rect key="frame" x="319" y="31" width="25" height="25"/>
+                                <color key="backgroundColor" red="0.84705882349999995" green="0.25490196079999999" blue="0.023529411760000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="KBT-iN-06U" secondAttribute="height" multiplier="1:1" id="OZK-Dc-tfb"/>
+                                    <constraint firstAttribute="width" constant="25" id="pOG-a5-Yec"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="WorkSans-SemiBold" family="Work Sans" pointSize="12"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="12.5"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Search Videos" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="HKz-AF-aQ1">
+                                <rect key="frame" x="0.0" y="67" width="375" height="53"/>
+                                <color key="backgroundColor" red="0.23137254900000001" green="0.23137254900000001" blue="0.23137254900000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="53" id="zhQ-cc-zan"/>
+                                </constraints>
+                                <color key="textColor" red="0.96470588235294119" green="0.96470588235294119" blue="0.96470588235294119" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="_placeholderLabel.textColor">
+                                        <color key="value" red="0.62745098039215685" green="0.62745098039215685" blue="0.62745098039215685" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <outlet property="delegate" destination="hAC-JX-Bvz" id="SLC-jC-tbg"/>
+                                </connections>
+                            </textField>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Uxf-nQ-d3x">
+                                <rect key="frame" x="0.0" y="120" width="375" height="547"/>
+                                <color key="backgroundColor" red="0.15686274509803921" green="0.14117647058823529" blue="0.14117647058823529" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="hAC-JX-Bvz" id="YcR-oX-Xg8"/>
+                                    <outlet property="delegate" destination="hAC-JX-Bvz" id="Bhz-IR-PZ0"/>
+                                </connections>
+                            </tableView>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QbR-yf-g0O">
                                 <rect key="frame" x="0.0" y="602" width="375" height="65"/>
                                 <color key="backgroundColor" red="0.88627450980392153" green="0.27843137254901962" blue="0.043137254901960784" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="65" id="F15-T8-Bl0"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="OpenSans-Semibold" family="Open Sans" pointSize="15"/>
-                                <state key="normal" title="ADD TO STREAM">
+                                <fontDescription key="fontDescription" name="WorkSans-SemiBold" family="Work Sans" pointSize="18"/>
+                                <state key="normal" title="NEXT">
                                     <color key="titleColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </state>
                                 <connections>
                                     <action selector="doneTapped:" destination="hAC-JX-Bvz" eventType="touchUpInside" id="YFw-xc-wlg"/>
                                 </connections>
                             </button>
-                            <searchBar contentMode="redraw" placeholder="Search for a video" translatesAutoresizingMaskIntoConstraints="NO" id="qyZ-Hg-N4X">
-                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="search"/>
-                            </searchBar>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kg6-OU-1q4">
-                                <rect key="frame" x="124" y="99" width="72" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Trending"/>
-                                <connections>
-                                    <action selector="trendingTapped:" destination="hAC-JX-Bvz" eventType="touchUpInside" id="vvw-lo-HtE"/>
-                                </connections>
-                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Search" translatesAutoresizingMaskIntoConstraints="NO" id="4Sc-R4-yuM">
+                                <rect key="frame" x="18" y="87" width="13" height="13"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="4Sc-R4-yuM" secondAttribute="height" multiplier="1:1" id="1if-5B-a9l"/>
+                                    <constraint firstAttribute="width" constant="13" id="v7Z-Kk-my2"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.15686274509803921" green="0.14117647058823529" blue="0.14117647058823529" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="QbR-yf-g0O" firstAttribute="width" secondItem="1yX-4Y-uzS" secondAttribute="width" id="2NI-uc-Ty1"/>
-                            <constraint firstItem="qyZ-Hg-N4X" firstAttribute="centerX" secondItem="1yX-4Y-uzS" secondAttribute="centerX" id="8oz-A4-VOW"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="KBT-iN-06U" secondAttribute="trailing" constant="15" id="2i2-VW-lrM"/>
+                            <constraint firstItem="Uxf-nQ-d3x" firstAttribute="leading" secondItem="QbR-yf-g0O" secondAttribute="leading" id="67y-Wj-Oqe"/>
+                            <constraint firstItem="4Sc-R4-yuM" firstAttribute="leading" secondItem="HKz-AF-aQ1" secondAttribute="leading" constant="18" id="C52-8B-guv"/>
+                            <constraint firstItem="Uxf-nQ-d3x" firstAttribute="bottom" secondItem="XDw-Ej-px8" secondAttribute="top" id="Gkn-XG-v7c"/>
                             <constraint firstItem="QbR-yf-g0O" firstAttribute="centerX" secondItem="1yX-4Y-uzS" secondAttribute="centerX" id="HmM-RQ-S2Y"/>
-                            <constraint firstItem="qyZ-Hg-N4X" firstAttribute="top" secondItem="4E9-rL-QPP" secondAttribute="bottom" id="K2G-9F-y0k"/>
+                            <constraint firstAttribute="trailing" secondItem="HKz-AF-aQ1" secondAttribute="trailing" id="I8e-1g-OfI"/>
+                            <constraint firstItem="4Sc-R4-yuM" firstAttribute="centerY" secondItem="HKz-AF-aQ1" secondAttribute="centerY" id="QVW-KB-Re6"/>
+                            <constraint firstItem="TjL-uR-eES" firstAttribute="centerY" secondItem="KBT-iN-06U" secondAttribute="centerY" id="QYv-gl-pgX"/>
+                            <constraint firstItem="TjL-uR-eES" firstAttribute="top" secondItem="4E9-rL-QPP" secondAttribute="bottom" constant="16" id="Sw0-xo-csM"/>
+                            <constraint firstItem="HKz-AF-aQ1" firstAttribute="leading" secondItem="1yX-4Y-uzS" secondAttribute="leading" id="Vnu-30-o5Z"/>
+                            <constraint firstAttribute="leading" secondItem="TjL-uR-eES" secondAttribute="leading" constant="-16" id="lM8-ze-a7b"/>
                             <constraint firstItem="XDw-Ej-px8" firstAttribute="top" secondItem="QbR-yf-g0O" secondAttribute="bottom" id="p63-Ws-ZfO"/>
-                            <constraint firstItem="qyZ-Hg-N4X" firstAttribute="width" secondItem="1yX-4Y-uzS" secondAttribute="width" id="yf8-0t-QUP"/>
+                            <constraint firstItem="Uxf-nQ-d3x" firstAttribute="top" secondItem="HKz-AF-aQ1" secondAttribute="bottom" id="sR1-El-qYe"/>
+                            <constraint firstItem="Uxf-nQ-d3x" firstAttribute="trailing" secondItem="QbR-yf-g0O" secondAttribute="trailing" id="u5s-XB-FV4"/>
+                            <constraint firstItem="HKz-AF-aQ1" firstAttribute="top" secondItem="TjL-uR-eES" secondAttribute="bottom" constant="16" id="vp8-Ku-isg"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="searchBar" destination="qyZ-Hg-N4X" id="C2x-Ui-gc9"/>
+                        <outlet property="queueCountLabel" destination="KBT-iN-06U" id="MBL-MP-I9W"/>
+                        <outlet property="searchTableView" destination="Uxf-nQ-d3x" id="hwl-Qm-5e5"/>
+                        <outlet property="searchTextField" destination="HKz-AF-aQ1" id="Fd1-Yi-4Qz"/>
+                        <outlet property="streamNameLabel" destination="TjL-uR-eES" id="Z32-nh-Osm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q67-0q-lHt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4860" y="745.77464788732391"/>
+            <point key="canvasLocation" x="4860" y="745.27736131934034"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Search" width="14" height="14"/>
+    </resources>
 </document>
