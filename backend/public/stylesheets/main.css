@@ -1,0 +1,380 @@
+section {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  text-align: center;
+  justify-content: space-around;
+  padding-top: 100px;
+  padding-bottom: 100px;
+  padding-left: 3%;
+  padding-right: 3%;
+  flex-wrap: wrap;
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+.requirement {
+  font-size: 0.75rem;
+}
+
+.splash {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 790px;
+  background-image: url("../assets/macBookMockup@2x.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: white;
+  justify-content: center;
+}
+
+.splash .icon {
+  margin-top: 200px;
+}
+
+.splash h1 {
+  font-size: 2.5rem;
+  margin-top: 33px;
+  margin-bottom: 36px;
+  color: white;
+}
+
+.splash .super-script {
+  font-size: 1rem;
+}
+
+.splash .text {
+  margin-bottom: 63px;
+  max-width: 690px;
+  font-weight: 300;
+}
+
+.splash .button {
+  height: 50px;
+  width: 260px;
+  background-color: rgb(85, 160, 249);
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+}
+
+.splash .video-link {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  width: 350px;
+  color: rgb(85, 160, 249);
+  padding-bottom: 95px;
+  padding-top: 20px;
+  cursor: pointer;
+}
+
+.swift-offerings {
+  background-color: rgb(235, 235, 235);
+  padding-top: 20px;
+  padding-bottom: 30px;
+}
+
+.swift-offerings div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  padding: 20px 0;
+}
+
+.swift-offerings h2 {
+  margin: 0;
+}
+
+.swift-offerings p {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.swift-offerings .button {
+  border: solid 1px rgb(85, 160, 249);
+  color: rgb(85, 160, 249);
+  background-color: transparent;
+  padding: 10px 20px;
+}
+
+.swift-offerings .button:hover {
+  color: white;
+  background-color: rgb(85, 160, 249);
+}
+
+.integrate {
+  flex-direction: column;
+}
+
+.integrate h2 {
+  margin-top: 0;
+  margin-bottom: 22px;
+}
+
+.integrate .text {
+  max-width: 555px;
+}
+
+.integrate .image {
+  height: 600px;
+  width: 100%;
+  flex: 1 1 auto;
+  min-width: 0;
+  background-image: url("../assets/integrate@2x.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.manage .screenshot {
+  background-image: url("../assets/manage@2x.png")
+}
+
+.code .screenshot {
+  background-image: url("../assets/runtimeDetailPage@2x.png")
+}
+
+.projects .screenshot {
+  background-image: url("../assets/ProjectSelection_ICT.png")
+}
+
+.monitor .screenshot {
+  background-image: url("../assets/monitor@2x.png")
+}
+
+.view .screenshot {
+  background-image: url("../assets/projectDetailPage@2x.png")
+}
+
+.text-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  text-align: left;
+  padding-left: 2%;
+  padding-right: 2%;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.text-container h2 {
+  max-width: 495px;
+}
+
+.text-container .text {
+  max-width: 495px;
+}
+
+.image-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  padding-left: 2%;
+  padding-right: 2%;
+  flex: 1 1 auto;
+  max-height: 600px;
+  max-width: 1100px;
+}
+
+.image-container .screenshot {
+  height: 600px;
+  min-width: 500px;
+  background-position: center;
+  flex: 1 1 auto;
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 100%;
+}
+
+.code,
+.monitor {
+  background-color: rgb(244, 244, 244);
+  flex-direction: row;
+}
+
+.manage,
+.projects,
+.view {
+  background-color: rgb(235, 235, 235);
+  flex-direction: row;
+}
+
+.view {
+  background-image: url("../assets/clouds@2x.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: bottom;
+}
+
+.sample {
+  flex-direction: column;
+}
+
+.sample h2 {
+  max-width: 800px;
+}
+
+.sample .text {
+  max-width: 671px;
+}
+
+.sample .image {
+  height: 600px;
+  width: 100%;
+  flex: 1 1 auto;
+  min-width: 0;
+  background-image: url("../assets/bluePic@2x.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.sample .watch-header {
+  margin-bottom: 100px;
+}
+
+.sample .videos {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.sample .video {
+  width: 396px;
+  margin-bottom: 75px;
+}
+
+.tutorial-link {
+  color: rgb(85, 160, 249);
+  font-size: 1.2em;
+  letter-spacing: 0.2pt;
+  font-weight: 500;
+  margin-top: 50px;
+}
+
+.sample .thumbnail {
+  height: 330px;
+  width: 396px;
+  -webkit-box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.18);
+  -moz-box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.18);
+  box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.18);
+  cursor: pointer;
+  margin-bottom: 50px;
+}
+
+.sample .thumbnail p {
+  margin: 0;
+  padding-top: 11px;
+}
+
+.download {
+  background-color: rgb(244, 244, 244);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.download h1 {
+  font-size: 2.5rem;
+  margin-top: 33px;
+  margin-bottom: 36px;
+}
+
+.download .super-script {
+  font-size: 1rem;
+}
+
+.download .text {
+  margin-bottom: 63px;
+  max-width: 690px;
+  font-weight: 300;
+}
+
+.download .button {
+  height: 50px;
+  width: 260px;
+  background-color: rgb(85, 160, 249);
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  color: white;
+}
+
+.overlay {
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  display: flex;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 999;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.overlay .close-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+.overlay .video-player {
+  display: flex;
+}
+
+.emailContainer form {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: stretch;
+  align-content: center;
+  justify-content: center;
+}
+
+.emailContainer form .email-input {
+  flex: 2;
+  margin-right: 2%;
+  padding: 2%;
+  font-size: 0.9rem;
+  color: white;
+}
+
+.emailContainer form input[type="email"] {
+  background: transparent;
+  border: solid 1px white;
+}
+
+.download .emailContainer form input[type="email"] {
+  background: transparent;
+  border: solid 1px black;
+  color: black;
+}
+
+.emailContainer form button {
+  flex: 1;
+  font-size: 0.9rem;
+}
+
+.emailContainer form p {
+  flex-basis: 100%;
+  color: red;
+}
