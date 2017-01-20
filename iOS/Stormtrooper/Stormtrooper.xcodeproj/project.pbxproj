@@ -72,6 +72,8 @@
 		34DA473A1DEDEF3300E989A9 /* YTPlayerView.h in Sources */ = {isa = PBXBuildFile; fileRef = 34DA47371DEDE63600E989A9 /* YTPlayerView.h */; };
 		34DA473C1DEDEFA000E989A9 /* Assets.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 34DA473B1DEDEFA000E989A9 /* Assets.bundle */; };
 		34E57BE61DFB0B6800C8BAEA /* AddVideosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34E57BE51DFB0B6800C8BAEA /* AddVideosViewController.swift */; };
+		689A111E1E2FF35200B87DEF /* Popup.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 689A111D1E2FF35200B87DEF /* Popup.storyboard */; };
+		689A11201E2FFF3900B87DEF /* PopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 689A111F1E2FFF3900B87DEF /* PopupViewController.swift */; };
 		A23377A91E01DDD500E43DA0 /* HeartbeatDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23377A81E01DDD500E43DA0 /* HeartbeatDataManager.swift */; };
 		A25D96201E0341A3008FD996 /* ChatDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25D961F1E0341A3008FD996 /* ChatDataManager.swift */; };
 		A25D96221E0344B3008FD996 /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25D96211E0344B3008FD996 /* ChatMessage.swift */; };
@@ -193,6 +195,8 @@
 		34DA47381DEDE63600E989A9 /* YTPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YTPlayerView.m; sourceTree = "<group>"; };
 		34DA473B1DEDEFA000E989A9 /* Assets.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Assets.bundle; sourceTree = "<group>"; };
 		34E57BE51DFB0B6800C8BAEA /* AddVideosViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddVideosViewController.swift; sourceTree = "<group>"; };
+		689A111D1E2FF35200B87DEF /* Popup.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Popup.storyboard; sourceTree = "<group>"; };
+		689A111F1E2FFF3900B87DEF /* PopupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupViewController.swift; sourceTree = "<group>"; };
 		A23377A81E01DDD500E43DA0 /* HeartbeatDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeartbeatDataManager.swift; sourceTree = "<group>"; };
 		A25D961F1E0341A3008FD996 /* ChatDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatDataManager.swift; sourceTree = "<group>"; };
 		A25D96211E0344B3008FD996 /* ChatMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
@@ -402,6 +406,7 @@
 				3419A1F91DF8839100A11D53 /* InviteStreamViewController.swift */,
 				34C6E5321DF23D4600EB4972 /* StreamViewController.swift */,
 				34C6E5361DF23DBC00EB4972 /* ProfileViewController.swift */,
+				689A111F1E2FFF3900B87DEF /* PopupViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -475,6 +480,7 @@
 				34AB458D1E259BFE000730DC /* InviteStream.storyboard */,
 				34AB458F1E259C15000730DC /* Stream.storyboard */,
 				34AB45891E259B67000730DC /* Profile.storyboard */,
+				689A111D1E2FF35200B87DEF /* Popup.storyboard */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -688,6 +694,7 @@
 				34AD4BFF1E20400E00210F61 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
 				34AD4C031E20400E00210F61 /* OpenSans-Regular.ttf in Resources */,
 				34AD4BFD1E20400E00210F61 /* OpenSans-BoldItalic.ttf in Resources */,
+				689A111E1E2FF35200B87DEF /* Popup.storyboard in Resources */,
 				34AD4C021E20400E00210F61 /* OpenSans-LightItalic.ttf in Resources */,
 				34AB458A1E259B67000730DC /* Profile.storyboard in Resources */,
 				3401B43E1E2F2C61005ACB96 /* ChatEventTableViewCell.xib in Resources */,
@@ -739,6 +746,7 @@
 				3401B4321E2EDDB9005ACB96 /* ChatTextFieldAccessoryView.swift in Sources */,
 				3401B43D1E2F2C61005ACB96 /* ChatEventTableViewCell.swift in Sources */,
 				3419A1FC1DF883AF00A11D53 /* MainNavigationController.swift in Sources */,
+				689A11201E2FFF3900B87DEF /* PopupViewController.swift in Sources */,
 				3419A1FA1DF8839100A11D53 /* InviteStreamViewController.swift in Sources */,
 				A2D44DB01E25754C00053099 /* Video.swift in Sources */,
 				A23377A91E01DDD500E43DA0 /* HeartbeatDataManager.swift in Sources */,
