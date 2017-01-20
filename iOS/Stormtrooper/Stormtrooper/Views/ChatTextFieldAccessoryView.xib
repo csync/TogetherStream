@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="OpenSans-Regular.ttf">
+            <string>OpenSans</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="tn5-SN-brd" customClass="ChatTextFieldAccessoryView" customModule="Stormtrooper" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="khE-19-brP">
+                    <rect key="frame" x="10" y="10" width="310" height="40"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="down_temp_arrow" translatesAutoresizingMaskIntoConstraints="NO" id="VNV-by-Kbb">
+                            <rect key="frame" x="13" y="8" width="25" height="25"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="25" id="K7g-HB-5ar"/>
+                                <constraint firstAttribute="height" constant="25" id="fSE-KX-KIQ"/>
+                            </constraints>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                    <real key="value" value="12.5"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </imageView>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" highlighted="YES" selected="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Start Chatting..." textAlignment="natural" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PgI-ae-nKY">
+                            <rect key="frame" x="47" y="5" width="255" height="30"/>
+                            <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <color key="textColor" red="0.29019607843137252" green="0.29019607843137252" blue="0.29019607843137252" alpha="1" colorSpace="calibratedRGB"/>
+                            <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="11"/>
+                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="no" returnKeyType="send"/>
+                        </textField>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="VNV-by-Kbb" secondAttribute="bottom" constant="7.5" id="BQo-k1-aPl"/>
+                        <constraint firstItem="PgI-ae-nKY" firstAttribute="leading" secondItem="VNV-by-Kbb" secondAttribute="trailing" constant="9" id="BgD-DO-ii5"/>
+                        <constraint firstItem="VNV-by-Kbb" firstAttribute="leading" secondItem="khE-19-brP" secondAttribute="leading" constant="13" id="aGp-Iw-Ga3"/>
+                        <constraint firstAttribute="bottom" secondItem="PgI-ae-nKY" secondAttribute="bottom" constant="5" id="aWD-ta-KJ5"/>
+                        <constraint firstItem="PgI-ae-nKY" firstAttribute="top" secondItem="khE-19-brP" secondAttribute="top" constant="5" id="byU-AY-Fea"/>
+                        <constraint firstItem="VNV-by-Kbb" firstAttribute="top" secondItem="khE-19-brP" secondAttribute="top" constant="7.5" id="n5Z-Ed-yiW"/>
+                        <constraint firstAttribute="trailing" secondItem="PgI-ae-nKY" secondAttribute="trailing" constant="8" id="rwH-Vl-tCI"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <real key="value" value="4"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </view>
+                <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L2I-iN-Qhu">
+                    <rect key="frame" x="333" y="15" width="34" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="9pe-20-yxO"/>
+                        <constraint firstAttribute="width" constant="34" id="g8i-Tj-lGk"/>
+                    </constraints>
+                    <state key="normal" image="temp_x"/>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="0.96470588235294119" green="0.96470588235294119" blue="0.96470588235294119" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstItem="L2I-iN-Qhu" firstAttribute="leading" secondItem="khE-19-brP" secondAttribute="trailing" constant="13" id="34E-qa-uFq"/>
+                <constraint firstItem="khE-19-brP" firstAttribute="top" secondItem="tn5-SN-brd" secondAttribute="top" constant="10" id="8cQ-sT-aWc"/>
+                <constraint firstItem="khE-19-brP" firstAttribute="leading" secondItem="tn5-SN-brd" secondAttribute="leading" constant="10" id="BJw-tQ-lbJ"/>
+                <constraint firstAttribute="bottom" secondItem="khE-19-brP" secondAttribute="bottom" constant="10" id="ILl-VS-Erh"/>
+                <constraint firstItem="L2I-iN-Qhu" firstAttribute="top" secondItem="tn5-SN-brd" secondAttribute="top" constant="15" id="iVz-7R-HN6"/>
+                <constraint firstAttribute="trailing" secondItem="L2I-iN-Qhu" secondAttribute="trailing" constant="8" id="uMy-Xs-LgW"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="cancelButton" destination="L2I-iN-Qhu" id="nzW-5F-qSx"/>
+                <outlet property="profileImageView" destination="VNV-by-Kbb" id="Kko-X6-OiJ"/>
+                <outlet property="textField" destination="PgI-ae-nKY" id="K3n-Jj-GuJ"/>
+            </connections>
+            <point key="canvasLocation" x="76.5" y="-184"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="down_temp_arrow" width="102" height="69"/>
+        <image name="temp_x" width="90" height="90"/>
+    </resources>
+</document>

@@ -14,19 +14,15 @@ class YouTubeDataManager {
 	private let apiKey = Utils.getStringValueWithKeyFromPlist("keys", key: "youtube_api_key")
 	private let maxVideoResults = 10
 	
-	func getThumbnailForVideo(withID id: String, callback: @escaping (Error?, UIImage?) -> Void) {
-		guard let url = URL(string: "https://img.youtube.com/vi/\(id)/hqdefault.jpg") else {
-			callback(ServerError.cannotFormURL, nil)
-			return
-		}
-		let task = URLSession.shared.dataTask(with: url) {data, response, error in
-			guard let data = data, let image = UIImage(data: data) else {
-				callback(ServerError.unexpectedResponse, nil)
-				return
-			}
-			callback(nil, image)
-		}
-		task.resume()
+	func getThumbnailForVideo(with url: URL, callback: @escaping (Error?, UIImage?) -> Void) {
+        let task = URLSession.shared.dataTask(with: URLRequest(url: url)) {data, response, error in
+            guard let data = data, let image = UIImage(data: data) else {
+                callback(ServerError.unexpectedResponse, nil)
+                return
+            }
+            callback(nil, image)
+        }
+        task.resume()
 	}
 	
 	func getVideo(withID id: String, callback: @escaping (Error?, Video?) -> Void) {
