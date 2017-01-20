@@ -193,6 +193,7 @@ extension InviteStreamViewController: UITableViewDelegate, UITableViewDataSource
                 return UITableViewCell()
             }
             friendsHeaderCell.selectionStyle = .none
+            friendsHeaderCell.separatorInset = UIEdgeInsetsMake(0, 1000, 0, 0); // Moving seperator out of the screen
             return friendsHeaderCell
         case 3...10:
             //number of stormtrooper friends

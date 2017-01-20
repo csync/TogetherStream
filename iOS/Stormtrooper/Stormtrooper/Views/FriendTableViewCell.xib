@@ -24,7 +24,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="down_temp_arrow" translatesAutoresizingMaskIntoConstraints="NO" id="gJc-6l-bCA">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="down_temp_arrow" translatesAutoresizingMaskIntoConstraints="NO" id="gJc-6l-bCA">
                         <rect key="frame" x="16" y="-3.5" width="50" height="50"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="50" id="GpD-uq-IWp"/>
@@ -37,16 +37,16 @@
                         </userDefinedRuntimeAttributes>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DdC-xB-Awe">
-                        <rect key="frame" x="82" y="11" width="199" height="21"/>
+                        <rect key="frame" x="91" y="11" width="195" height="21"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="DN8-nE-Pm5"/>
                         </constraints>
-                        <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="17"/>
+                        <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="13"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fvf-2h-JD2">
-                        <rect key="frame" x="280" y="11" width="11" height="21"/>
+                        <rect key="frame" x="285" y="11" width="11" height="21"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="11" id="xIn-NU-0Hl"/>
                             <constraint firstAttribute="height" constant="21" id="xOV-Ya-8KP"/>
@@ -57,15 +57,16 @@
                     </label>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="DdC-xB-Awe" firstAttribute="leading" secondItem="gJc-6l-bCA" secondAttribute="trailing" constant="25" id="1cV-XC-gaR"/>
                     <constraint firstItem="gJc-6l-bCA" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="4Ni-6e-mZP"/>
                     <constraint firstItem="DdC-xB-Awe" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="AeO-B8-zhD"/>
-                    <constraint firstItem="DdC-xB-Awe" firstAttribute="leading" secondItem="gJc-6l-bCA" secondAttribute="trailing" constant="16" id="Chs-OH-P04"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="fvf-2h-JD2" secondAttribute="trailing" constant="21" id="ZoA-fs-BtW"/>
                     <constraint firstItem="fvf-2h-JD2" firstAttribute="leading" secondItem="DdC-xB-Awe" secondAttribute="trailing" constant="-1" id="aeO-Vx-GEY"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="fvf-2h-JD2" secondAttribute="trailing" constant="16" id="klk-Hh-wcp"/>
                     <constraint firstItem="gJc-6l-bCA" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="qXS-Y7-azF"/>
                     <constraint firstItem="fvf-2h-JD2" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="ufn-rf-pQL"/>
                 </constraints>
             </tableViewCellContentView>
+            <inset key="separatorInset" minX="91" minY="0.0" maxX="0.0" maxY="0.0"/>
             <connections>
                 <outlet property="friendSelected" destination="fvf-2h-JD2" id="Uzr-x3-3tI"/>
                 <outlet property="name" destination="DdC-xB-Awe" id="xAu-lZ-BRK"/>

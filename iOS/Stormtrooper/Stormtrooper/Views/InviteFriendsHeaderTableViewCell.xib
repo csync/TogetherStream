@@ -25,12 +25,12 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FRIENDS WITH MEDIA SYNC STREAM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3jM-zn-6iT">
-                        <rect key="frame" x="24" y="11.5" width="293" height="21"/>
+                        <rect key="frame" x="24" y="12" width="293" height="21"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="6SH-YC-miw"/>
                             <constraint firstAttribute="width" constant="293" id="HDY-7I-egV"/>
                         </constraints>
-                        <fontDescription key="fontDescription" name="WorkSans-SemiBold" family="Work Sans" pointSize="13"/>
+                        <fontDescription key="fontDescription" name="WorkSans-SemiBold" family="Work Sans" pointSize="12"/>
                         <color key="textColor" red="0.81176470588235294" green="0.16862745098039217" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
