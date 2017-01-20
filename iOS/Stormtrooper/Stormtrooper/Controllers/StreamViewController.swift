@@ -236,11 +236,13 @@ class StreamViewController: UIViewController {
     //header tapped, so show or hide queue if host
     @IBAction func headerTapped(_ sender: Any) {
         UIView.setAnimationsEnabled(true) //fix for animations breaking
+        
         if queueView.isHidden {
-            
             headerViewHeightConstraint.constant = originalHeaderViewHeightConstraint + queueView.frame.height
             UIView.animate(withDuration: headerViewAnimationDuration, delay: 0, options: .curveEaseOut, animations: { _ in
                 self.view.layoutIfNeeded()
+                //rotate arrow
+                self.headerArrowImageView.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
             }, completion: { complete in
                 //TODO: swap arrow images here!
                 self.queueView.isHidden = false
@@ -251,6 +253,8 @@ class StreamViewController: UIViewController {
             headerViewHeightConstraint.constant = originalHeaderViewHeightConstraint
             UIView.animate(withDuration: headerViewAnimationDuration, delay: 0, options: .curveEaseOut, animations: { _ in
                 self.view.layoutIfNeeded()
+                //rotate arrow
+                self.headerArrowImageView.transform = CGAffineTransform.identity
             }, completion: { complete in
                 //TODO: swap arrow images here!
             })

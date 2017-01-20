@@ -178,11 +178,11 @@
                                             <action selector="headerTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="x2G-7k-hlx"/>
                                         </connections>
                                     </button>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="down_temp_arrow" translatesAutoresizingMaskIntoConstraints="NO" id="K2Q-JA-bv3">
-                                        <rect key="frame" x="341" y="14" width="26" height="16"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrowQueue" translatesAutoresizingMaskIntoConstraints="NO" id="K2Q-JA-bv3">
+                                        <rect key="frame" x="341" y="16" width="18" height="11"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="16" id="DGG-9F-L8S"/>
-                                            <constraint firstAttribute="width" constant="26" id="YWR-Kv-uzP"/>
+                                            <constraint firstAttribute="height" constant="11" id="DGG-9F-L8S"/>
+                                            <constraint firstAttribute="width" constant="18" id="YWR-Kv-uzP"/>
                                         </constraints>
                                     </imageView>
                                 </subviews>
@@ -192,8 +192,8 @@
                                     <constraint firstItem="oTw-lu-Z7R" firstAttribute="leading" secondItem="Y1Z-hD-o7e" secondAttribute="leading" constant="15" id="1he-qX-igW"/>
                                     <constraint firstItem="zhP-gS-mwN" firstAttribute="top" secondItem="Y1Z-hD-o7e" secondAttribute="top" constant="13" id="2hc-aL-co7"/>
                                     <constraint firstAttribute="height" constant="87" id="8RW-43-RGV"/>
-                                    <constraint firstItem="K2Q-JA-bv3" firstAttribute="top" secondItem="Y1Z-hD-o7e" secondAttribute="top" constant="14" id="KAq-1H-vqx"/>
-                                    <constraint firstAttribute="trailing" secondItem="K2Q-JA-bv3" secondAttribute="trailing" constant="8" id="Z7M-Rb-3Z6"/>
+                                    <constraint firstItem="K2Q-JA-bv3" firstAttribute="top" secondItem="Y1Z-hD-o7e" secondAttribute="top" constant="16" id="KAq-1H-vqx"/>
+                                    <constraint firstAttribute="trailing" secondItem="K2Q-JA-bv3" secondAttribute="trailing" constant="16" id="Z7M-Rb-3Z6"/>
                                     <constraint firstAttribute="trailing" secondItem="knW-fA-GaK" secondAttribute="trailing" constant="35" id="ZBZ-rn-vEr"/>
                                     <constraint firstAttribute="trailing" secondItem="oTw-lu-Z7R" secondAttribute="trailing" constant="42" id="air-l3-X2c"/>
                                     <constraint firstItem="uEy-me-ihE" firstAttribute="width" secondItem="Y1Z-hD-o7e" secondAttribute="width" id="by1-hP-RQQ"/>
@@ -371,6 +371,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="arrowQueue" width="18" height="11"/>
         <image name="down_temp_arrow" width="102" height="69"/>
         <image name="stormtrooper_helmet" width="400" height="400"/>
     </resources>
