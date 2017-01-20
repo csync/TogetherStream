@@ -20,20 +20,22 @@ class HomeViewModel {
 	private let youtubeDataManager = YouTubeDataManager.sharedInstance
 	
 	func refreshStreams(callback: @escaping (Error?, [Stream]?) -> Void) {
-        let stream = Stream(jsonDictionary: ["user_id" : "pyVUdZ9nFZ", "csync_path": "streams.10153854936447000", "stream_name": "Super Testvsfdsfdsfadsfdsaffdsafsf", "description": "Blah fdksalhfdsakl fadskjfh sdak fsdkalfh dsaklf dskjlfhsdakhfsdakl fdaskl fdaskhl fh d"])
-        let stream2 = Stream(jsonDictionary: ["user_id" : "pyVUdZ9nFZ", "csync_path": "streams.10153854936447000", "stream_name": "Test", "description": "Blub"])
-        streams = [stream!, stream2!]
-        callback(nil, streams)
-        return
-//		accountDataManager.retrieveInvites {[weak self] error, streams in
-//			if let error = error {
-//				callback(error, nil)
-//			}
-//			else {
-//				self?.streams = streams ?? []
-//				callback(nil, streams)
-//			}
-//		}
+        // uncomment to test invites
+//        let stream = Stream(jsonDictionary: ["user_id" : "pyVUdZ9nFZ", "csync_path": "streams.10153854936447000", "stream_name": "Super Testvsfdsfdsfadsfdsaffdsafsf", "description": "Blah fdksalhfdsakl fadskjfh sdak fsdkalfh dsaklf dskjlfhsdakhfsdakl fdaskl fdaskhl fh d", "external_accounts": ["facebook-token": "10153854936447000"]])
+//        let stream2 = Stream(jsonDictionary: ["user_id" : "pyVUdZ9nFZ", "csync_path": "streams.10153854936447000", "stream_name": "Test", "description": "Blub", "external_accounts": ["facebook-token": "10153854936447000"]])
+//        streams = [stream!, stream2!]
+//        callback(nil, streams)
+//        return
+		accountDataManager.retrieveInvites {[weak self] error, streams in
+			if let error = error {
+                print(error)
+				callback(error, nil)
+			}
+			else {
+				self?.streams = streams ?? []
+				callback(nil, streams)
+			}
+		}
 	}
     
     func shouldSelectCell(at indexPath: IndexPath) -> Bool {
