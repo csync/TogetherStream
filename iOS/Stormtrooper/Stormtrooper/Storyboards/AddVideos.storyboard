@@ -107,6 +107,7 @@
                             <constraint firstItem="Uxf-nQ-d3x" firstAttribute="bottom" secondItem="XDw-Ej-px8" secondAttribute="top" id="Gkn-XG-v7c"/>
                             <constraint firstItem="QbR-yf-g0O" firstAttribute="centerX" secondItem="1yX-4Y-uzS" secondAttribute="centerX" id="HmM-RQ-S2Y"/>
                             <constraint firstAttribute="trailing" secondItem="HKz-AF-aQ1" secondAttribute="trailing" id="I8e-1g-OfI"/>
+                            <constraint firstItem="KBT-iN-06U" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="TjL-uR-eES" secondAttribute="trailing" constant="16" id="PGm-P6-P6K"/>
                             <constraint firstItem="4Sc-R4-yuM" firstAttribute="centerY" secondItem="HKz-AF-aQ1" secondAttribute="centerY" id="QVW-KB-Re6"/>
                             <constraint firstItem="TjL-uR-eES" firstAttribute="centerY" secondItem="KBT-iN-06U" secondAttribute="centerY" id="QYv-gl-pgX"/>
                             <constraint firstItem="TjL-uR-eES" firstAttribute="top" secondItem="4E9-rL-QPP" secondAttribute="bottom" constant="16" id="Sw0-xo-csM"/>
@@ -119,6 +120,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="nextButton" destination="QbR-yf-g0O" id="2K1-oI-zSo"/>
                         <outlet property="queueCountLabel" destination="KBT-iN-06U" id="MBL-MP-I9W"/>
                         <outlet property="searchTableView" destination="Uxf-nQ-d3x" id="hwl-Qm-5e5"/>
                         <outlet property="searchTextField" destination="HKz-AF-aQ1" id="Fd1-Yi-4Qz"/>

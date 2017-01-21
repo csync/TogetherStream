@@ -100,6 +100,8 @@
 		A2D44DBE1E3024DC00053099 /* NoStreamsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2D44DBD1E3024DC00053099 /* NoStreamsTableViewCell.xib */; };
 		A2D44DC11E32B15900053099 /* SearchResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D44DBF1E32B15900053099 /* SearchResultTableViewCell.swift */; };
 		A2D44DC21E32B15900053099 /* SearchResultTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2D44DC01E32B15900053099 /* SearchResultTableViewCell.xib */; };
+		A2D44DC41E33E99900053099 /* SearchResultHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D44DC31E33E99900053099 /* SearchResultHeaderView.swift */; };
+		A2D44DC61E33E9A600053099 /* SearchResultHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2D44DC51E33E9A600053099 /* SearchResultHeaderView.xib */; };
 		A2F714731DF1F34300BC7335 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2F714721DF1F34300BC7335 /* FBSDKLoginKit.framework */; };
 		A2F714751DF1F39E00BC7335 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2F714741DF1F39E00BC7335 /* Bolts.framework */; };
 		A2F714771DF1F51400BC7335 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2F714761DF1F51400BC7335 /* FBSDKCoreKit.framework */; };
@@ -223,6 +225,8 @@
 		A2D44DBD1E3024DC00053099 /* NoStreamsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoStreamsTableViewCell.xib; sourceTree = "<group>"; };
 		A2D44DBF1E32B15900053099 /* SearchResultTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultTableViewCell.swift; sourceTree = "<group>"; };
 		A2D44DC01E32B15900053099 /* SearchResultTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchResultTableViewCell.xib; sourceTree = "<group>"; };
+		A2D44DC31E33E99900053099 /* SearchResultHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultHeaderView.swift; sourceTree = "<group>"; };
+		A2D44DC51E33E9A600053099 /* SearchResultHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchResultHeaderView.xib; sourceTree = "<group>"; };
 		A2F714721DF1F34300BC7335 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		A2F714741DF1F39E00BC7335 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		A2F714761DF1F51400BC7335 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
@@ -524,6 +528,8 @@
 				3401B4331E2EDDCF005ACB96 /* ChatTextFieldAccessoryView.xib */,
 				A2D44DBF1E32B15900053099 /* SearchResultTableViewCell.swift */,
 				A2D44DC01E32B15900053099 /* SearchResultTableViewCell.xib */,
+				A2D44DC31E33E99900053099 /* SearchResultHeaderView.swift */,
+				A2D44DC51E33E9A600053099 /* SearchResultHeaderView.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -672,6 +678,7 @@
 				34AD4C0B1E20400E00210F61 /* WorkSans-Light.ttf in Resources */,
 				3401B43A1E2F1FF1005ACB96 /* ChatMessageTableViewCell.xib in Resources */,
 				34AD4BFC1E20400E00210F61 /* OpenSans-Bold.ttf in Resources */,
+				A2D44DC61E33E9A600053099 /* SearchResultHeaderView.xib in Resources */,
 				34AB458C1E259BDD000730DC /* NameStream.storyboard in Resources */,
 				34AD4BFE1E20400E00210F61 /* OpenSans-ExtraBold.ttf in Resources */,
 				34AB45901E259C15000730DC /* Stream.storyboard in Resources */,
@@ -790,6 +797,7 @@
 				A2A4360F1DFB24CE008C2FB2 /* ServerError.swift in Sources */,
 				A25D962C1E1D965A008FD996 /* HomeViewModel.swift in Sources */,
 				A25D96261E1D55E9008FD996 /* Stream.swift in Sources */,
+				A2D44DC41E33E99900053099 /* SearchResultHeaderView.swift in Sources */,
 				A2C1BD811E24024800F515E7 /* ParticipantsDataManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

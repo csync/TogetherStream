@@ -14,6 +14,7 @@ class AddVideosViewController: UIViewController {
     @IBOutlet weak var queueCountLabel: UILabel!
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var searchTableView: UITableView!
+    @IBOutlet weak var nextButton: UIButton!
 	
     var streamName: String?
     
@@ -23,11 +24,17 @@ class AddVideosViewController: UIViewController {
     private let searchClearFrame = CGRect(x: 0, y: 0, width: 31, height: 15)
 	fileprivate let viewModel = AddVideosViewModel()
     
+    fileprivate let searchTableHeaderViewHeight: CGFloat = 43
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupSearchBar()
         setupTableView()
+        setupNavigationBar()
+        
+        streamNameLabel.text = "\"\(streamName ?? "")\" Queue"
+        
         checkIfCreatingStream()
         
         viewModel.fetchTrendingVideos() {[weak self] error, videos in
@@ -79,6 +86,10 @@ class AddVideosViewController: UIViewController {
     private func setupTableView() {
         searchTableView.register(UINib(nibName: "SearchResultTableViewCell", bundle: nil), forCellReuseIdentifier: "resultCell")
         searchTableView.separatorColor = UIColor.stormtrooperSeperatorGray
+    }
+    
+    private func setupNavigationBar() {
+        navigationItem.titleView = UIImageView(image: #imageLiteral(resourceName: "addVideos"))
     }
 	
     @IBAction func doneTapped(_ sender: Any) {
@@ -138,6 +149,13 @@ extension AddVideosViewController: UITextFieldDelegate {
                 }
             }
         }
+        else {
+            viewModel.fetchTrendingVideos {[weak self] error, videos in
+                DispatchQueue.main.async {
+                    self?.searchTableView.reloadData()
+                }
+            }
+        }
         textField.resignFirstResponder()
         return true
     }
@@ -155,6 +173,13 @@ extension AddVideosViewController: UITableViewDataSource, UITableViewDelegate {
         let video = viewModel.videos[indexPath.row]
         cell.titleLabel.text = video.title
         cell.channelTitleLabel.text = video.channelTitle
+        
+        if viewModel.videoIsSelected(at: indexPath) {
+            cell.addImageView.image = #imageLiteral(resourceName: "stormtrooper_helmet")
+        }
+        else {
+            cell.addImageView.image = #imageLiteral(resourceName: "addVideos")
+        }
         
         viewModel.getThumbnailForVideo(with: video.defaultThumbnailURL) {error, thumbnail in
             if let thumbnail = thumbnail {
@@ -187,5 +212,22 @@ extension AddVideosViewController: UITableViewDataSource, UITableViewDelegate {
                 cell.addImageView.image = #imageLiteral(resourceName: "addVideos")
             }
         }
+        // show next button if at least one video is selected
+        nextButton.isHidden = viewModel.selectedVideos.count == 0
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = SearchResultHeaderView.instanceFromNib()
+        if searchTextField.text?.characters.count ?? 0 > 0 {
+            headerView.titleLabel.text = "VIDEOS"
+        }
+        else {
+            headerView.titleLabel.text = "TRENDING NOW"
+        }
+        return headerView
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return searchTableHeaderViewHeight
     }
 }
