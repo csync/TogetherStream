@@ -12,7 +12,7 @@ class SearchResultTableViewCell: UITableViewCell {
     @IBOutlet weak var thumbnailImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var channelTitleLabel: UILabel!
-    @IBOutlet weak var addButton: UIButton!
+    @IBOutlet weak var addImageView: UIImageView!
     
     
     override func awakeFromNib() {

@@ -11,8 +11,24 @@ import Foundation
 class AddVideosViewModel {
     
     var videos: [Video] = []
+    
+    var selectedVideos: Set<Video> = []
 	
 	private let youtubeDataManager = YouTubeDataManager.sharedInstance
+    
+    func toggleSelectionOfVideo(at indexPath: IndexPath) {
+        let video = videos[indexPath.row]
+        if selectedVideos.contains(video) {
+            selectedVideos.remove(video)
+        }
+        else {
+            selectedVideos.insert(video)
+        }
+    }
+    
+    func videoIsSelected(at indexPath: IndexPath) -> Bool {
+        return selectedVideos.contains(videos[indexPath.row])
+    }
 	
 	func fetchTrendingVideos(callback: @escaping (Error?, [Video]?) -> Void) {
         youtubeDataManager.fetchTrendingVideos() {error, videos in

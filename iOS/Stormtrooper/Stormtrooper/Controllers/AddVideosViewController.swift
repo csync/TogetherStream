@@ -129,14 +129,16 @@ extension AddVideosViewController: UITextFieldDelegate {
         print("Editing ended! Current text: \(textField.text)")
     }
     
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if textField.text?.characters.count ?? 0 > 0 || string.characters.count > 0 {
-            textField.rightViewMode = .whileEditing
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        let query = textField.text ?? ""
+        if query.characters.count > 0 {
+            viewModel.searchForVideos(withQuery: query) {[weak self] error, videos in
+                DispatchQueue.main.async {
+                    self?.searchTableView.reloadData()
+                }
+            }
         }
-        else {
-            textField.rightViewMode = .never
-        }
-        
+        textField.resignFirstResponder()
         return true
     }
 }
@@ -154,7 +156,7 @@ extension AddVideosViewController: UITableViewDataSource, UITableViewDelegate {
         cell.titleLabel.text = video.title
         cell.channelTitleLabel.text = video.channelTitle
         
-        viewModel.getThumbnailForVideo(with: video.standardThumbnailURL) {error, thumbnail in
+        viewModel.getThumbnailForVideo(with: video.defaultThumbnailURL) {error, thumbnail in
             if let thumbnail = thumbnail {
                 DispatchQueue.main.async {
                     cell.thumbnailImageView.image = thumbnail
@@ -162,6 +164,7 @@ extension AddVideosViewController: UITableViewDataSource, UITableViewDelegate {
             }
         }
         
+        cell.selectionStyle = .none
         return cell
     }
     
@@ -171,5 +174,18 @@ extension AddVideosViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        viewModel.toggleSelectionOfVideo(at: indexPath)
+        queueCountLabel.text = String(viewModel.selectedVideos.count)
+        if let cell = tableView.cellForRow(at: indexPath) as? SearchResultTableViewCell {
+            if viewModel.videoIsSelected(at: indexPath) {
+                cell.addImageView.image = #imageLiteral(resourceName: "stormtrooper_helmet")
+            }
+            else {
+                cell.addImageView.image = #imageLiteral(resourceName: "addVideos")
+            }
+        }
     }
 }

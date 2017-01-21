@@ -47,33 +47,32 @@
                         <color key="textColor" red="0.96470588235294119" green="0.96470588235294119" blue="0.96470588235294119" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZJs-xu-zEh">
-                        <rect key="frame" x="328" y="44" width="23" height="24"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="addVideos" translatesAutoresizingMaskIntoConstraints="NO" id="zzU-0G-chd">
+                        <rect key="frame" x="326.5" y="44" width="23" height="24"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="23" id="WMx-Gv-qdd"/>
-                            <constraint firstAttribute="width" secondItem="ZJs-xu-zEh" secondAttribute="height" multiplier="23:24" id="knC-PB-3cB"/>
+                            <constraint firstAttribute="width" secondItem="zzU-0G-chd" secondAttribute="height" multiplier="23:24" id="6qr-Md-NEb"/>
+                            <constraint firstAttribute="width" constant="23" id="JsF-F7-Lne"/>
                         </constraints>
-                        <state key="normal" image="addVideos"/>
-                    </button>
+                    </imageView>
                 </subviews>
                 <color key="backgroundColor" red="0.15686274509803921" green="0.14117647058823529" blue="0.14117647058823529" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 <constraints>
+                    <constraint firstItem="zzU-0G-chd" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="rQa-ge-4Pm" secondAttribute="trailing" constant="18" id="8JW-ci-Roa"/>
                     <constraint firstAttribute="leading" secondItem="nG4-Pk-zlc" secondAttribute="leading" constant="-16" id="CFP-p1-0hk"/>
-                    <constraint firstItem="ZJs-xu-zEh" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="2i1-wD-H0Z" secondAttribute="trailing" constant="18" id="N4r-CY-qca"/>
                     <constraint firstItem="nG4-Pk-zlc" firstAttribute="top" secondItem="rQa-ge-4Pm" secondAttribute="top" constant="-11" id="Vg9-n3-RfJ"/>
                     <constraint firstItem="nG4-Pk-zlc" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="3" id="Zqo-Qc-UQK"/>
                     <constraint firstItem="2i1-wD-H0Z" firstAttribute="leading" secondItem="rQa-ge-4Pm" secondAttribute="leading" id="a2X-v3-yir"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="ZJs-xu-zEh" secondAttribute="trailing" constant="16" id="eEd-KQ-vkK"/>
+                    <constraint firstItem="zzU-0G-chd" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="2i1-wD-H0Z" secondAttribute="trailing" constant="18" id="c7V-eN-X4R"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="zzU-0G-chd" secondAttribute="trailing" constant="17.5" id="cFG-8G-R0J"/>
                     <constraint firstItem="rQa-ge-4Pm" firstAttribute="leading" secondItem="nG4-Pk-zlc" secondAttribute="trailing" constant="18" id="ekO-yi-3oC"/>
-                    <constraint firstItem="ZJs-xu-zEh" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="l2e-wU-6K2"/>
-                    <constraint firstItem="ZJs-xu-zEh" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="rQa-ge-4Pm" secondAttribute="trailing" constant="18" id="l7t-5i-eaV"/>
                     <constraint firstAttribute="bottomMargin" secondItem="nG4-Pk-zlc" secondAttribute="bottom" constant="4" id="nBL-GV-xjd"/>
+                    <constraint firstItem="zzU-0G-chd" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="p87-Wm-ovt"/>
                     <constraint firstItem="2i1-wD-H0Z" firstAttribute="top" secondItem="rQa-ge-4Pm" secondAttribute="bottom" constant="3" id="vzk-If-iw1"/>
                 </constraints>
             </tableViewCellContentView>
             <color key="backgroundColor" red="0.15686274509803921" green="0.14117647058823529" blue="0.14117647058823529" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <connections>
-                <outlet property="addButton" destination="ZJs-xu-zEh" id="vzb-gZ-OEE"/>
+                <outlet property="addImageView" destination="zzU-0G-chd" id="Rdd-2A-8bE"/>
                 <outlet property="channelTitleLabel" destination="2i1-wD-H0Z" id="bfY-2h-Kfi"/>
                 <outlet property="thumbnailImageView" destination="nG4-Pk-zlc" id="LUE-5G-pS2"/>
                 <outlet property="titleLabel" destination="rQa-ge-4Pm" id="Lso-z4-4yi"/>
