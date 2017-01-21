@@ -11,10 +11,15 @@ import UIKit
 class NameStreamViewController: UIViewController {
 
 	@IBOutlet weak var nameTextField: UITextField!
+    @IBOutlet weak var descriptionTextView: UITextView!
+    
+    private let nameTextFieldSpacingFrame = CGRect(x: 0, y: 0, width: 18, height: 5)
+    private let descriptionTextViewSpacingInset = UIEdgeInsets(top: 10, left: 13, bottom: 10, right: 16)
 	
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        setupTextFields()
+        
         // Do any additional setup after loading the view.
     }
     
@@ -26,6 +31,13 @@ class NameStreamViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    private func setupTextFields() {
+        nameTextField.leftViewMode = .always
+        nameTextField.leftView = UIView(frame: nameTextFieldSpacingFrame)
+        descriptionTextView.textContainerInset = descriptionTextViewSpacingInset
+        descriptionTextView.textColor = UIColor.stormtrooperPlaceholderGray
     }
     
 
@@ -56,6 +68,35 @@ class NameStreamViewController: UIViewController {
         addVideosVC.navigationItem.title = "Add Videos"
         self.navigationController?.pushViewController(addVideosVC, animated: true)
     }
-    
+}
 
+extension NameStreamViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+}
+
+extension NameStreamViewController: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == UIColor.stormtrooperPlaceholderGray {
+            textView.text = nil
+            textView.textColor = UIColor.stormtrooperTextBlack
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.text = "Description (Optional)"
+            textView.textColor = UIColor.stormtrooperPlaceholderGray
+        }
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool  {
+        if text == "\n" {
+            textView.resignFirstResponder()
+            return false
+        }
+        return true
+    }
 }

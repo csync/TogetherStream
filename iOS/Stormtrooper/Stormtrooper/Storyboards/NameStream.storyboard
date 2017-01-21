@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
+        <array key="OpenSans-Regular.ttf">
+            <string>OpenSans</string>
+        </array>
         <array key="OpenSans-Semibold.ttf">
             <string>OpenSans-Semibold</string>
         </array>
@@ -27,46 +29,37 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Name your Stream" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Mgl-N8-G1e">
-                                <rect key="frame" x="33" y="83" width="309" height="30"/>
-                                <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Name your Stream" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Mgl-N8-G1e">
+                                <rect key="frame" x="15" y="38" width="345" height="50"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="xxQ-AH-WZH"/>
+                                    <constraint firstAttribute="height" constant="50" id="xxQ-AH-WZH"/>
                                 </constraints>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <color key="textColor" red="0.29019607843137252" green="0.29019607843137252" blue="0.29019607843137252" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="13"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                        <real key="value" value="4"/>
+                                        <real key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="_placeholderLabel.textColor">
+                                        <color key="value" red="0.58039215686274503" green="0.57647058823529407" blue="0.58039215686274503" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
-                            </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Description (optional)" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mMX-wD-bgK">
-                                <rect key="frame" x="33" y="148" width="309" height="149"/>
-                                <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="149" id="e6w-03-zrF"/>
-                                </constraints>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                        <real key="value" value="4"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <outlet property="delegate" destination="Mx7-Sk-Jgf" id="5vi-cE-R6C"/>
+                                </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hmi-3k-jaa">
-                                <rect key="frame" x="137" y="305" width="101" height="30"/>
+                                <rect key="frame" x="137" y="256" width="101" height="30"/>
                                 <state key="normal" title="Skip to Stream"/>
                                 <connections>
                                     <action selector="skipToStreamTapped:" destination="Mx7-Sk-Jgf" eventType="touchUpInside" id="BlT-zZ-yEj"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5MU-lf-j6G">
-                                <rect key="frame" x="0.0" y="343" width="375" height="65"/>
-                                <color key="backgroundColor" red="0.88627450980392153" green="0.27843137254901962" blue="0.043137254901960784" alpha="1" colorSpace="calibratedRGB"/>
+                                <rect key="frame" x="0.0" y="602" width="375" height="65"/>
+                                <color key="backgroundColor" red="0.84705882352941175" green="0.25490196078431371" blue="0.023529411764705882" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="65" id="csC-tu-bmh"/>
                                 </constraints>
@@ -78,29 +71,47 @@
                                     <action selector="addVideosTapped:" destination="Mx7-Sk-Jgf" eventType="touchUpInside" id="ysb-uh-Iny"/>
                                 </connections>
                             </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Description (optional)" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="SpN-Uk-38q">
+                                <rect key="frame" x="15" y="104" width="345" height="144"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="144" id="dq9-oo-GFk"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="13"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <outlet property="delegate" destination="Mx7-Sk-Jgf" id="Nao-yn-cps"/>
+                                </connections>
+                            </textView>
                         </subviews>
-                        <color key="backgroundColor" red="0.96470588235294119" green="0.96470588235294119" blue="0.96470588235294119" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.96470588235294119" green="0.96470588235294119" blue="0.96470588235294119" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="mMX-wD-bgK" firstAttribute="top" secondItem="Mgl-N8-G1e" secondAttribute="bottom" constant="35" id="1rp-ls-d0j"/>
-                            <constraint firstItem="5MU-lf-j6G" firstAttribute="top" secondItem="Hmi-3k-jaa" secondAttribute="bottom" constant="8" id="3P7-19-lzB"/>
+                            <constraint firstItem="SpN-Uk-38q" firstAttribute="trailing" secondItem="Mgl-N8-G1e" secondAttribute="trailing" id="3fm-fL-sh1"/>
+                            <constraint firstItem="Jkz-tx-zeR" firstAttribute="top" secondItem="5MU-lf-j6G" secondAttribute="bottom" id="5uq-6B-guH"/>
+                            <constraint firstItem="SpN-Uk-38q" firstAttribute="top" secondItem="Mgl-N8-G1e" secondAttribute="bottom" constant="16" id="7ua-qj-td3"/>
                             <constraint firstItem="5MU-lf-j6G" firstAttribute="centerX" secondItem="Fuz-bi-iqW" secondAttribute="centerX" id="BjC-wP-yJJ"/>
-                            <constraint firstItem="Mgl-N8-G1e" firstAttribute="leading" secondItem="Fuz-bi-iqW" secondAttribute="leadingMargin" constant="17" id="G3B-nB-hLI"/>
-                            <constraint firstItem="Mgl-N8-G1e" firstAttribute="top" secondItem="vQ3-t6-piw" secondAttribute="bottom" constant="63" id="Hrq-ur-l59"/>
-                            <constraint firstItem="mMX-wD-bgK" firstAttribute="leading" secondItem="Fuz-bi-iqW" secondAttribute="leadingMargin" constant="17" id="KIw-nk-AjC"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="Mgl-N8-G1e" secondAttribute="trailing" constant="17" id="mix-dr-6ka"/>
+                            <constraint firstItem="Mgl-N8-G1e" firstAttribute="leading" secondItem="Fuz-bi-iqW" secondAttribute="leading" constant="15" id="G3B-nB-hLI"/>
+                            <constraint firstItem="Hmi-3k-jaa" firstAttribute="top" secondItem="SpN-Uk-38q" secondAttribute="bottom" constant="8" id="Giz-fC-Ayl"/>
+                            <constraint firstItem="Mgl-N8-G1e" firstAttribute="top" secondItem="vQ3-t6-piw" secondAttribute="bottom" constant="18" id="Hrq-ur-l59"/>
+                            <constraint firstItem="SpN-Uk-38q" firstAttribute="leading" secondItem="Mgl-N8-G1e" secondAttribute="leading" id="MnF-sm-QAm"/>
+                            <constraint firstAttribute="trailing" secondItem="Mgl-N8-G1e" secondAttribute="trailing" constant="15" id="mix-dr-6ka"/>
                             <constraint firstItem="5MU-lf-j6G" firstAttribute="width" secondItem="Fuz-bi-iqW" secondAttribute="width" id="oAW-Iv-p0N"/>
                             <constraint firstItem="Hmi-3k-jaa" firstAttribute="centerX" secondItem="Fuz-bi-iqW" secondAttribute="centerX" id="oi4-C5-GXY"/>
-                            <constraint firstItem="Hmi-3k-jaa" firstAttribute="top" secondItem="mMX-wD-bgK" secondAttribute="bottom" constant="8" id="p14-wU-DCY"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="mMX-wD-bgK" secondAttribute="trailing" constant="17" id="vkb-pE-W0M"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="descriptionTextView" destination="SpN-Uk-38q" id="22O-KD-zZA"/>
                         <outlet property="nameTextField" destination="Mgl-N8-G1e" id="s67-4b-N8l"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fJF-25-AgS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2261.25" y="745.77464788732391"/>
+            <point key="canvasLocation" x="2260" y="745.27736131934034"/>
         </scene>
     </scenes>
 </document>
