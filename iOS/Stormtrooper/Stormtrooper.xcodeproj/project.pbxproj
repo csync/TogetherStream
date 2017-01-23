@@ -509,7 +509,6 @@
 			isa = PBXGroup;
 			children = (
 				A2D44DB91E301E9400053099 /* NoStreamsTableViewCell.swift */,
-				A25D96291E1D92EB008FD996 /* StreamTableViewCell.swift */,
 				A2D44DBB1E30225500053099 /* StreamTableViewCell.xib */,
 				A2D44DBD1E3024DC00053099 /* NoStreamsTableViewCell.xib */,
 				3401B43B1E2F2C61005ACB96 /* ChatEventTableViewCell.swift */,
@@ -934,6 +933,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "IBM Cloud Stormtrooper - Dev Profile";
 				SWIFT_OBJC_BRIDGING_HEADER = "Stormtrooper/SupportingFiles/Stormtrooper-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -957,6 +957,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "IBM Cloud Stormtrooper - Dev Profile";
 				SWIFT_OBJC_BRIDGING_HEADER = "Stormtrooper/SupportingFiles/Stormtrooper-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
