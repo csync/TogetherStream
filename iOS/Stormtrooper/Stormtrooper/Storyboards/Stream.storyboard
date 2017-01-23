@@ -183,7 +183,7 @@
                                         </constraints>
                                     </imageView>
                                 </subviews>
-                                <color key="backgroundColor" red="0.16470588235294117" green="0.14901960784313725" blue="0.14901960784313725" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.15686274510000001" green="0.14117647059999999" blue="0.14117647059999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="oTw-lu-Z7R" firstAttribute="top" secondItem="zhP-gS-mwN" secondAttribute="bottom" constant="3" id="0Ea-4c-soA"/>
                                     <constraint firstItem="oTw-lu-Z7R" firstAttribute="leading" secondItem="Y1Z-hD-o7e" secondAttribute="leading" constant="15" id="1he-qX-igW"/>
@@ -296,7 +296,7 @@
                                         </constraints>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" red="0.1647058824" green="0.14901960780000001" blue="0.14901960780000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.15686274510000001" green="0.14117647059999999" blue="0.14117647059999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="zJg-2p-vtP" firstAttribute="leading" secondItem="q4i-Y2-lar" secondAttribute="leading" constant="16" id="4fZ-C7-gBW"/>
                                     <constraint firstItem="zJg-2p-vtP" firstAttribute="top" secondItem="q4i-Y2-lar" secondAttribute="top" constant="8" id="7HS-MA-QfJ"/>
