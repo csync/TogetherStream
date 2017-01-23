@@ -10,7 +10,8 @@ import UIKit
 
 class ChatTextFieldAccessoryView: UIView {
 
-    @IBOutlet weak var cancelButton: UIButton!
+
+    @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var profileImageView: UIImageView!
 
