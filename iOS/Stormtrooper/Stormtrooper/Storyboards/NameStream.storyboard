@@ -12,8 +12,8 @@
         <array key="OpenSans-Regular.ttf">
             <string>OpenSans</string>
         </array>
-        <array key="OpenSans-Semibold.ttf">
-            <string>OpenSans-Semibold</string>
+        <array key="WorkSans-SemiBold.ttf">
+            <string>WorkSans-SemiBold</string>
         </array>
     </customFonts>
     <scenes>
@@ -37,7 +37,7 @@
                                 </constraints>
                                 <color key="textColor" red="0.29019607843137252" green="0.29019607843137252" blue="0.29019607843137252" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="13"/>
-                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="next"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
                                         <real key="value" value="5"/>
@@ -57,13 +57,13 @@
                                     <action selector="skipToStreamTapped:" destination="Mx7-Sk-Jgf" eventType="touchUpInside" id="BlT-zZ-yEj"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5MU-lf-j6G">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5MU-lf-j6G">
                                 <rect key="frame" x="0.0" y="602" width="375" height="65"/>
                                 <color key="backgroundColor" red="0.84705882352941175" green="0.25490196078431371" blue="0.023529411764705882" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="65" id="csC-tu-bmh"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="OpenSans-Semibold" family="Open Sans" pointSize="15"/>
+                                <fontDescription key="fontDescription" name="WorkSans-SemiBold" family="Work Sans" pointSize="15"/>
                                 <state key="normal" title="ADD VIDEOS">
                                     <color key="titleColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </state>
@@ -90,6 +90,7 @@
                             </textView>
                         </subviews>
                         <color key="backgroundColor" red="0.96470588235294119" green="0.96470588235294119" blue="0.96470588235294119" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="SpN-Uk-38q" firstAttribute="trailing" secondItem="Mgl-N8-G1e" secondAttribute="trailing" id="3fm-fL-sh1"/>
                             <constraint firstItem="Jkz-tx-zeR" firstAttribute="top" secondItem="5MU-lf-j6G" secondAttribute="bottom" id="5uq-6B-guH"/>
@@ -103,13 +104,22 @@
                             <constraint firstItem="5MU-lf-j6G" firstAttribute="width" secondItem="Fuz-bi-iqW" secondAttribute="width" id="oAW-Iv-p0N"/>
                             <constraint firstItem="Hmi-3k-jaa" firstAttribute="centerX" secondItem="Fuz-bi-iqW" secondAttribute="centerX" id="oi4-C5-GXY"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="ziY-Zt-hdg" appends="YES" id="xeE-7l-MA8"/>
+                        </connections>
                     </view>
                     <connections>
+                        <outlet property="addVideosButton" destination="5MU-lf-j6G" id="jre-Mq-r6c"/>
                         <outlet property="descriptionTextView" destination="SpN-Uk-38q" id="22O-KD-zZA"/>
                         <outlet property="nameTextField" destination="Mgl-N8-G1e" id="s67-4b-N8l"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fJF-25-AgS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="ziY-Zt-hdg">
+                    <connections>
+                        <action selector="didTapScreen:" destination="Mx7-Sk-Jgf" id="nnD-Fn-KeO"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="2260" y="745.27736131934034"/>
         </scene>

@@ -12,9 +12,10 @@ class NameStreamViewController: UIViewController {
 
 	@IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var descriptionTextView: UITextView!
+    @IBOutlet weak var addVideosButton: UIButton!
     
     private let nameTextFieldSpacingFrame = CGRect(x: 0, y: 0, width: 18, height: 5)
-    private let descriptionTextViewSpacingInset = UIEdgeInsets(top: 10, left: 13, bottom: 10, right: 16)
+    private let descriptionTextViewSpacingInset = UIEdgeInsets(top: 14, left: 13, bottom: 10, right: 16)
 	
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,6 +61,11 @@ class NameStreamViewController: UIViewController {
         self.navigationController?.pushViewController(streamVC, animated: true)
     }
     
+    @IBAction func didTapScreen(_ sender: Any) {
+        nameTextField.resignFirstResponder()
+        descriptionTextView.resignFirstResponder()
+    }
+    
     @IBAction func addVideosTapped(_ sender: Any) {
         guard let addVideosVC = Utils.vcWithNameFromStoryboardWithName("addVideos", storyboardName: "AddVideos") as? AddVideosViewController else {
             return
@@ -72,8 +78,17 @@ class NameStreamViewController: UIViewController {
 
 extension NameStreamViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
+        descriptionTextView.becomeFirstResponder()
+        return false
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField.text?.characters.count ?? 0 > 0 {
+            addVideosButton.isHidden = false
+        }
+        else {
+            addVideosButton.isHidden = true
+        }
     }
 }
 
