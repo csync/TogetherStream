@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="OpenSans-Regular.ttf">
+            <string>OpenSans</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="textEmailCell" rowHeight="64" id="KGk-i7-Jjw" customClass="TextEmailTableViewCell" customModule="Stormtrooper" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="63"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="stormtrooper_helmet" translatesAutoresizingMaskIntoConstraints="NO" id="tj7-Q6-QcI">
+                        <rect key="frame" x="288" y="23" width="11" height="18"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="11" id="UTv-NW-BvA"/>
+                            <constraint firstAttribute="height" constant="18" id="fiM-i0-7bS"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Text Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BTH-kU-25A">
+                        <rect key="frame" x="16" y="22.5" width="61" height="18"/>
+                        <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="13"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="tj7-Q6-QcI" secondAttribute="trailing" constant="21" id="3Gh-Q9-zPd"/>
+                    <constraint firstItem="tj7-Q6-QcI" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="BeZ-k9-mdy"/>
+                    <constraint firstItem="BTH-kU-25A" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="MNg-D9-25D"/>
+                    <constraint firstItem="BTH-kU-25A" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="QzW-9D-ldm"/>
+                </constraints>
+            </tableViewCellContentView>
+            <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+            <connections>
+                <outlet property="textEmailLabel" destination="BTH-kU-25A" id="sac-Qf-SbB"/>
+            </connections>
+            <point key="canvasLocation" x="34" y="64"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="stormtrooper_helmet" width="400" height="400"/>
+    </resources>
+</document>

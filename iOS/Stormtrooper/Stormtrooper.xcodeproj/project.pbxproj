@@ -72,6 +72,12 @@
 		34DA473A1DEDEF3300E989A9 /* YTPlayerView.h in Sources */ = {isa = PBXBuildFile; fileRef = 34DA47371DEDE63600E989A9 /* YTPlayerView.h */; };
 		34DA473C1DEDEFA000E989A9 /* Assets.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 34DA473B1DEDEFA000E989A9 /* Assets.bundle */; };
 		34E57BE61DFB0B6800C8BAEA /* AddVideosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34E57BE51DFB0B6800C8BAEA /* AddVideosViewController.swift */; };
+		4A240FBC1E2D8CF600DCD418 /* FriendTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A240FBA1E2D8CF600DCD418 /* FriendTableViewCell.swift */; };
+		4A240FBD1E2D8CF600DCD418 /* FriendTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A240FBB1E2D8CF600DCD418 /* FriendTableViewCell.xib */; };
+		4A240FC01E2EC57600DCD418 /* InviteFriendsHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A240FBE1E2EC57600DCD418 /* InviteFriendsHeaderTableViewCell.swift */; };
+		4A240FC11E2EC57600DCD418 /* InviteFriendsHeaderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A240FBF1E2EC57600DCD418 /* InviteFriendsHeaderTableViewCell.xib */; };
+		4AD6F7BC1E2D3755006104CF /* TextEmailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD6F7BA1E2D3755006104CF /* TextEmailTableViewCell.swift */; };
+		4AD6F7BD1E2D3755006104CF /* TextEmailTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4AD6F7BB1E2D3755006104CF /* TextEmailTableViewCell.xib */; };
 		689A111E1E2FF35200B87DEF /* Popup.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 689A111D1E2FF35200B87DEF /* Popup.storyboard */; };
 		689A11201E2FFF3900B87DEF /* PopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 689A111F1E2FFF3900B87DEF /* PopupViewController.swift */; };
 		A23377A91E01DDD500E43DA0 /* HeartbeatDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23377A81E01DDD500E43DA0 /* HeartbeatDataManager.swift */; };
@@ -195,6 +201,12 @@
 		34DA47381DEDE63600E989A9 /* YTPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YTPlayerView.m; sourceTree = "<group>"; };
 		34DA473B1DEDEFA000E989A9 /* Assets.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Assets.bundle; sourceTree = "<group>"; };
 		34E57BE51DFB0B6800C8BAEA /* AddVideosViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddVideosViewController.swift; sourceTree = "<group>"; };
+		4A240FBA1E2D8CF600DCD418 /* FriendTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendTableViewCell.swift; sourceTree = "<group>"; };
+		4A240FBB1E2D8CF600DCD418 /* FriendTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FriendTableViewCell.xib; sourceTree = "<group>"; };
+		4A240FBE1E2EC57600DCD418 /* InviteFriendsHeaderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InviteFriendsHeaderTableViewCell.swift; sourceTree = "<group>"; };
+		4A240FBF1E2EC57600DCD418 /* InviteFriendsHeaderTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InviteFriendsHeaderTableViewCell.xib; sourceTree = "<group>"; };
+		4AD6F7BA1E2D3755006104CF /* TextEmailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextEmailTableViewCell.swift; sourceTree = "<group>"; };
+		4AD6F7BB1E2D3755006104CF /* TextEmailTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextEmailTableViewCell.xib; sourceTree = "<group>"; };
 		689A111D1E2FF35200B87DEF /* Popup.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Popup.storyboard; sourceTree = "<group>"; };
 		689A111F1E2FFF3900B87DEF /* PopupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupViewController.swift; sourceTree = "<group>"; };
 		A23377A81E01DDD500E43DA0 /* HeartbeatDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeartbeatDataManager.swift; sourceTree = "<group>"; };
@@ -523,6 +535,12 @@
 				A25D96271E1D6964008FD996 /* ChatMessageTableViewCell.swift */,
 				3401B4391E2F1FF1005ACB96 /* ChatMessageTableViewCell.xib */,
 				A25D96291E1D92EB008FD996 /* StreamTableViewCell.swift */,
+				4AD6F7BA1E2D3755006104CF /* TextEmailTableViewCell.swift */,
+				4AD6F7BB1E2D3755006104CF /* TextEmailTableViewCell.xib */,
+				4A240FBA1E2D8CF600DCD418 /* FriendTableViewCell.swift */,
+				4A240FBB1E2D8CF600DCD418 /* FriendTableViewCell.xib */,
+				4A240FBE1E2EC57600DCD418 /* InviteFriendsHeaderTableViewCell.swift */,
+				4A240FBF1E2EC57600DCD418 /* InviteFriendsHeaderTableViewCell.xib */,
 				3401B4311E2EDDB9005ACB96 /* ChatTextFieldAccessoryView.swift */,
 				3401B4331E2EDDCF005ACB96 /* ChatTextFieldAccessoryView.xib */,
 			);
@@ -665,6 +683,8 @@
 				34AD4C0E1E20400E00210F61 /* WorkSans-SemiBold.ttf in Resources */,
 				34AD4C061E20400E00210F61 /* OFL.txt in Resources */,
 				34AD4C051E20400E00210F61 /* OpenSans-SemiboldItalic.ttf in Resources */,
+				4AD6F7BD1E2D3755006104CF /* TextEmailTableViewCell.xib in Resources */,
+				4A240FC11E2EC57600DCD418 /* InviteFriendsHeaderTableViewCell.xib in Resources */,
 				34AD4BFB1E20400E00210F61 /* LICENSE.txt in Resources */,
 				34AD4C001E20400E00210F61 /* OpenSans-Italic.ttf in Resources */,
 				34AD4C081E20400E00210F61 /* WorkSans-Bold.ttf in Resources */,
@@ -684,6 +704,7 @@
 				34AD4C011E20400E00210F61 /* OpenSans-Light.ttf in Resources */,
 				34C6E5311DF21BAD00EB4972 /* keys.plist in Resources */,
 				34AB45881E259A63000730DC /* Login.storyboard in Resources */,
+				4A240FBD1E2D8CF600DCD418 /* FriendTableViewCell.xib in Resources */,
 				3401B4341E2EDDCF005ACB96 /* ChatTextFieldAccessoryView.xib in Resources */,
 				34AB458E1E259BFE000730DC /* InviteStream.storyboard in Resources */,
 				34AD4C0D1E20400E00210F61 /* WorkSans-Regular.ttf in Resources */,
@@ -765,6 +786,7 @@
 				34DA47121DECA2E600E989A9 /* NSAttributedStringExtension.swift in Sources */,
 				3419A1F81DF8837E00A11D53 /* NameStreamViewController.swift in Sources */,
 				A25D96221E0344B3008FD996 /* ChatMessage.swift in Sources */,
+				4A240FC01E2EC57600DCD418 /* InviteFriendsHeaderTableViewCell.swift in Sources */,
 				3401B44A1E2FE39E005ACB96 /* ALTextView.swift in Sources */,
 				A2D44DAE1E25739300053099 /* AddVideosViewModel.swift in Sources */,
 				A2D44DAC1E253D4C00053099 /* YouTubeDataManager.swift in Sources */,
@@ -782,11 +804,13 @@
 				34DA47161DECA2E600E989A9 /* UIViewControllerExtension.swift in Sources */,
 				34E57BE61DFB0B6800C8BAEA /* AddVideosViewController.swift in Sources */,
 				34DA47391DEDE63600E989A9 /* YTPlayerView.m in Sources */,
+				4AD6F7BC1E2D3755006104CF /* TextEmailTableViewCell.swift in Sources */,
 				34C6E5381DF23DBC00EB4972 /* LoginViewController.swift in Sources */,
 				3401B4471E2FE39E005ACB96 /* ALTextInputBar.swift in Sources */,
 				34C6E5371DF23DBC00EB4972 /* HomeViewController.swift in Sources */,
 				3401B4481E2FE39E005ACB96 /* ALTextInputBarDelegate.swift in Sources */,
 				A29D11041DF8B30D00FA0EEC /* User.swift in Sources */,
+				4A240FBC1E2D8CF600DCD418 /* FriendTableViewCell.swift in Sources */,
 				A2A4360D1DFB2421008C2FB2 /* FacebookDataManager.swift in Sources */,
 				A2A4360F1DFB24CE008C2FB2 /* ServerError.swift in Sources */,
 				A25D962C1E1D965A008FD996 /* HomeViewModel.swift in Sources */,
