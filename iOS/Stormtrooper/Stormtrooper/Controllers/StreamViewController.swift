@@ -22,6 +22,7 @@ class StreamViewController: UIViewController {
     @IBOutlet weak var headerViewButton: UIButton!
     @IBOutlet weak var visualEffectView: UIVisualEffectView!
     @IBOutlet weak var profileImageView: UIImageView!
+    @IBOutlet weak var dismissView: UIView!
     
     //constraints
     var originalHeaderViewHeightConstraint: CGFloat = 0
@@ -75,22 +76,21 @@ class StreamViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    private func setupViewForHostOrParticipant() { //TODO: add actual icons, add player setup (don't allow participant to pause, etc)
+    private func setupViewForHostOrParticipant() { //TODO: player setup (don't allow participant to pause, etc)
         if viewModel.isHost { //host-- can view queue, can end stream, can invite people
             headerArrowImageView.isHidden = false
             headerViewButton.isHidden = false
             
+            
             //Set bar button items and their actions programmatically
             let closeButton = UIButton(type: .custom)
-            //closeButton.setImage(UIImage(named: "stormtrooper_helmet"), for: .normal)
-            closeButton.setTitle("X", for: .normal)
+            closeButton.setImage(UIImage(named: "xStream"), for: .normal)
             closeButton.frame = closeButtonFrame
             closeButton.addTarget(self, action: #selector(StreamViewController.closeTapped), for: .touchUpInside)
             let item1 = UIBarButtonItem(customView: closeButton)
             
             let profileButton = UIButton(type: .custom)
-            //profileButton.setImage(UIImage(named: "stormtrooper_helmet"), for: .normal)
-            profileButton.setTitle("+", for: .normal)
+            profileButton.setImage(UIImage(named: "inviteStream"), for: .normal)
             profileButton.frame = profileButtonFrame
             profileButton.addTarget(self, action: #selector(StreamViewController.profileTapped), for: .touchUpInside)
             let item2 = UIBarButtonItem(customView: profileButton)
@@ -104,8 +104,7 @@ class StreamViewController: UIViewController {
             
             //Set bar button items and their actions programmatically
             let closeButton = UIButton(type: .custom)
-            //closeButton.setImage(UIImage(named: "stormtrooper_helmet"), for: .normal)
-            closeButton.setTitle("<", for: .normal)
+            closeButton.setImage(UIImage(named: "back_stream"), for: .normal)
             closeButton.frame = closeButtonFrame
             closeButton.addTarget(self, action: #selector(StreamViewController.closeTapped), for: .touchUpInside) //TODO: Change this to not end stream
             let item1 = UIBarButtonItem(customView: closeButton)
@@ -119,7 +118,7 @@ class StreamViewController: UIViewController {
             return
         }
         let attrs = [
-            NSForegroundColorAttributeName: UIColor.red,
+            NSForegroundColorAttributeName: UIColor.white,
             NSFontAttributeName: font
         ]
         
@@ -206,8 +205,8 @@ class StreamViewController: UIViewController {
         
     }
     
-    @IBAction func visualEffectViewTapped(_ sender: Any) {
-        //visual effect view tapped, so dismiss keyboard if shown
+    @IBAction func dismissViewTapped(_ sender: Any) {
+        //dismiss view tapped, so dismiss keyboard if shown
         cancelChatTapped()
     }
     
@@ -256,7 +255,6 @@ class StreamViewController: UIViewController {
                 //rotate arrow
                 self.headerArrowImageView.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
             }, completion: { complete in
-                //TODO: swap arrow images here!
                 self.queueView.isHidden = false
             })
         }
@@ -268,7 +266,6 @@ class StreamViewController: UIViewController {
                 //rotate arrow
                 self.headerArrowImageView.transform = CGAffineTransform.identity
             }, completion: { complete in
-                //TODO: swap arrow images here!
             })
         }
     }
@@ -420,6 +417,17 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
         
         
 	}
+    
+    func updateViewforKeyboardShown(keyboardShown: Bool) {
+        if keyboardShown {
+            visualEffectView.isHidden = false
+            dismissView.isHidden = false
+        }
+        else {
+            visualEffectView.isHidden = true
+            dismissView.isHidden = true
+        }
+    }
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return viewModel.messages.count //TODO: limit this to 50 or whatever performance allows
@@ -506,7 +514,7 @@ extension StreamViewController: YTPlayerViewDelegate {
 extension StreamViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         chatInputActionTriggered(textField: textField) //send the chat
-        visualEffectView.isHidden = true
+        updateViewforKeyboardShown(keyboardShown: false)
         return true
     }
     
@@ -516,11 +524,11 @@ extension StreamViewController: UITextFieldDelegate {
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         UIView.setAnimationsEnabled(true) //fix for animations breaking
-        visualEffectView.isHidden = false
+        updateViewforKeyboardShown(keyboardShown: true)
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        visualEffectView.isHidden = true
+        updateViewforKeyboardShown(keyboardShown: false)
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
