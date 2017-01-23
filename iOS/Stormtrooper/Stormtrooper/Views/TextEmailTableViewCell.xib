@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -32,17 +31,17 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Text Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BTH-kU-25A">
-                        <rect key="frame" x="25" y="23" width="61" height="18"/>
+                        <rect key="frame" x="16" y="22.5" width="61" height="18"/>
                         <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="13"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <constraints>
+                    <constraint firstAttribute="trailing" secondItem="tj7-Q6-QcI" secondAttribute="trailing" constant="21" id="3Gh-Q9-zPd"/>
                     <constraint firstItem="tj7-Q6-QcI" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="BeZ-k9-mdy"/>
-                    <constraint firstItem="BTH-kU-25A" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="17" id="KHe-ah-tm7"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="tj7-Q6-QcI" secondAttribute="trailing" constant="13" id="LHI-hk-arw"/>
                     <constraint firstItem="BTH-kU-25A" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="MNg-D9-25D"/>
+                    <constraint firstItem="BTH-kU-25A" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="QzW-9D-ldm"/>
                 </constraints>
             </tableViewCellContentView>
             <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>

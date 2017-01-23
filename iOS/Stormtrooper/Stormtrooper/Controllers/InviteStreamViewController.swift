@@ -14,7 +14,8 @@ class InviteStreamViewController: UIViewController {
     @IBOutlet private weak var tableView: UITableView!
 
     private let skipButtonFrame = CGRect(x: 0, y: 0, width: 35, height: 17)
-    let DEFAULT_CELL_HEIGHT = CGFloat(64.0)
+    let defaultCellHeight = CGFloat(64.0)
+    let headerCellHeight = CGFloat(47.0)
 
 	var streamName: String?
     var isCreatingStream = false
@@ -27,7 +28,7 @@ class InviteStreamViewController: UIViewController {
         checkIfCreatingStream()
         setupTableView()
 
-        if (showSkipButton) {
+        if showSkipButton {
             let skipButton = UIButton(type: .custom)
             skipButton.setTitle("Skip", for: .normal)
             skipButton.frame = skipButtonFrame
@@ -229,18 +230,18 @@ extension InviteStreamViewController: UITableViewDelegate, UITableViewDataSource
         switch indexPath.item {
         case 0:
             //show text
-            return DEFAULT_CELL_HEIGHT
+            return defaultCellHeight
         case 1:
             //show email
-            return DEFAULT_CELL_HEIGHT
+            return defaultCellHeight
         case 2:
             //show header view
-            return DEFAULT_CELL_HEIGHT
+            return headerCellHeight
         case 3...10:
             //number of stormtrooper friends
-            return DEFAULT_CELL_HEIGHT
+            return defaultCellHeight
         default:
-            return DEFAULT_CELL_HEIGHT
+            return defaultCellHeight
         }
     }
 
