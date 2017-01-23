@@ -26,6 +26,7 @@ class StreamViewController: UIViewController {
     
     //constraints
     var originalHeaderViewHeightConstraint: CGFloat = 0
+    var estimatedChatCellHeight: CGFloat = 56
     
     //constants
     let closeButtonFrame = CGRect(x: 0, y: 0, width: 17, height: 17)
@@ -114,15 +115,6 @@ class StreamViewController: UIViewController {
         //set title
         //TODO: set title to be correct
         self.navigationItem.title = "Beyonce All Day"
-        guard let font = UIFont(name: "WorkSans-Regular", size: 17) else {
-            return
-        }
-        let attrs = [
-            NSForegroundColorAttributeName: UIColor.white,
-            NSFontAttributeName: font
-        ]
-        
-        UINavigationBar.appearance().titleTextAttributes = attrs
     }
     
     /// Adds a textfield view above keyboard when user starts typing in chat
@@ -421,10 +413,15 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
         
-        
-        
-        
 	}
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return estimatedChatCellHeight
+    }
     
     func updateView(forIsKeyboardShowing isKeyboardShowing: Bool) {
         if isKeyboardShowing {
