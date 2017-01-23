@@ -89,7 +89,7 @@ class AddVideosViewController: UIViewController {
     }
     
     private func setupNavigationBar() {
-        navigationItem.titleView = UIImageView(image: #imageLiteral(resourceName: "addVideos"))
+        navigationItem.titleView = UIImageView(image: #imageLiteral(resourceName: "youTube"))
     }
 	
     @IBAction func doneTapped(_ sender: Any) {
@@ -175,7 +175,7 @@ extension AddVideosViewController: UITableViewDataSource, UITableViewDelegate {
         cell.channelTitleLabel.text = video.channelTitle
         
         if viewModel.videoIsSelected(at: indexPath) {
-            cell.addImageView.image = #imageLiteral(resourceName: "stormtrooper_helmet")
+            cell.addImageView.image = #imageLiteral(resourceName: "addedVideos")
         }
         else {
             cell.addImageView.image = #imageLiteral(resourceName: "addVideos")
@@ -206,7 +206,7 @@ extension AddVideosViewController: UITableViewDataSource, UITableViewDelegate {
         queueCountLabel.text = String(viewModel.selectedVideos.count)
         if let cell = tableView.cellForRow(at: indexPath) as? SearchResultTableViewCell {
             if viewModel.videoIsSelected(at: indexPath) {
-                cell.addImageView.image = #imageLiteral(resourceName: "stormtrooper_helmet")
+                cell.addImageView.image = #imageLiteral(resourceName: "addedVideos")
             }
             else {
                 cell.addImageView.image = #imageLiteral(resourceName: "addVideos")
