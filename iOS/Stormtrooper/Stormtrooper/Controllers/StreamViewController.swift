@@ -112,6 +112,18 @@ class StreamViewController: UIViewController {
             
             self.navigationItem.setLeftBarButtonItems([item1], animated: false)
         }
+        //set title
+        //TODO: set title to be correct
+        self.navigationItem.title = "Beyonce All Day"
+        guard let font = UIFont(name: "WorkSans-Regular", size: 17) else {
+            return
+        }
+        let attrs = [
+            NSForegroundColorAttributeName: UIColor.red,
+            NSFontAttributeName: font
+        ]
+        
+        UINavigationBar.appearance().titleTextAttributes = attrs
     }
     
     /// Adds a textfield view above keyboard when user starts typing in chat
