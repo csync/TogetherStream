@@ -12,9 +12,6 @@
         <array key="OpenSans-Regular.ttf">
             <string>OpenSans</string>
         </array>
-        <array key="WorkSans-SemiBold.ttf">
-            <string>WorkSans-SemiBold</string>
-        </array>
     </customFonts>
     <scenes>
         <!--Name Stream View Controller-->
@@ -57,20 +54,6 @@
                                     <action selector="skipToStreamTapped:" destination="Mx7-Sk-Jgf" eventType="touchUpInside" id="BlT-zZ-yEj"/>
                                 </connections>
                             </button>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5MU-lf-j6G">
-                                <rect key="frame" x="0.0" y="602" width="375" height="65"/>
-                                <color key="backgroundColor" red="0.84705882352941175" green="0.25490196078431371" blue="0.023529411764705882" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="65" id="csC-tu-bmh"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="WorkSans-SemiBold" family="Work Sans" pointSize="15"/>
-                                <state key="normal" title="ADD VIDEOS">
-                                    <color key="titleColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </state>
-                                <connections>
-                                    <action selector="addVideosTapped:" destination="Mx7-Sk-Jgf" eventType="touchUpInside" id="ysb-uh-Iny"/>
-                                </connections>
-                            </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Description (optional)" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="SpN-Uk-38q">
                                 <rect key="frame" x="15" y="104" width="345" height="144"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -78,7 +61,7 @@
                                     <constraint firstAttribute="height" constant="144" id="dq9-oo-GFk"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="13"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
                                         <real key="value" value="5"/>
@@ -93,33 +76,21 @@
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="SpN-Uk-38q" firstAttribute="trailing" secondItem="Mgl-N8-G1e" secondAttribute="trailing" id="3fm-fL-sh1"/>
-                            <constraint firstItem="Jkz-tx-zeR" firstAttribute="top" secondItem="5MU-lf-j6G" secondAttribute="bottom" id="5uq-6B-guH"/>
                             <constraint firstItem="SpN-Uk-38q" firstAttribute="top" secondItem="Mgl-N8-G1e" secondAttribute="bottom" constant="16" id="7ua-qj-td3"/>
-                            <constraint firstItem="5MU-lf-j6G" firstAttribute="centerX" secondItem="Fuz-bi-iqW" secondAttribute="centerX" id="BjC-wP-yJJ"/>
                             <constraint firstItem="Mgl-N8-G1e" firstAttribute="leading" secondItem="Fuz-bi-iqW" secondAttribute="leading" constant="15" id="G3B-nB-hLI"/>
                             <constraint firstItem="Hmi-3k-jaa" firstAttribute="top" secondItem="SpN-Uk-38q" secondAttribute="bottom" constant="8" id="Giz-fC-Ayl"/>
                             <constraint firstItem="Mgl-N8-G1e" firstAttribute="top" secondItem="vQ3-t6-piw" secondAttribute="bottom" constant="18" id="Hrq-ur-l59"/>
                             <constraint firstItem="SpN-Uk-38q" firstAttribute="leading" secondItem="Mgl-N8-G1e" secondAttribute="leading" id="MnF-sm-QAm"/>
                             <constraint firstAttribute="trailing" secondItem="Mgl-N8-G1e" secondAttribute="trailing" constant="15" id="mix-dr-6ka"/>
-                            <constraint firstItem="5MU-lf-j6G" firstAttribute="width" secondItem="Fuz-bi-iqW" secondAttribute="width" id="oAW-Iv-p0N"/>
                             <constraint firstItem="Hmi-3k-jaa" firstAttribute="centerX" secondItem="Fuz-bi-iqW" secondAttribute="centerX" id="oi4-C5-GXY"/>
                         </constraints>
-                        <connections>
-                            <outletCollection property="gestureRecognizers" destination="ziY-Zt-hdg" appends="YES" id="xeE-7l-MA8"/>
-                        </connections>
                     </view>
                     <connections>
-                        <outlet property="addVideosButton" destination="5MU-lf-j6G" id="jre-Mq-r6c"/>
                         <outlet property="descriptionTextView" destination="SpN-Uk-38q" id="22O-KD-zZA"/>
                         <outlet property="nameTextField" destination="Mgl-N8-G1e" id="s67-4b-N8l"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fJF-25-AgS" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="ziY-Zt-hdg">
-                    <connections>
-                        <action selector="didTapScreen:" destination="Mx7-Sk-Jgf" id="nnD-Fn-KeO"/>
-                    </connections>
-                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="2260" y="745.27736131934034"/>
         </scene>

@@ -100,6 +100,8 @@
 		A2D44DBA1E301E9400053099 /* NoStreamsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D44DB91E301E9400053099 /* NoStreamsTableViewCell.swift */; };
 		A2D44DBC1E30225500053099 /* StreamTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2D44DBB1E30225500053099 /* StreamTableViewCell.xib */; };
 		A2D44DBE1E3024DC00053099 /* NoStreamsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2D44DBD1E3024DC00053099 /* NoStreamsTableViewCell.xib */; };
+		A2D44DCA1E36ACEE00053099 /* NextBannerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2D44DC91E36ACEE00053099 /* NextBannerView.xib */; };
+		A2D44DCC1E36AE2700053099 /* NextBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D44DCB1E36AE2700053099 /* NextBannerView.swift */; };
 		A2F714731DF1F34300BC7335 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2F714721DF1F34300BC7335 /* FBSDKLoginKit.framework */; };
 		A2F714751DF1F39E00BC7335 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2F714741DF1F39E00BC7335 /* Bolts.framework */; };
 		A2F714771DF1F51400BC7335 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2F714761DF1F51400BC7335 /* FBSDKCoreKit.framework */; };
@@ -223,6 +225,8 @@
 		A2D44DB91E301E9400053099 /* NoStreamsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoStreamsTableViewCell.swift; sourceTree = "<group>"; };
 		A2D44DBB1E30225500053099 /* StreamTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StreamTableViewCell.xib; sourceTree = "<group>"; };
 		A2D44DBD1E3024DC00053099 /* NoStreamsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoStreamsTableViewCell.xib; sourceTree = "<group>"; };
+		A2D44DC91E36ACEE00053099 /* NextBannerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NextBannerView.xib; sourceTree = "<group>"; };
+		A2D44DCB1E36AE2700053099 /* NextBannerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NextBannerView.swift; sourceTree = "<group>"; };
 		A2F714721DF1F34300BC7335 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		A2F714741DF1F39E00BC7335 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		A2F714761DF1F51400BC7335 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
@@ -515,7 +519,6 @@
 			isa = PBXGroup;
 			children = (
 				A2D44DB91E301E9400053099 /* NoStreamsTableViewCell.swift */,
-				A25D96291E1D92EB008FD996 /* StreamTableViewCell.swift */,
 				A2D44DBB1E30225500053099 /* StreamTableViewCell.xib */,
 				A2D44DBD1E3024DC00053099 /* NoStreamsTableViewCell.xib */,
 				3401B43B1E2F2C61005ACB96 /* ChatEventTableViewCell.swift */,
@@ -525,6 +528,8 @@
 				A25D96291E1D92EB008FD996 /* StreamTableViewCell.swift */,
 				3401B4311E2EDDB9005ACB96 /* ChatTextFieldAccessoryView.swift */,
 				3401B4331E2EDDCF005ACB96 /* ChatTextFieldAccessoryView.xib */,
+				A2D44DC91E36ACEE00053099 /* NextBannerView.xib */,
+				A2D44DCB1E36AE2700053099 /* NextBannerView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -680,6 +685,7 @@
 				34AD4C0F1E20400E00210F61 /* WorkSans-Thin.ttf in Resources */,
 				34AD4C091E20400E00210F61 /* WorkSans-ExtraBold.ttf in Resources */,
 				34DA46BA1DE61FC600E989A9 /* Assets.xcassets in Resources */,
+				A2D44DCA1E36ACEE00053099 /* NextBannerView.xib in Resources */,
 				34AD4C0C1E20400E00210F61 /* WorkSans-Medium.ttf in Resources */,
 				34AD4C011E20400E00210F61 /* OpenSans-Light.ttf in Resources */,
 				34C6E5311DF21BAD00EB4972 /* keys.plist in Resources */,
@@ -746,6 +752,7 @@
 				3401B4321E2EDDB9005ACB96 /* ChatTextFieldAccessoryView.swift in Sources */,
 				3401B43D1E2F2C61005ACB96 /* ChatEventTableViewCell.swift in Sources */,
 				3419A1FC1DF883AF00A11D53 /* MainNavigationController.swift in Sources */,
+				A2D44DCC1E36AE2700053099 /* NextBannerView.swift in Sources */,
 				689A11201E2FFF3900B87DEF /* PopupViewController.swift in Sources */,
 				3419A1FA1DF8839100A11D53 /* InviteStreamViewController.swift in Sources */,
 				A2D44DB01E25754C00053099 /* Video.swift in Sources */,
