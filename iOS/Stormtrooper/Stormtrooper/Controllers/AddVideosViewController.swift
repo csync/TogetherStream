@@ -34,7 +34,7 @@ class AddVideosViewController: UIViewController {
         setupTableView()
         setupNavigationBar()
         
-        streamNameLabel.text = "\"\(streamName ?? "")\" Queue"
+        streamNameLabel.text = "\"\(streamName ?? "")\" Queue".localizedUppercase
         
         checkIfCreatingStream()
         
@@ -91,6 +91,7 @@ class AddVideosViewController: UIViewController {
     
     private func setupNavigationBar() {
         navigationItem.titleView = UIImageView(image: #imageLiteral(resourceName: "youTube"))
+        
     }
 	
     @IBAction func doneTapped(_ sender: Any) {
@@ -121,6 +122,11 @@ class AddVideosViewController: UIViewController {
     @objc private func pressedSearchClear() {
         searchTextField.text = ""
         searchTextField.resignFirstResponder()
+        viewModel.fetchTrendingVideos() {[weak self] error, videos in
+            DispatchQueue.main.async {
+                self?.searchTableView.reloadData()
+            }
+        }
     }
     
     
@@ -184,7 +190,7 @@ extension AddVideosViewController: UITableViewDataSource, UITableViewDelegate {
             cell.addImageView.image = #imageLiteral(resourceName: "addVideos")
         }
         
-        viewModel.getThumbnailForVideo(with: video.defaultThumbnailURL) {error, thumbnail in
+        viewModel.getThumbnailForVideo(with: video.mediumThumbnailURL) {error, thumbnail in
             if let thumbnail = thumbnail {
                 DispatchQueue.main.async {
                     cell.thumbnailImageView.image = thumbnail
