@@ -7,7 +7,6 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -48,7 +47,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="addVideos" translatesAutoresizingMaskIntoConstraints="NO" id="zzU-0G-chd">
-                        <rect key="frame" x="328" y="45.5" width="23" height="24"/>
+                        <rect key="frame" x="336" y="45.5" width="23" height="24"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="zzU-0G-chd" secondAttribute="height" multiplier="23:24" id="6qr-Md-NEb"/>
                             <constraint firstAttribute="width" constant="23" id="JsF-F7-Lne"/>
@@ -64,7 +63,7 @@
                     <constraint firstItem="nG4-Pk-zlc" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="12" id="Zqo-Qc-UQK"/>
                     <constraint firstItem="2i1-wD-H0Z" firstAttribute="leading" secondItem="rQa-ge-4Pm" secondAttribute="leading" id="a2X-v3-yir"/>
                     <constraint firstItem="zzU-0G-chd" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="2i1-wD-H0Z" secondAttribute="trailing" constant="18" id="c7V-eN-X4R"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="zzU-0G-chd" secondAttribute="trailing" constant="16" id="cFG-8G-R0J"/>
+                    <constraint firstAttribute="trailing" secondItem="zzU-0G-chd" secondAttribute="trailing" constant="16" id="cFG-8G-R0J"/>
                     <constraint firstItem="rQa-ge-4Pm" firstAttribute="leading" secondItem="nG4-Pk-zlc" secondAttribute="trailing" constant="13" id="ekO-yi-3oC"/>
                     <constraint firstItem="zzU-0G-chd" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="p87-Wm-ovt"/>
                     <constraint firstItem="2i1-wD-H0Z" firstAttribute="top" secondItem="rQa-ge-4Pm" secondAttribute="bottom" constant="3" id="vzk-If-iw1"/>
@@ -77,7 +76,7 @@
                 <outlet property="thumbnailImageView" destination="nG4-Pk-zlc" id="LUE-5G-pS2"/>
                 <outlet property="titleLabel" destination="rQa-ge-4Pm" id="Lso-z4-4yi"/>
             </connections>
-            <point key="canvasLocation" x="41.5" y="54"/>
+            <point key="canvasLocation" x="41.5" y="53.5"/>
         </tableViewCell>
     </objects>
     <resources>

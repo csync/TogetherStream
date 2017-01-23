@@ -15,13 +15,14 @@ class AddVideosViewController: UIViewController {
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var searchTableView: UITableView!
     @IBOutlet weak var nextButton: UIButton!
+    @IBOutlet weak var searchTableViewBottomConstraint: NSLayoutConstraint!
 	
     var streamName: String?
     
     var isCreatingStream = false
 	
     private let searchSpacerFrame = CGRect(x: 0, y: 0, width: 39, height: 5)
-    private let searchClearFrame = CGRect(x: 0, y: 0, width: 31, height: 15)
+    private let searchClearFrame = CGRect(x: 0, y: 0, width: 54.5, height: 15)
 	fileprivate let viewModel = AddVideosViewModel()
     
     fileprivate let searchTableHeaderViewHeight: CGFloat = 43
@@ -215,7 +216,14 @@ extension AddVideosViewController: UITableViewDataSource, UITableViewDelegate {
             }
         }
         // show next button if at least one video is selected
-        nextButton.isHidden = viewModel.selectedVideos.count == 0
+        if viewModel.selectedVideos.count == 0 {
+            nextButton.isHidden = true
+            searchTableViewBottomConstraint.constant = 0
+        }
+        else {
+            nextButton.isHidden = false
+            searchTableViewBottomConstraint.constant = nextButton.frame.height * -1
+        }
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {

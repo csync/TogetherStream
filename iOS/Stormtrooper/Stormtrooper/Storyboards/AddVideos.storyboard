@@ -7,7 +7,6 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -29,13 +28,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Queue" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TjL-uR-eES">
-                                <rect key="frame" x="16" y="36" width="38" height="15"/>
+                                <rect key="frame" x="16" y="36" width="38" height="14"/>
                                 <fontDescription key="fontDescription" name="WorkSans-SemiBold" family="Work Sans" pointSize="12"/>
                                 <color key="textColor" red="0.84705882352941175" green="0.25490196078431371" blue="0.023529411764705882" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KBT-iN-06U">
-                                <rect key="frame" x="319" y="31" width="25" height="25"/>
+                                <rect key="frame" x="334" y="30.5" width="25" height="25"/>
                                 <color key="backgroundColor" red="0.84705882349999995" green="0.25490196079999999" blue="0.023529411760000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="KBT-iN-06U" secondAttribute="height" multiplier="1:1" id="OZK-Dc-tfb"/>
@@ -51,7 +50,7 @@
                                 </userDefinedRuntimeAttributes>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Search Videos" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="HKz-AF-aQ1">
-                                <rect key="frame" x="0.0" y="67" width="375" height="53"/>
+                                <rect key="frame" x="0.0" y="66" width="375" height="53"/>
                                 <color key="backgroundColor" red="0.23137254900000001" green="0.23137254900000001" blue="0.23137254900000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="53" id="zhQ-cc-zan"/>
@@ -69,7 +68,7 @@
                                 </connections>
                             </textField>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Uxf-nQ-d3x">
-                                <rect key="frame" x="0.0" y="120" width="375" height="547"/>
+                                <rect key="frame" x="0.0" y="119" width="375" height="548"/>
                                 <color key="backgroundColor" red="0.15686274509803921" green="0.14117647058823529" blue="0.14117647058823529" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
                                     <outlet property="dataSource" destination="hAC-JX-Bvz" id="YcR-oX-Xg8"/>
@@ -78,7 +77,7 @@
                             </tableView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QbR-yf-g0O">
                                 <rect key="frame" x="0.0" y="602" width="375" height="65"/>
-                                <color key="backgroundColor" red="0.88627450980392153" green="0.27843137254901962" blue="0.043137254901960784" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.84705882352941175" green="0.25490196078431371" blue="0.023529411764705882" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="65" id="F15-T8-Bl0"/>
                                 </constraints>
@@ -91,7 +90,7 @@
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Search" translatesAutoresizingMaskIntoConstraints="NO" id="4Sc-R4-yuM">
-                                <rect key="frame" x="18" y="87" width="13" height="13"/>
+                                <rect key="frame" x="18" y="86" width="13" height="13"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="4Sc-R4-yuM" secondAttribute="height" multiplier="1:1" id="1if-5B-a9l"/>
                                     <constraint firstAttribute="width" constant="13" id="v7Z-Kk-my2"/>
@@ -101,7 +100,7 @@
                         <color key="backgroundColor" red="0.15686274509803921" green="0.14117647058823529" blue="0.14117647058823529" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="QbR-yf-g0O" firstAttribute="width" secondItem="1yX-4Y-uzS" secondAttribute="width" id="2NI-uc-Ty1"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="KBT-iN-06U" secondAttribute="trailing" constant="15" id="2i2-VW-lrM"/>
+                            <constraint firstAttribute="trailing" secondItem="KBT-iN-06U" secondAttribute="trailing" constant="16" id="2i2-VW-lrM"/>
                             <constraint firstItem="Uxf-nQ-d3x" firstAttribute="leading" secondItem="QbR-yf-g0O" secondAttribute="leading" id="67y-Wj-Oqe"/>
                             <constraint firstItem="4Sc-R4-yuM" firstAttribute="leading" secondItem="HKz-AF-aQ1" secondAttribute="leading" constant="18" id="C52-8B-guv"/>
                             <constraint firstItem="Uxf-nQ-d3x" firstAttribute="bottom" secondItem="XDw-Ej-px8" secondAttribute="top" id="Gkn-XG-v7c"/>
@@ -123,6 +122,7 @@
                         <outlet property="nextButton" destination="QbR-yf-g0O" id="2K1-oI-zSo"/>
                         <outlet property="queueCountLabel" destination="KBT-iN-06U" id="MBL-MP-I9W"/>
                         <outlet property="searchTableView" destination="Uxf-nQ-d3x" id="hwl-Qm-5e5"/>
+                        <outlet property="searchTableViewBottomConstraint" destination="Gkn-XG-v7c" id="Hqk-DD-CFf"/>
                         <outlet property="searchTextField" destination="HKz-AF-aQ1" id="Fd1-Yi-4Qz"/>
                         <outlet property="streamNameLabel" destination="TjL-uR-eES" id="Z32-nh-Osm"/>
                     </connections>
