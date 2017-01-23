@@ -167,10 +167,32 @@ extension InviteStreamViewController: MFMailComposeViewControllerDelegate {
 
 extension InviteStreamViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let tableRowsNum = tableView.numberOfRows(inSection: 1)
+
         print("tapped row \(indexPath.item)")
+        switch indexPath.item {
+        case 0:
+            //clicked text
+            textTapped()
+            break
+        case 1:
+            //clicked email
+            emailTapped()
+        case 3...tableRowsNum:
+            // Placed
+            if let friendCell = tableView.cellForRow(at: indexPath) as? FriendTableViewCell {
+               friendCell.onTap()
+            }
+        default:
+            // Do nothing
+            break
+        }
+
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let tableRowsNum = tableView.numberOfRows(inSection: 1)
+
         switch indexPath.item {
         case 0:
             //show text
@@ -196,7 +218,7 @@ extension InviteStreamViewController: UITableViewDelegate, UITableViewDataSource
             friendsHeaderCell.selectionStyle = .none
             friendsHeaderCell.separatorInset = UIEdgeInsetsMake(0, 1000, 0, 0); // Moving seperator out of the screen
             return friendsHeaderCell
-        case 3...10:
+        case 3...tableRowsNum:
             //number of stormtrooper friends
             guard let friendCell = tableView.dequeueReusableCell(withIdentifier: "friendCell") as? FriendTableViewCell else {
                 return UITableViewCell()
@@ -207,26 +229,9 @@ extension InviteStreamViewController: UITableViewDelegate, UITableViewDataSource
             return UITableViewCell()
         }
     }
-    func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
-        switch indexPath.item {
-        case 0:
-            //clicked text
-            textTapped()
-            break
-        case 1:
-            //clicked email
-            emailTapped()
-            break
-        case 3...10:
-            //click a stormtrooper friends
-            break
-        default:
-            // do nothing
-            break
-        }
-    }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let tableRowsNum = tableView.numberOfRows(inSection: 1)
         switch indexPath.item {
         case 0:
             //show text
@@ -237,7 +242,7 @@ extension InviteStreamViewController: UITableViewDelegate, UITableViewDataSource
         case 2:
             //show header view
             return headerCellHeight
-        case 3...10:
+        case 3...tableRowsNum:
             //number of stormtrooper friends
             return defaultCellHeight
         default:
