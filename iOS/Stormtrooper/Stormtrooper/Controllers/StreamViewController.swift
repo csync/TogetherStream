@@ -309,7 +309,7 @@ class StreamViewController: UIViewController {
         chatInputTextField.resignFirstResponder()
         
         //hide keyboard views
-        updateViewforKeyboardShown(keyboardShown: false)
+        updateView(forIsKeyboardShowing: false)
         
 	}
 	
@@ -426,8 +426,8 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
         
 	}
     
-    func updateViewforKeyboardShown(keyboardShown: Bool) {
-        if keyboardShown {
+    func updateView(forIsKeyboardShowing isKeyboardShowing: Bool) {
+        if isKeyboardShowing {
             visualEffectView.isHidden = false
             dismissView.isHidden = false
         }
@@ -531,11 +531,11 @@ extension StreamViewController: UITextFieldDelegate {
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         UIView.setAnimationsEnabled(true) //fix for animations breaking
-        updateViewforKeyboardShown(keyboardShown: true)
+        updateView(forIsKeyboardShowing: true)
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        updateViewforKeyboardShown(keyboardShown: false)
+        updateView(forIsKeyboardShowing: false)
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
