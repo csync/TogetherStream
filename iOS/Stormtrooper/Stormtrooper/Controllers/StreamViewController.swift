@@ -135,7 +135,7 @@ class StreamViewController: UIViewController {
         chatInputTextField.delegate = self
         
         //add selector to dismiss and when editing to sync up both textfields
-        accessoryView.cancelButton.addTarget(self, action: #selector(StreamViewController.cancelChatTapped), for: .touchUpInside)
+        accessoryView.sendButton.addTarget(self, action: #selector(StreamViewController.chatInputActionTriggered), for: .touchUpInside)
         chatInputTextField.addTarget(self, action: #selector(StreamViewController.chatEditingChanged), for: [.editingChanged, .editingDidEnd])
         accessoryView.textField.addTarget(self, action: #selector(StreamViewController.accessoryViewEditingChanged), for: [.editingChanged, .editingDidEnd])
         
@@ -196,8 +196,6 @@ class StreamViewController: UIViewController {
         chatInputTextField.text = accessoryView.textField.text
         
     }
-    
-    
     
     func cancelChatTapped() {
         accessoryView.textField.resignFirstResponder()
@@ -290,10 +288,17 @@ class StreamViewController: UIViewController {
     }
     
     
-    func chatInputActionTriggered(textField: UITextField) {
-		if let text = textField.text {
-			viewModel.send(chatMessage: text)
+    func chatInputActionTriggered() {
+        var textToSend = ""
+		if let text = chatInputTextField.text {
+			textToSend = text
 		}
+        else if let text = accessoryView.textField.text {
+            textToSend = text
+        }
+        
+        //send chat
+        viewModel.send(chatMessage: textToSend)
         
         //reset textfields
         accessoryView.textField.text = nil
@@ -302,6 +307,9 @@ class StreamViewController: UIViewController {
         //dismiss keyboard
         accessoryView.textField.resignFirstResponder()
         chatInputTextField.resignFirstResponder()
+        
+        //hide keyboard views
+        updateViewforKeyboardShown(keyboardShown: false)
         
 	}
 	
@@ -513,8 +521,7 @@ extension StreamViewController: YTPlayerViewDelegate {
 
 extension StreamViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        chatInputActionTriggered(textField: textField) //send the chat
-        updateViewforKeyboardShown(keyboardShown: false)
+        chatInputActionTriggered() //send the chat
         return true
     }
     
