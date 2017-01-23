@@ -166,24 +166,16 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 			}
 		}
 		
-		stream.getFacebookID() {error, facebookID in
-			guard let facebookID = facebookID else {
-                print(error!)
-				return
-			}
-			FacebookDataManager.sharedInstance.fetchInfoForUser(withID: facebookID) {error, user in
-				DispatchQueue.main.async {
-					cell.hostNameLabel.text = user?.name
-				}
-				user?.fetchProfileImage {error, image in
-					DispatchQueue.main.async {
-						cell.profileImageView.image = image
-                        cell.profileImageView.layer.cornerRadius = cell.profileImageView.frame.width / 2
-                        cell.profileImageView.clipsToBounds = true
-					}
-				}
-			}
-		}
+        FacebookDataManager.sharedInstance.fetchInfoForUser(withID: stream.facebookID) {error, user in
+            DispatchQueue.main.async {
+                cell.hostNameLabel.text = user?.name
+            }
+            user?.fetchProfileImage {error, image in
+                DispatchQueue.main.async {
+                    cell.profileImageView.image = image
+                }
+            }
+        }
 		cell.selectionStyle = .none
 		return cell
 	}
@@ -202,17 +194,14 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		let stream = viewModel.streams[indexPath.row]
-		stream.getFacebookID() {error, facebookID in
-			guard let streamVC = Utils.vcWithNameFromStoryboardWithName("stream", storyboardName: "Stream") as? StreamViewController else {
-				return
-			}
-			streamVC.hostID = facebookID
-			streamVC.navigationItem.title = stream.name
-			DispatchQueue.main.async {
-				self.navigationController?.pushViewController(streamVC, animated: true)
-				tableView.deselectRow(at: indexPath, animated: true)
-			}
-		}
-		
+        guard let streamVC = Utils.vcWithNameFromStoryboardWithName("stream", storyboardName: "Stream") as? StreamViewController else {
+            return
+        }
+        streamVC.hostID = stream.facebookID
+        streamVC.navigationItem.title = stream.name
+        DispatchQueue.main.async {
+            self.navigationController?.pushViewController(streamVC, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
 	}
 }
