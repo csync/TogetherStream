@@ -43,8 +43,16 @@ var sendNotification = function (user, req) {
     note.badge = req.body["currentBadgeCount"] + 1;
     note.sound = "ping.aiff";
     note.alert = "You've been invited by " + req.body["host"] + "!";
-    note.payload = {streamPath: req.body["streamPath"], streamName: req.body["streamName"]};
+    note.payload = {user_id: req.user.id, csync_path: req.body["streamPath"],
+        stream_name: req.body["streamName"], description: req.body["streamDescription"], external_accounts: {}};
     note.topic = 'com.ibm.cloud.stormtrooper';
+
+    var externalAccounts = req.user.externalAccounts;
+    for (var i = 0; i < externalAccounts.length; ++i) {
+        if(externalAccounts[i].provider == "facebook-token") {
+            note.payload.external_accounts["facebook-token"] = externalAccounts[i].id;
+        }
+    }
 
     var apnProvider = appVars.apn;
     apnProvider.send(note, user.deviceToken).then(function (result) {
