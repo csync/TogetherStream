@@ -30,7 +30,7 @@ class StreamViewController: UIViewController {
     
     //constants
     let closeButtonFrame = CGRect(x: 0, y: 0, width: 17, height: 17)
-    let profileButtonFrame = CGRect(x: 0, y: 0, width: 17, height: 19)
+    let profileButtonFrame = CGRect(x: 0, y: 0, width: 19, height: 24)
     let headerViewAnimationDuration: TimeInterval = 0.3
 	
 	var hostID: String?
@@ -91,7 +91,7 @@ class StreamViewController: UIViewController {
             let item1 = UIBarButtonItem(customView: closeButton)
             
             let profileButton = UIButton(type: .custom)
-            profileButton.setImage(UIImage(named: "inviteStream"), for: .normal)
+            profileButton.setImage(UIImage(named: "inviteIcon"), for: .normal)
             profileButton.frame = profileButtonFrame
             profileButton.addTarget(self, action: #selector(StreamViewController.profileTapped), for: .touchUpInside)
             let item2 = UIBarButtonItem(customView: profileButton)
