@@ -167,9 +167,10 @@ extension InviteStreamViewController: MFMailComposeViewControllerDelegate {
 
 extension InviteStreamViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let tableRowsNum = tableView.numberOfRows(inSection: 1)
+        let tableRowsNum = tableView.numberOfRows(inSection: 0)
 
         print("tapped row \(indexPath.item)")
+
         switch indexPath.item {
         case 0:
             //clicked text
@@ -191,7 +192,7 @@ extension InviteStreamViewController: UITableViewDelegate, UITableViewDataSource
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let tableRowsNum = tableView.numberOfRows(inSection: 1)
+        let tableRowsNum = tableView.numberOfRows(inSection: 0)
 
         switch indexPath.item {
         case 0:
@@ -231,20 +232,11 @@ extension InviteStreamViewController: UITableViewDelegate, UITableViewDataSource
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let tableRowsNum = tableView.numberOfRows(inSection: 1)
+
         switch indexPath.item {
-        case 0:
-            //show text
-            return defaultCellHeight
-        case 1:
-            //show email
-            return defaultCellHeight
         case 2:
             //show header view
             return headerCellHeight
-        case 3...tableRowsNum:
-            //number of stormtrooper friends
-            return defaultCellHeight
         default:
             return defaultCellHeight
         }
