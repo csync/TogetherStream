@@ -17,6 +17,8 @@ class NameStreamViewController: UIViewController {
     
     private let nameTextFieldSpacingFrame = CGRect(x: 0, y: 0, width: 18, height: 5)
     private let descriptionTextViewSpacingInset = UIEdgeInsets(top: 14, left: 13, bottom: 10, right: 16)
+    
+    fileprivate var isDescriptionTextEmpty = true
 	
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,12 +83,19 @@ class NameStreamViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    // TODO: Delete skip button
     @IBAction func skipToStreamTapped(_ sender: Any) {
         guard let streamVC = Utils.vcWithNameFromStoryboardWithName("stream", storyboardName: "Stream") as? StreamViewController else {
             return
         }
-		streamVC.hostID = FacebookDataManager.sharedInstance.profile?.userID
-        streamVC.navigationItem.title = nameTextField.text ?? "My Stream"
+        let facebookID = FacebookDataManager.sharedInstance.profile?.userID ?? ""
+        let descriptionText = isDescriptionTextEmpty ? "" : descriptionTextView.text ?? ""
+        let stream = Stream(name: nameTextField.text ?? "",
+                            csyncPath: "streams.\(facebookID)",
+                            description: descriptionText,
+                            hostFacebookID: facebookID)
+		streamVC.stream = stream
+        streamVC.navigationItem.title = nameTextField.text ?? ""
         streamVC.navigationItem.hidesBackButton = true
         self.navigationController?.pushViewController(streamVC, animated: true)
     }
@@ -95,7 +104,13 @@ class NameStreamViewController: UIViewController {
         guard let addVideosVC = Utils.vcWithNameFromStoryboardWithName("addVideos", storyboardName: "AddVideos") as? AddVideosViewController else {
             return
         }
-		addVideosVC.streamName = nameTextField.text
+        let facebookID = FacebookDataManager.sharedInstance.profile?.userID ?? ""
+        let descriptionText = isDescriptionTextEmpty ? "" : descriptionTextView.text ?? ""
+        let stream = Stream(name: nameTextField.text ?? "",
+                            csyncPath: "streams.\(facebookID)",
+            description: descriptionText,
+            hostFacebookID: facebookID)
+		addVideosVC.stream = stream
         self.navigationController?.pushViewController(addVideosVC, animated: true)
     }
 }
@@ -120,7 +135,8 @@ extension NameStreamViewController: UITextFieldDelegate {
 
 extension NameStreamViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.textColor == UIColor.stormtrooperPlaceholderGray {
+        if isDescriptionTextEmpty {
+            isDescriptionTextEmpty = false
             textView.text = nil
             textView.textColor = UIColor.stormtrooperTextBlack
         }
@@ -130,6 +146,7 @@ extension NameStreamViewController: UITextViewDelegate {
         if textView.text.isEmpty {
             textView.text = "Description (Optional)"
             textView.textColor = UIColor.stormtrooperPlaceholderGray
+            isDescriptionTextEmpty = true
         }
     }
 }
