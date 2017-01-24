@@ -121,35 +121,33 @@ private class PopupPresentationManager: NSObject, UIViewControllerTransitioningD
 }
 
 private class PopupPresentationController: UIPresentationController {
-    
-    private lazy var dimView: UIView = {
-        let dimView = UIView()
-        dimView.translatesAutoresizingMaskIntoConstraints = false
-        dimView.backgroundColor = .black
-        dimView.alpha = 0.0
-        return dimView
+    private lazy var blurView: UIVisualEffectView = {
+        let blurView = UIVisualEffectView()
+        blurView.translatesAutoresizingMaskIntoConstraints = false
+        blurView.effect = nil
+        return blurView
     }()
     
     override init(presentedViewController: UIViewController, presenting presentingViewController: UIViewController?) {
         super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
         if let presentingViewController = presentingViewController {
-            dimView.frame = presentingViewController.view.bounds
+            blurView.frame = presentingViewController.view.bounds
         }
     }
     
     override func presentationTransitionWillBegin() {
         if let containerView = containerView {
-            dimView.frame = containerView.bounds
-            containerView.insertSubview(dimView, at: 0)
+            blurView.frame = containerView.bounds
+            containerView.insertSubview(blurView, at: 0)
         }
         presentedViewController.transitionCoordinator?.animate(alongsideTransition: { _ in
-            self.dimView.alpha = 0.7
+            self.blurView.effect = UIBlurEffect(style: .dark)
         })
     }
     
     override func dismissalTransitionWillBegin() {
         presentedViewController.transitionCoordinator?.animate(alongsideTransition: { _ in
-            self.dimView.alpha = 0.0
+            self.blurView.effect = nil
         })
     }
 }
