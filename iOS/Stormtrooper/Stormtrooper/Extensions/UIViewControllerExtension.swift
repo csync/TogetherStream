@@ -32,4 +32,38 @@ extension UIViewController {
         }
 
     }
+    
+    /// The view controller that the user is most likely interacting with.
+    var mostActiveViewController: UIViewController {
+        if let presentedViewController = self.presentedViewController {
+            // recurse using the presented view controller
+            return presentedViewController.mostActiveViewController
+        }
+        
+        if let viewController = self as? UISplitViewController {
+            if let primary = viewController.viewControllers.first {
+                // recurse using the primary view controller
+                return primary.mostActiveViewController
+            }
+            return viewController
+        }
+        
+        if let viewController = self as? UINavigationController {
+            if let top = viewController.viewControllers.last {
+                // recuse using the top view controller
+                return top.mostActiveViewController
+            }
+            return viewController
+        }
+        
+        if let viewController = self as? UITabBarController {
+            if let selected = viewController.selectedViewController {
+                // recurse using the selected view controller
+                return selected.mostActiveViewController
+            }
+            return viewController
+        }
+        
+        return self
+    }
 }

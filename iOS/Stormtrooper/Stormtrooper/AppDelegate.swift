@@ -97,17 +97,65 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
-	// Called when a user clicks on a notification outside the app
-	func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-		// Logic to go directly to stream here
-		print(response.notification.request.content.userInfo)
+    
+	// Process notification when app is terminated or running in background
+	func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        didReceive response: UNNotificationResponse,
+        withCompletionHandler completionHandler: @escaping () -> Void)
+    {
+        if let json = response.notification.request.content.userInfo as? [String: Any] {
+            if let stream = Stream(jsonDictionary: json) {
+                presentStreamInvite(stream: stream)
+            }
+        }
 		completionHandler()
 	}
 	
-	// Called when a notification comes in while the app is in the foreground
-	func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-		// Logic to present custom notification here
+	// Process notification when app is running in foreground
+	func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        willPresent notification: UNNotification,
+        withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void)
+    {
+        if let json = notification.request.content.userInfo as? [String: Any] {
+            if let stream = Stream(jsonDictionary: json) {
+                presentStreamInvite(stream: stream)
+            }
+        }
 		completionHandler([])
 	}
+
+    // Present a stream invite
+    private func presentStreamInvite(stream: Stream) {
+        guard let rootViewController = window?.rootViewController else { return }
+        let viewController = rootViewController.mostActiveViewController
+        
+        // present popup with default user information
+        let popup = PopupViewController.instantiate(
+            titleText: "YOU'VE BEEN INVITED",
+            image: #imageLiteral(resourceName: "stormtrooper_helmet"),
+            messageText: stream.name,
+            descriptionText: "",
+            primaryButtonText: "JOIN STREAM",
+            secondaryButtonText: "Dismiss",
+            completion: { /* TODO */ print("transitioning to stream...") }
+        )
+        viewController.present(popup, animated: true)
+        
+        // update popup with user information from Facebook
+        FacebookDataManager.sharedInstance.fetchInfoForUser(withID: stream.facebookID) { error, user in
+            guard error == nil else { return }
+            if let user = user {
+                popup.descriptionText = "by \(user.name)"
+                user.fetchProfileImage { error, image in
+                    guard error == nil else { return }
+                    if let image = image {
+                        popup.image = image
+                    }
+                }
+            }
+        }
+    }
 }
 
