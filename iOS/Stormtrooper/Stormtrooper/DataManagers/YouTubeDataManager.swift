@@ -76,9 +76,10 @@ class YouTubeDataManager {
 	
 	func searchForVideos(withQuery query: String, callback: @escaping (Error?, [Video]?) -> Void) {
 		//need to replace spaces with "+"
-		let spaceFreeQuery = query.replacingOccurrences(of: " ", with: "+")
-		
-		guard let apiKey = apiKey, let url = URL(string: "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=\(maxVideoResults)&q=\(spaceFreeQuery)&type=video&videoEmbeddable=true&videoSyndicated=true&key=\(apiKey)") else {
+		guard let apiKey = apiKey,
+            //need to replace spaces with "+", escape special characters
+            let spaceFreeQuery = query.replacingOccurrences(of: " ", with: "+").addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+            let url = URL(string: "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=\(maxVideoResults)&q=\(spaceFreeQuery)&type=video&videoEmbeddable=true&videoSyndicated=true&key=\(apiKey)") else {
 			callback(ServerError.cannotFormURL, nil)
 			return
 		}
