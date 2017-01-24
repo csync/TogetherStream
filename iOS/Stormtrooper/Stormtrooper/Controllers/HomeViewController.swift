@@ -19,7 +19,7 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        setupBarButtonItems()
+        setupNavBar()
         setupTableView()
         
 		viewModel.resetCurrentUserStream()
@@ -52,7 +52,9 @@ class HomeViewController: UIViewController {
     
     
     ///Set bar button items and their actions programmatically
-    private func setupBarButtonItems() {
+    private func setupNavBar() {
+        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont(name: "WorkSans-Regular", size: 17) ?? UIFont.systemFont(ofSize: 17)]
+        
         let profileButton = UIButton(type: .custom)
         profileButton.frame = profileButtonFrame
         FacebookDataManager.sharedInstance.fetchProfilePictureForCurrentUser(as: profileButton.frame.size) {error, image in
