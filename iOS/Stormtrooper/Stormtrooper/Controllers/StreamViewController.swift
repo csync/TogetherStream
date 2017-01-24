@@ -384,15 +384,15 @@ extension StreamViewController: StreamViewModelDelegate {
         present(popup, animated: true)
         
         // update popup with user information from Facebook
-        FacebookDataManager.sharedInstance.fetchInfoForUser(withID: stream.facebookID) { error, user in
-            guard error == nil else { return }
-            user.fetchProfileImage { error, image in
-                guard error == nil else { return }
-                if let image = image {
-                    popup.image = image
-                }
-            }
-        }
+//        FacebookDataManager.sharedInstance.fetchInfoForUser(withID: stream.facebookID) { error, user in
+//            guard error == nil else { return }
+//            user.fetchProfileImage { error, image in
+//                guard error == nil else { return }
+//                if let image = image {
+//                    popup.image = image
+//                }
+//            }
+//        }
 	}
 }
 
