@@ -53,15 +53,25 @@
                             <constraint firstAttribute="width" constant="23" id="JsF-F7-Lne"/>
                         </constraints>
                     </imageView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OY1-WO-c4O">
+                        <rect key="frame" x="16" y="90.5" width="359" height="1"/>
+                        <color key="backgroundColor" red="0.34901960784313724" green="0.34509803921568627" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="dgr-ny-C9S"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <color key="backgroundColor" red="0.15686274509803921" green="0.14117647058823529" blue="0.14117647058823529" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 <constraints>
                     <constraint firstItem="zzU-0G-chd" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="rQa-ge-4Pm" secondAttribute="trailing" constant="18" id="8JW-ci-Roa"/>
                     <constraint firstAttribute="leading" secondItem="nG4-Pk-zlc" secondAttribute="leading" constant="-16" id="CFP-p1-0hk"/>
                     <constraint firstAttribute="bottom" secondItem="nG4-Pk-zlc" secondAttribute="bottom" constant="12.5" id="I3b-mk-Rqu"/>
+                    <constraint firstAttribute="bottom" secondItem="OY1-WO-c4O" secondAttribute="bottom" id="SxR-pf-eE0"/>
                     <constraint firstItem="nG4-Pk-zlc" firstAttribute="top" secondItem="rQa-ge-4Pm" secondAttribute="top" constant="-15.5" id="Vg9-n3-RfJ"/>
                     <constraint firstItem="nG4-Pk-zlc" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="12" id="Zqo-Qc-UQK"/>
                     <constraint firstItem="2i1-wD-H0Z" firstAttribute="leading" secondItem="rQa-ge-4Pm" secondAttribute="leading" id="a2X-v3-yir"/>
+                    <constraint firstAttribute="trailing" secondItem="OY1-WO-c4O" secondAttribute="trailing" id="bjj-ZP-toi"/>
+                    <constraint firstItem="OY1-WO-c4O" firstAttribute="leading" secondItem="nG4-Pk-zlc" secondAttribute="leading" id="c5Q-9H-1zb"/>
                     <constraint firstItem="zzU-0G-chd" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="2i1-wD-H0Z" secondAttribute="trailing" constant="18" id="c7V-eN-X4R"/>
                     <constraint firstAttribute="trailing" secondItem="zzU-0G-chd" secondAttribute="trailing" constant="16" id="cFG-8G-R0J"/>
                     <constraint firstItem="rQa-ge-4Pm" firstAttribute="leading" secondItem="nG4-Pk-zlc" secondAttribute="trailing" constant="13" id="ekO-yi-3oC"/>
@@ -76,7 +86,7 @@
                 <outlet property="thumbnailImageView" destination="nG4-Pk-zlc" id="LUE-5G-pS2"/>
                 <outlet property="titleLabel" destination="rQa-ge-4Pm" id="Lso-z4-4yi"/>
             </connections>
-            <point key="canvasLocation" x="41.5" y="51.5"/>
+            <point key="canvasLocation" x="41.5" y="51"/>
         </tableViewCell>
     </objects>
     <resources>
