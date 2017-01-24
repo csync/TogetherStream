@@ -96,7 +96,6 @@ class NameStreamViewController: UIViewController {
             return
         }
 		addVideosVC.streamName = nameTextField.text
-        addVideosVC.navigationItem.title = "Add Videos"
         self.navigationController?.pushViewController(addVideosVC, animated: true)
     }
 }
