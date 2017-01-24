@@ -11,25 +11,27 @@ import UIKit
 class FriendTableViewCell: UITableViewCell {
     @IBOutlet var profilePicture: UIImageView!
     @IBOutlet var name: UILabel!
-    @IBOutlet var friendSelected: UILabel!
+    @IBOutlet var selectionIndicator: UIImageView!
 
+    let unselectedImageSource = "addFriends.png"
+    let selectedImageSource   = "addedContent.png"
     var friendIsSelected = false
 
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
-    
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
 
-        if (selected) {
-            friendIsSelected = !friendIsSelected
+    func onTap() {
+        friendIsSelected = !friendIsSelected
 
-            if (friendIsSelected) {
-                friendSelected.text = "✓"
-            } else {
-                friendSelected.text = "+"
+        if (friendIsSelected) {
+            if let image = UIImage(named: selectedImageSource) {
+                selectionIndicator.image = image
+            }
+        } else {
+            if let image = UIImage(named: unselectedImageSource) {
+                selectionIndicator.image = image
             }
         }
 
