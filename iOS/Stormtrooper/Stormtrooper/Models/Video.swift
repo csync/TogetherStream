@@ -15,6 +15,7 @@ struct Video {
 	let mediumThumbnailURL: URL
     let defaultThumbnailURL: URL
 	let channelTitle: String
+    let viewCount: ULONG?
 	
 	init?(listVideoData: [String: Any]) {
 		// Check to make sure the video can be played in app
@@ -29,7 +30,8 @@ struct Video {
             let defaultThumbnailURLString = thumbnailsInfo?["default"]?["url"] as? String,
             let channelTitle = snippetInfo?["channelTitle"] as? String,
             let mediumThumbnailURL = URL(string: mediumThumbnailURLString),
-            let defaultThumbnailURL = URL(string: defaultThumbnailURLString) else {
+            let defaultThumbnailURL = URL(string: defaultThumbnailURLString),
+            let viewCount = (listVideoData["statistics"] as? [String: ULONG])?["viewCount"] else {
 			return nil
 		}
 		
@@ -38,6 +40,7 @@ struct Video {
 		self.mediumThumbnailURL = mediumThumbnailURL
         self.defaultThumbnailURL = defaultThumbnailURL
 		self.channelTitle = channelTitle
+        self.viewCount = viewCount
 	}
 	
 	init?(searchResultData: [String: Any]) {
@@ -58,6 +61,7 @@ struct Video {
 		self.mediumThumbnailURL = mediumThumbnailURL
         self.defaultThumbnailURL = defaultThumbnailURL
 		self.channelTitle = channelTitle
+        self.viewCount = nil
 	}
 }
 
