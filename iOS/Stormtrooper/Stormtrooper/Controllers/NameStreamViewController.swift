@@ -90,12 +90,13 @@ class NameStreamViewController: UIViewController {
         }
         let facebookID = FacebookDataManager.sharedInstance.profile?.userID ?? ""
         let descriptionText = isDescriptionTextEmpty ? "" : descriptionTextView.text ?? ""
-        let stream = Stream(name: nameTextField.text ?? "",
-                            csyncPath: "streams.\(facebookID)",
-                            description: descriptionText,
-                            hostFacebookID: facebookID)
+        let stream = Stream(
+            name: nameTextField.text ?? "",
+            csyncPath: "streams.\(facebookID)",
+            description: descriptionText,
+            hostFacebookID: facebookID)
 		streamVC.stream = stream
-        streamVC.navigationItem.title = nameTextField.text ?? ""
+        streamVC.navigationItem.title = nameTextField.text
         streamVC.navigationItem.hidesBackButton = true
         self.navigationController?.pushViewController(streamVC, animated: true)
     }
@@ -106,8 +107,9 @@ class NameStreamViewController: UIViewController {
         }
         let facebookID = FacebookDataManager.sharedInstance.profile?.userID ?? ""
         let descriptionText = isDescriptionTextEmpty ? "" : descriptionTextView.text ?? ""
-        let stream = Stream(name: nameTextField.text ?? "",
-                            csyncPath: "streams.\(facebookID)",
+        let stream = Stream(
+            name: nameTextField.text ?? "",
+            csyncPath: "streams.\(facebookID)",
             description: descriptionText,
             hostFacebookID: facebookID)
 		addVideosVC.stream = stream

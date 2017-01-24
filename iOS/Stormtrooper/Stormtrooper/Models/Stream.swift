@@ -14,7 +14,7 @@ struct Stream {
     let description: String
     let hostFacebookID: String
 	
-	private var key: Key
+	private var currentVideoKey: Key
 	
 	init?(jsonDictionary: [String: Any]) {
 		guard let csyncPath = jsonDictionary["csync_path"] as? String,
@@ -29,7 +29,7 @@ struct Stream {
         self.description = description
         self.hostFacebookID = hostFacebookID
         
-		key = CSyncDataManager.sharedInstance.createKey(atPath: csyncPath + ".currentVideoID")
+		currentVideoKey = CSyncDataManager.sharedInstance.createKey(atPath: csyncPath + ".currentVideoID")
 	}
     
     init(name: String, csyncPath: String, description: String, hostFacebookID: String) {
@@ -38,11 +38,11 @@ struct Stream {
         self.description = description
         self.hostFacebookID = hostFacebookID
         
-        key = CSyncDataManager.sharedInstance.createKey(atPath: csyncPath + ".currentVideoID")
+        currentVideoKey = CSyncDataManager.sharedInstance.createKey(atPath: csyncPath + ".currentVideoID")
     }
 	
 	func listenForCurrentVideo(callback: @escaping (Error?, String?) -> Void) {
-		key.listen {value, error in
+		currentVideoKey.listen {value, error in
 			if let value = value?.data {
 				callback(nil, value)
 			}
@@ -53,7 +53,7 @@ struct Stream {
 	}
 	
 	func stopListeningForCurrentVideo() {
-		key.unlisten()
+		currentVideoKey.unlisten()
 	}
 	
 	
