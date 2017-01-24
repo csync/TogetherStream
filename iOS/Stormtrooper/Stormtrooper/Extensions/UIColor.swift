@@ -20,4 +20,12 @@ extension UIColor {
     class var stormtrooperSeperatorGray: UIColor {
         return UIColor(colorLiteralRed: 89.0 / 255, green: 88.0 / 255, blue: 89.0 / 255, alpha: 1)
     }
+    
+    class var stormtrooperPlaceholderGray: UIColor {
+        return UIColor(colorLiteralRed: 148.0 / 255, green: 147.0 / 255, blue: 148.0 / 255, alpha: 1)
+    }
+    
+    class var stormtrooperTextBlack: UIColor {
+        return UIColor(colorLiteralRed: 74.0 / 255, green: 74.0 / 255, blue: 74.0 / 255, alpha: 1)
+    }
 }
