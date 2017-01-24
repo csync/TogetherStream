@@ -129,7 +129,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     // Present a stream invite
     private func presentStreamInvite(stream: Stream) {
         guard let rootViewController = window?.rootViewController else { return }
-        let viewController = UIViewController.findBestViewController(from: rootViewController)
+        let viewController = rootViewController.mostActiveViewController
         
         // present popup with default user information
         let popup = PopupViewController.instantiate(
