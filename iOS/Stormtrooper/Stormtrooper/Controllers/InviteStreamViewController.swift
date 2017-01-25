@@ -17,7 +17,7 @@ class InviteStreamViewController: UIViewController {
     let defaultCellHeight = CGFloat(64.0)
     let headerCellHeight = CGFloat(47.0)
 
-	var streamName: String?
+	var stream: Stream?
     var isCreatingStream = false
     var showSkipButton = false
 
@@ -82,8 +82,8 @@ class InviteStreamViewController: UIViewController {
             guard let streamVC = Utils.vcWithNameFromStoryboardWithName("stream", storyboardName: "Stream") as? StreamViewController else {
                 return
             }
-			streamVC.hostID = FacebookDataManager.sharedInstance.profile?.userID
-            streamVC.navigationItem.title = streamName ?? "My Stream"
+			streamVC.stream = stream
+            streamVC.navigationItem.title = stream?.name ?? ""
             streamVC.navigationItem.hidesBackButton = true
             self.navigationController?.pushViewController(streamVC, animated: true)
         }
@@ -167,10 +167,33 @@ extension InviteStreamViewController: MFMailComposeViewControllerDelegate {
 
 extension InviteStreamViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let tableRowsNum = tableView.numberOfRows(inSection: 0)
+
         print("tapped row \(indexPath.item)")
+
+        switch indexPath.item {
+        case 0:
+            //clicked text
+            textTapped()
+            break
+        case 1:
+            //clicked email
+            emailTapped()
+        case 3...tableRowsNum:
+            // Placed
+            if let friendCell = tableView.cellForRow(at: indexPath) as? FriendTableViewCell {
+               friendCell.onTap()
+            }
+        default:
+            // Do nothing
+            break
+        }
+
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let tableRowsNum = tableView.numberOfRows(inSection: 0)
+
         switch indexPath.item {
         case 0:
             //show text
@@ -196,7 +219,7 @@ extension InviteStreamViewController: UITableViewDelegate, UITableViewDataSource
             friendsHeaderCell.selectionStyle = .none
             friendsHeaderCell.separatorInset = UIEdgeInsetsMake(0, 1000, 0, 0); // Moving seperator out of the screen
             return friendsHeaderCell
-        case 3...10:
+        case 3...tableRowsNum:
             //number of stormtrooper friends
             guard let friendCell = tableView.dequeueReusableCell(withIdentifier: "friendCell") as? FriendTableViewCell else {
                 return UITableViewCell()
@@ -207,39 +230,13 @@ extension InviteStreamViewController: UITableViewDelegate, UITableViewDataSource
             return UITableViewCell()
         }
     }
-    func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
-        switch indexPath.item {
-        case 0:
-            //clicked text
-            textTapped()
-            break
-        case 1:
-            //clicked email
-            emailTapped()
-            break
-        case 3...10:
-            //click a stormtrooper friends
-            break
-        default:
-            // do nothing
-            break
-        }
-    }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+
         switch indexPath.item {
-        case 0:
-            //show text
-            return defaultCellHeight
-        case 1:
-            //show email
-            return defaultCellHeight
         case 2:
             //show header view
             return headerCellHeight
-        case 3...10:
-            //number of stormtrooper friends
-            return defaultCellHeight
         default:
             return defaultCellHeight
         }

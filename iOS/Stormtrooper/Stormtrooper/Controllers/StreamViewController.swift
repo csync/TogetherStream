@@ -27,15 +27,15 @@ class StreamViewController: UIViewController {
     @IBOutlet weak var videoSubtitleLabel: UILabel!
     
     //constraints
-    var originalHeaderViewHeightConstraint: CGFloat = 0
-    var estimatedChatCellHeight: CGFloat = 56
+    private var originalHeaderViewHeightConstraint: CGFloat = 0
+    fileprivate var estimatedChatCellHeight: CGFloat = 56
     
     //constants
-    let closeButtonFrame = CGRect(x: 0, y: 0, width: 17, height: 17)
-    let profileButtonFrame = CGRect(x: 0, y: 0, width: 19, height: 24)
-    let headerViewAnimationDuration: TimeInterval = 0.3
+    private let closeButtonFrame = CGRect(x: 0, y: 0, width: 17, height: 17)
+    private let profileButtonFrame = CGRect(x: 0, y: 0, width: 19, height: 24)
+    private let headerViewAnimationDuration: TimeInterval = 0.3
 	
-	var hostID: String?
+    var stream: Stream?
 	
 	// TODO: Remove or move to viewModel
     fileprivate var isPlaying = false
@@ -47,7 +47,7 @@ class StreamViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-		viewModel = StreamViewModel(hostID: hostID ?? "")
+        viewModel = StreamViewModel(stream: stream ?? Stream(name: "", csyncPath: "", description: "", hostFacebookID: ""))
         viewModel.delegate = self
 		
         setupChatTableView()
