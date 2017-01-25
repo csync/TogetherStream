@@ -39,6 +39,7 @@ class User {
 	func fetchProfileImage(callback: @escaping (Error?, UIImage?) -> Void) {
 		if profileImage != nil {
 			callback(nil, profileImage)
+            return
 		}
         let queueStatus = imageCallbackQueue.addCallbackAndCheckQueueStatus(callback: callback)
         if queueStatus.queueIsCleared {

@@ -56,6 +56,7 @@ class FacebookDataManager {
 	func fetchInfoForUser(withID id: String, callback: @escaping (Error?, User?) -> Void) {
 		if let user = userCache[id] {
 			callback(nil, user)
+            return
 		}
         let userInfoQueue = fetchOrCreateQueue(identifier: "user.\(id)")
         let queueStatus = userInfoQueue.addCallbackAndCheckQueueStatus(callback: callback)
@@ -82,7 +83,7 @@ class FacebookDataManager {
                 }
                 let user = User(facebookResponse: result)
                 self.userCache[id] = user
-                userInfoQueue.executeAndClearCallbacks(withError: ServerError.unexpectedResponse, object: nil)
+                userInfoQueue.executeAndClearCallbacks(withError: nil, object: user)
             }
         }
 		
