@@ -33,7 +33,6 @@ class StreamViewController: UIViewController {
     let closeButtonFrame = CGRect(x: 0, y: 0, width: 17, height: 17)
     let profileButtonFrame = CGRect(x: 0, y: 0, width: 19, height: 24)
     let headerViewAnimationDuration: TimeInterval = 0.3
-    let rotatingPlayerViewAnimationDuration: TimeInterval = 0.3
 	
 	var hostID: String?
     
@@ -230,11 +229,9 @@ class StreamViewController: UIViewController {
                 self.navigationController?.navigationBar.isHidden = true
                 rotationAngle = CGFloat(M_PI_2)
                 DispatchQueue.main.async {
-                    UIView.animate(withDuration: self.rotatingPlayerViewAnimationDuration, delay: 0, options: .curveEaseInOut, animations: { _ in
-                        self.playerView.transform = CGAffineTransform(rotationAngle: rotationAngle)
-                        self.setNeedsStatusBarAppearanceUpdate()
-                        self.playerView.frame = screenSize //make fullscreen if landscape
-                    }, completion: nil)
+                    self.playerView.transform = CGAffineTransform(rotationAngle: rotationAngle)
+                    self.setNeedsStatusBarAppearanceUpdate()
+                    self.playerView.frame = screenSize //make fullscreen if landscape
                 }
             case .landscapeRight:
                 print("Landscape Right")
@@ -242,25 +239,20 @@ class StreamViewController: UIViewController {
                 self.navigationController?.navigationBar.isHidden = true
                 rotationAngle = CGFloat(-M_PI_2)
                 DispatchQueue.main.async {
-                    UIView.animate(withDuration: self.rotatingPlayerViewAnimationDuration, delay: 0, options: .curveEaseInOut, animations: { _ in
-                        self.playerView.transform = CGAffineTransform(rotationAngle: rotationAngle)
-                        self.setNeedsStatusBarAppearanceUpdate()
-                        self.playerView.frame = screenSize //make fullscreen if landscape
-                    }, completion: nil)
+                    self.playerView.transform = CGAffineTransform(rotationAngle: rotationAngle)
+                    self.setNeedsStatusBarAppearanceUpdate()
+                    self.playerView.frame = screenSize //make fullscreen if landscape
                 }
             case .portrait:
                 print("Portrait")
                 self.statusBarHidden = false
                 self.navigationController?.navigationBar.isHidden = false
                 DispatchQueue.main.async {
-                    UIView.animate(withDuration: self.rotatingPlayerViewAnimationDuration, delay: 0, options: .curveEaseInOut, animations: { _ in
-                        self.playerView.transform = CGAffineTransform.identity
-                        self.setNeedsStatusBarAppearanceUpdate()
-                        self.playerView.frame = self.originalPlayerViewFrame //reset playerview if portrait
-                    }, completion: { success in
-                        self.view.updateConstraintsIfNeeded()
-                        self.view.layoutIfNeeded()
-                    })
+                    self.playerView.transform = CGAffineTransform.identity
+                    self.setNeedsStatusBarAppearanceUpdate()
+                    self.playerView.frame = self.originalPlayerViewFrame //reset playerview if portrait
+                    self.view.updateConstraintsIfNeeded()
+                    self.view.layoutIfNeeded()
                 }
             default:
                 break
