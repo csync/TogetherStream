@@ -115,8 +115,7 @@ class StreamViewController: UIViewController {
             self.navigationItem.setLeftBarButtonItems([item1], animated: false)
         }
         //set title
-        //TODO: set title to be correct
-        self.navigationItem.title = "Beyonce All Day"
+        self.navigationItem.title = stream?.name
     }
     
     /// Adds a textfield view above keyboard when user starts typing in chat
@@ -167,6 +166,7 @@ class StreamViewController: UIViewController {
         self.playerView.delegate = self
         //self.playerView.loadPlaylist(byVideos: ["4NFDhxhWyIw", "RTDuUiVSCo4"], index: 0, startSeconds: 0, suggestedQuality: .auto)
 		if viewModel.isHost {
+            updateView(forVideoWithID: "VGfn-NFMrXg")
 			self.playerView.load(withVideoId: "VGfn-NFMrXg", playerVars: [ //TODO: hide controls if participant
 				"playsinline" : 1,
 				"modestbranding" : 1,

@@ -26,7 +26,7 @@ class YouTubeDataManager {
 	}
 	
 	func getVideo(withID id: String, callback: @escaping (Error?, Video?) -> Void) {
-		guard let apiKey = apiKey, let url = URL(string: "https://www.googleapis.com/youtube/v3/videos?key=\(apiKey)&part=snippet,status&id=\(id)") else {
+		guard let apiKey = apiKey, let url = URL(string: "https://www.googleapis.com/youtube/v3/videos?key=\(apiKey)&part=snippet,status,statistics&id=\(id)") else {
 			callback(ServerError.cannotFormURL, nil)
 			return
 		}
