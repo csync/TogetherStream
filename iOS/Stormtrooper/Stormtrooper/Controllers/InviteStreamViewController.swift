@@ -16,10 +16,13 @@ class InviteStreamViewController: UIViewController {
     private let skipButtonFrame = CGRect(x: 0, y: 0, width: 35, height: 17)
     let defaultCellHeight = CGFloat(64.0)
     let headerCellHeight = CGFloat(47.0)
+    let numOfStaticCellsBeforeFriends = 3
 
 	var stream: Stream?
     var isCreatingStream = false
     var showSkipButton = false
+    var facebookFriends:[User] = []
+    var selectedFriends: [String: User] = [:]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,8 +40,17 @@ class InviteStreamViewController: UIViewController {
 
             self.navigationItem.setRightBarButtonItems([skipItem], animated: false)
         }
+        facebookFriends = FacebookDataManager.sharedInstance.cachedFriends
+        FacebookDataManager.sharedInstance.fetchFriends(callback:{ (error: Error?, friends: [User]?) -> Void in
+            if (friends != nil) {
+                self.facebookFriends = friends!
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            }
+        })
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         UIView.setAnimationsEnabled(true)
@@ -179,7 +191,7 @@ extension InviteStreamViewController: UITableViewDelegate, UITableViewDataSource
         case 1:
             //clicked email
             emailTapped()
-        case 3...tableRowsNum:
+        case numOfStaticCellsBeforeFriends...tableRowsNum:
             // Placed
             if let friendCell = tableView.cellForRow(at: indexPath) as? FriendTableViewCell {
                friendCell.onTap()
@@ -219,11 +231,25 @@ extension InviteStreamViewController: UITableViewDelegate, UITableViewDataSource
             friendsHeaderCell.selectionStyle = .none
             friendsHeaderCell.separatorInset = UIEdgeInsetsMake(0, 1000, 0, 0); // Moving seperator out of the screen
             return friendsHeaderCell
-        case 3...tableRowsNum:
+        case numOfStaticCellsBeforeFriends...tableRowsNum:
             //number of stormtrooper friends
             guard let friendCell = tableView.dequeueReusableCell(withIdentifier: "friendCell") as? FriendTableViewCell else {
                 return UITableViewCell()
             }
+            if (facebookFriends.count > 0 && indexPath.item < (facebookFriends.count + numOfStaticCellsBeforeFriends)) {
+                let friendDataForRow = facebookFriends[indexPath.item - numOfStaticCellsBeforeFriends]
+                let url = URL(string: friendDataForRow.pictureURL)
+
+                friendCell.name.text = friendDataForRow.name
+
+                DispatchQueue.global().async {
+                    let data = try? Data(contentsOf: url!)
+                    DispatchQueue.main.async {
+                        friendCell.profilePicture.image = UIImage(data: data!)
+                    }
+                }
+            }
+
             friendCell.selectionStyle = .none
             return friendCell
         default:
@@ -243,7 +269,7 @@ extension InviteStreamViewController: UITableViewDelegate, UITableViewDataSource
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 11
+        return numOfStaticCellsBeforeFriends + facebookFriends.count
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
