@@ -65,7 +65,7 @@ class FacebookDataManager {
                 callback(nil, user)
             }
             else {
-                callback(ServerError.unexpectedResponse, nil)
+                callback(ServerError.unexpectedQueueFail, nil)
             }
         }
         if queueStatus.didAddFirst
@@ -124,31 +124,30 @@ class FacebookDataManager {
 		}
 		let request = FBSDKGraphRequest(graphPath: "me", parameters: parameters)
 		let _ = request?.start(){(request, result, error) in
-			if error != nil {
+			guard error == nil else {
 				callback(error,nil)
+                return
 			}
-			else {
-				let friendsResult = (result as? [String: Any])?["friends"] as? [String: Any]
-				guard let friendsPage = friendsResult?["data"] as? [[String: Any]] else {
-					return
-				}
-				for friend in friendsPage {
-					let user = User(facebookResponse: friend)
-					friends.append(user)
-					self.userCache[user.id] = user
-				}
-				let paging = friendsResult?["paging"] as? [String: Any]
-				if paging?["next"] != nil {
-					let cursors = paging?["cursors"] as? [String: String]
-					afterCursor = cursors?["after"]
-				}
-				if afterCursor != nil {
-					self.innerFetchFriends(withAfterCursor: afterCursor, friends: friends, callback: callback)
-				}
-				else {
-					callback(nil, friends)
-				}
-			}
+            let friendsResult = (result as? [String: Any])?["friends"] as? [String: Any]
+            guard let friendsPage = friendsResult?["data"] as? [[String: Any]] else {
+                return
+            }
+            for friend in friendsPage {
+                let user = User(facebookResponse: friend)
+                friends.append(user)
+                self.userCache[user.id] = user
+            }
+            let paging = friendsResult?["paging"] as? [String: Any]
+            if paging?["next"] != nil {
+                let cursors = paging?["cursors"] as? [String: String]
+                afterCursor = cursors?["after"]
+            }
+            if afterCursor != nil {
+                self.innerFetchFriends(withAfterCursor: afterCursor, friends: friends, callback: callback)
+            }
+            else {
+                callback(nil, friends)
+            }
 		}
 	}
     

@@ -22,18 +22,20 @@ class ThreadSafeCallbackQueue<T> {
         checkingQueue.sync {
             queueIsCleared = self.queueIsCleared
             didAddFirst = !queueIsCleared && callbacks.isEmpty
-            callbacks.append(callback)
+            if !queueIsCleared {
+                callbacks.append(callback)
+            }
         }
         return (didAddFirst, queueIsCleared)
     }
     
     func executeAndClearCallbacks(withError error: Error?, object: T?) {
         checkingQueue.sync {
-            for callback in callbacks {
-                callback(error, object)
-            }
             callbacks.removeAll()
             queueIsCleared = true
+        }
+        for callback in callbacks {
+            callback(error, object)
         }
     }
 }
