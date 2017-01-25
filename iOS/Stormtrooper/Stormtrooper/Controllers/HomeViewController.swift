@@ -168,7 +168,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 			}
 		}
 		
-        FacebookDataManager.sharedInstance.fetchInfoForUser(withID: stream.facebookID) {error, user in
+        FacebookDataManager.sharedInstance.fetchInfoForUser(withID: stream.hostFacebookID) {error, user in
             DispatchQueue.main.async {
                 cell.hostNameLabel.text = user?.name
             }
@@ -199,7 +199,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         guard let streamVC = Utils.vcWithNameFromStoryboardWithName("stream", storyboardName: "Stream") as? StreamViewController else {
             return
         }
-        streamVC.hostID = stream.facebookID
+        streamVC.stream = stream
         streamVC.navigationItem.title = stream.name
         DispatchQueue.main.async {
             self.navigationController?.pushViewController(streamVC, animated: true)
