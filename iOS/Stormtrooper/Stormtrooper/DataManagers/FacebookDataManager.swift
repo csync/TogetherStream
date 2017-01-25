@@ -129,8 +129,8 @@ class FacebookDataManager {
 					self.innerFetchFriends(withAfterCursor: afterCursor, friends: friends, callback: callback)
 				}
                 else {
-                    self.cachedFriends = friends
-					callback(nil, friends)
+                    self.cachedFriends = friends.sorted(by: {return $0.name < $1.name})
+					callback(nil, self.cachedFriends)
 				}
 			}
 		}
