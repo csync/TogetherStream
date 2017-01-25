@@ -141,6 +141,18 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         }
         
         // define completion handler to present the stream
+        let presentStream = {
+            guard let streamVC = Utils.vcWithNameFromStoryboardWithName("stream", storyboardName: "Stream") as? StreamViewController else {
+                return
+            }
+            streamVC.stream = stream
+            streamVC.navigationItem.title = stream.name
+            DispatchQueue.main.async {
+                viewController.navigationController?.pushViewController(streamVC, animated: true)
+            }
+        }
+        
+        // present popup with default user profile picture and name
         let popup = PopupViewController.instantiate(
             titleText: "YOU'VE BEEN INVITED",
             image: #imageLiteral(resourceName: "stormtrooper_helmet"),
@@ -148,7 +160,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
             descriptionText: "",
             primaryButtonText: "JOIN STREAM",
             secondaryButtonText: "Dismiss",
-            completion: { /* TODO */ print("transitioning to stream...") }
+            completion: presentStream
         )
         viewController.present(popup, animated: true)
         
