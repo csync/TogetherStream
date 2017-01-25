@@ -43,7 +43,7 @@ class StreamViewController: UIViewController {
     }
     
     override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
-        return .fade
+        return .slide
     }
     
 	// TODO: Remove or move to viewModel
