@@ -27,14 +27,8 @@ class HomeViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
         displayLoginIfNeeded()
-		viewModel.refreshStreams { error, streams in
-            DispatchQueue.main.async {
-                self.streamsTableView.reloadData()
-            }
-		}
-        
+        refreshStreams()
         UIView.setAnimationsEnabled(true)
     }
 	
@@ -95,8 +89,17 @@ class HomeViewController: UIViewController {
         }
     }
     
+    func refreshStreams(callback: ((Void) -> Void)? = nil) {
+        viewModel.refreshStreams { error, streams in
+            DispatchQueue.main.async {
+                self.streamsTableView.reloadData()
+            }
+            callback?()
+        }
+    }
+    
     @objc private func refresh(_ refreshControl: UIRefreshControl) {
-        viewModel.refreshStreams() { error, streams in
+        refreshStreams() {
             refreshControl.endRefreshing()
         }
     }
