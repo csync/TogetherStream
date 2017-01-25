@@ -224,25 +224,23 @@ class StreamViewController: UIViewController {
         if UIDeviceOrientationIsLandscape(UIDevice.current.orientation) {
             self.statusBarHidden = true
             self.navigationController?.navigationBar.isHidden = true
+            
+            var rotationAngle: CGFloat = 0
             switch UIDevice.current.orientation {
             case .landscapeLeft:
-                DispatchQueue.main.async {
-                UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: { _ in
-                    self.playerView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
+                rotationAngle = CGFloat(M_PI_2)
+            case .landscapeRight:
+                rotationAngle = CGFloat(-M_PI_2)
+            default:
+                break
+            }
+            
+            DispatchQueue.main.async {
+                UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: { _ in
+                    self.playerView.transform = CGAffineTransform(rotationAngle: rotationAngle)
                     self.setNeedsStatusBarAppearanceUpdate()
                     self.playerView.frame = screenSize //make fullscreen if landscape
                 }, completion: nil)
-                }
-            case .landscapeRight:
-                DispatchQueue.main.async {
-                    UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: { _ in
-                        self.playerView.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
-                        self.setNeedsStatusBarAppearanceUpdate()
-                        self.playerView.frame = screenSize //make fullscreen if landscape
-                    }, completion: nil)
-                }
-            default:
-                break
             }
             
             print("Landscape")
