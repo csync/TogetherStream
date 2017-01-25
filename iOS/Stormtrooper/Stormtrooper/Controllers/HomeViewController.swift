@@ -93,8 +93,8 @@ class HomeViewController: UIViewController {
         viewModel.refreshStreams { error, streams in
             DispatchQueue.main.async {
                 self.streamsTableView.reloadData()
+                callback?()
             }
-            callback?()
         }
     }
     
