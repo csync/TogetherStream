@@ -58,6 +58,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="doneButton" destination="rgj-7b-ji8" id="L1x-9s-vy3"/>
                         <outlet property="tableView" destination="wMY-Fl-7fF" id="y0Z-Tq-Ltk"/>
                     </connections>
                 </viewController>

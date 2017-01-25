@@ -12,6 +12,7 @@ import MessageUI
 class InviteStreamViewController: UIViewController {
 	
     @IBOutlet private weak var tableView: UITableView!
+    @IBOutlet weak var doneButton: UIButton!
 
     fileprivate let viewModel = InviteStreamViewModel()
     private let skipButtonFrame = CGRect(x: 0, y: 0, width: 35, height: 17)
@@ -22,6 +23,7 @@ class InviteStreamViewController: UIViewController {
 	var stream: Stream?
     var isCreatingStream = false
     var showSkipButton = false
+    var selectedFriends: [String: User] = [:]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,6 +48,8 @@ class InviteStreamViewController: UIViewController {
                 }
             }
         })
+
+        doneButton.isHidden = selectedFriends.values.count == 0
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -99,6 +103,7 @@ class InviteStreamViewController: UIViewController {
         else { //not creating stream, so dismiss
             self.dismiss(animated: true, completion: nil)
         }
+        viewModel.sendInvites(stream:stream, users:[User](selectedFriends.values))
     }
     
     func textTapped() {
@@ -191,7 +196,16 @@ extension InviteStreamViewController: UITableViewDelegate, UITableViewDataSource
         case numOfStaticCellsBeforeFriends...tableRowsNum:
             // Placed
             if let friendCell = tableView.cellForRow(at: indexPath) as? FriendTableViewCell {
-               friendCell.onTap()
+                friendCell.onTap()
+                if let associatedUser = friendCell.associatedUser {
+                    if friendCell.friendIsSelected {
+                        selectedFriends[associatedUser.id] = associatedUser
+                    } else {
+                        selectedFriends[associatedUser.id] = nil
+                    }
+
+                    doneButton.isHidden = selectedFriends.values.count == 0
+                }
             }
         default:
             // Do nothing
