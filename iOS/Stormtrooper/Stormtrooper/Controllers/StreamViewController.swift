@@ -222,47 +222,49 @@ class StreamViewController: UIViewController {
     
     func rotated() {
         let screenSize = UIScreen.main.bounds
-        if UIDeviceOrientationIsLandscape(UIDevice.current.orientation) {
-            self.statusBarHidden = true
-            self.navigationController?.navigationBar.isHidden = true
-            
             var rotationAngle: CGFloat = 0
             switch UIDevice.current.orientation {
             case .landscapeLeft:
+                print("Landscape Left")
+                self.statusBarHidden = true
+                self.navigationController?.navigationBar.isHidden = true
                 rotationAngle = CGFloat(M_PI_2)
+                DispatchQueue.main.async {
+                    UIView.animate(withDuration: self.rotatingPlayerViewAnimationDuration, delay: 0, options: .curveEaseInOut, animations: { _ in
+                        self.playerView.transform = CGAffineTransform(rotationAngle: rotationAngle)
+                        self.setNeedsStatusBarAppearanceUpdate()
+                        self.playerView.frame = screenSize //make fullscreen if landscape
+                    }, completion: nil)
+                }
             case .landscapeRight:
+                print("Landscape Right")
+                self.statusBarHidden = true
+                self.navigationController?.navigationBar.isHidden = true
                 rotationAngle = CGFloat(-M_PI_2)
+                DispatchQueue.main.async {
+                    UIView.animate(withDuration: self.rotatingPlayerViewAnimationDuration, delay: 0, options: .curveEaseInOut, animations: { _ in
+                        self.playerView.transform = CGAffineTransform(rotationAngle: rotationAngle)
+                        self.setNeedsStatusBarAppearanceUpdate()
+                        self.playerView.frame = screenSize //make fullscreen if landscape
+                    }, completion: nil)
+                }
+            case .portrait:
+                print("Portrait")
+                self.statusBarHidden = false
+                self.navigationController?.navigationBar.isHidden = false
+                DispatchQueue.main.async {
+                    UIView.animate(withDuration: self.rotatingPlayerViewAnimationDuration, delay: 0, options: .curveEaseInOut, animations: { _ in
+                        self.playerView.transform = CGAffineTransform.identity
+                        self.setNeedsStatusBarAppearanceUpdate()
+                        self.playerView.frame = self.originalPlayerViewFrame //reset playerview if portrait
+                    }, completion: { success in
+                        self.view.updateConstraintsIfNeeded()
+                        self.view.layoutIfNeeded()
+                    })
+                }
             default:
                 break
             }
-            
-            DispatchQueue.main.async {
-                UIView.animate(withDuration: self.rotatingPlayerViewAnimationDuration, delay: 0, options: .curveEaseInOut, animations: { _ in
-                    self.playerView.transform = CGAffineTransform(rotationAngle: rotationAngle)
-                    self.setNeedsStatusBarAppearanceUpdate()
-                    self.playerView.frame = screenSize //make fullscreen if landscape
-                }, completion: nil)
-            }
-            
-            print("Landscape")
-        }
-        
-        if UIDeviceOrientationIsPortrait(UIDevice.current.orientation) {
-            self.statusBarHidden = false
-            self.navigationController?.navigationBar.isHidden = false
-            DispatchQueue.main.async {
-            UIView.animate(withDuration: self.rotatingPlayerViewAnimationDuration, delay: 0, options: .curveEaseInOut, animations: { _ in
-                self.playerView.transform = CGAffineTransform.identity
-                self.setNeedsStatusBarAppearanceUpdate()
-                self.playerView.frame = self.originalPlayerViewFrame //reset playerview if portrait
-            }, completion: { success in
-                self.view.updateConstraintsIfNeeded()
-                self.view.layoutIfNeeded()
-            })
-            }
-            
-            print("Portrait")
-        }
         
     }
     
