@@ -135,6 +135,11 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         guard let rootViewController = window?.rootViewController else { return }
         let viewController = rootViewController.mostActiveViewController
         
+        // refresh the stream list, if necessary
+        if let homeViewController = viewController as? HomeViewController {
+            homeViewController.refreshStreams()
+        }
+        
         // present popup with default user information
         let popup = PopupViewController.instantiate(
             titleText: "YOU'VE BEEN INVITED",
