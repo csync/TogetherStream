@@ -15,6 +15,7 @@ class FacebookDataManager {
 	var profile: FBSDKProfile? {
 		return FBSDKProfile.current() ?? nil
 	 }
+    var cachedFriends: [User] = []
 	
 	private let urlSession = URLSession.shared
 	private let accountDataManager = AccountDataManager.sharedInstance
@@ -127,7 +128,8 @@ class FacebookDataManager {
 				if afterCursor != nil {
 					self.innerFetchFriends(withAfterCursor: afterCursor, friends: friends, callback: callback)
 				}
-				else {
+                else {
+                    self.cachedFriends = friends
 					callback(nil, friends)
 				}
 			}
