@@ -371,7 +371,7 @@ extension StreamViewController: StreamViewModelDelegate {
 	func streamEnded() {
         playerView.pauseVideo()
         
-        // present popup with default user information
+        // present popup with default user profile picture
 		let popup = PopupViewController.instantiate(
             titleText: (stream?.name ?? "Stream Title").uppercased(),
             image: #imageLiteral(resourceName: "stormtrooper_helmet"),
@@ -383,7 +383,7 @@ extension StreamViewController: StreamViewModelDelegate {
         )
         present(popup, animated: true)
         
-        // update popup with user information from Facebook
+        // update popup with user profile picture from Facebook
         if let hostFacebookID = stream?.hostFacebookID {
             FacebookDataManager.sharedInstance.fetchInfoForUser(withID: hostFacebookID) { error, user in
                 guard error == nil else { return }
