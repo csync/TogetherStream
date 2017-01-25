@@ -75,7 +75,7 @@
         <scene sceneID="gWR-xo-do2">
             <objects>
                 <navigationController storyboardIdentifier="mainNavigation" id="3ka-qo-nCZ" customClass="MainNavigationController" customModule="Stormtrooper" customModuleProvider="target" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="HIf-u3-Kgu">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" barStyle="black" translucent="NO" id="HIf-u3-Kgu">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.15686274509803921" green="0.14117647058823529" blue="0.14117647058823529" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

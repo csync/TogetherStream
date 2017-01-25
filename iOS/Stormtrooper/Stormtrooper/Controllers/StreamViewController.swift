@@ -26,6 +26,7 @@ class StreamViewController: UIViewController {
     
     //constraints
     var originalHeaderViewHeightConstraint: CGFloat = 0
+    var originalPlayerViewFrame: CGRect = CGRect.zero
     var estimatedChatCellHeight: CGFloat = 56
     
     //constants
@@ -34,7 +35,17 @@ class StreamViewController: UIViewController {
     let headerViewAnimationDuration: TimeInterval = 0.3
 	
 	var hostID: String?
-	
+    
+    var statusBarHidden: Bool = false
+    
+    override var prefersStatusBarHidden: Bool {
+        return statusBarHidden
+    }
+    
+    override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
+        return .fade
+    }
+    
 	// TODO: Remove or move to viewModel
     fileprivate var isPlaying = false
 	
@@ -54,6 +65,7 @@ class StreamViewController: UIViewController {
         setupProfilePictures()
         setupViewForHostOrParticipant()
         setupConstraints()
+        
 		
         NotificationCenter.default.addObserver(self, selector: #selector(StreamViewController.rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
 		
@@ -158,10 +170,12 @@ class StreamViewController: UIViewController {
     
     private func setupConstraints() {
         originalHeaderViewHeightConstraint = headerViewHeightConstraint.constant
+        originalPlayerViewFrame = playerView.frame
         
     }
     
     private func setupPlayerView() {
+        self.playerView.backgroundColor = UIColor.white
         self.playerView.delegate = self
         //self.playerView.loadPlaylist(byVideos: ["4NFDhxhWyIw", "RTDuUiVSCo4"], index: 0, startSeconds: 0, suggestedQuality: .auto)
 		if viewModel.isHost {
@@ -201,15 +215,48 @@ class StreamViewController: UIViewController {
     }
     
     func rotated() {
+        let screenSize = UIScreen.main.bounds
         if UIDeviceOrientationIsLandscape(UIDevice.current.orientation) {
-            self.playerView.frame = self.view.frame //make fullscreen if landscape
-            self.mediaControllerView.isHidden = true
+            self.statusBarHidden = true
+            self.navigationController?.navigationBar.isHidden = true
+            switch UIDevice.current.orientation {
+            case .landscapeLeft:
+                DispatchQueue.main.async {
+                UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: { _ in
+                    self.playerView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
+                    self.setNeedsStatusBarAppearanceUpdate()
+                    self.playerView.frame = screenSize //make fullscreen if landscape
+                }, completion: nil)
+                }
+            case .landscapeRight:
+                DispatchQueue.main.async {
+                    UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: { _ in
+                        self.playerView.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
+                        self.setNeedsStatusBarAppearanceUpdate()
+                        self.playerView.frame = screenSize //make fullscreen if landscape
+                    }, completion: nil)
+                }
+            default:
+                break
+            }
+            
             print("Landscape")
         }
         
         if UIDeviceOrientationIsPortrait(UIDevice.current.orientation) {
-            self.playerView.updateConstraintsIfNeeded()
-            self.mediaControllerView.isHidden = false
+            self.statusBarHidden = false
+            self.navigationController?.navigationBar.isHidden = false
+            DispatchQueue.main.async {
+            UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: { _ in
+                self.playerView.transform = CGAffineTransform.identity
+                self.setNeedsStatusBarAppearanceUpdate()
+                self.playerView.frame = self.originalPlayerViewFrame //reset playerview if portrait
+            }, completion: { success in
+                self.view.updateConstraintsIfNeeded()
+                self.view.layoutIfNeeded()
+            })
+            }
+            
             print("Portrait")
         }
         
@@ -326,7 +373,7 @@ extension StreamViewController: StreamViewModelDelegate {
 	}
 	
 	func recieved(message: Message, for position: Int) {
-		chatTableView.insertRows(at: [IndexPath(row: position, section: 0)], with: .automatic)
+		chatTableView.insertRows(at: [IndexPath(row: position, section: 0)], with: .none)
         chatTableView.scrollTableViewToBottom(animated: false)
 	}
 	
