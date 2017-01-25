@@ -13,6 +13,7 @@ class InviteStreamViewController: UIViewController {
 	
     @IBOutlet private weak var tableView: UITableView!
 
+    fileprivate let viewModel = InviteStreamViewModel()
     private let skipButtonFrame = CGRect(x: 0, y: 0, width: 35, height: 17)
     let defaultCellHeight = CGFloat(64.0)
     let headerCellHeight = CGFloat(47.0)
@@ -21,8 +22,6 @@ class InviteStreamViewController: UIViewController {
 	var stream: Stream?
     var isCreatingStream = false
     var showSkipButton = false
-    var facebookFriends:[User] = []
-    var selectedFriends: [String: User] = [:]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,10 +39,8 @@ class InviteStreamViewController: UIViewController {
 
             self.navigationItem.setRightBarButtonItems([skipItem], animated: false)
         }
-        facebookFriends = FacebookDataManager.sharedInstance.cachedFriends
-        FacebookDataManager.sharedInstance.fetchFriends(callback:{ (error: Error?, friends: [User]?) -> Void in
-            if (friends != nil) {
-                self.facebookFriends = friends!
+        viewModel.fetchFriends(callback:{ (error: Error?) -> Void in
+            if error == nil {
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
@@ -236,19 +233,7 @@ extension InviteStreamViewController: UITableViewDelegate, UITableViewDataSource
             guard let friendCell = tableView.dequeueReusableCell(withIdentifier: "friendCell") as? FriendTableViewCell else {
                 return UITableViewCell()
             }
-            if (facebookFriends.count > 0 && indexPath.item < (facebookFriends.count + numOfStaticCellsBeforeFriends)) {
-                let friendDataForRow = facebookFriends[indexPath.item - numOfStaticCellsBeforeFriends]
-                let url = URL(string: friendDataForRow.pictureURL)
-
-                friendCell.name.text = friendDataForRow.name
-
-                DispatchQueue.global().async {
-                    let data = try? Data(contentsOf: url!)
-                    DispatchQueue.main.async {
-                        friendCell.profilePicture.image = UIImage(data: data!)
-                    }
-                }
-            }
+            viewModel.populateFriendCell(friendCell: friendCell, index: indexPath.item - numOfStaticCellsBeforeFriends)
 
             friendCell.selectionStyle = .none
             return friendCell
@@ -269,7 +254,7 @@ extension InviteStreamViewController: UITableViewDelegate, UITableViewDataSource
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return numOfStaticCellsBeforeFriends + facebookFriends.count
+        return numOfStaticCellsBeforeFriends + viewModel.facebookFriends.count
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
