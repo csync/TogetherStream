@@ -19,6 +19,9 @@ class FacebookDataManager {
 	private let urlSession = URLSession.shared
 	private let accountDataManager = AccountDataManager.sharedInstance
 	private let csyncDataManager = CSyncDataManager.sharedInstance
+    
+    private var userCallbackQueues: [String: ThreadSafeCallbackQueue<User>] = [:]
+    private let userCallbacksCheckingQueue = DispatchQueue(label: "user.checker")
 	
 	private var userCache: [String: User] = [:]
 	
@@ -54,21 +57,35 @@ class FacebookDataManager {
 		if let user = userCache[id] {
 			callback(nil, user)
 		}
-		let parameters = ["fields": "name, picture"]
-		let request = FBSDKGraphRequest(graphPath: id, parameters: parameters)
-		let _ = request?.start(){ (request, result, error) in
-			guard error == nil else {
-				callback(error, nil)
-				return
-			}
-			guard let result = result as? [String: Any] else {
-				callback(ServerError.unexpectedResponse, nil)
-				return
-			}
-			let user = User(facebookResponse: result)
-			self.userCache[id] = user
-			callback(nil, user)
-		}
+        let userInfoQueue = fetchOrCreateQueue(identifier: "user.\(id)")
+        let queueStatus = userInfoQueue.addCallbackAndCheckQueueStatus(callback: callback)
+        if queueStatus.queueIsCleared {
+            if let user = userCache[id] {
+                callback(nil, user)
+            }
+            else {
+                callback(ServerError.unexpectedResponse, nil)
+            }
+        }
+        if queueStatus.didAddFirst
+        {
+            let parameters = ["fields": "name, picture"]
+            let request = FBSDKGraphRequest(graphPath: id, parameters: parameters)
+            let _ = request?.start(){(request, result, error) in
+                guard error == nil else {
+                    userInfoQueue.executeAndClearCallbacks(withError: error, object: nil)
+                    return
+                }
+                guard let result = result as? [String: Any] else {
+                    userInfoQueue.executeAndClearCallbacks(withError: ServerError.unexpectedResponse, object: nil)
+                    return
+                }
+                let user = User(facebookResponse: result)
+                self.userCache[id] = user
+                userInfoQueue.executeAndClearCallbacks(withError: ServerError.unexpectedResponse, object: nil)
+            }
+        }
+		
 	}
 	
 	private init() {
@@ -79,6 +96,10 @@ class FacebookDataManager {
 			csyncDataManager.authenticate(withID: profile.userID)
 		}
 	}
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
 	
 	
 	@objc private func accessTokenDidChange(notification: Notification) {
@@ -93,10 +114,6 @@ class FacebookDataManager {
 		}
 	}
 	
-	deinit {
-		NotificationCenter.default.removeObserver(self)
-	}
-	
 	private func innerFetchFriends(withAfterCursor afterCursor: String?, friends: [User], callback: @escaping (Error?, [User]?) -> Void) {
 		var afterCursor = afterCursor
 		var friends = friends
@@ -105,7 +122,7 @@ class FacebookDataManager {
 			parameters["after"] = afterCursor
 		}
 		let request = FBSDKGraphRequest(graphPath: "me", parameters: parameters)
-		let _ = request?.start(){ (request, result, error) in
+		let _ = request?.start(){(request, result, error) in
 			if error != nil {
 				callback(error,nil)
 			}
@@ -133,4 +150,18 @@ class FacebookDataManager {
 			}
 		}
 	}
+    
+    private func fetchOrCreateQueue(identifier: String) -> ThreadSafeCallbackQueue<User> {
+        var threadSafeQueue = ThreadSafeCallbackQueue<User>(identifier: "")
+        userCallbacksCheckingQueue.sync {
+            if let queue = userCallbackQueues[identifier] {
+                threadSafeQueue = queue
+            }
+            else {
+                let queue = ThreadSafeCallbackQueue<User>(identifier: identifier)
+                userCallbackQueues[identifier] = queue
+            }
+        }
+        return threadSafeQueue
+    }
 }
