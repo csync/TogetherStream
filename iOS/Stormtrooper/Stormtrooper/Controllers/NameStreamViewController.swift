@@ -18,7 +18,10 @@ class NameStreamViewController: UIViewController {
     private let nameTextFieldSpacingFrame = CGRect(x: 0, y: 0, width: 18, height: 5)
     private let descriptionTextViewSpacingInset = UIEdgeInsets(top: 14, left: 13, bottom: 10, right: 16)
     
-    fileprivate var isDescriptionTextEmpty = true
+    fileprivate let descriptionPlaceholder = "Description (Optional)"
+    fileprivate var isDescriptionPlaceholder: Bool {
+        return descriptionTextView.text == descriptionPlaceholder
+    }
 	
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -89,7 +92,7 @@ class NameStreamViewController: UIViewController {
             return
         }
         let facebookID = FacebookDataManager.sharedInstance.profile?.userID ?? ""
-        let descriptionText = isDescriptionTextEmpty ? "" : descriptionTextView.text ?? ""
+        let descriptionText = isDescriptionPlaceholder ? "" : descriptionTextView.text ?? ""
         let stream = Stream(
             name: nameTextField.text ?? "",
             csyncPath: "streams.\(facebookID)",
@@ -106,7 +109,7 @@ class NameStreamViewController: UIViewController {
             return
         }
         let facebookID = FacebookDataManager.sharedInstance.profile?.userID ?? ""
-        let descriptionText = isDescriptionTextEmpty ? "" : descriptionTextView.text ?? ""
+        let descriptionText = isDescriptionPlaceholder ? "" : descriptionTextView.text ?? ""
         let stream = Stream(
             name: nameTextField.text ?? "",
             csyncPath: "streams.\(facebookID)",
@@ -137,8 +140,7 @@ extension NameStreamViewController: UITextFieldDelegate {
 
 extension NameStreamViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        if isDescriptionTextEmpty {
-            isDescriptionTextEmpty = false
+        if isDescriptionPlaceholder {
             textView.text = nil
             textView.textColor = UIColor.stormtrooperTextBlack
         }
@@ -146,9 +148,8 @@ extension NameStreamViewController: UITextViewDelegate {
     
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
-            textView.text = "Description (Optional)"
+            textView.text = descriptionPlaceholder
             textView.textColor = UIColor.stormtrooperPlaceholderGray
-            isDescriptionTextEmpty = true
         }
     }
 }
