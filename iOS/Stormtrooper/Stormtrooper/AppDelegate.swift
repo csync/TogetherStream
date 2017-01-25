@@ -140,7 +140,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
             homeViewController.refreshStreams()
         }
         
-        // present popup with default user information
+        // define completion handler to present the stream
         let popup = PopupViewController.instantiate(
             titleText: "YOU'VE BEEN INVITED",
             image: #imageLiteral(resourceName: "stormtrooper_helmet"),
@@ -152,7 +152,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         )
         viewController.present(popup, animated: true)
         
-        // update popup with user information from Facebook
+        // update popup with user profile picture and name from Facebook
         FacebookDataManager.sharedInstance.fetchInfoForUser(withID: stream.hostFacebookID) { error, user in
             guard error == nil else { return }
             if let user = user {
