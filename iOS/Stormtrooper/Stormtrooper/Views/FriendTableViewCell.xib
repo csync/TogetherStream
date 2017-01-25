@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -25,7 +24,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="down_temp_arrow" translatesAutoresizingMaskIntoConstraints="NO" id="gJc-6l-bCA">
-                        <rect key="frame" x="16" y="-3.5" width="50" height="50"/>
+                        <rect key="frame" x="16" y="-4" width="50" height="50"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="50" id="GpD-uq-IWp"/>
                             <constraint firstAttribute="height" constant="50" id="hLT-Sh-TPK"/>
@@ -37,7 +36,7 @@
                         </userDefinedRuntimeAttributes>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DdC-xB-Awe">
-                        <rect key="frame" x="91" y="11" width="195" height="21"/>
+                        <rect key="frame" x="91" y="11" width="69" height="21"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="DN8-nE-Pm5"/>
                         </constraints>
@@ -45,36 +44,33 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fvf-2h-JD2">
-                        <rect key="frame" x="285" y="11" width="11" height="21"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="addFriends" translatesAutoresizingMaskIntoConstraints="NO" id="XFv-MU-Lj0">
+                        <rect key="frame" x="281" y="10.5" width="23" height="23"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="11" id="xIn-NU-0Hl"/>
-                            <constraint firstAttribute="height" constant="21" id="xOV-Ya-8KP"/>
+                            <constraint firstAttribute="height" constant="23" id="W7f-3j-FOv"/>
+                            <constraint firstAttribute="width" constant="23" id="kJe-gj-eNo"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
+                    </imageView>
                 </subviews>
                 <constraints>
                     <constraint firstItem="DdC-xB-Awe" firstAttribute="leading" secondItem="gJc-6l-bCA" secondAttribute="trailing" constant="25" id="1cV-XC-gaR"/>
                     <constraint firstItem="gJc-6l-bCA" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="4Ni-6e-mZP"/>
                     <constraint firstItem="DdC-xB-Awe" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="AeO-B8-zhD"/>
-                    <constraint firstItem="fvf-2h-JD2" firstAttribute="leading" secondItem="DdC-xB-Awe" secondAttribute="trailing" constant="-1" id="aeO-Vx-GEY"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="fvf-2h-JD2" secondAttribute="trailing" constant="16" id="klk-Hh-wcp"/>
+                    <constraint firstAttribute="trailing" secondItem="XFv-MU-Lj0" secondAttribute="trailing" constant="16" id="Ek7-oV-2Bb"/>
                     <constraint firstItem="gJc-6l-bCA" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="qXS-Y7-azF"/>
-                    <constraint firstItem="fvf-2h-JD2" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="ufn-rf-pQL"/>
+                    <constraint firstItem="XFv-MU-Lj0" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="wdM-hL-JEB"/>
                 </constraints>
             </tableViewCellContentView>
             <inset key="separatorInset" minX="91" minY="0.0" maxX="0.0" maxY="0.0"/>
             <connections>
-                <outlet property="friendSelected" destination="fvf-2h-JD2" id="Uzr-x3-3tI"/>
                 <outlet property="name" destination="DdC-xB-Awe" id="xAu-lZ-BRK"/>
                 <outlet property="profilePicture" destination="gJc-6l-bCA" id="vAh-iQ-ju1"/>
+                <outlet property="selectionIndicator" destination="XFv-MU-Lj0" id="igc-qG-q6F"/>
             </connections>
         </tableViewCell>
     </objects>
     <resources>
+        <image name="addFriends" width="23" height="23"/>
         <image name="down_temp_arrow" width="102" height="69"/>
     </resources>
 </document>
