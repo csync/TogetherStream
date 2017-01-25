@@ -74,6 +74,7 @@ class StreamViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         UIView.setAnimationsEnabled(true)
+        saveOriginalPlayerViewFrame()
     }
 	
 	override func viewWillDisappear(_ animated: Bool) {
@@ -88,6 +89,11 @@ class StreamViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    private func saveOriginalPlayerViewFrame() {
+        originalPlayerViewFrame = playerView.frame
+    }
+    
 
     private func setupViewForHostOrParticipant() { //TODO: player setup (don't allow participant to pause, etc)
         if viewModel.isHost { //host-- can view queue, can end stream, can invite people
@@ -170,7 +176,6 @@ class StreamViewController: UIViewController {
     
     private func setupConstraints() {
         originalHeaderViewHeightConstraint = headerViewHeightConstraint.constant
-        originalPlayerViewFrame = playerView.frame
         
     }
     
