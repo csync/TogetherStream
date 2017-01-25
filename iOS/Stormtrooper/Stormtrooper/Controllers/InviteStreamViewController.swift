@@ -22,17 +22,16 @@ class InviteStreamViewController: UIViewController {
 
 	var stream: Stream?
     var isCreatingStream = false
-    var showSkipButton = false
     var selectedFriends: [String: User] = [:]
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
-        checkIfCreatingStream()
+
         setupTableView()
 
-        if showSkipButton {
+        // Show skip button when creating a stream
+        if isCreatingStream {
             let skipButton = UIButton(type: .custom)
             skipButton.setTitle("Skip", for: .normal)
             skipButton.frame = skipButtonFrame
@@ -69,16 +68,6 @@ class InviteStreamViewController: UIViewController {
         tableView.register(UINib(nibName: "FriendTableViewCell", bundle: nil), forCellReuseIdentifier: "friendCell")
         tableView.register(UINib(nibName: "InviteFriendsHeaderTableViewCell", bundle: nil), forCellReuseIdentifier: "friendsHeaderCell")
 
-    }   
-    
-    private func checkIfCreatingStream() {
-        guard let _ = self.navigationController else {
-            //if inviting from stream, not in nav controller, so will dismiss when done is tapped rather than moving forward in stream creation process
-            isCreatingStream = false
-            return
-        }
-        //if navigation controller exists, user is creating stream, so push forward in flow
-        isCreatingStream = true
     }
 
     /*
@@ -100,8 +89,8 @@ class InviteStreamViewController: UIViewController {
             streamVC.navigationItem.hidesBackButton = true
             self.navigationController?.pushViewController(streamVC, animated: true)
         }
-        else { //not creating stream, so dismiss
-            self.dismiss(animated: true, completion: nil)
+        else { //not creating stream, so pop
+            self.navigationController?.popViewController(animated: true)
         }
         viewModel.sendInvites(stream:stream, users:[User](selectedFriends.values))
     }
