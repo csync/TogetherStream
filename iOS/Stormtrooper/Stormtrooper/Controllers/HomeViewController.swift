@@ -114,10 +114,11 @@ class HomeViewController: UIViewController {
     }
     
     fileprivate func didSelectInviteFriends() {
-        guard let profileVC = Utils.vcWithNameFromStoryboardWithName("inviteStream", storyboardName: "InviteStream") as? InviteStreamViewController else {
+        guard let inviteVC = Utils.vcWithNameFromStoryboardWithName("inviteStream", storyboardName: "InviteStream") as? InviteStreamViewController else {
             return
         }
-        self.present(profileVC, animated: true, completion: nil)
+        inviteVC.navigationItem.title = "Invite to Stream"
+        self.navigationController?.pushViewController(inviteVC, animated: true)
     }
 
     @IBAction func startStreamTapped(_ sender: Any) {
