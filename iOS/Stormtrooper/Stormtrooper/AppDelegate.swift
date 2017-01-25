@@ -148,7 +148,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         viewController.present(popup, animated: true)
         
         // update popup with user information from Facebook
-        FacebookDataManager.sharedInstance.fetchInfoForUser(withID: stream.facebookID) { error, user in
+        FacebookDataManager.sharedInstance.fetchInfoForUser(withID: stream.hostFacebookID) { error, user in
             guard error == nil else { return }
             if let user = user {
                 popup.descriptionText = "by \(user.name)"

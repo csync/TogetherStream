@@ -17,7 +17,7 @@ class AddVideosViewController: UIViewController {
     @IBOutlet weak var nextButton: UIButton!
     @IBOutlet weak var searchTableViewBottomConstraint: NSLayoutConstraint!
 	
-    var streamName: String?
+    var stream: Stream?
     
     var isCreatingStream = false
 	
@@ -34,7 +34,7 @@ class AddVideosViewController: UIViewController {
         setupTableView()
         setupNavigationBar()
         
-        streamNameLabel.text = "\"\(streamName ?? "")\" Queue".localizedUppercase
+        streamNameLabel.text = "\"\(stream?.name ?? "")\" Queue".localizedUppercase
         
         checkIfCreatingStream()
         
@@ -99,7 +99,7 @@ class AddVideosViewController: UIViewController {
             guard let inviteVC = Utils.vcWithNameFromStoryboardWithName("inviteStream", storyboardName: "InviteStream") as? InviteStreamViewController else {
                 return
             }
-            inviteVC.streamName = streamName
+            inviteVC.stream = stream
             inviteVC.navigationItem.title = "Invite to Stream"
             inviteVC.showSkipButton = true
             self.navigationController?.pushViewController(inviteVC, animated: true)
