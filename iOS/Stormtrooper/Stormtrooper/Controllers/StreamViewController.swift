@@ -373,9 +373,9 @@ extension StreamViewController: StreamViewModelDelegate {
         
         // present popup with default user information
 		let popup = PopupViewController.instantiate(
-            titleText: "stream title".uppercased(), // TODO: update with stream title
+            titleText: (stream?.name ?? "Stream Title").uppercased(),
             image: #imageLiteral(resourceName: "stormtrooper_helmet"),
-            messageText: "Stream Title", // TODO: update with stream title
+            messageText: (stream?.name ?? "Stream Title").uppercased(),
             descriptionText: "This stream has ended.",
             primaryButtonText: "OKAY",
             secondaryButtonText: "Dismiss",
@@ -384,15 +384,17 @@ extension StreamViewController: StreamViewModelDelegate {
         present(popup, animated: true)
         
         // update popup with user information from Facebook
-//        FacebookDataManager.sharedInstance.fetchInfoForUser(withID: stream.facebookID) { error, user in
-//            guard error == nil else { return }
-//            user.fetchProfileImage { error, image in
-//                guard error == nil else { return }
-//                if let image = image {
-//                    popup.image = image
-//                }
-//            }
-//        }
+        if let hostFacebookID = stream?.hostFacebookID {
+            FacebookDataManager.sharedInstance.fetchInfoForUser(withID: hostFacebookID) { error, user in
+                guard error == nil else { return }
+                user?.fetchProfileImage { error, image in
+                    guard error == nil else { return }
+                    if let image = image {
+                        popup.image = image
+                    }
+                }
+            }
+        }
 	}
 }
 
