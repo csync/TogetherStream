@@ -35,19 +35,34 @@ class StreamViewController: UIViewController {
     private let profileButtonFrame = CGRect(x: 0, y: 0, width: 19, height: 24)
     private let headerViewAnimationDuration: TimeInterval = 0.3
 	
-    var stream: Stream?
+    var stream: Stream? {
+        get {
+            return viewModel.stream
+        }
+        set {
+            viewModel.stream = newValue
+        }
+    }
+    
+    var videoQueue: [Video]? {
+        get {
+            return viewModel.videoQueue
+        }
+        set {
+            viewModel.videoQueue = newValue
+        }
+    }
 	
 	// TODO: Remove or move to viewModel
     fileprivate var isPlaying = false
 	
-    var viewModel: StreamViewModel!
+    let viewModel = StreamViewModel()
     
     //accessory view shown above keyboard while chatting
     fileprivate var accessoryView: ChatTextFieldAccessoryView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel = StreamViewModel(stream: stream ?? Stream(name: "", csyncPath: "", description: "", hostFacebookID: ""))
         viewModel.delegate = self
 		
         setupChatTableView()
@@ -165,14 +180,14 @@ class StreamViewController: UIViewController {
     private func setupPlayerView() {
         self.playerView.delegate = self
         //self.playerView.loadPlaylist(byVideos: ["4NFDhxhWyIw", "RTDuUiVSCo4"], index: 0, startSeconds: 0, suggestedQuality: .auto)
-		if viewModel.isHost {
-            updateView(forVideoWithID: "VGfn-NFMrXg")
-			self.playerView.load(withVideoId: "VGfn-NFMrXg", playerVars: [ //TODO: hide controls if participant
+		if viewModel.isHost, let queue = viewModel.videoQueue, queue.count > 0 {
+            updateView(forVideoWithID: queue[0].id)
+			self.playerView.load(withVideoId: queue[0].id, playerVars: [ //TODO: hide controls if participant
 				"playsinline" : 1,
 				"modestbranding" : 1,
 				"showinfo" : 0,
 				"controls" : 1,
-				"playlist": "7D3Ud2JIFhA, 2VuFqm8re5c"
+				"playlist": queue[1..<queue.count].map{$0.id}.joined(separator: ", ")
 				])
 		}
 		

@@ -23,18 +23,24 @@ class StreamViewModel {
 	
 	weak var delegate: StreamViewModelDelegate?
 	
-    var stream: Stream
+    var stream: Stream?
+    
+    var videoQueue: [Video]?
 	
 	var userCount: Int {
 		return currentUserIDs.count
 	}
+    
+    var csyncPath: String {
+        return stream?.csyncPath ?? ""
+    }
     
     let maximumDesyncTime: Float = 1.0
 	
 	fileprivate(set) var messages: [Message] = []
 	fileprivate(set) var hostPlaying = false
 	var isHost: Bool {
-		return FacebookDataManager.sharedInstance.profile?.userID == stream.hostFacebookID
+		return FacebookDataManager.sharedInstance.profile?.userID == stream?.hostFacebookID
 	}
     
 	private var listenerKey: Key?
@@ -44,8 +50,7 @@ class StreamViewModel {
 	private var participantsDataManager: ParticipantsDataManager?
 	private var currentUserIDs: Set<String> = []
 	
-	init(stream: Stream) {
-		self.stream = stream
+	init() {
 		if !isHost {
 			setupParticipant()
 		}
@@ -54,25 +59,6 @@ class StreamViewModel {
 		}
 		
 		let userID = FacebookDataManager.sharedInstance.profile?.userID ?? ""
-		heartbeatDataManager = HeartbeatDataManager(streamPath: stream.csyncPath, id: userID)
-		heartbeatDataManager?.didRecieveHeartbeats = {[unowned self] heartbeats in
-			let changedUsers = self.currentUserIDs.symmetricDifference(heartbeats)
-			self.currentUserIDs = heartbeats
-			self.delegate?.userCountChanged(toCount: self.userCount)
-			for userID in changedUsers {
-				if self.isHost {
-					if heartbeats.contains(userID) {
-						self.send(participantID: userID, isJoining: true)
-					}
-					else {
-						self.send(participantID: userID, isJoining: false)
-					}
-				}
-				else if userID == self.stream.hostFacebookID && !heartbeats.contains(userID) {
-					//self.delegate?.streamEnded()
-				}
-			}
-		}
 		
         let messageCallback: (Message) -> Void = {[unowned self] message in
             // insert on main queue to avoid table datasource corruption
@@ -82,11 +68,31 @@ class StreamViewModel {
             }
         }
         
-		chatDataManager = ChatDataManager(streamPath: stream.csyncPath, id: FacebookDataManager.sharedInstance.profile?.userID ?? "")
-		chatDataManager?.didRecieveMessage = messageCallback
-		
-		participantsDataManager = ParticipantsDataManager(streamPath: stream.csyncPath)
-		participantsDataManager?.didRecieveMessage = messageCallback
+        chatDataManager = ChatDataManager(streamPath: csyncPath, id: FacebookDataManager.sharedInstance.profile?.userID ?? "")
+        chatDataManager?.didRecieveMessage = messageCallback
+        
+        participantsDataManager = ParticipantsDataManager(streamPath: csyncPath)
+        participantsDataManager?.didRecieveMessage = messageCallback
+        
+        heartbeatDataManager = HeartbeatDataManager(streamPath: csyncPath, id: userID)
+        heartbeatDataManager?.didRecieveHeartbeats = {[unowned self] heartbeats in
+            let changedUsers = self.currentUserIDs.symmetricDifference(heartbeats)
+            self.currentUserIDs = heartbeats
+            self.delegate?.userCountChanged(toCount: self.userCount)
+            for userID in changedUsers {
+                if self.isHost {
+                    if heartbeats.contains(userID) {
+                        self.send(participantID: userID, isJoining: true)
+                    }
+                    else {
+                        self.send(participantID: userID, isJoining: false)
+                    }
+                }
+                else if userID == self.stream?.hostFacebookID && !heartbeats.contains(userID) {
+                    //self.delegate?.streamEnded()
+                }
+            }
+        }
 	}
 	
 	deinit {
@@ -109,44 +115,44 @@ class StreamViewModel {
 	}
 	
 	func send(currentPlayTime: Float) {
-		cSyncDataManager.write(String(currentPlayTime), toKeyPath: "\(stream.csyncPath).playTime")
+		cSyncDataManager.write(String(currentPlayTime), toKeyPath: "\(csyncPath).playTime")
 	}
 	
 	func send(playState: Bool) {
 		let stateMessage = playState ? "true" : "false"
-		cSyncDataManager.write(stateMessage, toKeyPath: "\(stream.csyncPath).isPlaying")
+		cSyncDataManager.write(stateMessage, toKeyPath: "\(csyncPath).isPlaying")
 	}
 	
 	func send(isBuffering: Bool) {
 		let stateMessage = isBuffering ? "true" : "false"
-		cSyncDataManager.write(stateMessage, toKeyPath: "\(stream.csyncPath).isBuffering")
+		cSyncDataManager.write(stateMessage, toKeyPath: "\(csyncPath).isBuffering")
 	}
 	
 	func send(currentVideoID: String) {
-		cSyncDataManager.write(currentVideoID, toKeyPath: "\(stream.csyncPath).currentVideoID")
+		cSyncDataManager.write(currentVideoID, toKeyPath: "\(csyncPath).currentVideoID")
 	}
 	
 	func endStream() {
-		cSyncDataManager.write("false", toKeyPath: "\(stream.csyncPath).isActive")
+		cSyncDataManager.write("false", toKeyPath: "\(csyncPath).isActive")
 	}
 	
 	private func setupHost() {
 		// Reset stream
-		cSyncDataManager.deleteKey(atPath: stream.csyncPath + ".*")
+		cSyncDataManager.deleteKey(atPath: csyncPath + ".*")
 		// Create node so others can listen to it
-		cSyncDataManager.write("", toKeyPath: stream.csyncPath)
+		cSyncDataManager.write("", toKeyPath: csyncPath)
 		// Creat heartbeat node so others can create in it
-		cSyncDataManager.write("", toKeyPath: stream.csyncPath + ".heartbeat", withACL: .PublicReadCreate)
+		cSyncDataManager.write("", toKeyPath: csyncPath + ".heartbeat", withACL: .PublicReadCreate)
 		// Creat chat node so others can create in it
-		cSyncDataManager.write("", toKeyPath: stream.csyncPath + ".chat", withACL: .PublicReadCreate)
+		cSyncDataManager.write("", toKeyPath: csyncPath + ".chat", withACL: .PublicReadCreate)
 		// Set stream to active
-		cSyncDataManager.write("true", toKeyPath: stream.csyncPath + ".isActive")
+		cSyncDataManager.write("true", toKeyPath: csyncPath + ".isActive")
 		
 		NotificationCenter.default.addObserver(self, selector: #selector(recievedWillTerminateNotification), name: NSNotification.Name.UIApplicationWillTerminate, object: nil)
 	}
 	
 	private func setupParticipant() {
-		listenerKey = cSyncDataManager.createKey(atPath: stream.csyncPath + ".*")
+		listenerKey = cSyncDataManager.createKey(atPath: csyncPath + ".*")
 		listenerKey?.listen() {[weak self] value, error in
 			if let value = value, let `self` = self {
 				if !value.exists {

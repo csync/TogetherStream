@@ -18,6 +18,8 @@ class InviteStreamViewController: UIViewController {
     let headerCellHeight = CGFloat(47.0)
 
 	var stream: Stream?
+    // hold for streamVC
+    var videoQueue: [Video]?
     var isCreatingStream = false
     var showSkipButton = false
 
@@ -83,6 +85,7 @@ class InviteStreamViewController: UIViewController {
                 return
             }
 			streamVC.stream = stream
+            streamVC.videoQueue = videoQueue
             streamVC.navigationItem.title = stream?.name ?? ""
             streamVC.navigationItem.hidesBackButton = true
             self.navigationController?.pushViewController(streamVC, animated: true)
