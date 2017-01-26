@@ -64,7 +64,7 @@ class HomeViewController: UIViewController {
         profileButton.addTarget(self, action: #selector(HomeViewController.profileTapped), for: .touchUpInside)
         let item1 = UIBarButtonItem(customView: profileButton)
         
-        self.navigationItem.setRightBarButtonItems([item1], animated: false)
+        navigationItem.setRightBarButtonItems([item1], animated: false)
     }
     
     private func setupTableView() {
@@ -84,7 +84,7 @@ class HomeViewController: UIViewController {
             guard let loginVC = Utils.vcWithNameFromStoryboardWithName("login", storyboardName: "Login") as? LoginViewController else {
                 return
             }
-            self.present(loginVC, animated: true, completion: { _ in
+            present(loginVC, animated: true, completion: { _ in
             })
         }
     }
@@ -108,7 +108,7 @@ class HomeViewController: UIViewController {
         guard let profileVC = Utils.vcWithNameFromStoryboardWithName("profile", storyboardName: "Profile") as? ProfileViewController else {
             return
         }
-        self.present(profileVC, animated: true, completion: { _ in
+        present(profileVC, animated: true, completion: { _ in
             
         })
     }
@@ -118,7 +118,7 @@ class HomeViewController: UIViewController {
             return
         }
         inviteVC.navigationItem.title = "Invite to Stream"
-        self.navigationController?.pushViewController(inviteVC, animated: true)
+        navigationController?.pushViewController(inviteVC, animated: true)
     }
 
     @IBAction func startStreamTapped(_ sender: Any) {
@@ -126,7 +126,7 @@ class HomeViewController: UIViewController {
             return
         }
         nameStreamVC.navigationItem.title = "New Stream"
-        self.navigationController?.pushViewController(nameStreamVC, animated: true)
+        navigationController?.pushViewController(nameStreamVC, animated: true)
     }
 
 }

@@ -18,11 +18,9 @@ class InviteStreamViewController: UIViewController {
     private let skipButtonFrame = CGRect(x: 0, y: 0, width: 35, height: 17)
     let defaultCellHeight = CGFloat(64.0)
     let headerCellHeight = CGFloat(47.0)
-    let numOfStaticCellsBeforeFriends = 3
 
 	var stream: Stream?
     var isCreatingStream = false
-    var selectedFriends: [String: User] = [:]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,7 +36,7 @@ class InviteStreamViewController: UIViewController {
             skipButton.addTarget(self, action: #selector(InviteStreamViewController.doneTapped), for: .touchUpInside)
             let skipItem = UIBarButtonItem(customView: skipButton)
 
-            self.navigationItem.setRightBarButtonItems([skipItem], animated: false)
+            navigationItem.setRightBarButtonItems([skipItem], animated: false)
         }
         viewModel.fetchFriends(callback:{ (error: Error?) -> Void in
             if error == nil {
@@ -47,8 +45,6 @@ class InviteStreamViewController: UIViewController {
                 }
             }
         })
-
-        doneButton.isHidden = selectedFriends.values.count == 0
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -87,12 +83,12 @@ class InviteStreamViewController: UIViewController {
 			streamVC.stream = stream
             streamVC.navigationItem.title = stream?.name ?? ""
             streamVC.navigationItem.hidesBackButton = true
-            self.navigationController?.pushViewController(streamVC, animated: true)
+            navigationController?.pushViewController(streamVC, animated: true)
         }
         else { //not creating stream, so pop
-            self.navigationController?.popViewController(animated: true)
+            navigationController?.popViewController(animated: true)
         }
-        viewModel.sendInvites(stream:stream, users:[User](selectedFriends.values))
+        viewModel.sendInvites(stream:stream, users:[User](viewModel.selectedFriends.values))
     }
     
     func textTapped() {
@@ -102,7 +98,7 @@ class InviteStreamViewController: UIViewController {
         //messageVC.recipients = [""]
         messageVC.messageComposeDelegate = self
         
-        self.present(messageVC, animated: true, completion: nil)
+        present(messageVC, animated: true, completion: nil)
     }
     
     func emailTapped() {
@@ -114,9 +110,9 @@ class InviteStreamViewController: UIViewController {
         mailComposerVC.setMessageBody("Download Stormtrooper to join my Stream: http://ibm.biz/BdsMEz", isHTML: false)
         
         if MFMailComposeViewController.canSendMail() {
-            self.present(mailComposerVC, animated: true, completion: nil)
+            present(mailComposerVC, animated: true, completion: nil)
         } else {
-            self.showSendMailErrorAlert()
+            showSendMailErrorAlert()
         }
     }
     
@@ -125,7 +121,7 @@ class InviteStreamViewController: UIViewController {
         let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
 
         sendMailErrorAlert.addAction(defaultAction)
-        self.present(sendMailErrorAlert, animated: true, completion: nil)
+        present(sendMailErrorAlert, animated: true, completion: nil)
         
     }
 
@@ -182,18 +178,18 @@ extension InviteStreamViewController: UITableViewDelegate, UITableViewDataSource
         case 1:
             //clicked email
             emailTapped()
-        case numOfStaticCellsBeforeFriends...tableRowsNum:
+        case viewModel.numberOfStaticCellsBeforeFriends...tableRowsNum:
             // Placed
             if let friendCell = tableView.cellForRow(at: indexPath) as? FriendTableViewCell {
                 friendCell.onTap()
                 if let associatedUser = friendCell.associatedUser {
                     if friendCell.friendIsSelected {
-                        selectedFriends[associatedUser.id] = associatedUser
+                        viewModel.selectedFriends[associatedUser.id] = associatedUser
                     } else {
-                        selectedFriends[associatedUser.id] = nil
+                        viewModel.selectedFriends[associatedUser.id] = nil
                     }
 
-                    doneButton.isHidden = selectedFriends.values.count == 0
+                    doneButton.isHidden = viewModel.selectedFriends.values.count == 0
                 }
             }
         default:
@@ -231,12 +227,12 @@ extension InviteStreamViewController: UITableViewDelegate, UITableViewDataSource
             friendsHeaderCell.selectionStyle = .none
             friendsHeaderCell.separatorInset = UIEdgeInsetsMake(0, 1000, 0, 0); // Moving seperator out of the screen
             return friendsHeaderCell
-        case numOfStaticCellsBeforeFriends...tableRowsNum:
+        case viewModel.numberOfStaticCellsBeforeFriends...tableRowsNum:
             //number of stormtrooper friends
             guard let friendCell = tableView.dequeueReusableCell(withIdentifier: "friendCell") as? FriendTableViewCell else {
                 return UITableViewCell()
             }
-            viewModel.populateFriendCell(friendCell: friendCell, index: indexPath.item - numOfStaticCellsBeforeFriends)
+            viewModel.populateFriendCell(friendCell: friendCell, index: indexPath.item - viewModel.numberOfStaticCellsBeforeFriends)
 
             friendCell.selectionStyle = .none
             return friendCell
@@ -257,7 +253,7 @@ extension InviteStreamViewController: UITableViewDelegate, UITableViewDataSource
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return numOfStaticCellsBeforeFriends + viewModel.facebookFriends.count
+        return viewModel.numberOfStaticCellsBeforeFriends + viewModel.facebookFriends.count
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {

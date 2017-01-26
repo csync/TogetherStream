@@ -266,7 +266,7 @@ class StreamViewController: UIViewController {
             return
         }
         inviteVC.navigationItem.title = "Invite to Stream"
-        self.navigationController?.pushViewController(inviteVC, animated: true)
+        navigationController?.pushViewController(inviteVC, animated: true)
     }
 
     func closeTapped() {

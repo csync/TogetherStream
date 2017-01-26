@@ -13,13 +13,15 @@ import Foundation
 class InviteStreamViewModel {
     private let accountDataManager = AccountDataManager.sharedInstance
     private let facebookDataManager = FacebookDataManager.sharedInstance
+    let numberOfStaticCellsBeforeFriends = 3
 
     var facebookFriends:[User] = []
+    var selectedFriends: [String: User] = [:]
 
     func fetchFriends(callback: @escaping (Error?) -> Void) {
         facebookFriends = FacebookDataManager.sharedInstance.cachedFriends
         FacebookDataManager.sharedInstance.fetchFriends(callback:{ (error: Error?, friends: [User]?) -> Void in
-            if (friends != nil) {
+            if friends != nil {
                 self.facebookFriends = friends!
             }
             callback(error)
@@ -27,7 +29,7 @@ class InviteStreamViewModel {
     }
 
     func populateFriendCell(friendCell:FriendTableViewCell, index:Int) {
-        if (index >= 0 && index < facebookFriends.count) {
+        if index >= 0 && index < facebookFriends.count {
             let friendData = facebookFriends[index]
             let url = URL(string: friendData.pictureURL)
 
@@ -44,7 +46,7 @@ class InviteStreamViewModel {
     }
 
     func sendInvites(stream:Stream?, users:[User]) {
-        if (stream != nil && users.count > 0) {
+        if stream != nil && users.count > 0 {
             accountDataManager.sendInviteToStream(withName: stream!.name, andDescription: stream!.description, to: users)
         }
     }
