@@ -31,11 +31,11 @@ class ThreadSafeCallbackQueue<T> {
     
     func executeAndClearCallbacks(withError error: Error?, object: T?) {
         checkingQueue.sync {
-            callbacks.removeAll()
             queueIsCleared = true
         }
         for callback in callbacks {
             callback(error, object)
         }
+        callbacks.removeAll()
     }
 }

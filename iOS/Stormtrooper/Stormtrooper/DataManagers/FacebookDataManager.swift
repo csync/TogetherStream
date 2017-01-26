@@ -158,8 +158,8 @@ class FacebookDataManager {
                 threadSafeQueue = queue
             }
             else {
-                let queue = ThreadSafeCallbackQueue<User>(identifier: identifier)
-                userCallbackQueues[identifier] = queue
+                threadSafeQueue = ThreadSafeCallbackQueue<User>(identifier: identifier)
+                userCallbackQueues[identifier] = threadSafeQueue
             }
         }
         return threadSafeQueue
