@@ -61,6 +61,29 @@ class PopupViewController: UIViewController {
         setupViewController()
     }
     
+    /// Instantiate a 1-button popup.
+    static func instantiate(
+        titleText: String,
+        image: UIImage,
+        messageText: String,
+        descriptionText: String,
+        primaryButtonText: String,
+        completion: @escaping () -> Void)
+        -> PopupViewController
+    {
+        let storyboard = UIStoryboard(name: "Popup", bundle: nil)
+        let popupViewController = storyboard.instantiateViewController(withIdentifier: "popup-1button") as! PopupViewController
+        popupViewController.loadView()
+        popupViewController.titleText = titleText
+        popupViewController.image = image
+        popupViewController.messageText = messageText
+        popupViewController.descriptionText = descriptionText
+        popupViewController.primaryButtonText = primaryButtonText
+        popupViewController.completion = completion
+        return popupViewController
+    }
+    
+    /// Instantiate a 2-button popup.
     static func instantiate(
         titleText: String,
         image: UIImage,
@@ -72,7 +95,7 @@ class PopupViewController: UIViewController {
         -> PopupViewController
     {
         let storyboard = UIStoryboard(name: "Popup", bundle: nil)
-        let popupViewController = storyboard.instantiateViewController(withIdentifier: "popup") as! PopupViewController
+        let popupViewController = storyboard.instantiateViewController(withIdentifier: "popup-2button") as! PopupViewController
         popupViewController.loadView()
         popupViewController.titleText = titleText
         popupViewController.image = image
