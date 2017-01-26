@@ -38,7 +38,7 @@ class StreamViewController: UIViewController {
 	// TODO: Remove or move to viewModel
     fileprivate var isPlaying = false
 	
-	fileprivate var viewModel: StreamViewModel!
+    var viewModel: StreamViewModel!
     
     //accessory view shown above keyboard while chatting
     fileprivate var accessoryView: ChatTextFieldAccessoryView!
