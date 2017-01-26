@@ -116,6 +116,7 @@
 		A2F714731DF1F34300BC7335 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2F714721DF1F34300BC7335 /* FBSDKLoginKit.framework */; };
 		A2F714751DF1F39E00BC7335 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2F714741DF1F39E00BC7335 /* Bolts.framework */; };
 		A2F714771DF1F51400BC7335 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2F714761DF1F51400BC7335 /* FBSDKCoreKit.framework */; };
+		A2F95F7C1E380AE300E41C58 /* ThreadSafeCallbackQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F95F7B1E380AE300E41C58 /* ThreadSafeCallbackQueue.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -253,6 +254,7 @@
 		A2F714741DF1F39E00BC7335 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		A2F714761DF1F51400BC7335 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		A2F714781DF1FECC00BC7335 /* Stormtrooper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Stormtrooper.entitlements; sourceTree = "<group>"; };
+		A2F95F7B1E380AE300E41C58 /* ThreadSafeCallbackQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThreadSafeCallbackQueue.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -448,6 +450,7 @@
 				A25D961F1E0341A3008FD996 /* ChatDataManager.swift */,
 				A2C1BD801E24024800F515E7 /* ParticipantsDataManager.swift */,
 				A2D44DAB1E253D4C00053099 /* YouTubeDataManager.swift */,
+				A2F95F7B1E380AE300E41C58 /* ThreadSafeCallbackQueue.swift */,
 			);
 			path = DataManagers;
 			sourceTree = "<group>";
@@ -837,6 +840,7 @@
 				A2D44DC11E32B15900053099 /* SearchResultTableViewCell.swift in Sources */,
 				A29D11041DF8B30D00FA0EEC /* User.swift in Sources */,
 				4A240FBC1E2D8CF600DCD418 /* FriendTableViewCell.swift in Sources */,
+				A2F95F7C1E380AE300E41C58 /* ThreadSafeCallbackQueue.swift in Sources */,
 				A2A4360D1DFB2421008C2FB2 /* FacebookDataManager.swift in Sources */,
 				A2A4360F1DFB24CE008C2FB2 /* ServerError.swift in Sources */,
 				A25D962C1E1D965A008FD996 /* HomeViewModel.swift in Sources */,

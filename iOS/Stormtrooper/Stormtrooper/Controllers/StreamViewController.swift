@@ -23,6 +23,8 @@ class StreamViewController: UIViewController {
     @IBOutlet weak var visualEffectView: UIVisualEffectView!
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var dismissView: UIView!
+    @IBOutlet weak var videoTitleLabel: UILabel!
+    @IBOutlet weak var videoSubtitleLabel: UILabel!
     
     //constraints
     private var originalHeaderViewHeightConstraint: CGFloat = 0
@@ -38,7 +40,7 @@ class StreamViewController: UIViewController {
 	// TODO: Remove or move to viewModel
     fileprivate var isPlaying = false
 	
-	fileprivate var viewModel: StreamViewModel!
+    var viewModel: StreamViewModel!
     
     //accessory view shown above keyboard while chatting
     fileprivate var accessoryView: ChatTextFieldAccessoryView!
@@ -67,7 +69,7 @@ class StreamViewController: UIViewController {
 	override func viewWillDisappear(_ animated: Bool) {
 		super.viewWillDisappear(animated)
 		
-		if self.isBeingDismissed {
+		if isBeingDismissed {
 			NotificationCenter.default.removeObserver(self)
 		}
 	}
@@ -76,6 +78,7 @@ class StreamViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
 
     private func setupViewForHostOrParticipant() { //TODO: player setup (don't allow participant to pause, etc)
         if viewModel.isHost { //host-- can view queue, can end stream, can invite people
@@ -96,8 +99,8 @@ class StreamViewController: UIViewController {
             profileButton.addTarget(self, action: #selector(StreamViewController.profileTapped), for: .touchUpInside)
             let item2 = UIBarButtonItem(customView: profileButton)
             
-            self.navigationItem.setLeftBarButtonItems([item1], animated: false)
-            self.navigationItem.setRightBarButtonItems([item2], animated: false)
+            navigationItem.setLeftBarButtonItems([item1], animated: false)
+            navigationItem.setRightBarButtonItems([item2], animated: false)
         }
         else { //participant-- cannot view queue, can't end stream, can't invite people
             headerArrowImageView.isHidden = true
@@ -110,11 +113,10 @@ class StreamViewController: UIViewController {
             closeButton.addTarget(self, action: #selector(StreamViewController.closeTapped), for: .touchUpInside) //TODO: Change this to not end stream
             let item1 = UIBarButtonItem(customView: closeButton)
             
-            self.navigationItem.setLeftBarButtonItems([item1], animated: false)
+            navigationItem.setLeftBarButtonItems([item1], animated: false)
         }
         //set title
-        //TODO: set title to be correct
-        self.navigationItem.title = "Beyonce All Day"
+        navigationItem.title = stream?.name
     }
     
     /// Adds a textfield view above keyboard when user starts typing in chat
@@ -162,10 +164,11 @@ class StreamViewController: UIViewController {
     }
     
     private func setupPlayerView() {
-        self.playerView.delegate = self
+        playerView.delegate = self
         //self.playerView.loadPlaylist(byVideos: ["4NFDhxhWyIw", "RTDuUiVSCo4"], index: 0, startSeconds: 0, suggestedQuality: .auto)
 		if viewModel.isHost {
-			self.playerView.load(withVideoId: "VGfn-NFMrXg", playerVars: [ //TODO: hide controls if participant
+            updateView(forVideoWithID: "VGfn-NFMrXg")
+			playerView.load(withVideoId: "VGfn-NFMrXg", playerVars: [ //TODO: hide controls if participant
 				"playsinline" : 1,
 				"modestbranding" : 1,
 				"showinfo" : 0,
@@ -202,36 +205,36 @@ class StreamViewController: UIViewController {
     
     func rotated() {
         if UIDeviceOrientationIsLandscape(UIDevice.current.orientation) {
-            self.playerView.frame = self.view.frame //make fullscreen if landscape
-            self.mediaControllerView.isHidden = true
+            playerView.frame = view.frame //make fullscreen if landscape
+            mediaControllerView.isHidden = true
             print("Landscape")
         }
         
         if UIDeviceOrientationIsPortrait(UIDevice.current.orientation) {
-            self.playerView.updateConstraintsIfNeeded()
-            self.mediaControllerView.isHidden = false
+            playerView.updateConstraintsIfNeeded()
+            mediaControllerView.isHidden = false
             print("Portrait")
         }
         
     }
     
     @IBAction func playTapped(_ sender: Any) {
-        if !self.isPlaying {
-           self.playerView.playVideo()
+        if !isPlaying {
+           playerView.playVideo()
         }
         else {
-            self.playerView.pauseVideo()
+            playerView.pauseVideo()
         }
         
     }
     
     
     @IBAction func nextTapped(_ sender: Any) {
-        self.playerView.nextVideo()
+        playerView.nextVideo()
     }
 
     @IBAction func backTapped(_ sender: Any) {
-        self.playerView.previousVideo()
+        playerView.previousVideo()
     }
     
     //header tapped, so show or hide queue if host
@@ -270,14 +273,14 @@ class StreamViewController: UIViewController {
     }
 
     func closeTapped() {
-        let _ = self.navigationController?.popToRootViewController(animated: true)
+        let _ = navigationController?.popToRootViewController(animated: true)
     }
 
     @IBAction func addToStreamTapped(_ sender: Any) {
         guard let addVideosVC = Utils.vcWithNameFromStoryboardWithName("addVideos", storyboardName: "AddVideos") as? AddVideosViewController else {
             return
         }
-        self.present(addVideosVC, animated: true, completion: nil)
+        present(addVideosVC, animated: true, completion: nil)
     }
     
     
@@ -318,6 +321,21 @@ class StreamViewController: UIViewController {
 		}
 		return nil
 	}
+    
+    fileprivate func updateView(forVideoWithID id: String) {
+        viewModel.getVideo(withID: id) {[weak self] error, video in
+            if let video = video {
+                DispatchQueue.main.async {
+                    self?.videoTitleLabel.text = video.title
+                    var subtitle = video.channelTitle
+                    if let viewCount = video.viewCount {
+                        subtitle += " - \(viewCount) views"
+                    }
+                    self?.videoSubtitleLabel.text = subtitle
+                }
+            }
+        }
+    }
 
 }
 
@@ -327,8 +345,10 @@ extension StreamViewController: StreamViewModelDelegate {
 	}
 	
 	func recieved(message: Message, for position: Int) {
-		chatTableView.insertRows(at: [IndexPath(row: position, section: 0)], with: .automatic)
-        chatTableView.scrollTableViewToBottom(animated: false)
+            self.chatTableView.beginUpdates()
+            self.chatTableView.insertRows(at: [IndexPath(row: position, section: 0)], with: .automatic)
+            self.chatTableView.scrollTableViewToBottom(animated: false)
+            self.chatTableView.endUpdates()
 	}
 	
 	func recievedUpdate(forCurrentVideoID currentVideoID: String) {
@@ -337,6 +357,7 @@ extension StreamViewController: StreamViewModelDelegate {
 			playerID = getVideoID(from: playerURL)
 		}
 		if playerView.videoUrl() == nil || currentVideoID != playerID {
+            updateView(forVideoWithID: currentVideoID)
 			DispatchQueue.main.async { //TODO: hide controls if participant
 				self.playerView.load(withVideoId: currentVideoID, playerVars: [
 					"playsinline" : 1,
@@ -350,22 +371,30 @@ extension StreamViewController: StreamViewModelDelegate {
 	
 	func recievedUpdate(forIsPlaying isPlaying: Bool) {
 		if isPlaying && playerView.playerState() != .playing {
-			playerView.playVideo()
+            DispatchQueue.main.async {
+                self.playerView.playVideo()
+            }
 		}
 		else if !isPlaying && playerView.playerState() != .paused {
-			playerView.pauseVideo()
+            DispatchQueue.main.async {
+                self.playerView.pauseVideo()
+            }
 		}
 	}
 	
 	func recievedUpdate(forIsBuffering isBuffering: Bool) {
 		if isBuffering && playerView.playerState() == .playing {
-			playerView.pauseVideo()
+            DispatchQueue.main.async {
+                self.playerView.pauseVideo()
+            }
 		}
 	}
 	
 	func recievedUpdate(forPlaytime playtime: Float) {
 		if abs(playtime - playerView.currentTime()) > viewModel.maximumDesyncTime {
-			playerView.seek(toSeconds: playtime, allowSeekAhead: true)
+            DispatchQueue.main.async {
+                self.playerView.seek(toSeconds: playtime, allowSeekAhead: true)
+            }
 		}
 	}
 	
@@ -378,37 +407,39 @@ extension StreamViewController: StreamViewModelDelegate {
 
 extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var messageCell: ChatMessageTableViewCell?
-        var eventCell: ChatEventTableViewCell?
         
-        messageCell = tableView.dequeueReusableCell(withIdentifier: "chatMessage") as? ChatMessageTableViewCell
-        eventCell = tableView.dequeueReusableCell(withIdentifier: "chatEvent") as? ChatEventTableViewCell
+        let messageCell = tableView.dequeueReusableCell(withIdentifier: "chatMessage") as? ChatMessageTableViewCell
+        let eventCell = tableView.dequeueReusableCell(withIdentifier: "chatEvent") as? ChatEventTableViewCell
         
 		let message = viewModel.messages[indexPath.row]
 		
 		FacebookDataManager.sharedInstance.fetchInfoForUser(withID: message.subjectID) { error, user in
 			if let message = message as? ChatMessage {
-                eventCell = nil
-				messageCell?.messageLabel.text = message.content
-                messageCell?.nameLabel.text = user?.name
+                DispatchQueue.main.async {
+                    messageCell?.messageLabel.text = message.content
+                    messageCell?.nameLabel.text = user?.name
+                }
 			}
 			else if let message = message as? ParticipantMessage {
-                messageCell = nil
-				eventCell?.messageLabel.text = message.isJoining ? " joined the stream." : " left the stream."
-                eventCell?.nameLabel.text = user?.name
+                DispatchQueue.main.async {
+                    eventCell?.messageLabel.text = message.isJoining ? " joined the stream." : " left the stream."
+                    eventCell?.nameLabel.text = user?.name
+                }
 			}
 			user?.fetchProfileImage { error, image in
-                messageCell?.profileImageView.image = image
-				eventCell?.profileImageView.image = image
+                DispatchQueue.main.async {
+                    messageCell?.profileImageView.image = image
+                    eventCell?.profileImageView.image = image
+                }
 			}
 		}
         
         //return messageCell ?? eventCell ?? UITableViewCell()
-        if let messageTableViewCell = messageCell {
-            return messageTableViewCell
+        if message is ChatMessage, let messageCell = messageCell {
+            return messageCell
         }
-        else if let eventTableViewCell = eventCell {
-            return eventTableViewCell
+        else if message is ParticipantMessage, let eventCell = eventCell {
+            return eventCell
         }
         else {
             return UITableViewCell()
@@ -482,20 +513,21 @@ extension StreamViewController: YTPlayerViewDelegate {
     func playerView(_ playerView: YTPlayerView, didChangeTo state: YTPlayerState) {
         switch (state) {
         case .paused:
-            self.playPauseButton.setTitle("▶️", for: .normal)
-            self.isPlaying = false
+            playPauseButton.setTitle("▶️", for: .normal)
+            isPlaying = false
 			if viewModel.isHost {
 				viewModel.send(playState: false)
 			}
             break
         case .buffering:
 			if viewModel.isHost, let url = playerView.videoUrl(), let id = getVideoID(from: url) {
+                updateView(forVideoWithID: id)
 				viewModel.send(currentVideoID: id)
 				viewModel.send(isBuffering: true)
 			}
         case .playing:
-            self.playPauseButton.setTitle("⏸", for: .normal)
-            self.isPlaying = true
+            playPauseButton.setTitle("⏸", for: .normal)
+            isPlaying = true
 			if viewModel.isHost {
 				viewModel.send(isBuffering: false)
 				viewModel.send(playState: true)
