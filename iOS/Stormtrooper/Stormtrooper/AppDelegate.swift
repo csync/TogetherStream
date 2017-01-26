@@ -148,6 +148,9 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
             streamVC.stream = stream
             streamVC.navigationItem.title = stream.name
             DispatchQueue.main.async {
+                // view controller was popped if hosting, so we need to reload it
+                guard let rootViewController = self.window?.rootViewController else { return }
+                let viewController = rootViewController.mostActiveViewController
                 viewController.navigationController?.pushViewController(streamVC, animated: true)
             }
         }
