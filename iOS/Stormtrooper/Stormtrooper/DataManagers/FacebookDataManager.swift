@@ -60,7 +60,7 @@ class FacebookDataManager {
 		}
         let userInfoQueue = fetchOrCreateQueue(identifier: "user.\(id)")
         let queueStatus = userInfoQueue.addCallbackAndCheckQueueStatus(callback: callback)
-        if queueStatus.queueIsCleared {
+        if queueStatus.alreadySucceeded {
             if let user = userCache[id] {
                 callback(nil, user)
             }

@@ -42,7 +42,7 @@ class User {
             return
 		}
         let queueStatus = imageCallbackQueue.addCallbackAndCheckQueueStatus(callback: callback)
-        if queueStatus.queueIsCleared {
+        if queueStatus.alreadySucceeded {
             if let profileImage = profileImage {
                 callback(nil, profileImage)
             }

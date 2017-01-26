@@ -10,32 +10,36 @@ class ThreadSafeCallbackQueue<T> {
     
     private var checkingQueue: DispatchQueue
     private var callbacks: [(Error?, T?) -> Void] = []
-    private var queueIsCleared = false
+    private var alreadySucceeded = false
     
     init(identifier: String) {
         checkingQueue = DispatchQueue(label: identifier)
     }
     
-    func addCallbackAndCheckQueueStatus(callback: @escaping (Error?, T?) -> Void) -> (didAddFirst: Bool, queueIsCleared: Bool) {
+    func addCallbackAndCheckQueueStatus(callback: @escaping (Error?, T?) -> Void) -> (didAddFirst: Bool, alreadySucceeded: Bool) {
         var didAddFirst = false
-        var queueIsCleared = false
+        var alreadySucceeded = false
         checkingQueue.sync {
-            queueIsCleared = self.queueIsCleared
-            didAddFirst = !queueIsCleared && callbacks.isEmpty
-            if !queueIsCleared {
+            alreadySucceeded = self.alreadySucceeded
+            didAddFirst = !alreadySucceeded && callbacks.isEmpty
+            if !alreadySucceeded {
                 callbacks.append(callback)
             }
         }
-        return (didAddFirst, queueIsCleared)
+        return (didAddFirst, alreadySucceeded)
     }
     
     func executeAndClearCallbacks(withError error: Error?, object: T?) {
+        var savedCallbacks: [(Error?, T?) -> Void] = []
         checkingQueue.sync {
-            queueIsCleared = true
+            if error == nil {
+                alreadySucceeded = true
+            }
+            savedCallbacks = callbacks
+            callbacks.removeAll()
         }
-        for callback in callbacks {
+        for callback in savedCallbacks {
             callback(error, object)
         }
-        callbacks.removeAll()
     }
 }
