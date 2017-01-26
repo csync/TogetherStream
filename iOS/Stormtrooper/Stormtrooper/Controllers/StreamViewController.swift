@@ -373,9 +373,9 @@ extension StreamViewController: StreamViewModelDelegate {
         
         // present popup with default user profile picture
 		let popup = PopupViewController.instantiate(
-            titleText: (stream?.name ?? "Stream Title").uppercased(),
+            titleText: (stream?.name ?? "").uppercased(),
             image: #imageLiteral(resourceName: "stormtrooper_helmet"),
-            messageText: (stream?.name ?? "Stream Title").uppercased(),
+            messageText: (stream?.name ?? "").uppercased(),
             descriptionText: "This stream has ended.",
             primaryButtonText: "OKAY",
             secondaryButtonText: "Dismiss",
