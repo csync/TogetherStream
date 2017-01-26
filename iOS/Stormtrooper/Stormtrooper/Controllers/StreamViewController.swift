@@ -343,8 +343,10 @@ extension StreamViewController: StreamViewModelDelegate {
 	}
 	
 	func recieved(message: Message, for position: Int) {
-		chatTableView.insertRows(at: [IndexPath(row: position, section: 0)], with: .automatic)
-        chatTableView.scrollTableViewToBottom(animated: false)
+            self.chatTableView.beginUpdates()
+            self.chatTableView.insertRows(at: [IndexPath(row: position, section: 0)], with: .automatic)
+            self.chatTableView.scrollTableViewToBottom(animated: false)
+            self.chatTableView.endUpdates()
 	}
 	
 	func recievedUpdate(forCurrentVideoID currentVideoID: String) {
@@ -367,22 +369,30 @@ extension StreamViewController: StreamViewModelDelegate {
 	
 	func recievedUpdate(forIsPlaying isPlaying: Bool) {
 		if isPlaying && playerView.playerState() != .playing {
-			playerView.playVideo()
+            DispatchQueue.main.async {
+                self.playerView.playVideo()
+            }
 		}
 		else if !isPlaying && playerView.playerState() != .paused {
-			playerView.pauseVideo()
+            DispatchQueue.main.async {
+                self.playerView.pauseVideo()
+            }
 		}
 	}
 	
 	func recievedUpdate(forIsBuffering isBuffering: Bool) {
 		if isBuffering && playerView.playerState() == .playing {
-			playerView.pauseVideo()
+            DispatchQueue.main.async {
+                self.playerView.pauseVideo()
+            }
 		}
 	}
 	
 	func recievedUpdate(forPlaytime playtime: Float) {
 		if abs(playtime - playerView.currentTime()) > viewModel.maximumDesyncTime {
-			playerView.seek(toSeconds: playtime, allowSeekAhead: true)
+            DispatchQueue.main.async {
+                self.playerView.seek(toSeconds: playtime, allowSeekAhead: true)
+            }
 		}
 	}
 	
@@ -395,37 +405,39 @@ extension StreamViewController: StreamViewModelDelegate {
 
 extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var messageCell: ChatMessageTableViewCell?
-        var eventCell: ChatEventTableViewCell?
         
-        messageCell = tableView.dequeueReusableCell(withIdentifier: "chatMessage") as? ChatMessageTableViewCell
-        eventCell = tableView.dequeueReusableCell(withIdentifier: "chatEvent") as? ChatEventTableViewCell
+        let messageCell = tableView.dequeueReusableCell(withIdentifier: "chatMessage") as? ChatMessageTableViewCell
+        let eventCell = tableView.dequeueReusableCell(withIdentifier: "chatEvent") as? ChatEventTableViewCell
         
 		let message = viewModel.messages[indexPath.row]
 		
 		FacebookDataManager.sharedInstance.fetchInfoForUser(withID: message.subjectID) { error, user in
 			if let message = message as? ChatMessage {
-                eventCell = nil
-				messageCell?.messageLabel.text = message.content
-                messageCell?.nameLabel.text = user?.name
+                DispatchQueue.main.async {
+                    messageCell?.messageLabel.text = message.content
+                    messageCell?.nameLabel.text = user?.name
+                }
 			}
 			else if let message = message as? ParticipantMessage {
-                messageCell = nil
-				eventCell?.messageLabel.text = message.isJoining ? " joined the stream." : " left the stream."
-                eventCell?.nameLabel.text = user?.name
+                DispatchQueue.main.async {
+                    eventCell?.messageLabel.text = message.isJoining ? " joined the stream." : " left the stream."
+                    eventCell?.nameLabel.text = user?.name
+                }
 			}
 			user?.fetchProfileImage { error, image in
-                messageCell?.profileImageView.image = image
-				eventCell?.profileImageView.image = image
+                DispatchQueue.main.async {
+                    messageCell?.profileImageView.image = image
+                    eventCell?.profileImageView.image = image
+                }
 			}
 		}
         
         //return messageCell ?? eventCell ?? UITableViewCell()
-        if let messageTableViewCell = messageCell {
-            return messageTableViewCell
+        if message is ChatMessage, let messageCell = messageCell {
+            return messageCell
         }
-        else if let eventTableViewCell = eventCell {
-            return eventTableViewCell
+        else if message is ParticipantMessage, let eventCell = eventCell {
+            return eventCell
         }
         else {
             return UITableViewCell()
