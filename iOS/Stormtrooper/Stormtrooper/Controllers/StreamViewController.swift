@@ -378,7 +378,6 @@ extension StreamViewController: StreamViewModelDelegate {
             messageText: (stream?.name ?? "").uppercased(),
             descriptionText: "This stream has ended.",
             primaryButtonText: "OKAY",
-            secondaryButtonText: "",
             completion: { _ = self.navigationController?.popViewController(animated: true) }
         )
         present(popup, animated: true)
