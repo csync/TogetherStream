@@ -15,6 +15,7 @@ struct Video {
 	let mediumThumbnailURL: URL
     let defaultThumbnailURL: URL
 	let channelTitle: String
+    let viewCount: String?
 	
 	init?(listVideoData: [String: Any]) {
 		// Check to make sure the video can be played in app
@@ -23,13 +24,15 @@ struct Video {
 		}
 		let snippetInfo = listVideoData["snippet"] as? [String: Any]
         let thumbnailsInfo = snippetInfo?["thumbnails"] as? [String: [String : Any]]
+        let statisticsInfo = listVideoData["statistics"] as? [String: String]
         guard let id = listVideoData["id"] as? String,
             let title = (snippetInfo?["localized"] as? [String: String])?["title"],
             let mediumThumbnailURLString = thumbnailsInfo?["medium"]?["url"] as? String,
             let defaultThumbnailURLString = thumbnailsInfo?["default"]?["url"] as? String,
             let channelTitle = snippetInfo?["channelTitle"] as? String,
             let mediumThumbnailURL = URL(string: mediumThumbnailURLString),
-            let defaultThumbnailURL = URL(string: defaultThumbnailURLString) else {
+            let defaultThumbnailURL = URL(string: defaultThumbnailURLString),
+            let viewCount = statisticsInfo?["viewCount"] else {
 			return nil
 		}
 		
@@ -38,6 +41,7 @@ struct Video {
 		self.mediumThumbnailURL = mediumThumbnailURL
         self.defaultThumbnailURL = defaultThumbnailURL
 		self.channelTitle = channelTitle
+        self.viewCount = viewCount
 	}
 	
 	init?(searchResultData: [String: Any]) {
@@ -58,6 +62,7 @@ struct Video {
 		self.mediumThumbnailURL = mediumThumbnailURL
         self.defaultThumbnailURL = defaultThumbnailURL
 		self.channelTitle = channelTitle
+        self.viewCount = nil
 	}
 }
 
