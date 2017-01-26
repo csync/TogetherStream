@@ -13,9 +13,10 @@ import Foundation
 class InviteStreamViewModel {
     private let accountDataManager = AccountDataManager.sharedInstance
     private let facebookDataManager = FacebookDataManager.sharedInstance
+    private(set) var facebookFriends:[User] = []
+
     let numberOfStaticCellsBeforeFriends = 3
 
-    var facebookFriends:[User] = []
     var selectedFriends: [String: User] = [:]
 
     func fetchFriends(callback: @escaping (Error?) -> Void) {
