@@ -15,7 +15,7 @@ class PopupViewController: UIViewController {
     @IBOutlet weak private var messageLabel: UILabel!
     @IBOutlet weak private var descriptionLabel: UILabel!
     @IBOutlet weak private var primaryButton: UIButton!
-    @IBOutlet weak private var secondaryButton: UIButton!
+    @IBOutlet weak private var secondaryButton: UIButton?
     
     var titleText: String? {
         get { return titleLabel.text }
@@ -43,8 +43,8 @@ class PopupViewController: UIViewController {
     }
     
     var secondaryButtonText: String? {
-        get { return secondaryButton.titleLabel?.text }
-        set { secondaryButton.setTitle(newValue, for: .normal) }
+        get { return secondaryButton?.titleLabel?.text }
+        set { secondaryButton?.setTitle(newValue, for: .normal) }
     }
     
     var completion: () -> Void = { }
