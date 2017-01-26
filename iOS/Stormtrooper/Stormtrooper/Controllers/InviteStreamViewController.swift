@@ -232,7 +232,21 @@ extension InviteStreamViewController: UITableViewDelegate, UITableViewDataSource
             guard let friendCell = tableView.dequeueReusableCell(withIdentifier: "friendCell") as? FriendTableViewCell else {
                 return UITableViewCell()
             }
-            viewModel.populateFriendCell(friendCell: friendCell, index: indexPath.item - viewModel.numberOfStaticCellsBeforeFriends)
+
+            let index = indexPath.item - viewModel.numberOfStaticCellsBeforeFriends
+
+            if index >= 0 && index < viewModel.facebookFriends.count {
+                let friendData = viewModel.facebookFriends[index]
+
+                friendCell.name.text = friendData.name
+                friendCell.associatedUser = friendData
+                friendCell.associatedUser?.fetchProfileImage { error, image in
+                    // Using main thread to set image properly
+                    DispatchQueue.main.async {
+                        friendCell.profilePicture.image = image
+                    }
+                }
+            }
 
             friendCell.selectionStyle = .none
             return friendCell
