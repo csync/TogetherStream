@@ -34,7 +34,7 @@ class CSyncDataManager {
 	
 	func deleteKey(atPath path: String) {
 		let key = app.key(path)
-		key.delete()
+        key.delete()
 	}
 	
 	func createKey(atPath path: String) -> Key {

@@ -33,6 +33,9 @@ class ChatDataManager {
 			if let error = error {
 				print(error)
 			}
+            if value?.exists == false {
+                return
+            }
 			if let content = value?.data, let message = ChatMessage(content: content) {
 				self?.didRecieveMessage?(message)
 			}
