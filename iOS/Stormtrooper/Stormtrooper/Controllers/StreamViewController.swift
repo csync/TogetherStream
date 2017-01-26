@@ -69,7 +69,7 @@ class StreamViewController: UIViewController {
 	override func viewWillDisappear(_ animated: Bool) {
 		super.viewWillDisappear(animated)
 		
-		if self.isBeingDismissed {
+		if isBeingDismissed {
 			NotificationCenter.default.removeObserver(self)
 		}
 	}
@@ -78,6 +78,7 @@ class StreamViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
 
     private func setupViewForHostOrParticipant() { //TODO: player setup (don't allow participant to pause, etc)
         if viewModel.isHost { //host-- can view queue, can end stream, can invite people
@@ -98,8 +99,8 @@ class StreamViewController: UIViewController {
             profileButton.addTarget(self, action: #selector(StreamViewController.profileTapped), for: .touchUpInside)
             let item2 = UIBarButtonItem(customView: profileButton)
             
-            self.navigationItem.setLeftBarButtonItems([item1], animated: false)
-            self.navigationItem.setRightBarButtonItems([item2], animated: false)
+            navigationItem.setLeftBarButtonItems([item1], animated: false)
+            navigationItem.setRightBarButtonItems([item2], animated: false)
         }
         else { //participant-- cannot view queue, can't end stream, can't invite people
             headerArrowImageView.isHidden = true
@@ -112,10 +113,10 @@ class StreamViewController: UIViewController {
             closeButton.addTarget(self, action: #selector(StreamViewController.closeTapped), for: .touchUpInside) //TODO: Change this to not end stream
             let item1 = UIBarButtonItem(customView: closeButton)
             
-            self.navigationItem.setLeftBarButtonItems([item1], animated: false)
+            navigationItem.setLeftBarButtonItems([item1], animated: false)
         }
         //set title
-        self.navigationItem.title = stream?.name
+        navigationItem.title = stream?.name
     }
     
     /// Adds a textfield view above keyboard when user starts typing in chat
@@ -163,11 +164,11 @@ class StreamViewController: UIViewController {
     }
     
     private func setupPlayerView() {
-        self.playerView.delegate = self
+        playerView.delegate = self
         //self.playerView.loadPlaylist(byVideos: ["4NFDhxhWyIw", "RTDuUiVSCo4"], index: 0, startSeconds: 0, suggestedQuality: .auto)
 		if viewModel.isHost {
             updateView(forVideoWithID: "VGfn-NFMrXg")
-			self.playerView.load(withVideoId: "VGfn-NFMrXg", playerVars: [ //TODO: hide controls if participant
+			playerView.load(withVideoId: "VGfn-NFMrXg", playerVars: [ //TODO: hide controls if participant
 				"playsinline" : 1,
 				"modestbranding" : 1,
 				"showinfo" : 0,
@@ -204,36 +205,36 @@ class StreamViewController: UIViewController {
     
     func rotated() {
         if UIDeviceOrientationIsLandscape(UIDevice.current.orientation) {
-            self.playerView.frame = self.view.frame //make fullscreen if landscape
-            self.mediaControllerView.isHidden = true
+            playerView.frame = view.frame //make fullscreen if landscape
+            mediaControllerView.isHidden = true
             print("Landscape")
         }
         
         if UIDeviceOrientationIsPortrait(UIDevice.current.orientation) {
-            self.playerView.updateConstraintsIfNeeded()
-            self.mediaControllerView.isHidden = false
+            playerView.updateConstraintsIfNeeded()
+            mediaControllerView.isHidden = false
             print("Portrait")
         }
         
     }
     
     @IBAction func playTapped(_ sender: Any) {
-        if !self.isPlaying {
-           self.playerView.playVideo()
+        if !isPlaying {
+           playerView.playVideo()
         }
         else {
-            self.playerView.pauseVideo()
+            playerView.pauseVideo()
         }
         
     }
     
     
     @IBAction func nextTapped(_ sender: Any) {
-        self.playerView.nextVideo()
+        playerView.nextVideo()
     }
 
     @IBAction func backTapped(_ sender: Any) {
-        self.playerView.previousVideo()
+        playerView.previousVideo()
     }
     
     //header tapped, so show or hide queue if host
@@ -267,18 +268,18 @@ class StreamViewController: UIViewController {
         guard let profileVC = Utils.vcWithNameFromStoryboardWithName("inviteStream", storyboardName: "InviteStream") as? InviteStreamViewController else {
             return
         }
-        self.present(profileVC, animated: true, completion: nil)
+        present(profileVC, animated: true, completion: nil)
     }
 
     func closeTapped() {
-        let _ = self.navigationController?.popToRootViewController(animated: true)
+        let _ = navigationController?.popToRootViewController(animated: true)
     }
 
     @IBAction func addToStreamTapped(_ sender: Any) {
         guard let addVideosVC = Utils.vcWithNameFromStoryboardWithName("addVideos", storyboardName: "AddVideos") as? AddVideosViewController else {
             return
         }
-        self.present(addVideosVC, animated: true, completion: nil)
+        present(addVideosVC, animated: true, completion: nil)
     }
     
     
@@ -511,8 +512,8 @@ extension StreamViewController: YTPlayerViewDelegate {
     func playerView(_ playerView: YTPlayerView, didChangeTo state: YTPlayerState) {
         switch (state) {
         case .paused:
-            self.playPauseButton.setTitle("▶️", for: .normal)
-            self.isPlaying = false
+            playPauseButton.setTitle("▶️", for: .normal)
+            isPlaying = false
 			if viewModel.isHost {
 				viewModel.send(playState: false)
 			}
@@ -524,8 +525,8 @@ extension StreamViewController: YTPlayerViewDelegate {
 				viewModel.send(isBuffering: true)
 			}
         case .playing:
-            self.playPauseButton.setTitle("⏸", for: .normal)
-            self.isPlaying = true
+            playPauseButton.setTitle("⏸", for: .normal)
+            isPlaying = true
 			if viewModel.isHost {
 				viewModel.send(isBuffering: false)
 				viewModel.send(playState: true)
