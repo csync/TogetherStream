@@ -19,7 +19,14 @@ class InviteStreamViewModel {
     var selectedFriends: [String: User] = [:]
 
     func fetchFriends(callback: @escaping (Error?) -> Void) {
-        facebookFriends = FacebookDataManager.sharedInstance.cachedFriends
+        let friendIds = FacebookDataManager.sharedInstance.cachedFriendIds
+
+        facebookFriends = []
+        for id in friendIds {
+            if let user = facebookDataManager.userCache[id] {
+                self.facebookFriends.append(user)
+            }
+        }
         FacebookDataManager.sharedInstance.fetchFriends(callback:{ (error: Error?, friends: [User]?) -> Void in
             if friends != nil {
                 self.facebookFriends = friends!

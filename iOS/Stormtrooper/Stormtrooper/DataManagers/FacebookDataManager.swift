@@ -15,13 +15,13 @@ class FacebookDataManager {
 	var profile: FBSDKProfile? {
 		return FBSDKProfile.current() ?? nil
 	 }
-    var cachedFriends: [User] = []
+    var cachedFriendIds: [String] = []
+    var userCache: [String: User] = [:]
 	
 	private let urlSession = URLSession.shared
 	private let accountDataManager = AccountDataManager.sharedInstance
 	private let csyncDataManager = CSyncDataManager.sharedInstance
-	
-	private var userCache: [String: User] = [:]
+
 	
 	func setupLoginButton(_ button: FBSDKLoginButton) {
 		button.readPermissions = ["public_profile", "email", "user_friends"]
@@ -129,8 +129,9 @@ class FacebookDataManager {
 					self.innerFetchFriends(withAfterCursor: afterCursor, friends: friends, callback: callback)
 				}
                 else {
-                    self.cachedFriends = friends.sorted(by: {return $0.name < $1.name})
-					callback(nil, self.cachedFriends)
+                    let sortedFriends = friends.sorted(by: {return $0.name < $1.name})
+                    self.cachedFriendIds = sortedFriends.map({return $0.id})
+					callback(nil, sortedFriends)
 				}
 			}
 		}
