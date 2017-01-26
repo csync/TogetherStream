@@ -23,17 +23,19 @@ class StreamViewController: UIViewController {
     @IBOutlet weak var visualEffectView: UIVisualEffectView!
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var dismissView: UIView!
+    @IBOutlet weak var videoTitleLabel: UILabel!
+    @IBOutlet weak var videoSubtitleLabel: UILabel!
     
     //constraints
-    var originalHeaderViewHeightConstraint: CGFloat = 0
-    var estimatedChatCellHeight: CGFloat = 56
+    private var originalHeaderViewHeightConstraint: CGFloat = 0
+    fileprivate var estimatedChatCellHeight: CGFloat = 56
     
     //constants
-    let closeButtonFrame = CGRect(x: 0, y: 0, width: 17, height: 17)
-    let profileButtonFrame = CGRect(x: 0, y: 0, width: 19, height: 24)
-    let headerViewAnimationDuration: TimeInterval = 0.3
+    private let closeButtonFrame = CGRect(x: 0, y: 0, width: 17, height: 17)
+    private let profileButtonFrame = CGRect(x: 0, y: 0, width: 19, height: 24)
+    private let headerViewAnimationDuration: TimeInterval = 0.3
 	
-	var hostID: String?
+    var stream: Stream?
 	
 	// TODO: Remove or move to viewModel
     fileprivate var isPlaying = false
@@ -45,7 +47,7 @@ class StreamViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-		viewModel = StreamViewModel(hostID: hostID ?? "")
+        viewModel = StreamViewModel(stream: stream ?? Stream(name: "", csyncPath: "", description: "", hostFacebookID: ""))
         viewModel.delegate = self
 		
         setupChatTableView()
@@ -114,8 +116,7 @@ class StreamViewController: UIViewController {
             navigationItem.setLeftBarButtonItems([item1], animated: false)
         }
         //set title
-        //TODO: set title to be correct
-        navigationItem.title = "Beyonce All Day"
+        navigationItem.title = stream?.name
     }
     
     /// Adds a textfield view above keyboard when user starts typing in chat
@@ -166,6 +167,7 @@ class StreamViewController: UIViewController {
         playerView.delegate = self
         //self.playerView.loadPlaylist(byVideos: ["4NFDhxhWyIw", "RTDuUiVSCo4"], index: 0, startSeconds: 0, suggestedQuality: .auto)
 		if viewModel.isHost {
+            updateView(forVideoWithID: "VGfn-NFMrXg")
 			playerView.load(withVideoId: "VGfn-NFMrXg", playerVars: [ //TODO: hide controls if participant
 				"playsinline" : 1,
 				"modestbranding" : 1,
@@ -318,6 +320,21 @@ class StreamViewController: UIViewController {
 		}
 		return nil
 	}
+    
+    fileprivate func updateView(forVideoWithID id: String) {
+        viewModel.getVideo(withID: id) {[weak self] error, video in
+            if let video = video {
+                DispatchQueue.main.async {
+                    self?.videoTitleLabel.text = video.title
+                    var subtitle = video.channelTitle
+                    if let viewCount = video.viewCount {
+                        subtitle += " - \(viewCount) views"
+                    }
+                    self?.videoSubtitleLabel.text = subtitle
+                }
+            }
+        }
+    }
 
 }
 
@@ -337,6 +354,7 @@ extension StreamViewController: StreamViewModelDelegate {
 			playerID = getVideoID(from: playerURL)
 		}
 		if playerView.videoUrl() == nil || currentVideoID != playerID {
+            updateView(forVideoWithID: currentVideoID)
 			DispatchQueue.main.async { //TODO: hide controls if participant
 				self.playerView.load(withVideoId: currentVideoID, playerVars: [
 					"playsinline" : 1,
@@ -490,6 +508,7 @@ extension StreamViewController: YTPlayerViewDelegate {
             break
         case .buffering:
 			if viewModel.isHost, let url = playerView.videoUrl(), let id = getVideoID(from: url) {
+                updateView(forVideoWithID: id)
 				viewModel.send(currentVideoID: id)
 				viewModel.send(isBuffering: true)
 			}

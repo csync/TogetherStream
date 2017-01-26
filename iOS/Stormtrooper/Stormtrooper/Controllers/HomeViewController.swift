@@ -27,14 +27,8 @@ class HomeViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
         displayLoginIfNeeded()
-		viewModel.refreshStreams { error, streams in
-            DispatchQueue.main.async {
-                self.streamsTableView.reloadData()
-            }
-		}
-        
+        refreshStreams()
         UIView.setAnimationsEnabled(true)
     }
 	
@@ -95,8 +89,17 @@ class HomeViewController: UIViewController {
         }
     }
     
+    func refreshStreams(callback: ((Void) -> Void)? = nil) {
+        viewModel.refreshStreams { error, streams in
+            DispatchQueue.main.async {
+                self.streamsTableView.reloadData()
+                callback?()
+            }
+        }
+    }
+    
     @objc private func refresh(_ refreshControl: UIRefreshControl) {
-        viewModel.refreshStreams() { error, streams in
+        refreshStreams() {
             refreshControl.endRefreshing()
         }
     }
@@ -168,7 +171,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 			}
 		}
 		
-        FacebookDataManager.sharedInstance.fetchInfoForUser(withID: stream.facebookID) {error, user in
+        FacebookDataManager.sharedInstance.fetchInfoForUser(withID: stream.hostFacebookID) {error, user in
             DispatchQueue.main.async {
                 cell.hostNameLabel.text = user?.name
             }
@@ -199,7 +202,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         guard let streamVC = Utils.vcWithNameFromStoryboardWithName("stream", storyboardName: "Stream") as? StreamViewController else {
             return
         }
-        streamVC.hostID = stream.facebookID
+        streamVC.stream = stream
         streamVC.navigationItem.title = stream.name
         DispatchQueue.main.async {
             self.navigationController?.pushViewController(streamVC, animated: true)
