@@ -140,7 +140,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
             homeViewController.refreshStreams()
         }
         
-        // define completion handler to present the stream
+        // define callback to present the stream
         let presentStream = {
             guard let streamVC = Utils.vcWithNameFromStoryboardWithName("stream", storyboardName: "Stream") as? StreamViewController else {
                 return
@@ -152,7 +152,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
             }
         }
         
-        // present popup with default user profile picture and name
+        // define popup with default user profile picture and name
         let popup = PopupViewController.instantiate(
             titleText: "YOU'VE BEEN INVITED",
             image: #imageLiteral(resourceName: "stormtrooper_helmet"),
@@ -160,8 +160,10 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
             descriptionText: "",
             primaryButtonText: "JOIN STREAM",
             secondaryButtonText: "Dismiss",
-            completion: presentStream
+            completion: { self.presentConfirmation(viewController: viewController, callback: presentStream) }
         )
+        
+        // present popup
         viewController.present(popup, animated: true)
         
         // update popup with user profile picture and name from Facebook
@@ -169,6 +171,42 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
             guard error == nil else { return }
             if let user = user {
                 popup.descriptionText = "by \(user.name)"
+                user.fetchProfileImage { error, image in
+                    guard error == nil else { return }
+                    if let image = image {
+                        popup.image = image
+                    }
+                }
+            }
+        }
+    }
+    
+    // If hosting, then present a confirmation to end the stream.
+    // If not hosting, then execute the callback immediately.
+    private func presentConfirmation(viewController: UIViewController, callback: @escaping (Void) -> Void) {
+        guard let streamViewController = viewController as? StreamViewController,
+            let stream = streamViewController.stream,
+            streamViewController.viewModel.isHost
+        else {
+            callback()
+            return
+        }
+        
+        let popup = PopupViewController.instantiate(
+            titleText: "MY STREAM",
+            image: #imageLiteral(resourceName: "stormtrooper_helmet"),
+            messageText: stream.name,
+            descriptionText: "Would you like to end your stream?",
+            primaryButtonText: "END STREAM",
+            secondaryButtonText: "Cancel",
+            completion: { streamViewController.closeTapped(); callback() }
+        )
+        
+        streamViewController.present(popup, animated: true)
+        
+        FacebookDataManager.sharedInstance.fetchInfoForUser(withID: stream.hostFacebookID) { error, user in
+            guard error == nil else { return }
+            if let user = user {
                 user.fetchProfileImage { error, image in
                     guard error == nil else { return }
                     if let image = image {
