@@ -74,17 +74,19 @@ class StreamViewModel {
 			}
 		}
 		
+        let messageCallback: (Message) -> Void = {[unowned self] message in
+            // insert on main queue to avoid table datasource corruption
+            DispatchQueue.main.async {
+                let position = self.insertIntoMessages(message)
+                self.delegate?.recieved(message: message, for: position)
+            }
+        }
+        
 		chatDataManager = ChatDataManager(streamPath: stream.csyncPath, id: FacebookDataManager.sharedInstance.profile?.userID ?? "")
-		chatDataManager?.didRecieveMessage = {[unowned self] message in
-			let position = self.insertIntoMessages(message)
-			self.delegate?.recieved(message: message, for: position)
-		}
+		chatDataManager?.didRecieveMessage = messageCallback
 		
 		participantsDataManager = ParticipantsDataManager(streamPath: stream.csyncPath)
-		participantsDataManager?.didRecieveMessage = {[unowned self] message in
-			let position = self.insertIntoMessages(message)
-			self.delegate?.recieved(message: message, for: position)
-		}
+		participantsDataManager?.didRecieveMessage = messageCallback
 	}
 	
 	deinit {
@@ -130,7 +132,7 @@ class StreamViewModel {
 	
 	private func setupHost() {
 		// Reset stream
-		cSyncDataManager.deleteKey(atPath: stream.csyncPath)
+		cSyncDataManager.deleteKey(atPath: stream.csyncPath + ".*")
 		// Create node so others can listen to it
 		cSyncDataManager.write("", toKeyPath: stream.csyncPath)
 		// Creat heartbeat node so others can create in it

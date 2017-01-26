@@ -51,6 +51,9 @@ class HeartbeatDataManager {
 				print(error)
 			}
 			if let value = value {
+                if !value.exists {
+                    return
+                }
 				let userID = value.key.components(separatedBy: ".").last ?? ""
 				if value.exists == false {
 					self?.streamHeartbeats[userID] = nil
