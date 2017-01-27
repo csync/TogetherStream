@@ -12,14 +12,14 @@ import CSyncSDK
 class CSyncDataManager {
 	static let sharedInstance = CSyncDataManager()
 	
-	private let csyncURL = "csync-staging.mybluemix.net"
-	private let csyncPort = 80
+	private let csyncURL = "169.46.154.75"
+	private let csyncPort = 6005
 	private lazy var app: App = { [unowned self] in
 		return App(host: self.csyncURL, port: self.csyncPort, options: ["useSSL":"NO" as AnyObject, "dbInMemory":"YES" as AnyObject])
 	}()
 	
 	func authenticate(withID id: String) {
-		app.authenticate("pickles", token: "pickles_demo_token_bihsdbhiladfgbiewrpifwifabeuioaergnv(\(id))") {authData, error in
+		app.authenticate("demo", token: "demoToken(\(id))") {authData, error in
 		}
 	}
 	
