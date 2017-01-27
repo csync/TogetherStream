@@ -23,10 +23,12 @@ class StreamViewController: UIViewController {
     @IBOutlet weak var visualEffectView: UIVisualEffectView!
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var dismissView: UIView!
+    @IBOutlet weak var outerPlayerView: UIView!
     
     //constraints
     var originalHeaderViewHeightConstraint: CGFloat = 0
     var originalPlayerViewFrame: CGRect = CGRect.zero
+    var originalOuterPlayerViewConstraints: [NSLayoutConstraint] = []
     var estimatedChatCellHeight: CGFloat = 56
     
     //constants
@@ -91,7 +93,8 @@ class StreamViewController: UIViewController {
     }
     
     private func saveOriginalPlayerViewFrame() {
-        originalPlayerViewFrame = playerView.frame
+        originalPlayerViewFrame = outerPlayerView.frame
+        originalOuterPlayerViewConstraints = outerPlayerView.constraints
     }
     
 
@@ -227,30 +230,36 @@ class StreamViewController: UIViewController {
                 print("Landscape Left")
                 self.statusBarHidden = true
                 self.navigationController?.navigationBar.isHidden = true
+                self.outerPlayerView.removeConstraints(self.outerPlayerView.constraints)
                 rotationAngle = CGFloat(M_PI_2)
                 DispatchQueue.main.async {
-                    self.playerView.transform = CGAffineTransform(rotationAngle: rotationAngle)
+                    //self.outerPlayerView.translatesAutoresizingMaskIntoConstraints = false
+                    self.outerPlayerView.transform = CGAffineTransform(rotationAngle: rotationAngle)
                     self.setNeedsStatusBarAppearanceUpdate()
-                    self.playerView.frame = screenSize //make fullscreen if landscape
+                    self.outerPlayerView.frame = screenSize //make fullscreen if landscape
                 }
             case .landscapeRight:
                 print("Landscape Right")
                 self.statusBarHidden = true
+                self.outerPlayerView.removeConstraints(self.outerPlayerView.constraints)
                 self.navigationController?.navigationBar.isHidden = true
                 rotationAngle = CGFloat(-M_PI_2)
                 DispatchQueue.main.async {
-                    self.playerView.transform = CGAffineTransform(rotationAngle: rotationAngle)
+                    //self.outerPlayerView.translatesAutoresizingMaskIntoConstraints = false
+                    self.outerPlayerView.transform = CGAffineTransform(rotationAngle: rotationAngle)
                     self.setNeedsStatusBarAppearanceUpdate()
-                    self.playerView.frame = screenSize //make fullscreen if landscape
+                    self.outerPlayerView.frame = screenSize //make fullscreen if landscape
                 }
             case .portrait:
                 print("Portrait")
                 self.statusBarHidden = false
+                self.outerPlayerView.addConstraints(originalOuterPlayerViewConstraints)
                 self.navigationController?.navigationBar.isHidden = false
                 DispatchQueue.main.async {
-                    self.playerView.transform = CGAffineTransform.identity
+                    //self.outerPlayerView.translatesAutoresizingMaskIntoConstraints = true
+                    self.outerPlayerView.transform = CGAffineTransform.identity
                     self.setNeedsStatusBarAppearanceUpdate()
-                    self.playerView.frame = self.originalPlayerViewFrame //reset playerview if portrait
+                    self.outerPlayerView.frame = self.originalPlayerViewFrame //reset playerview if portrait
                     self.view.updateConstraintsIfNeeded()
                     self.view.layoutIfNeeded()
                 }

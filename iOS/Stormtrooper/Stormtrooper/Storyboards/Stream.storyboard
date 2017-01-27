@@ -28,7 +28,7 @@
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                    <view key="view" autoresizesSubviews="NO" contentMode="redraw" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -330,9 +330,9 @@
                             <constraint firstItem="1FR-Ex-Q2W" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="Yor-Uj-RHt"/>
                             <constraint firstItem="u6G-sD-SZi" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="aud-6g-LI7"/>
                             <constraint firstItem="q4i-Y2-lar" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="b8Z-gM-Mas"/>
+                            <constraint firstItem="1FR-Ex-Q2W" firstAttribute="top" secondItem="EzR-Jl-0IJ" secondAttribute="bottom" id="gQT-Ij-XLH"/>
                             <constraint firstItem="vau-1r-TMR" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="gYj-bF-bvP"/>
                             <constraint firstItem="u6G-sD-SZi" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="jOW-AN-pKI"/>
-                            <constraint firstItem="1FR-Ex-Q2W" firstAttribute="top" secondItem="lt2-Nk-1YZ" secondAttribute="bottom" id="kXC-9C-FCT"/>
                             <constraint firstItem="1FR-Ex-Q2W" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="q9o-SQ-wXE"/>
                             <constraint firstItem="u6G-sD-SZi" firstAttribute="top" secondItem="EzR-Jl-0IJ" secondAttribute="bottom" constant="87" id="qye-ej-tj7"/>
                             <constraint firstItem="Mpa-Nr-Aea" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="r4W-Bc-cbV"/>
@@ -350,6 +350,7 @@
                         <outlet property="headerViewButton" destination="uEy-me-ihE" id="FEP-NB-V5i"/>
                         <outlet property="headerViewHeightConstraint" destination="8RW-43-RGV" id="nyp-x5-3Yz"/>
                         <outlet property="mediaControllerView" destination="g4f-7A-fEP" id="iBP-6P-a37"/>
+                        <outlet property="outerPlayerView" destination="EzR-Jl-0IJ" id="IVU-JE-j9K"/>
                         <outlet property="playPauseButton" destination="fKU-Jj-50I" id="1Vn-VJ-7fW"/>
                         <outlet property="playerView" destination="lt2-Nk-1YZ" id="lxf-Lz-SRg"/>
                         <outlet property="profileImageView" destination="A15-q2-X7f" id="rJC-er-b3v"/>
