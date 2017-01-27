@@ -101,7 +101,7 @@ class AddVideosViewController: UIViewController {
             }
             inviteVC.stream = stream
             inviteVC.navigationItem.title = "Invite to Stream"
-            inviteVC.showSkipButton = true
+            inviteVC.isCreatingStream = true
             self.navigationController?.pushViewController(inviteVC, animated: true)
 
         }

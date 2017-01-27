@@ -76,6 +76,7 @@
 		4A240FBD1E2D8CF600DCD418 /* FriendTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A240FBB1E2D8CF600DCD418 /* FriendTableViewCell.xib */; };
 		4A240FC01E2EC57600DCD418 /* InviteFriendsHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A240FBE1E2EC57600DCD418 /* InviteFriendsHeaderTableViewCell.swift */; };
 		4A240FC11E2EC57600DCD418 /* InviteFriendsHeaderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A240FBF1E2EC57600DCD418 /* InviteFriendsHeaderTableViewCell.xib */; };
+		4ABA7DD21E3948B80059CA1F /* InviteStreamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABA7DD11E3948B80059CA1F /* InviteStreamViewModel.swift */; };
 		4AD6F7BC1E2D3755006104CF /* TextEmailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD6F7BA1E2D3755006104CF /* TextEmailTableViewCell.swift */; };
 		4AD6F7BD1E2D3755006104CF /* TextEmailTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4AD6F7BB1E2D3755006104CF /* TextEmailTableViewCell.xib */; };
 		689A111E1E2FF35200B87DEF /* Popup.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 689A111D1E2FF35200B87DEF /* Popup.storyboard */; };
@@ -212,6 +213,7 @@
 		4A240FBB1E2D8CF600DCD418 /* FriendTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FriendTableViewCell.xib; sourceTree = "<group>"; };
 		4A240FBE1E2EC57600DCD418 /* InviteFriendsHeaderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InviteFriendsHeaderTableViewCell.swift; sourceTree = "<group>"; };
 		4A240FBF1E2EC57600DCD418 /* InviteFriendsHeaderTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InviteFriendsHeaderTableViewCell.xib; sourceTree = "<group>"; };
+		4ABA7DD11E3948B80059CA1F /* InviteStreamViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InviteStreamViewModel.swift; sourceTree = "<group>"; };
 		4AD6F7BA1E2D3755006104CF /* TextEmailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextEmailTableViewCell.swift; sourceTree = "<group>"; };
 		4AD6F7BB1E2D3755006104CF /* TextEmailTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextEmailTableViewCell.xib; sourceTree = "<group>"; };
 		689A111D1E2FF35200B87DEF /* Popup.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Popup.storyboard; sourceTree = "<group>"; };
@@ -534,6 +536,7 @@
 				A25D96231E0B16BA008FD996 /* StreamViewModel.swift */,
 				A25D962B1E1D965A008FD996 /* HomeViewModel.swift */,
 				A2D44DAD1E25739300053099 /* AddVideosViewModel.swift */,
+				4ABA7DD11E3948B80059CA1F /* InviteStreamViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -792,6 +795,7 @@
 				3419A1FC1DF883AF00A11D53 /* MainNavigationController.swift in Sources */,
 				A2D44DCC1E36AE2700053099 /* NextBannerView.swift in Sources */,
 				689A11201E2FFF3900B87DEF /* PopupViewController.swift in Sources */,
+				4ABA7DD21E3948B80059CA1F /* InviteStreamViewModel.swift in Sources */,
 				3419A1FA1DF8839100A11D53 /* InviteStreamViewController.swift in Sources */,
 				A2D44DB01E25754C00053099 /* Video.swift in Sources */,
 				A23377A91E01DDD500E43DA0 /* HeartbeatDataManager.swift in Sources */,

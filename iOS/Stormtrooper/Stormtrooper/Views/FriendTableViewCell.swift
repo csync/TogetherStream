@@ -16,6 +16,7 @@ class FriendTableViewCell: UITableViewCell {
     let unselectedImageSource = "addFriends.png"
     let selectedImageSource   = "addedContent.png"
     var friendIsSelected = false
+    var associatedUser:User?
 
     override func awakeFromNib() {
         super.awakeFromNib()
