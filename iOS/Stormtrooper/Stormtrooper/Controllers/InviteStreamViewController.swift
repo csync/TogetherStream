@@ -17,7 +17,7 @@ class InviteStreamViewController: UIViewController {
     let defaultCellHeight = CGFloat(64.0)
     let headerCellHeight = CGFloat(47.0)
 
-	var streamName: String?
+	var stream: Stream?
     var isCreatingStream = false
     var showSkipButton = false
 
@@ -82,8 +82,8 @@ class InviteStreamViewController: UIViewController {
             guard let streamVC = Utils.vcWithNameFromStoryboardWithName("stream", storyboardName: "Stream") as? StreamViewController else {
                 return
             }
-			streamVC.hostID = FacebookDataManager.sharedInstance.profile?.userID
-            streamVC.navigationItem.title = streamName ?? "My Stream"
+			streamVC.stream = stream
+            streamVC.navigationItem.title = stream?.name ?? ""
             streamVC.navigationItem.hidesBackButton = true
             self.navigationController?.pushViewController(streamVC, animated: true)
         }

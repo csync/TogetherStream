@@ -23,23 +23,29 @@ class StreamViewController: UIViewController {
     @IBOutlet weak var visualEffectView: UIVisualEffectView!
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var dismissView: UIView!
+<<<<<<< HEAD
     @IBOutlet weak var outerPlayerView: UIView!
-    @IBOutlet weak var videoTitleLabel: UILabel!
-    @IBOutlet weak var videoSubtitleLabel: UILabel!
     
     //constraints
     var originalHeaderViewHeightConstraint: CGFloat = 0
     var originalPlayerViewFrame: CGRect = CGRect.zero
     var originalOuterPlayerViewConstraints: [NSLayoutConstraint] = []
     var estimatedChatCellHeight: CGFloat = 56
+=======
+    @IBOutlet weak var videoTitleLabel: UILabel!
+    @IBOutlet weak var videoSubtitleLabel: UILabel!
+    
+    //constraints
+    private var originalHeaderViewHeightConstraint: CGFloat = 0
+    fileprivate var estimatedChatCellHeight: CGFloat = 56
+>>>>>>> develop
     
     //constants
     private let closeButtonFrame = CGRect(x: 0, y: 0, width: 17, height: 17)
     private let profileButtonFrame = CGRect(x: 0, y: 0, width: 19, height: 24)
     private let headerViewAnimationDuration: TimeInterval = 0.3
 	
-    var stream: Stream?
-	
+<<<<<<< HEAD
 	var hostID: String?
     
     var statusBarHidden: Bool = false
@@ -52,6 +58,10 @@ class StreamViewController: UIViewController {
         return .slide
     }
     
+=======
+    var stream: Stream?
+	
+>>>>>>> develop
 	// TODO: Remove or move to viewModel
     fileprivate var isPlaying = false
 	
@@ -96,11 +106,14 @@ class StreamViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+<<<<<<< HEAD
     private func saveOriginalPlayerViewFrame() {
         originalPlayerViewFrame = outerPlayerView.frame
         originalOuterPlayerViewConstraints = outerPlayerView.constraints
     }
     
+=======
+>>>>>>> develop
 
     private func setupViewForHostOrParticipant() { //TODO: player setup (don't allow participant to pause, etc)
         if viewModel.isHost { //host-- can view queue, can end stream, can invite people
@@ -186,8 +199,12 @@ class StreamViewController: UIViewController {
     }
     
     private func setupPlayerView() {
+<<<<<<< HEAD
         self.playerView.backgroundColor = UIColor.white
         self.playerView.delegate = self
+=======
+        playerView.delegate = self
+>>>>>>> develop
         //self.playerView.loadPlaylist(byVideos: ["4NFDhxhWyIw", "RTDuUiVSCo4"], index: 0, startSeconds: 0, suggestedQuality: .auto)
 		if viewModel.isHost {
             updateView(forVideoWithID: "VGfn-NFMrXg")
@@ -227,6 +244,51 @@ class StreamViewController: UIViewController {
     }
     
     func rotated() {
+<<<<<<< HEAD
+        let screenSize = UIScreen.main.bounds
+            var rotationAngle: CGFloat = 0
+            switch UIDevice.current.orientation {
+            case .landscapeLeft:
+                print("Landscape Left")
+                self.statusBarHidden = true
+                self.navigationController?.navigationBar.isHidden = true
+                self.outerPlayerView.removeConstraints(self.outerPlayerView.constraints)
+                rotationAngle = CGFloat(M_PI_2)
+                DispatchQueue.main.async {
+                    //self.outerPlayerView.translatesAutoresizingMaskIntoConstraints = false
+                    self.outerPlayerView.transform = CGAffineTransform(rotationAngle: rotationAngle)
+                    self.setNeedsStatusBarAppearanceUpdate()
+                    self.outerPlayerView.frame = screenSize //make fullscreen if landscape
+                }
+            case .landscapeRight:
+                print("Landscape Right")
+                self.statusBarHidden = true
+                self.outerPlayerView.removeConstraints(self.outerPlayerView.constraints)
+                self.navigationController?.navigationBar.isHidden = true
+                rotationAngle = CGFloat(-M_PI_2)
+                DispatchQueue.main.async {
+                    //self.outerPlayerView.translatesAutoresizingMaskIntoConstraints = false
+                    self.outerPlayerView.transform = CGAffineTransform(rotationAngle: rotationAngle)
+                    self.setNeedsStatusBarAppearanceUpdate()
+                    self.outerPlayerView.frame = screenSize //make fullscreen if landscape
+                }
+            case .portrait:
+                print("Portrait")
+                self.statusBarHidden = false
+                self.outerPlayerView.addConstraints(originalOuterPlayerViewConstraints)
+                self.navigationController?.navigationBar.isHidden = false
+                DispatchQueue.main.async {
+                    //self.outerPlayerView.translatesAutoresizingMaskIntoConstraints = true
+                    self.outerPlayerView.transform = CGAffineTransform.identity
+                    self.setNeedsStatusBarAppearanceUpdate()
+                    self.outerPlayerView.frame = self.originalPlayerViewFrame //reset playerview if portrait
+                    self.view.updateConstraintsIfNeeded()
+                    self.view.layoutIfNeeded()
+                }
+            default:
+                break
+            }
+=======
         if UIDeviceOrientationIsLandscape(UIDevice.current.orientation) {
             playerView.frame = view.frame //make fullscreen if landscape
             mediaControllerView.isHidden = true
@@ -238,6 +300,7 @@ class StreamViewController: UIViewController {
             mediaControllerView.isHidden = false
             print("Portrait")
         }
+>>>>>>> develop
         
     }
     
@@ -367,10 +430,15 @@ extension StreamViewController: StreamViewModelDelegate {
 	}
 	
 	func recieved(message: Message, for position: Int) {
+<<<<<<< HEAD
+		chatTableView.insertRows(at: [IndexPath(row: position, section: 0)], with: .none)
+        chatTableView.scrollTableViewToBottom(animated: false)
+=======
             self.chatTableView.beginUpdates()
             self.chatTableView.insertRows(at: [IndexPath(row: position, section: 0)], with: .automatic)
             self.chatTableView.scrollTableViewToBottom(animated: false)
             self.chatTableView.endUpdates()
+>>>>>>> develop
 	}
 	
 	func recievedUpdate(forCurrentVideoID currentVideoID: String) {

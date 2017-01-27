@@ -135,7 +135,27 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         guard let rootViewController = window?.rootViewController else { return }
         let viewController = rootViewController.mostActiveViewController
         
-        // present popup with default user information
+        // refresh the stream list, if necessary
+        if let homeViewController = viewController as? HomeViewController {
+            homeViewController.refreshStreams()
+        }
+        
+        // define callback to present the stream
+        let presentStream = {
+            guard let streamVC = Utils.vcWithNameFromStoryboardWithName("stream", storyboardName: "Stream") as? StreamViewController else {
+                return
+            }
+            streamVC.stream = stream
+            streamVC.navigationItem.title = stream.name
+            DispatchQueue.main.async {
+                // view controller was popped if hosting, so we need to reload it
+                guard let rootViewController = self.window?.rootViewController else { return }
+                let viewController = rootViewController.mostActiveViewController
+                viewController.navigationController?.pushViewController(streamVC, animated: true)
+            }
+        }
+        
+        // define popup with default user profile picture and name
         let popup = PopupViewController.instantiate(
             titleText: "YOU'VE BEEN INVITED",
             image: #imageLiteral(resourceName: "stormtrooper_helmet"),
@@ -143,15 +163,53 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
             descriptionText: "",
             primaryButtonText: "JOIN STREAM",
             secondaryButtonText: "Dismiss",
-            completion: { /* TODO */ print("transitioning to stream...") }
+            completion: { self.presentConfirmation(viewController: viewController, callback: presentStream) }
         )
+        
+        // present popup
         viewController.present(popup, animated: true)
         
-        // update popup with user information from Facebook
-        FacebookDataManager.sharedInstance.fetchInfoForUser(withID: stream.facebookID) { error, user in
+        // update popup with user profile picture and name from Facebook
+        FacebookDataManager.sharedInstance.fetchInfoForUser(withID: stream.hostFacebookID) { error, user in
             guard error == nil else { return }
             if let user = user {
                 popup.descriptionText = "by \(user.name)"
+                user.fetchProfileImage { error, image in
+                    guard error == nil else { return }
+                    if let image = image {
+                        popup.image = image
+                    }
+                }
+            }
+        }
+    }
+    
+    // If hosting, then present a confirmation to end the stream.
+    // If not hosting, then execute the callback immediately.
+    private func presentConfirmation(viewController: UIViewController, callback: @escaping (Void) -> Void) {
+        guard let streamViewController = viewController as? StreamViewController,
+            let stream = streamViewController.stream,
+            streamViewController.viewModel.isHost
+        else {
+            callback()
+            return
+        }
+        
+        let popup = PopupViewController.instantiate(
+            titleText: "MY STREAM",
+            image: #imageLiteral(resourceName: "stormtrooper_helmet"),
+            messageText: stream.name,
+            descriptionText: "Would you like to end your stream?",
+            primaryButtonText: "END STREAM",
+            secondaryButtonText: "Cancel",
+            completion: { streamViewController.closeTapped(); callback() }
+        )
+        
+        streamViewController.present(popup, animated: true)
+        
+        FacebookDataManager.sharedInstance.fetchInfoForUser(withID: stream.hostFacebookID) { error, user in
+            guard error == nil else { return }
+            if let user = user {
                 user.fetchProfileImage { error, image in
                     guard error == nil else { return }
                     if let image = image {
