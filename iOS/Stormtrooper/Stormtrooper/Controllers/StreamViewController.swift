@@ -280,10 +280,11 @@ class StreamViewController: UIViewController {
     
     
     func profileTapped() {
-        guard let profileVC = Utils.vcWithNameFromStoryboardWithName("inviteStream", storyboardName: "InviteStream") as? InviteStreamViewController else {
+        guard let inviteVC = Utils.vcWithNameFromStoryboardWithName("inviteStream", storyboardName: "InviteStream") as? InviteStreamViewController else {
             return
         }
-        present(profileVC, animated: true, completion: nil)
+        inviteVC.navigationItem.title = "Invite to Stream"
+        navigationController?.pushViewController(inviteVC, animated: true)
     }
 
     func closeTapped() {

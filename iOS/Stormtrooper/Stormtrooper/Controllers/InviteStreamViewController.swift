@@ -12,7 +12,9 @@ import MessageUI
 class InviteStreamViewController: UIViewController {
 	
     @IBOutlet private weak var tableView: UITableView!
+    @IBOutlet weak var doneButton: UIButton!
 
+    fileprivate let viewModel = InviteStreamViewModel()
     private let skipButtonFrame = CGRect(x: 0, y: 0, width: 35, height: 17)
     let defaultCellHeight = CGFloat(64.0)
     let headerCellHeight = CGFloat(47.0)
@@ -21,26 +23,32 @@ class InviteStreamViewController: UIViewController {
     // hold for streamVC
     var videoQueue: [Video]?
     var isCreatingStream = false
-    var showSkipButton = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
-        checkIfCreatingStream()
+
         setupTableView()
 
-        if showSkipButton {
+        // Show skip button when creating a stream
+        if isCreatingStream {
             let skipButton = UIButton(type: .custom)
             skipButton.setTitle("Skip", for: .normal)
             skipButton.frame = skipButtonFrame
             skipButton.addTarget(self, action: #selector(InviteStreamViewController.doneTapped), for: .touchUpInside)
             let skipItem = UIBarButtonItem(customView: skipButton)
 
-            self.navigationItem.setRightBarButtonItems([skipItem], animated: false)
+            navigationItem.setRightBarButtonItems([skipItem], animated: false)
         }
+        viewModel.fetchFriends(callback:{ (error: Error?) -> Void in
+            if error == nil {
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            }
+        })
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         UIView.setAnimationsEnabled(true)
@@ -58,16 +66,6 @@ class InviteStreamViewController: UIViewController {
         tableView.register(UINib(nibName: "FriendTableViewCell", bundle: nil), forCellReuseIdentifier: "friendCell")
         tableView.register(UINib(nibName: "InviteFriendsHeaderTableViewCell", bundle: nil), forCellReuseIdentifier: "friendsHeaderCell")
 
-    }   
-    
-    private func checkIfCreatingStream() {
-        guard let _ = self.navigationController else {
-            //if inviting from stream, not in nav controller, so will dismiss when done is tapped rather than moving forward in stream creation process
-            isCreatingStream = false
-            return
-        }
-        //if navigation controller exists, user is creating stream, so push forward in flow
-        isCreatingStream = true
     }
 
     /*
@@ -88,11 +86,12 @@ class InviteStreamViewController: UIViewController {
             streamVC.videoQueue = videoQueue
             streamVC.navigationItem.title = stream?.name ?? ""
             streamVC.navigationItem.hidesBackButton = true
-            self.navigationController?.pushViewController(streamVC, animated: true)
+            navigationController?.pushViewController(streamVC, animated: true)
         }
-        else { //not creating stream, so dismiss
-            self.dismiss(animated: true, completion: nil)
+        else { //not creating stream, so pop
+            navigationController?.popViewController(animated: true)
         }
+        viewModel.sendInvites(stream:stream, users:[User](viewModel.selectedFriends.values))
     }
     
     func textTapped() {
@@ -102,7 +101,7 @@ class InviteStreamViewController: UIViewController {
         //messageVC.recipients = [""]
         messageVC.messageComposeDelegate = self
         
-        self.present(messageVC, animated: true, completion: nil)
+        present(messageVC, animated: true, completion: nil)
     }
     
     func emailTapped() {
@@ -114,9 +113,9 @@ class InviteStreamViewController: UIViewController {
         mailComposerVC.setMessageBody("Download Stormtrooper to join my Stream: http://ibm.biz/BdsMEz", isHTML: false)
         
         if MFMailComposeViewController.canSendMail() {
-            self.present(mailComposerVC, animated: true, completion: nil)
+            present(mailComposerVC, animated: true, completion: nil)
         } else {
-            self.showSendMailErrorAlert()
+            showSendMailErrorAlert()
         }
     }
     
@@ -125,7 +124,7 @@ class InviteStreamViewController: UIViewController {
         let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
 
         sendMailErrorAlert.addAction(defaultAction)
-        self.present(sendMailErrorAlert, animated: true, completion: nil)
+        present(sendMailErrorAlert, animated: true, completion: nil)
         
     }
 
@@ -182,10 +181,19 @@ extension InviteStreamViewController: UITableViewDelegate, UITableViewDataSource
         case 1:
             //clicked email
             emailTapped()
-        case 3...tableRowsNum:
+        case viewModel.numberOfStaticCellsBeforeFriends...tableRowsNum:
             // Placed
             if let friendCell = tableView.cellForRow(at: indexPath) as? FriendTableViewCell {
-               friendCell.onTap()
+                friendCell.onTap()
+                if let associatedUser = friendCell.associatedUser {
+                    if friendCell.friendIsSelected {
+                        viewModel.selectedFriends[associatedUser.id] = associatedUser
+                    } else {
+                        viewModel.selectedFriends[associatedUser.id] = nil
+                    }
+
+                    doneButton.isHidden = viewModel.selectedFriends.values.count == 0
+                }
             }
         default:
             // Do nothing
@@ -222,11 +230,27 @@ extension InviteStreamViewController: UITableViewDelegate, UITableViewDataSource
             friendsHeaderCell.selectionStyle = .none
             friendsHeaderCell.separatorInset = UIEdgeInsetsMake(0, 1000, 0, 0); // Moving seperator out of the screen
             return friendsHeaderCell
-        case 3...tableRowsNum:
+        case viewModel.numberOfStaticCellsBeforeFriends...tableRowsNum:
             //number of stormtrooper friends
             guard let friendCell = tableView.dequeueReusableCell(withIdentifier: "friendCell") as? FriendTableViewCell else {
                 return UITableViewCell()
             }
+
+            let index = indexPath.item - viewModel.numberOfStaticCellsBeforeFriends
+
+            if index >= 0 && index < viewModel.facebookFriends.count {
+                let friendData = viewModel.facebookFriends[index]
+
+                friendCell.name.text = friendData.name
+                friendCell.associatedUser = friendData
+                friendCell.associatedUser?.fetchProfileImage { error, image in
+                    // Using main thread to set image properly
+                    DispatchQueue.main.async {
+                        friendCell.profilePicture.image = image
+                    }
+                }
+            }
+
             friendCell.selectionStyle = .none
             return friendCell
         default:
@@ -246,7 +270,7 @@ extension InviteStreamViewController: UITableViewDelegate, UITableViewDataSource
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 11
+        return viewModel.numberOfStaticCellsBeforeFriends + viewModel.facebookFriends.count
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
