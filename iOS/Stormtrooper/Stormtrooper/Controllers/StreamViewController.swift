@@ -33,7 +33,6 @@ class StreamViewController: UIViewController {
     //constants
     private let closeButtonFrame = CGRect(x: 0, y: 0, width: 17, height: 17)
     private let profileButtonFrame = CGRect(x: 0, y: 0, width: 19, height: 24)
-    private let highResSize = CGSize(width:500, height:500)
     private let headerViewAnimationDuration: TimeInterval = 0.3
 	
     var stream: Stream?
@@ -141,7 +140,7 @@ class StreamViewController: UIViewController {
     }
     
     private func setupProfilePictures() {
-        FacebookDataManager.sharedInstance.fetchProfilePictureForCurrentUser(as: highResSize) {error, image in
+        FacebookDataManager.sharedInstance.fetchProfilePictureForCurrentUser() {error, image in
             if let image = image {
                 DispatchQueue.main.async {
                     self.profileImageView.image = image
