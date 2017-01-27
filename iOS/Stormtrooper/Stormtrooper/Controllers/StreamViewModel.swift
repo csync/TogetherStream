@@ -23,9 +23,16 @@ class StreamViewModel {
 	
 	weak var delegate: StreamViewModelDelegate?
 	
-    var stream: Stream?
+    var stream: Stream? {
+        didSet {
+            if stream != nil {
+                setupStreams()
+            }
+        }
+    }
     
     var videoQueue: [Video]?
+    var currentVideoIndex: Int?
 	
 	var userCount: Int {
 		return currentUserIDs.count
@@ -49,17 +56,17 @@ class StreamViewModel {
 	private var chatDataManager: ChatDataManager?
 	private var participantsDataManager: ParticipantsDataManager?
 	private var currentUserIDs: Set<String> = []
-	
-	init() {
-		if !isHost {
-			setupParticipant()
-		}
-		else {
-			setupHost()
-		}
-		
-		let userID = FacebookDataManager.sharedInstance.profile?.userID ?? ""
-		
+    
+    private func setupStreams() {
+        if !isHost {
+            setupParticipant()
+        }
+        else {
+            setupHost()
+        }
+        
+        let userID = FacebookDataManager.sharedInstance.profile?.userID ?? ""
+        
         let messageCallback: (Message) -> Void = {[unowned self] message in
             // insert on main queue to avoid table datasource corruption
             DispatchQueue.main.async {
@@ -93,7 +100,7 @@ class StreamViewModel {
                 }
             }
         }
-	}
+    }
 	
 	deinit {
 		listenerKey?.unlisten()
