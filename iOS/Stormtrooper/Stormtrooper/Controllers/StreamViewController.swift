@@ -420,9 +420,10 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
         if tableView.tag == chatTableTag {
             return cellFor(chatTableView: tableView, at: indexPath)
         }
-        else {
+        else if tableView.tag == queueTableTag {
             return cellFor(queueTableView: tableView, at: indexPath)
         }
+        return UITableViewCell()
 	}
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -464,9 +465,10 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
         if tableView.tag == chatTableTag {
             return viewModel.messages.count //TODO: limit this to 50 or whatever performance allows
         }
-        else {
+        else if tableView.tag == queueTableTag {
             return viewModel.videoQueue?.count ?? 0
         }
+        return 0
 	}
     
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
@@ -477,17 +479,24 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        guard let currentVideoIndex = viewModel.currentVideoIndex else {
+        guard let currentVideoIndex = viewModel.currentVideoIndex, let video = viewModel.videoQueue?.remove(at: sourceIndexPath.row) else {
             return
         }
-        if let video = viewModel.videoQueue?.remove(at: sourceIndexPath.row) {
-            viewModel.videoQueue?.insert(video, at: destinationIndexPath.row)
-        }
+        viewModel.videoQueue?.insert(video, at: destinationIndexPath.row)
         if sourceIndexPath.row == currentVideoIndex {
             viewModel.currentVideoIndex = destinationIndexPath.row
         }
         else if destinationIndexPath.row == currentVideoIndex {
             viewModel.currentVideoIndex = destinationIndexPath.row + (sourceIndexPath.row > destinationIndexPath.row ? 1 : -1)
+        }
+        // left-to-right
+        else if sourceIndexPath.row < currentVideoIndex, currentVideoIndex < destinationIndexPath.row {
+            viewModel.currentVideoIndex = currentVideoIndex - 1
+        }
+        
+        // right-to-left
+        else if sourceIndexPath.row > currentVideoIndex, currentVideoIndex > destinationIndexPath.row {
+            viewModel.currentVideoIndex = currentVideoIndex + 1
         }
     }
     
