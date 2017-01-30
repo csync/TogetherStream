@@ -409,9 +409,31 @@ extension StreamViewController: StreamViewModelDelegate {
 	}
 	
 	func streamEnded() {
-		playerView.pauseVideo()
-		 // TODO: Logic for displaying end stream popup
-		print("stream ended")
+        playerView.pauseVideo()
+        
+        // present popup with default user profile picture
+		let popup = PopupViewController.instantiate(
+            titleText: (stream?.name ?? "").uppercased(),
+            image: #imageLiteral(resourceName: "stormtrooper_helmet"),
+            messageText: (stream?.name ?? "").uppercased(),
+            descriptionText: "This stream has ended.",
+            primaryButtonText: "OKAY",
+            completion: { _ = self.navigationController?.popViewController(animated: true) }
+        )
+        present(popup, animated: true)
+        
+        // update popup with user profile picture from Facebook
+        if let hostFacebookID = stream?.hostFacebookID {
+            FacebookDataManager.sharedInstance.fetchInfoForUser(withID: hostFacebookID) { error, user in
+                guard error == nil else { return }
+                user?.fetchProfileImage { error, image in
+                    guard error == nil else { return }
+                    if let image = image {
+                        popup.image = image
+                    }
+                }
+            }
+        }
 	}
 }
 
