@@ -165,7 +165,7 @@ class StreamViewController: UIViewController {
     }
     
     private func setupProfilePictures() {
-        FacebookDataManager.sharedInstance.fetchProfilePictureForCurrentUser(as: profileImageView.frame.size) {error, image in
+        FacebookDataManager.sharedInstance.fetchProfilePictureForCurrentUser() {error, image in
             if let image = image {
                 DispatchQueue.main.async {
                     self.profileImageView.image = image
