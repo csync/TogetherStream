@@ -1,1 +1,1 @@
-git "git@github.ibm.com:csync/csync-swift.git" == 1.0
+git "git@github.com:csync/csync-swift.git" "master"
