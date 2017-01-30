@@ -15,7 +15,7 @@ class PopupViewController: UIViewController {
     @IBOutlet weak private var messageLabel: UILabel!
     @IBOutlet weak private var descriptionLabel: UILabel!
     @IBOutlet weak private var primaryButton: UIButton!
-    @IBOutlet weak private var secondaryButton: UIButton!
+    @IBOutlet weak private var secondaryButton: UIButton?
     
     var titleText: String? {
         get { return titleLabel.text }
@@ -43,8 +43,8 @@ class PopupViewController: UIViewController {
     }
     
     var secondaryButtonText: String? {
-        get { return secondaryButton.titleLabel?.text }
-        set { secondaryButton.setTitle(newValue, for: .normal) }
+        get { return secondaryButton?.titleLabel?.text }
+        set { secondaryButton?.setTitle(newValue, for: .normal) }
     }
     
     var completion: () -> Void = { }
@@ -67,12 +67,18 @@ class PopupViewController: UIViewController {
         messageText: String,
         descriptionText: String,
         primaryButtonText: String,
-        secondaryButtonText: String,
+        secondaryButtonText: String? = nil,
         completion: @escaping () -> Void)
         -> PopupViewController
     {
         let storyboard = UIStoryboard(name: "Popup", bundle: nil)
-        let popupViewController = storyboard.instantiateViewController(withIdentifier: "popup") as! PopupViewController
+        let popupViewController: PopupViewController
+        if secondaryButtonText == nil {
+            popupViewController = storyboard.instantiateViewController(withIdentifier: "popup-1button") as! PopupViewController
+        } else {
+            popupViewController = storyboard.instantiateViewController(withIdentifier: "popup-2button") as! PopupViewController
+        }
+        
         popupViewController.loadView()
         popupViewController.titleText = titleText
         popupViewController.image = image
