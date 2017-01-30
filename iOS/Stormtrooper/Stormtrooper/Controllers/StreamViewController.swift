@@ -273,6 +273,48 @@ class StreamViewController: UIViewController {
     }
 
     func closeTapped() {
+        if viewModel.isHost {
+            closeTappedAsHost()
+        } else {
+            closeTappedAsParticipant()
+        }
+    }
+    
+    private func closeTappedAsHost() {
+        // define callback to end the stream
+        let endStream = {
+            self.viewModel.endStream()
+            let _ = self.navigationController?.popToRootViewController(animated: true)
+        }
+        
+        // present popup with default user profile picture
+        let popup = PopupViewController.instantiate(
+            titleText: stream?.name ?? "MY STREAM",
+            image: #imageLiteral(resourceName: "stormtrooper_helmet"),
+            messageText: stream?.name ?? "",
+            descriptionText: "Would you like to end your stream?",
+            primaryButtonText: "END STREAM",
+            secondaryButtonText: "Cancel",
+            completion: endStream
+        )
+        present(popup, animated: true)
+        
+        // update popup with user profile picture
+        guard let hostFacebookID = stream?.hostFacebookID else { return }
+        FacebookDataManager.sharedInstance.fetchInfoForUser(withID: hostFacebookID) { error, user in
+            guard error == nil else { return }
+            if let user = user {
+                user.fetchProfileImage { error, image in
+                    guard error == nil else { return }
+                    if let image = image {
+                        popup.image = image
+                    }
+                }
+            }
+        }
+    }
+    
+    private func closeTappedAsParticipant() {
         let _ = navigationController?.popToRootViewController(animated: true)
     }
 
