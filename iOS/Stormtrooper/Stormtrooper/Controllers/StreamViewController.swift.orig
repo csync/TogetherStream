@@ -25,30 +25,32 @@ class StreamViewController: UIViewController {
     @IBOutlet weak var dismissView: UIView!
 <<<<<<< HEAD
     @IBOutlet weak var outerPlayerView: UIView!
+    @IBOutlet weak var videoTitleLabel: UILabel!
+    @IBOutlet weak var videoSubtitleLabel: UILabel!
+=======
+    @IBOutlet weak var expandButton: UIButton!
+>>>>>>> nathan/rotate-stream-OLD-CSYNC
     
     //constraints
     var originalHeaderViewHeightConstraint: CGFloat = 0
     var originalPlayerViewFrame: CGRect = CGRect.zero
-    var originalOuterPlayerViewConstraints: [NSLayoutConstraint] = []
-    var estimatedChatCellHeight: CGFloat = 56
-=======
-    @IBOutlet weak var videoTitleLabel: UILabel!
-    @IBOutlet weak var videoSubtitleLabel: UILabel!
+    var originalPlayerViewConstraints: [NSLayoutConstraint] = []
+    var rotatedPlayerViewConstraints: [NSLayoutConstraint] = []
     
-    //constraints
-    private var originalHeaderViewHeightConstraint: CGFloat = 0
-    fileprivate var estimatedChatCellHeight: CGFloat = 56
->>>>>>> develop
+    var estimatedChatCellHeight: CGFloat = 56
     
     //constants
     private let closeButtonFrame = CGRect(x: 0, y: 0, width: 17, height: 17)
     private let profileButtonFrame = CGRect(x: 0, y: 0, width: 19, height: 24)
     private let headerViewAnimationDuration: TimeInterval = 0.3
 	
-<<<<<<< HEAD
+    var stream: Stream?
+	
 	var hostID: String?
     
     var statusBarHidden: Bool = false
+    
+    private var firstLoad: Bool = true
     
     override var prefersStatusBarHidden: Bool {
         return statusBarHidden
@@ -58,10 +60,6 @@ class StreamViewController: UIViewController {
         return .slide
     }
     
-=======
-    var stream: Stream?
-	
->>>>>>> develop
 	// TODO: Remove or move to viewModel
     fileprivate var isPlaying = false
 	
@@ -90,7 +88,18 @@ class StreamViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         UIView.setAnimationsEnabled(true)
-        saveOriginalPlayerViewFrame()
+        
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if firstLoad {
+            originalPlayerViewFrame = playerView.frame
+            saveOriginalPlayerViewFrame()
+            firstLoad = false
+        }
+        
     }
 	
 	override func viewWillDisappear(_ animated: Bool) {
@@ -106,14 +115,42 @@ class StreamViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-<<<<<<< HEAD
     private func saveOriginalPlayerViewFrame() {
-        originalPlayerViewFrame = outerPlayerView.frame
-        originalOuterPlayerViewConstraints = outerPlayerView.constraints
+        NSLayoutConstraint.deactivate(rotatedPlayerViewConstraints)
+        self.playerView.translatesAutoresizingMaskIntoConstraints = false
+        let constraint1 = NSLayoutConstraint(item: self.playerView, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.topMargin, multiplier: 1.0, constant: 0.0)
+        let constraint2 = NSLayoutConstraint(item: self.playerView, attribute: NSLayoutAttribute.bottom, relatedBy: NSLayoutRelation.equal, toItem: self.headerView, attribute: NSLayoutAttribute.top, multiplier: 1.0, constant: 0.0)
+        let constraint3 = NSLayoutConstraint(item: self.playerView, attribute: NSLayoutAttribute.leading, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.leading, multiplier: 1.0, constant: 0.0)
+        let constraint4 = NSLayoutConstraint(item: self.playerView, attribute: NSLayoutAttribute.trailing, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.trailing, multiplier: 1.0, constant: 0.0)
+        let constraint5 = NSLayoutConstraint(item: self.playerView, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1.0, constant: 211)
+        //expand button
+        let expandTempButton = UIButton(frame: CGRect(x: self.playerView.frame.width-50, y: self.playerView.frame.height-50, width: 50, height: 50))
+        expandTempButton.backgroundColor = .red
+        self.view.addSubview(expandTempButton)
+        let constraint6 = NSLayoutConstraint(item: expandTempButton, attribute: NSLayoutAttribute.trailing, relatedBy: NSLayoutRelation.equal, toItem: self.playerView, attribute: NSLayoutAttribute.trailing, multiplier: 1.0, constant: 0.0)
+        let constraint7 = NSLayoutConstraint(item: expandTempButton, attribute: NSLayoutAttribute.bottom, relatedBy: NSLayoutRelation.equal, toItem: self.playerView, attribute: NSLayoutAttribute.bottom, multiplier: 1.0, constant: 0.0)
+        let constraintArray = [constraint1, constraint2, constraint3, constraint4, constraint5, constraint6, constraint7]
+        NSLayoutConstraint.activate(constraintArray)
+        originalPlayerViewConstraints = constraintArray
     }
     
-=======
->>>>>>> develop
+    private func addRotatingConstraints() {
+        NSLayoutConstraint.deactivate(originalPlayerViewConstraints)
+        let constraint1 = NSLayoutConstraint(item: self.playerView, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.height, multiplier: 1.0, constant: 0.0)
+        let constraint2 = NSLayoutConstraint(item: self.playerView, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.width, multiplier: 1.0, constant: 0.0)
+        let constraint3 = NSLayoutConstraint(item: self.playerView, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.centerX, multiplier: 1.0, constant: 0.0)
+        let constraint4 = NSLayoutConstraint(item: self.playerView, attribute: NSLayoutAttribute.centerY, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.centerY, multiplier: 1.0, constant: 0.0)
+        //expand button
+        let expandTempButton = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+        expandTempButton.backgroundColor = .red
+        self.view.addSubview(expandTempButton)
+        let constraint5 = NSLayoutConstraint(item: expandTempButton, attribute: NSLayoutAttribute.trailing, relatedBy: NSLayoutRelation.equal, toItem: self.playerView, attribute: NSLayoutAttribute.trailing, multiplier: 1.0, constant: 0.0)
+        let constraint6 = NSLayoutConstraint(item: self.expandButton, attribute: NSLayoutAttribute.bottom, relatedBy: NSLayoutRelation.equal, toItem: self.playerView, attribute: NSLayoutAttribute.bottom, multiplier: 1.0, constant: 0.0)
+        let constraintArray = [constraint1, constraint2, constraint3, constraint4, constraint5, constraint6]
+        self.rotatedPlayerViewConstraints = constraintArray
+        NSLayoutConstraint.activate(constraintArray)
+    }
+    
 
     private func setupViewForHostOrParticipant() { //TODO: player setup (don't allow participant to pause, etc)
         if viewModel.isHost { //host-- can view queue, can end stream, can invite people
@@ -199,12 +236,8 @@ class StreamViewController: UIViewController {
     }
     
     private func setupPlayerView() {
-<<<<<<< HEAD
         self.playerView.backgroundColor = UIColor.white
         self.playerView.delegate = self
-=======
-        playerView.delegate = self
->>>>>>> develop
         //self.playerView.loadPlaylist(byVideos: ["4NFDhxhWyIw", "RTDuUiVSCo4"], index: 0, startSeconds: 0, suggestedQuality: .auto)
 		if viewModel.isHost {
             updateView(forVideoWithID: "VGfn-NFMrXg")
@@ -243,52 +276,20 @@ class StreamViewController: UIViewController {
         cancelChatTapped()
     }
     
+    
+    
+    @IBAction func expandButtonTapped(_ sender: Any) {
+        if statusBarHidden {
+            returnPlayerViewToPortrait()
+        }
+        else {
+            rotatePlayerView(byAngle: CGFloat(M_PI_2))
+        }
+    }
+    
+    
     func rotated() {
 <<<<<<< HEAD
-        let screenSize = UIScreen.main.bounds
-            var rotationAngle: CGFloat = 0
-            switch UIDevice.current.orientation {
-            case .landscapeLeft:
-                print("Landscape Left")
-                self.statusBarHidden = true
-                self.navigationController?.navigationBar.isHidden = true
-                self.outerPlayerView.removeConstraints(self.outerPlayerView.constraints)
-                rotationAngle = CGFloat(M_PI_2)
-                DispatchQueue.main.async {
-                    //self.outerPlayerView.translatesAutoresizingMaskIntoConstraints = false
-                    self.outerPlayerView.transform = CGAffineTransform(rotationAngle: rotationAngle)
-                    self.setNeedsStatusBarAppearanceUpdate()
-                    self.outerPlayerView.frame = screenSize //make fullscreen if landscape
-                }
-            case .landscapeRight:
-                print("Landscape Right")
-                self.statusBarHidden = true
-                self.outerPlayerView.removeConstraints(self.outerPlayerView.constraints)
-                self.navigationController?.navigationBar.isHidden = true
-                rotationAngle = CGFloat(-M_PI_2)
-                DispatchQueue.main.async {
-                    //self.outerPlayerView.translatesAutoresizingMaskIntoConstraints = false
-                    self.outerPlayerView.transform = CGAffineTransform(rotationAngle: rotationAngle)
-                    self.setNeedsStatusBarAppearanceUpdate()
-                    self.outerPlayerView.frame = screenSize //make fullscreen if landscape
-                }
-            case .portrait:
-                print("Portrait")
-                self.statusBarHidden = false
-                self.outerPlayerView.addConstraints(originalOuterPlayerViewConstraints)
-                self.navigationController?.navigationBar.isHidden = false
-                DispatchQueue.main.async {
-                    //self.outerPlayerView.translatesAutoresizingMaskIntoConstraints = true
-                    self.outerPlayerView.transform = CGAffineTransform.identity
-                    self.setNeedsStatusBarAppearanceUpdate()
-                    self.outerPlayerView.frame = self.originalPlayerViewFrame //reset playerview if portrait
-                    self.view.updateConstraintsIfNeeded()
-                    self.view.layoutIfNeeded()
-                }
-            default:
-                break
-            }
-=======
         if UIDeviceOrientationIsLandscape(UIDevice.current.orientation) {
             playerView.frame = view.frame //make fullscreen if landscape
             mediaControllerView.isHidden = true
@@ -300,8 +301,65 @@ class StreamViewController: UIViewController {
             mediaControllerView.isHidden = false
             print("Portrait")
         }
->>>>>>> develop
+=======
+            switch UIDevice.current.orientation {
+            case .landscapeLeft:
+                print("Landscape Left")
+                rotatePlayerView(byAngle: CGFloat(M_PI_2))
+            case .landscapeRight:
+                print("Landscape Right")
+                rotatePlayerView(byAngle: CGFloat(-M_PI_2))
+            case .portrait:
+                print("Portrait")
+                returnPlayerViewToPortrait()
+            default:
+                break
+            }
+>>>>>>> nathan/rotate-stream-OLD-CSYNC
         
+    }
+    
+    private func rotatePlayerView(byAngle angle: CGFloat) {
+        self.statusBarHidden = true
+        //self.outerPlayerView.removeConstraints(self.outerPlayerView.constraints)
+        self.playerView.removeConstraints(self.playerView.constraints)
+        NSLayoutConstraint.deactivate(originalPlayerViewConstraints)
+        self.navigationController?.navigationBar.isHidden = true
+        //                for constraint in self.playerView.constraints {
+        //                    constraint.isActive = false
+        //                }
+        self.playerView.translatesAutoresizingMaskIntoConstraints = false
+        DispatchQueue.main.async {
+            //self.outerPlayerView.translatesAutoresizingMaskIntoConstraints = false
+            self.playerView.transform = CGAffineTransform(rotationAngle: angle)
+            self.expandButton.transform = CGAffineTransform(rotationAngle: angle)
+            self.setNeedsStatusBarAppearanceUpdate()
+            self.addRotatingConstraints()
+            self.view.updateConstraintsIfNeeded()
+            //self.playerView.frame = screenSize //make fullscreen if landscape
+        }
+    }
+    
+    private func returnPlayerViewToPortrait() {
+        self.statusBarHidden = false
+        self.playerView.removeConstraints(self.playerView.constraints)
+        //self.playerView.addConstraints(originalPlayerViewConstraints)
+        NSLayoutConstraint.deactivate(rotatedPlayerViewConstraints)
+        NSLayoutConstraint.activate(originalPlayerViewConstraints)
+        //self.playerView.translatesAutoresizingMaskIntoConstraints = true
+        self.navigationController?.navigationBar.isHidden = false
+        //                for constraint in self.playerView.constraints {
+        //                    constraint.isActive = true
+        //                }
+        DispatchQueue.main.async {
+            //self.outerPlayerView.translatesAutoresizingMaskIntoConstraints = true
+            self.playerView.transform = CGAffineTransform.identity
+            self.expandButton.transform = CGAffineTransform.identity
+            self.setNeedsStatusBarAppearanceUpdate()
+            self.playerView.frame = self.originalPlayerViewFrame //reset playerview if portrait
+            self.view.updateConstraintsIfNeeded()
+            //self.view.layoutIfNeeded()
+        }
     }
     
     @IBAction func playTapped(_ sender: Any) {
@@ -351,10 +409,11 @@ class StreamViewController: UIViewController {
     
     
     func profileTapped() {
-        guard let profileVC = Utils.vcWithNameFromStoryboardWithName("inviteStream", storyboardName: "InviteStream") as? InviteStreamViewController else {
+        guard let inviteVC = Utils.vcWithNameFromStoryboardWithName("inviteStream", storyboardName: "InviteStream") as? InviteStreamViewController else {
             return
         }
-        present(profileVC, animated: true, completion: nil)
+        inviteVC.navigationItem.title = "Invite to Stream"
+        navigationController?.pushViewController(inviteVC, animated: true)
     }
 
     func closeTapped() {
@@ -430,15 +489,10 @@ extension StreamViewController: StreamViewModelDelegate {
 	}
 	
 	func recieved(message: Message, for position: Int) {
-<<<<<<< HEAD
-		chatTableView.insertRows(at: [IndexPath(row: position, section: 0)], with: .none)
-        chatTableView.scrollTableViewToBottom(animated: false)
-=======
             self.chatTableView.beginUpdates()
             self.chatTableView.insertRows(at: [IndexPath(row: position, section: 0)], with: .automatic)
             self.chatTableView.scrollTableViewToBottom(animated: false)
             self.chatTableView.endUpdates()
->>>>>>> develop
 	}
 	
 	func recievedUpdate(forCurrentVideoID currentVideoID: String) {
