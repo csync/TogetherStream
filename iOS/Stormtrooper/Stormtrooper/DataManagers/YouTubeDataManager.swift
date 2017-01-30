@@ -14,6 +14,7 @@ class YouTubeDataManager {
 	private let apiKey = Utils.getStringValueWithKeyFromPlist("keys", key: "youtube_api_key")
 	private let maxVideoResults = 10
 	
+    // TODO: Cache
 	func getThumbnailForVideo(with url: URL, callback: @escaping (Error?, UIImage?) -> Void) {
         let task = URLSession.shared.dataTask(with: URLRequest(url: url)) {data, response, error in
             guard let data = data, let image = UIImage(data: data) else {
@@ -50,7 +51,7 @@ class YouTubeDataManager {
 	}
 	
 	func fetchTrendingVideos(callback: @escaping (Error?, [Video]?) -> Void) {
-		guard let apiKey = apiKey, let url = URL(string: "https://www.googleapis.com/youtube/v3/videos?chart=mostPopular&part=snippet,status&maxResults=\(maxVideoResults)&videoEmbeddable=true&videoSyndicated=true&key=\(apiKey)") else {
+		guard let apiKey = apiKey, let url = URL(string: "https://www.googleapis.com/youtube/v3/videos?chart=mostPopular&part=snippet,status,statistics&maxResults=\(maxVideoResults)&videoEmbeddable=true&videoSyndicated=true&key=\(apiKey)") else {
 			callback(ServerError.cannotFormURL, nil)
 			return
 		}

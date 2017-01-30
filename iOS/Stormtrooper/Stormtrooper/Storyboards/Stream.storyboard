@@ -15,6 +15,9 @@
         <array key="OpenSans-Semibold.ttf">
             <string>OpenSans-Semibold</string>
         </array>
+        <array key="WorkSans-Medium.ttf">
+            <string>WorkSans-Medium</string>
+        </array>
         <array key="WorkSans-SemiBold.ttf">
             <string>WorkSans-SemiBold</string>
         </array>
@@ -225,9 +228,13 @@
                                             <action selector="addToStreamTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tLF-8y-7FU"/>
                                         </connections>
                                     </button>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="89" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="iC4-5G-MpH">
+                                    <tableView clipsSubviews="YES" tag="1" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="89" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="iC4-5G-MpH">
                                         <rect key="frame" x="0.0" y="59" width="375" height="230"/>
                                         <color key="backgroundColor" red="0.15686274510000001" green="0.14117647059999999" blue="0.14117647059999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <connections>
+                                            <outlet property="dataSource" destination="BYZ-38-t0r" id="4XF-xo-Pfc"/>
+                                            <outlet property="delegate" destination="BYZ-38-t0r" id="5WO-Wm-thC"/>
+                                        </connections>
                                     </tableView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UP NEXT" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zJg-2p-vtP">
                                         <rect key="frame" x="16" y="8" width="160" height="18"/>
@@ -241,70 +248,34 @@
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g4f-7A-fEP">
                                         <rect key="frame" x="48" y="-8" width="278" height="70"/>
-                                        <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cmd-F5-SOe">
-                                                <rect key="frame" x="181" y="20" width="34" height="30"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="30" id="26v-lB-CuR"/>
-                                                    <constraint firstAttribute="width" constant="34" id="kt7-hN-y81"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                <state key="normal" title="⏩">
-                                                    <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="nextTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="hvF-fb-2j4"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1hp-5O-2ey">
-                                                <rect key="frame" x="64" y="20" width="34" height="28"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="34" id="nOq-cu-fkW"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                <state key="normal" title="⏪">
-                                                    <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="backTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="U5O-BC-hgj"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fKU-Jj-50I">
-                                                <rect key="frame" x="125" y="20" width="29" height="28"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="29" id="ml8-Dq-3BU"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                <state key="normal" title="▶️">
-                                                    <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="playTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="kC2-7e-sfe"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="70" id="7T6-Z8-WlG"/>
-                                            <constraint firstItem="fKU-Jj-50I" firstAttribute="top" secondItem="g4f-7A-fEP" secondAttribute="top" constant="20" id="HlA-78-LmJ"/>
-                                            <constraint firstItem="fKU-Jj-50I" firstAttribute="centerX" secondItem="g4f-7A-fEP" secondAttribute="centerX" id="LTe-mS-dc6"/>
-                                            <constraint firstItem="1hp-5O-2ey" firstAttribute="leading" secondItem="g4f-7A-fEP" secondAttribute="leading" constant="64" id="dzi-pI-8Ie"/>
                                             <constraint firstAttribute="width" constant="278" id="jsr-0r-PHC"/>
-                                            <constraint firstAttribute="trailing" secondItem="Cmd-F5-SOe" secondAttribute="trailing" constant="63" id="mcp-Jy-FLr"/>
-                                            <constraint firstItem="1hp-5O-2ey" firstAttribute="top" secondItem="g4f-7A-fEP" secondAttribute="top" constant="20" id="p48-Hp-9w3"/>
-                                            <constraint firstItem="Cmd-F5-SOe" firstAttribute="top" secondItem="g4f-7A-fEP" secondAttribute="top" constant="20" id="x0M-fQ-Olx"/>
                                         </constraints>
                                     </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pka-wS-SXj">
+                                        <rect key="frame" x="329" y="2.5" width="30" height="29"/>
+                                        <fontDescription key="fontDescription" name="WorkSans-Medium" family="Work Sans" pointSize="14"/>
+                                        <state key="normal" title="Edit">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="didToggleQueueEdit:" destination="BYZ-38-t0r" eventType="touchUpInside" id="PJR-IG-4xi"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.15686274510000001" green="0.14117647059999999" blue="0.14117647059999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="zJg-2p-vtP" firstAttribute="leading" secondItem="q4i-Y2-lar" secondAttribute="leading" constant="16" id="4fZ-C7-gBW"/>
                                     <constraint firstItem="zJg-2p-vtP" firstAttribute="top" secondItem="q4i-Y2-lar" secondAttribute="top" constant="8" id="7HS-MA-QfJ"/>
                                     <constraint firstAttribute="bottom" secondItem="j8A-8z-cfk" secondAttribute="bottom" id="8I4-WH-WTx"/>
+                                    <constraint firstAttribute="trailing" secondItem="Pka-wS-SXj" secondAttribute="trailing" constant="16" id="BDj-aE-IpP"/>
                                     <constraint firstItem="j8A-8z-cfk" firstAttribute="centerX" secondItem="q4i-Y2-lar" secondAttribute="centerX" id="DD5-KP-89F"/>
                                     <constraint firstItem="iC4-5G-MpH" firstAttribute="top" secondItem="q4i-Y2-lar" secondAttribute="top" constant="59" id="Egb-Cz-3Tu"/>
                                     <constraint firstItem="iC4-5G-MpH" firstAttribute="centerX" secondItem="q4i-Y2-lar" secondAttribute="centerX" id="YCs-MR-cBX"/>
                                     <constraint firstItem="g4f-7A-fEP" firstAttribute="centerX" secondItem="q4i-Y2-lar" secondAttribute="centerX" id="Zjj-nr-FkA"/>
+                                    <constraint firstItem="Pka-wS-SXj" firstAttribute="centerY" secondItem="zJg-2p-vtP" secondAttribute="centerY" id="acu-Le-iz2"/>
                                     <constraint firstItem="j8A-8z-cfk" firstAttribute="top" secondItem="iC4-5G-MpH" secondAttribute="bottom" id="dY3-0p-Ygc"/>
                                     <constraint firstItem="iC4-5G-MpH" firstAttribute="width" secondItem="q4i-Y2-lar" secondAttribute="width" id="fcp-O9-WS7"/>
                                     <constraint firstItem="j8A-8z-cfk" firstAttribute="width" secondItem="q4i-Y2-lar" secondAttribute="width" id="hPY-pY-tSp"/>
@@ -350,9 +321,9 @@
                         <outlet property="headerViewButton" destination="uEy-me-ihE" id="FEP-NB-V5i"/>
                         <outlet property="headerViewHeightConstraint" destination="8RW-43-RGV" id="nyp-x5-3Yz"/>
                         <outlet property="mediaControllerView" destination="g4f-7A-fEP" id="iBP-6P-a37"/>
-                        <outlet property="playPauseButton" destination="fKU-Jj-50I" id="1Vn-VJ-7fW"/>
                         <outlet property="playerView" destination="lt2-Nk-1YZ" id="lxf-Lz-SRg"/>
                         <outlet property="profileImageView" destination="A15-q2-X7f" id="rJC-er-b3v"/>
+                        <outlet property="queueTableView" destination="iC4-5G-MpH" id="34Q-Xh-1yo"/>
                         <outlet property="queueView" destination="q4i-Y2-lar" id="WHj-gP-3VR"/>
                         <outlet property="userCountLabel" destination="yLh-6L-jBa" id="UlQ-iZ-Kxy"/>
                         <outlet property="videoSubtitleLabel" destination="knW-fA-GaK" id="ajG-83-5Wq"/>
