@@ -41,6 +41,8 @@ class StreamViewController: UIViewController {
     
     var statusBarHidden: Bool = false
     
+    private var firstLoad: Bool = true
+    
     override var prefersStatusBarHidden: Bool {
         return statusBarHidden
     }
@@ -77,13 +79,18 @@ class StreamViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         UIView.setAnimationsEnabled(true)
-        originalPlayerViewFrame = playerView.frame
+        
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        saveOriginalPlayerViewFrame()
+        if firstLoad {
+            originalPlayerViewFrame = playerView.frame
+            saveOriginalPlayerViewFrame()
+            firstLoad = false
+        }
+        
     }
 	
 	override func viewWillDisappear(_ animated: Bool) {
@@ -100,7 +107,7 @@ class StreamViewController: UIViewController {
     }
     
     private func saveOriginalPlayerViewFrame() {
-        
+        self.playerView.translatesAutoresizingMaskIntoConstraints = false
         let constraint1 = NSLayoutConstraint(item: self.playerView, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.topMargin, multiplier: 1.0, constant: 0.0)
         let constraint2 = NSLayoutConstraint(item: self.playerView, attribute: NSLayoutAttribute.bottom, relatedBy: NSLayoutRelation.equal, toItem: self.headerView, attribute: NSLayoutAttribute.top, multiplier: 1.0, constant: 0.0)
         let constraint3 = NSLayoutConstraint(item: self.playerView, attribute: NSLayoutAttribute.leading, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.leading, multiplier: 1.0, constant: 0.0)
@@ -266,6 +273,7 @@ class StreamViewController: UIViewController {
                     self.playerView.transform = CGAffineTransform(rotationAngle: rotationAngle)
                     self.setNeedsStatusBarAppearanceUpdate()
                     self.addRotatingConstraints()
+                    self.view.updateConstraintsIfNeeded()
                     //self.playerView.frame = screenSize //make fullscreen if landscape
                     
                 }
@@ -286,6 +294,7 @@ class StreamViewController: UIViewController {
                     self.playerView.transform = CGAffineTransform(rotationAngle: rotationAngle)
                     self.setNeedsStatusBarAppearanceUpdate()
                     self.addRotatingConstraints()
+                    self.view.updateConstraintsIfNeeded()
                     //self.playerView.frame = screenSize //make fullscreen if landscape
                 }
             case .portrait:
