@@ -131,7 +131,7 @@
                                         <color key="textColor" red="0.84705882349999995" green="0.25490196079999999" blue="0.023529411760000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Beyoncé - XO, Official Video" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oTw-lu-Z7R">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oTw-lu-Z7R">
                                         <rect key="frame" x="15" y="34" width="318" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="NWF-Dc-a8W"/>
@@ -140,7 +140,7 @@
                                         <color key="textColor" red="0.96470588235294119" green="0.96470588235294119" blue="0.96470588235294119" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BeyoncéOfficial – 6,785,584 views" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="knW-fA-GaK">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="knW-fA-GaK">
                                         <rect key="frame" x="15" y="53" width="325" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="CmU-FD-BFk"/>
@@ -299,6 +299,14 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QHR-Gx-V89">
+                                <rect key="frame" x="327" y="182" width="50" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.84705882349999995" green="0.25490196079999999" blue="0.027450980390000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <connections>
+                                    <action selector="expandButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="IJi-8H-0zR"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -330,6 +338,7 @@
                         <outlet property="chatInputTextField" destination="aeg-Oe-oU6" id="Vfo-fO-wFJ"/>
                         <outlet property="chatTableView" destination="u6G-sD-SZi" id="JfH-Mp-mPH"/>
                         <outlet property="dismissView" destination="Mpa-Nr-Aea" id="Lrl-zS-Lpu"/>
+                        <outlet property="expandButton" destination="QHR-Gx-V89" id="D9B-r8-Tpa"/>
                         <outlet property="headerArrowImageView" destination="K2Q-JA-bv3" id="V0n-f2-UfM"/>
                         <outlet property="headerView" destination="Y1Z-hD-o7e" id="HP5-fA-vNT"/>
                         <outlet property="headerViewButton" destination="uEy-me-ihE" id="FEP-NB-V5i"/>

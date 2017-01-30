@@ -23,6 +23,7 @@ class StreamViewController: UIViewController {
     @IBOutlet weak var visualEffectView: UIVisualEffectView!
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var dismissView: UIView!
+    @IBOutlet weak var expandButton: UIButton!
     
     //constraints
     var originalHeaderViewHeightConstraint: CGFloat = 0
@@ -113,9 +114,25 @@ class StreamViewController: UIViewController {
         let constraint3 = NSLayoutConstraint(item: self.playerView, attribute: NSLayoutAttribute.leading, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.leading, multiplier: 1.0, constant: 0.0)
         let constraint4 = NSLayoutConstraint(item: self.playerView, attribute: NSLayoutAttribute.trailing, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.trailing, multiplier: 1.0, constant: 0.0)
         let constraint5 = NSLayoutConstraint(item: self.playerView, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1.0, constant: 211)
-        let constraintArray = [constraint1, constraint2, constraint3, constraint4, constraint5]
+        //expand button
+        let constraint6 = NSLayoutConstraint(item: self.expandButton, attribute: NSLayoutAttribute.trailing, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.trailing, multiplier: 1.0, constant: 0.0)
+        let constraint7 = NSLayoutConstraint(item: self.expandButton, attribute: NSLayoutAttribute.bottom, relatedBy: NSLayoutRelation.equal, toItem: self.playerView, attribute: NSLayoutAttribute.bottom, multiplier: 1.0, constant: 0.0)
+        let constraintArray = [constraint1, constraint2, constraint3, constraint4, constraint5, constraint6, constraint7]
         NSLayoutConstraint.activate(constraintArray)
         originalPlayerViewConstraints = constraintArray
+    }
+    
+    private func addRotatingConstraints() {
+        let constraint1 = NSLayoutConstraint(item: self.playerView, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.height, multiplier: 1.0, constant: 0.0)
+        let constraint2 = NSLayoutConstraint(item: self.playerView, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.width, multiplier: 1.0, constant: 0.0)
+        let constraint3 = NSLayoutConstraint(item: self.playerView, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.centerX, multiplier: 1.0, constant: 0.0)
+        let constraint4 = NSLayoutConstraint(item: self.playerView, attribute: NSLayoutAttribute.centerY, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.centerY, multiplier: 1.0, constant: 0.0)
+        //expand button
+        let constraint5 = NSLayoutConstraint(item: self.expandButton, attribute: NSLayoutAttribute.leading, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.leading, multiplier: 1.0, constant: 0.0)
+        let constraint6 = NSLayoutConstraint(item: self.expandButton, attribute: NSLayoutAttribute.bottom, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.bottom, multiplier: 1.0, constant: 0.0)
+        let constraintArray = [constraint1, constraint2, constraint3, constraint4, constraint5, constraint6]
+        self.rotatedPlayerViewConstraints = constraintArray
+        NSLayoutConstraint.activate(constraintArray)
     }
     
 
@@ -243,84 +260,74 @@ class StreamViewController: UIViewController {
         cancelChatTapped()
     }
     
-    func addRotatingConstraints() {
-        let constraint1 = NSLayoutConstraint(item: self.playerView, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.height, multiplier: 1.0, constant: 0.0)
-        let constraint2 = NSLayoutConstraint(item: self.playerView, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.width, multiplier: 1.0, constant: 0.0)
-        let constraint3 = NSLayoutConstraint(item: self.playerView, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.centerX, multiplier: 1.0, constant: 0.0)
-        let constraint4 = NSLayoutConstraint(item: self.playerView, attribute: NSLayoutAttribute.centerY, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.centerY, multiplier: 1.0, constant: 0.0)
-        let constraintArray = [constraint1, constraint2, constraint3, constraint4]
-        self.rotatedPlayerViewConstraints = constraintArray
-        NSLayoutConstraint.activate(constraintArray)
+    
+    
+    @IBAction func expandButtonTapped(_ sender: Any) {
+        if statusBarHidden {
+            returnPlayerViewToPortrait()
+        }
+        else {
+            rotatePlayerView(byAngle: CGFloat(M_PI_2))
+        }
     }
     
+    
     func rotated() {
-        let screenSize = UIScreen.main.bounds
-            var rotationAngle: CGFloat = 0
             switch UIDevice.current.orientation {
             case .landscapeLeft:
                 print("Landscape Left")
-                self.statusBarHidden = true
-                self.navigationController?.navigationBar.isHidden = true
-                self.playerView.removeConstraints(self.playerView.constraints)
-                NSLayoutConstraint.deactivate(originalPlayerViewConstraints)
-//                for constraint in self.playerView.constraints {
-//                    constraint.isActive = false
-//                }
-                self.playerView.translatesAutoresizingMaskIntoConstraints = false
-                rotationAngle = CGFloat(M_PI_2)
-                DispatchQueue.main.async {
-                    //self.outerPlayerView.translatesAutoresizingMaskIntoConstraints = false
-                    self.playerView.transform = CGAffineTransform(rotationAngle: rotationAngle)
-                    self.setNeedsStatusBarAppearanceUpdate()
-                    self.addRotatingConstraints()
-                    self.view.updateConstraintsIfNeeded()
-                    //self.playerView.frame = screenSize //make fullscreen if landscape
-                    
-                }
+                rotatePlayerView(byAngle: CGFloat(M_PI_2))
             case .landscapeRight:
                 print("Landscape Right")
-                self.statusBarHidden = true
-                //self.outerPlayerView.removeConstraints(self.outerPlayerView.constraints)
-                self.playerView.removeConstraints(self.playerView.constraints)
-                NSLayoutConstraint.deactivate(originalPlayerViewConstraints)
-                self.navigationController?.navigationBar.isHidden = true
-//                for constraint in self.playerView.constraints {
-//                    constraint.isActive = false
-//                }
-                self.playerView.translatesAutoresizingMaskIntoConstraints = false
-                rotationAngle = CGFloat(-M_PI_2)
-                DispatchQueue.main.async {
-                    //self.outerPlayerView.translatesAutoresizingMaskIntoConstraints = false
-                    self.playerView.transform = CGAffineTransform(rotationAngle: rotationAngle)
-                    self.setNeedsStatusBarAppearanceUpdate()
-                    self.addRotatingConstraints()
-                    self.view.updateConstraintsIfNeeded()
-                    //self.playerView.frame = screenSize //make fullscreen if landscape
-                }
+                rotatePlayerView(byAngle: CGFloat(-M_PI_2))
             case .portrait:
                 print("Portrait")
-                self.statusBarHidden = false
-                self.playerView.removeConstraints(self.playerView.constraints)
-                //self.playerView.addConstraints(originalPlayerViewConstraints)
-                NSLayoutConstraint.deactivate(rotatedPlayerViewConstraints)
-                NSLayoutConstraint.activate(originalPlayerViewConstraints)
-                //self.playerView.translatesAutoresizingMaskIntoConstraints = true
-                self.navigationController?.navigationBar.isHidden = false
-//                for constraint in self.playerView.constraints {
-//                    constraint.isActive = true
-//                }
-                DispatchQueue.main.async {
-                    //self.outerPlayerView.translatesAutoresizingMaskIntoConstraints = true
-                    self.playerView.transform = CGAffineTransform.identity
-                    self.setNeedsStatusBarAppearanceUpdate()
-                    self.playerView.frame = self.originalPlayerViewFrame //reset playerview if portrait
-                    self.view.updateConstraintsIfNeeded()
-                    //self.view.layoutIfNeeded()
-                }
+                returnPlayerViewToPortrait()
             default:
                 break
             }
         
+    }
+    
+    private func rotatePlayerView(byAngle angle: CGFloat) {
+        self.statusBarHidden = true
+        //self.outerPlayerView.removeConstraints(self.outerPlayerView.constraints)
+        self.playerView.removeConstraints(self.playerView.constraints)
+        NSLayoutConstraint.deactivate(originalPlayerViewConstraints)
+        self.navigationController?.navigationBar.isHidden = true
+        //                for constraint in self.playerView.constraints {
+        //                    constraint.isActive = false
+        //                }
+        self.playerView.translatesAutoresizingMaskIntoConstraints = false
+        DispatchQueue.main.async {
+            //self.outerPlayerView.translatesAutoresizingMaskIntoConstraints = false
+            self.playerView.transform = CGAffineTransform(rotationAngle: angle)
+            self.setNeedsStatusBarAppearanceUpdate()
+            self.addRotatingConstraints()
+            self.view.updateConstraintsIfNeeded()
+            //self.playerView.frame = screenSize //make fullscreen if landscape
+        }
+    }
+    
+    private func returnPlayerViewToPortrait() {
+        self.statusBarHidden = false
+        self.playerView.removeConstraints(self.playerView.constraints)
+        //self.playerView.addConstraints(originalPlayerViewConstraints)
+        NSLayoutConstraint.deactivate(rotatedPlayerViewConstraints)
+        NSLayoutConstraint.activate(originalPlayerViewConstraints)
+        //self.playerView.translatesAutoresizingMaskIntoConstraints = true
+        self.navigationController?.navigationBar.isHidden = false
+        //                for constraint in self.playerView.constraints {
+        //                    constraint.isActive = true
+        //                }
+        DispatchQueue.main.async {
+            //self.outerPlayerView.translatesAutoresizingMaskIntoConstraints = true
+            self.playerView.transform = CGAffineTransform.identity
+            self.setNeedsStatusBarAppearanceUpdate()
+            self.playerView.frame = self.originalPlayerViewFrame //reset playerview if portrait
+            self.view.updateConstraintsIfNeeded()
+            //self.view.layoutIfNeeded()
+        }
     }
     
     @IBAction func playTapped(_ sender: Any) {
