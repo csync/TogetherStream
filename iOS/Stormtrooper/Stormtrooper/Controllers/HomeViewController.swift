@@ -108,9 +108,9 @@ class HomeViewController: UIViewController {
         guard let profileVC = Utils.vcWithNameFromStoryboardWithName("profile", storyboardName: "Profile") as? ProfileViewController else {
             return
         }
-        present(profileVC, animated: true, completion: { _ in
-            
-        })
+        DispatchQueue.main.async {
+            self.navigationController?.pushViewController(profileVC, animated: true)
+        }
     }
     
     fileprivate func didSelectInviteFriends() {
