@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -299,13 +299,10 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QHR-Gx-V89">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QHR-Gx-V89">
                                 <rect key="frame" x="327" y="182" width="50" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.84705882349999995" green="0.25490196079999999" blue="0.027450980390000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="Wzw-Zf-LjV"/>
-                                    <constraint firstAttribute="width" constant="50" id="jPk-La-cds"/>
-                                </constraints>
                                 <connections>
                                     <action selector="expandButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="IJi-8H-0zR"/>
                                 </connections>
@@ -329,8 +326,8 @@
                             <constraint firstItem="q4i-Y2-lar" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="b8Z-gM-Mas"/>
                             <constraint firstItem="vau-1r-TMR" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="gYj-bF-bvP"/>
                             <constraint firstItem="1FR-Ex-Q2W" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="211" id="gl4-x9-Jhr"/>
-                            <constraint firstItem="u6G-sD-SZi" firstAttribute="top" secondItem="Y1Z-hD-o7e" secondAttribute="bottom" id="jGJ-4E-tUd"/>
                             <constraint firstItem="u6G-sD-SZi" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="jOW-AN-pKI"/>
+                            <constraint firstItem="u6G-sD-SZi" firstAttribute="top" secondItem="Y1Z-hD-o7e" secondAttribute="top" constant="87" id="mP2-6g-sTR"/>
                             <constraint firstItem="1FR-Ex-Q2W" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="q9o-SQ-wXE"/>
                             <constraint firstItem="Mpa-Nr-Aea" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="r4W-Bc-cbV"/>
                             <constraint firstItem="vau-1r-TMR" firstAttribute="top" secondItem="u6G-sD-SZi" secondAttribute="bottom" id="r6b-NL-Uaz"/>
