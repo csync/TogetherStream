@@ -108,6 +108,7 @@ class StreamViewController: UIViewController {
     }
     
     private func saveOriginalPlayerViewFrame() {
+        NSLayoutConstraint.deactivate(rotatedPlayerViewConstraints)
         self.playerView.translatesAutoresizingMaskIntoConstraints = false
         let constraint1 = NSLayoutConstraint(item: self.playerView, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.topMargin, multiplier: 1.0, constant: 0.0)
         let constraint2 = NSLayoutConstraint(item: self.playerView, attribute: NSLayoutAttribute.bottom, relatedBy: NSLayoutRelation.equal, toItem: self.headerView, attribute: NSLayoutAttribute.top, multiplier: 1.0, constant: 0.0)
@@ -115,21 +116,28 @@ class StreamViewController: UIViewController {
         let constraint4 = NSLayoutConstraint(item: self.playerView, attribute: NSLayoutAttribute.trailing, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.trailing, multiplier: 1.0, constant: 0.0)
         let constraint5 = NSLayoutConstraint(item: self.playerView, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1.0, constant: 211)
         //expand button
-        let constraint6 = NSLayoutConstraint(item: self.expandButton, attribute: NSLayoutAttribute.trailing, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.trailing, multiplier: 1.0, constant: 0.0)
-        let constraint7 = NSLayoutConstraint(item: self.expandButton, attribute: NSLayoutAttribute.bottom, relatedBy: NSLayoutRelation.equal, toItem: self.playerView, attribute: NSLayoutAttribute.bottom, multiplier: 1.0, constant: 0.0)
+        let expandTempButton = UIButton(frame: CGRect(x: self.playerView.frame.width-50, y: self.playerView.frame.height-50, width: 50, height: 50))
+        expandTempButton.backgroundColor = .red
+        self.view.addSubview(expandTempButton)
+        let constraint6 = NSLayoutConstraint(item: expandTempButton, attribute: NSLayoutAttribute.trailing, relatedBy: NSLayoutRelation.equal, toItem: self.playerView, attribute: NSLayoutAttribute.trailing, multiplier: 1.0, constant: 0.0)
+        let constraint7 = NSLayoutConstraint(item: expandTempButton, attribute: NSLayoutAttribute.bottom, relatedBy: NSLayoutRelation.equal, toItem: self.playerView, attribute: NSLayoutAttribute.bottom, multiplier: 1.0, constant: 0.0)
         let constraintArray = [constraint1, constraint2, constraint3, constraint4, constraint5, constraint6, constraint7]
         NSLayoutConstraint.activate(constraintArray)
         originalPlayerViewConstraints = constraintArray
     }
     
     private func addRotatingConstraints() {
+        NSLayoutConstraint.deactivate(originalPlayerViewConstraints)
         let constraint1 = NSLayoutConstraint(item: self.playerView, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.height, multiplier: 1.0, constant: 0.0)
         let constraint2 = NSLayoutConstraint(item: self.playerView, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.width, multiplier: 1.0, constant: 0.0)
         let constraint3 = NSLayoutConstraint(item: self.playerView, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.centerX, multiplier: 1.0, constant: 0.0)
         let constraint4 = NSLayoutConstraint(item: self.playerView, attribute: NSLayoutAttribute.centerY, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.centerY, multiplier: 1.0, constant: 0.0)
         //expand button
-        let constraint5 = NSLayoutConstraint(item: self.expandButton, attribute: NSLayoutAttribute.leading, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.leading, multiplier: 1.0, constant: 0.0)
-        let constraint6 = NSLayoutConstraint(item: self.expandButton, attribute: NSLayoutAttribute.bottom, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.bottom, multiplier: 1.0, constant: 0.0)
+        let expandTempButton = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+        expandTempButton.backgroundColor = .red
+        self.view.addSubview(expandTempButton)
+        let constraint5 = NSLayoutConstraint(item: expandTempButton, attribute: NSLayoutAttribute.trailing, relatedBy: NSLayoutRelation.equal, toItem: self.playerView, attribute: NSLayoutAttribute.trailing, multiplier: 1.0, constant: 0.0)
+        let constraint6 = NSLayoutConstraint(item: self.expandButton, attribute: NSLayoutAttribute.bottom, relatedBy: NSLayoutRelation.equal, toItem: self.playerView, attribute: NSLayoutAttribute.bottom, multiplier: 1.0, constant: 0.0)
         let constraintArray = [constraint1, constraint2, constraint3, constraint4, constraint5, constraint6]
         self.rotatedPlayerViewConstraints = constraintArray
         NSLayoutConstraint.activate(constraintArray)
@@ -302,6 +310,7 @@ class StreamViewController: UIViewController {
         DispatchQueue.main.async {
             //self.outerPlayerView.translatesAutoresizingMaskIntoConstraints = false
             self.playerView.transform = CGAffineTransform(rotationAngle: angle)
+            self.expandButton.transform = CGAffineTransform(rotationAngle: angle)
             self.setNeedsStatusBarAppearanceUpdate()
             self.addRotatingConstraints()
             self.view.updateConstraintsIfNeeded()
@@ -323,6 +332,7 @@ class StreamViewController: UIViewController {
         DispatchQueue.main.async {
             //self.outerPlayerView.translatesAutoresizingMaskIntoConstraints = true
             self.playerView.transform = CGAffineTransform.identity
+            self.expandButton.transform = CGAffineTransform.identity
             self.setNeedsStatusBarAppearanceUpdate()
             self.playerView.frame = self.originalPlayerViewFrame //reset playerview if portrait
             self.view.updateConstraintsIfNeeded()
