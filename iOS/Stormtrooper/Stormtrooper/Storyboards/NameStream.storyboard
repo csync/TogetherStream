@@ -47,13 +47,6 @@
                                     <outlet property="delegate" destination="Mx7-Sk-Jgf" id="5vi-cE-R6C"/>
                                 </connections>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hmi-3k-jaa">
-                                <rect key="frame" x="137" y="256" width="101" height="30"/>
-                                <state key="normal" title="Skip to Stream"/>
-                                <connections>
-                                    <action selector="skipToStreamTapped:" destination="Mx7-Sk-Jgf" eventType="touchUpInside" id="BlT-zZ-yEj"/>
-                                </connections>
-                            </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Description (optional)" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="SpN-Uk-38q">
                                 <rect key="frame" x="15" y="104" width="345" height="144"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -78,11 +71,9 @@
                             <constraint firstItem="SpN-Uk-38q" firstAttribute="trailing" secondItem="Mgl-N8-G1e" secondAttribute="trailing" id="3fm-fL-sh1"/>
                             <constraint firstItem="SpN-Uk-38q" firstAttribute="top" secondItem="Mgl-N8-G1e" secondAttribute="bottom" constant="16" id="7ua-qj-td3"/>
                             <constraint firstItem="Mgl-N8-G1e" firstAttribute="leading" secondItem="Fuz-bi-iqW" secondAttribute="leading" constant="15" id="G3B-nB-hLI"/>
-                            <constraint firstItem="Hmi-3k-jaa" firstAttribute="top" secondItem="SpN-Uk-38q" secondAttribute="bottom" constant="8" id="Giz-fC-Ayl"/>
                             <constraint firstItem="Mgl-N8-G1e" firstAttribute="top" secondItem="vQ3-t6-piw" secondAttribute="bottom" constant="18" id="Hrq-ur-l59"/>
                             <constraint firstItem="SpN-Uk-38q" firstAttribute="leading" secondItem="Mgl-N8-G1e" secondAttribute="leading" id="MnF-sm-QAm"/>
                             <constraint firstAttribute="trailing" secondItem="Mgl-N8-G1e" secondAttribute="trailing" constant="15" id="mix-dr-6ka"/>
-                            <constraint firstItem="Hmi-3k-jaa" firstAttribute="centerX" secondItem="Fuz-bi-iqW" secondAttribute="centerX" id="oi4-C5-GXY"/>
                         </constraints>
                     </view>
                     <connections>
