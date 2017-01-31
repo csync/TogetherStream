@@ -81,6 +81,8 @@
 		4AD6F7BD1E2D3755006104CF /* TextEmailTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4AD6F7BB1E2D3755006104CF /* TextEmailTableViewCell.xib */; };
 		689A111E1E2FF35200B87DEF /* Popup.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 689A111D1E2FF35200B87DEF /* Popup.storyboard */; };
 		689A11201E2FFF3900B87DEF /* PopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 689A111F1E2FFF3900B87DEF /* PopupViewController.swift */; };
+		68D1A7C41E4113E50073E571 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 68D1A7C31E4113E50073E571 /* GoogleService-Info.plist */; };
+		A11341338785A8FE3A728E1A /* Pods_StormtrooperUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0B5CDBFE6BFD68EBAADCA49 /* Pods_StormtrooperUITests.framework */; };
 		A23377A91E01DDD500E43DA0 /* HeartbeatDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23377A81E01DDD500E43DA0 /* HeartbeatDataManager.swift */; };
 		A2483D451E3BB6AE007E92DD /* VideoQueueTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2483D431E3BB6AE007E92DD /* VideoQueueTableViewCell.swift */; };
 		A2483D461E3BB6AE007E92DD /* VideoQueueTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2483D441E3BB6AE007E92DD /* VideoQueueTableViewCell.xib */; };
@@ -119,6 +121,8 @@
 		A2F714751DF1F39E00BC7335 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2F714741DF1F39E00BC7335 /* Bolts.framework */; };
 		A2F714771DF1F51400BC7335 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2F714761DF1F51400BC7335 /* FBSDKCoreKit.framework */; };
 		A2F95F7C1E380AE300E41C58 /* ThreadSafeCallbackQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F95F7B1E380AE300E41C58 /* ThreadSafeCallbackQueue.swift */; };
+		B9019690369A3BB0C012DAD1 /* Pods_StormtrooperTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A4340F469405250A11D5EF99 /* Pods_StormtrooperTests.framework */; };
+		E2ECAAEAB2B18B5545C9C1DF /* Pods_Stormtrooper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EDC528637824AA6B4BFC92C /* Pods_Stormtrooper.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -139,6 +143,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2EDC528637824AA6B4BFC92C /* Pods_Stormtrooper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Stormtrooper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3401B4311E2EDDB9005ACB96 /* ChatTextFieldAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatTextFieldAccessoryView.swift; sourceTree = "<group>"; };
 		3401B4331E2EDDCF005ACB96 /* ChatTextFieldAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatTextFieldAccessoryView.xib; sourceTree = "<group>"; };
 		3401B4351E2EEA58005ACB96 /* UITextFieldExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITextFieldExtension.swift; sourceTree = "<group>"; };
@@ -218,8 +223,12 @@
 		4ABA7DD11E3948B80059CA1F /* InviteStreamViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InviteStreamViewModel.swift; sourceTree = "<group>"; };
 		4AD6F7BA1E2D3755006104CF /* TextEmailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextEmailTableViewCell.swift; sourceTree = "<group>"; };
 		4AD6F7BB1E2D3755006104CF /* TextEmailTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextEmailTableViewCell.xib; sourceTree = "<group>"; };
+		53540351F8E16A64AC80305B /* Pods-StormtrooperUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StormtrooperUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-StormtrooperUITests/Pods-StormtrooperUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		689A111D1E2FF35200B87DEF /* Popup.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Popup.storyboard; sourceTree = "<group>"; };
 		689A111F1E2FFF3900B87DEF /* PopupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupViewController.swift; sourceTree = "<group>"; };
+		68D1A7C31E4113E50073E571 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		753248237D2956AB73628500 /* Pods-Stormtrooper.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Stormtrooper.release.xcconfig"; path = "Pods/Target Support Files/Pods-Stormtrooper/Pods-Stormtrooper.release.xcconfig"; sourceTree = "<group>"; };
+		9D347DC144B6BDAA4A91BD74 /* Pods-StormtrooperUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StormtrooperUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-StormtrooperUITests/Pods-StormtrooperUITests.release.xcconfig"; sourceTree = "<group>"; };
 		A23377A81E01DDD500E43DA0 /* HeartbeatDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeartbeatDataManager.swift; sourceTree = "<group>"; };
 		A2483D431E3BB6AE007E92DD /* VideoQueueTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoQueueTableViewCell.swift; sourceTree = "<group>"; };
 		A2483D441E3BB6AE007E92DD /* VideoQueueTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VideoQueueTableViewCell.xib; sourceTree = "<group>"; };
@@ -259,6 +268,11 @@
 		A2F714761DF1F51400BC7335 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		A2F714781DF1FECC00BC7335 /* Stormtrooper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Stormtrooper.entitlements; sourceTree = "<group>"; };
 		A2F95F7B1E380AE300E41C58 /* ThreadSafeCallbackQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThreadSafeCallbackQueue.swift; sourceTree = "<group>"; };
+		A4340F469405250A11D5EF99 /* Pods_StormtrooperTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StormtrooperTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C44B78CB5453E74E31F7775A /* Pods-StormtrooperTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StormtrooperTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-StormtrooperTests/Pods-StormtrooperTests.debug.xcconfig"; sourceTree = "<group>"; };
+		DB2C684AFE99FF3E0F90657B /* Pods-StormtrooperTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StormtrooperTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-StormtrooperTests/Pods-StormtrooperTests.release.xcconfig"; sourceTree = "<group>"; };
+		F0B5CDBFE6BFD68EBAADCA49 /* Pods_StormtrooperUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StormtrooperUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FDADB9ADEF263CF78FD0D05A /* Pods-Stormtrooper.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Stormtrooper.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Stormtrooper/Pods-Stormtrooper.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -272,6 +286,7 @@
 				A2F714731DF1F34300BC7335 /* FBSDKLoginKit.framework in Frameworks */,
 				A2F714771DF1F51400BC7335 /* FBSDKCoreKit.framework in Frameworks */,
 				A2F714751DF1F39E00BC7335 /* Bolts.framework in Frameworks */,
+				E2ECAAEAB2B18B5545C9C1DF /* Pods_Stormtrooper.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -279,6 +294,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9019690369A3BB0C012DAD1 /* Pods_StormtrooperTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -286,12 +302,26 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A11341338785A8FE3A728E1A /* Pods_StormtrooperUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1FB6C0218462DDA3782E2EAD /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				FDADB9ADEF263CF78FD0D05A /* Pods-Stormtrooper.debug.xcconfig */,
+				753248237D2956AB73628500 /* Pods-Stormtrooper.release.xcconfig */,
+				C44B78CB5453E74E31F7775A /* Pods-StormtrooperTests.debug.xcconfig */,
+				DB2C684AFE99FF3E0F90657B /* Pods-StormtrooperTests.release.xcconfig */,
+				53540351F8E16A64AC80305B /* Pods-StormtrooperUITests.debug.xcconfig */,
+				9D347DC144B6BDAA4A91BD74 /* Pods-StormtrooperUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		3401B43F1E2FE39E005ACB96 /* ALTextInputBar */ = {
 			isa = PBXGroup;
 			children = (
@@ -360,8 +390,9 @@
 		34C6E52D1DF21B8600EB4972 /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
-				34C6E5301DF21BAD00EB4972 /* keys.plist */,
+				68D1A7C31E4113E50073E571 /* GoogleService-Info.plist */,
 				34C6E52E1DF21B8600EB4972 /* Info.plist */,
+				34C6E5301DF21BAD00EB4972 /* keys.plist */,
 			);
 			path = Configuration;
 			sourceTree = "<group>";
@@ -374,6 +405,7 @@
 				34DA46D11DE61FC600E989A9 /* StormtrooperUITests */,
 				34DA46B01DE61FC600E989A9 /* Products */,
 				A2A436041DFA04C6008C2FB2 /* Frameworks */,
+				1FB6C0218462DDA3782E2EAD /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -582,6 +614,9 @@
 				A2A436051DFA04C7008C2FB2 /* CSyncSDK.framework */,
 				A2A436061DFA04C7008C2FB2 /* SQLite.framework */,
 				A2A436071DFA04C7008C2FB2 /* SwiftWebSocket.framework */,
+				2EDC528637824AA6B4BFC92C /* Pods_Stormtrooper.framework */,
+				A4340F469405250A11D5EF99 /* Pods_StormtrooperTests.framework */,
+				F0B5CDBFE6BFD68EBAADCA49 /* Pods_StormtrooperUITests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -593,10 +628,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 34DA46D71DE61FC600E989A9 /* Build configuration list for PBXNativeTarget "Stormtrooper" */;
 			buildPhases = (
+				B25CAAFC6E2A2A463EA20A46 /* [CP] Check Pods Manifest.lock */,
 				34DA46AB1DE61FC600E989A9 /* Sources */,
 				34DA46AC1DE61FC600E989A9 /* Frameworks */,
 				34DA46AD1DE61FC600E989A9 /* Resources */,
-				A2A4360B1DFA04D6008C2FB2 /* ShellScript */,
+				A2A4360B1DFA04D6008C2FB2 /* Copy Carthage Frameworks */,
+				49AEBADA9127E0E2510AADC9 /* [CP] Embed Pods Frameworks */,
+				F45BBC9A11A21623B1D56D20 /* [CP] Copy Pods Resources */,
+				68D1A7C21E4105F70073E571 /* Run Fabric */,
 			);
 			buildRules = (
 			);
@@ -611,9 +650,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 34DA46DA1DE61FC600E989A9 /* Build configuration list for PBXNativeTarget "StormtrooperTests" */;
 			buildPhases = (
+				F3B25928F8DE7C2AD37724A9 /* [CP] Check Pods Manifest.lock */,
 				34DA46BF1DE61FC600E989A9 /* Sources */,
 				34DA46C01DE61FC600E989A9 /* Frameworks */,
 				34DA46C11DE61FC600E989A9 /* Resources */,
+				2CBCB6C23C5675193893FAEF /* [CP] Embed Pods Frameworks */,
+				ABA38B2EA0410B413ACA3C62 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -629,9 +671,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 34DA46DD1DE61FC600E989A9 /* Build configuration list for PBXNativeTarget "StormtrooperUITests" */;
 			buildPhases = (
+				26C60ACCE53932AE6BC3A4E8 /* [CP] Check Pods Manifest.lock */,
 				34DA46CA1DE61FC600E989A9 /* Sources */,
 				34DA46CB1DE61FC600E989A9 /* Frameworks */,
 				34DA46CC1DE61FC600E989A9 /* Resources */,
+				B48368F40EDBF30704E9A04B /* [CP] Embed Pods Frameworks */,
+				23F08467D1AF071D4EB6251B /* [CP] Copy Pods Resources */,
+				685F713F1E40FC9300E2F33D /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -712,6 +758,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A2D44DC21E32B15900053099 /* SearchResultTableViewCell.xib in Resources */,
+				68D1A7C41E4113E50073E571 /* GoogleService-Info.plist in Resources */,
 				A2D44DBE1E3024DC00053099 /* NoStreamsTableViewCell.xib in Resources */,
 				34AD4C0E1E20400E00210F61 /* WorkSans-SemiBold.ttf in Resources */,
 				34AD4C061E20400E00210F61 /* OFL.txt in Resources */,
@@ -777,7 +824,94 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		A2A4360B1DFA04D6008C2FB2 /* ShellScript */ = {
+		23F08467D1AF071D4EB6251B /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-StormtrooperUITests/Pods-StormtrooperUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		26C60ACCE53932AE6BC3A4E8 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		2CBCB6C23C5675193893FAEF /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-StormtrooperTests/Pods-StormtrooperTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		49AEBADA9127E0E2510AADC9 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Stormtrooper/Pods-Stormtrooper-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		685F713F1E40FC9300E2F33D /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" 538252876981992b98f7f191f5a981ffab1a1470 3845e8c1e4ac3dff858d4ffabdf7c8a9d9f6704ea69b4df80d5a80d4a69ea609";
+		};
+		68D1A7C21E4105F70073E571 /* Run Fabric */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Fabric";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" 538252876981992b98f7f191f5a981ffab1a1470 3845e8c1e4ac3dff858d4ffabdf7c8a9d9f6704ea69b4df80d5a80d4a69ea609";
+		};
+		A2A4360B1DFA04D6008C2FB2 /* Copy Carthage Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -787,11 +921,87 @@
 				"$(SRCROOT)/Carthage/Build/iOS/SQLite.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/SwiftWebSocket.framework",
 			);
+			name = "Copy Carthage Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+		ABA38B2EA0410B413ACA3C62 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-StormtrooperTests/Pods-StormtrooperTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B25CAAFC6E2A2A463EA20A46 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		B48368F40EDBF30704E9A04B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-StormtrooperUITests/Pods-StormtrooperUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F3B25928F8DE7C2AD37724A9 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		F45BBC9A11A21623B1D56D20 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Stormtrooper/Pods-Stormtrooper-resources.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -990,10 +1200,12 @@
 		};
 		34DA46D81DE61FC600E989A9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FDADB9ADEF263CF78FD0D05A /* Pods-Stormtrooper.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Stormtrooper/Stormtrooper.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = PETKK2G752;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1014,6 +1226,7 @@
 		};
 		34DA46D91DE61FC600E989A9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 753248237D2956AB73628500 /* Pods-Stormtrooper.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Stormtrooper/Stormtrooper.entitlements;
@@ -1038,8 +1251,9 @@
 		};
 		34DA46DB1DE61FC600E989A9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C44B78CB5453E74E31F7775A /* Pods-StormtrooperTests.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = PETKK2G752;
 				INFOPLIST_FILE = StormtrooperTests/Info.plist;
@@ -1053,8 +1267,9 @@
 		};
 		34DA46DC1DE61FC600E989A9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DB2C684AFE99FF3E0F90657B /* Pods-StormtrooperTests.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = PETKK2G752;
 				INFOPLIST_FILE = StormtrooperTests/Info.plist;
@@ -1068,8 +1283,9 @@
 		};
 		34DA46DE1DE61FC600E989A9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 53540351F8E16A64AC80305B /* Pods-StormtrooperUITests.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				DEVELOPMENT_TEAM = PETKK2G752;
 				INFOPLIST_FILE = StormtrooperUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -1082,8 +1298,9 @@
 		};
 		34DA46DF1DE61FC600E989A9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9D347DC144B6BDAA4A91BD74 /* Pods-StormtrooperUITests.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				DEVELOPMENT_TEAM = PETKK2G752;
 				INFOPLIST_FILE = StormtrooperUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
