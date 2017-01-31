@@ -71,7 +71,7 @@ class FacebookDataManager {
         }
         if queueStatus.didAddFirst
         {
-            let parameters = ["fields": "name, picture.width(\(highResSize.width)).height(\(highResSize.height))"]
+            let parameters = ["fields": "name, picture.width(\(Int(highResSize.width))).height(\(Int(highResSize.height)))"]
             let request = FBSDKGraphRequest(graphPath: id, parameters: parameters)
             let _ = request?.start(){(request, result, error) in
                 guard error == nil else {
@@ -119,7 +119,7 @@ class FacebookDataManager {
 	private func innerFetchFriends(withAfterCursor afterCursor: String?, friends: [User], callback: @escaping (Error?, [User]?) -> Void) {
 		var afterCursor = afterCursor
 		var friends = friends
-		var parameters = ["fields": "friends{name, picture.width(\(highResSize.width)).height(\(highResSize.height))}"]
+		var parameters = ["fields": "friends{name, picture.width(\(Int(highResSize.width))).height(\(Int(highResSize.height)))}"]
 		if let afterCursor = afterCursor {
 			parameters["after"] = afterCursor
 		}
