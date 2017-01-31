@@ -15,7 +15,7 @@ class HomeViewController: UIViewController {
 	fileprivate let viewModel = HomeViewModel()
     
     private let profileButtonFrame = CGRect(x: 0, y: 0, width: 23, height: 23)
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -51,7 +51,7 @@ class HomeViewController: UIViewController {
         
         let profileButton = UIButton(type: .custom)
         profileButton.frame = profileButtonFrame
-        FacebookDataManager.sharedInstance.fetchProfilePictureForCurrentUser(as: profileButton.frame.size) {error, image in
+        FacebookDataManager.sharedInstance.fetchProfilePictureForCurrentUser() {error, image in
             if let image = image {
                 DispatchQueue.main.async {
                     profileButton.setImage(image, for: .normal)

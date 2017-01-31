@@ -82,6 +82,8 @@
 		689A111E1E2FF35200B87DEF /* Popup.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 689A111D1E2FF35200B87DEF /* Popup.storyboard */; };
 		689A11201E2FFF3900B87DEF /* PopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 689A111F1E2FFF3900B87DEF /* PopupViewController.swift */; };
 		A23377A91E01DDD500E43DA0 /* HeartbeatDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23377A81E01DDD500E43DA0 /* HeartbeatDataManager.swift */; };
+		A2483D451E3BB6AE007E92DD /* VideoQueueTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2483D431E3BB6AE007E92DD /* VideoQueueTableViewCell.swift */; };
+		A2483D461E3BB6AE007E92DD /* VideoQueueTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2483D441E3BB6AE007E92DD /* VideoQueueTableViewCell.xib */; };
 		A25D96201E0341A3008FD996 /* ChatDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25D961F1E0341A3008FD996 /* ChatDataManager.swift */; };
 		A25D96221E0344B3008FD996 /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25D96211E0344B3008FD996 /* ChatMessage.swift */; };
 		A25D96241E0B16BA008FD996 /* StreamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25D96231E0B16BA008FD996 /* StreamViewModel.swift */; };
@@ -219,6 +221,8 @@
 		689A111D1E2FF35200B87DEF /* Popup.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Popup.storyboard; sourceTree = "<group>"; };
 		689A111F1E2FFF3900B87DEF /* PopupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupViewController.swift; sourceTree = "<group>"; };
 		A23377A81E01DDD500E43DA0 /* HeartbeatDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeartbeatDataManager.swift; sourceTree = "<group>"; };
+		A2483D431E3BB6AE007E92DD /* VideoQueueTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoQueueTableViewCell.swift; sourceTree = "<group>"; };
+		A2483D441E3BB6AE007E92DD /* VideoQueueTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VideoQueueTableViewCell.xib; sourceTree = "<group>"; };
 		A25D961F1E0341A3008FD996 /* ChatDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatDataManager.swift; sourceTree = "<group>"; };
 		A25D96211E0344B3008FD996 /* ChatMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
 		A25D96231E0B16BA008FD996 /* StreamViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StreamViewModel.swift; path = ../Controllers/StreamViewModel.swift; sourceTree = "<group>"; };
@@ -566,6 +570,8 @@
 				A2D44DC51E33E9A600053099 /* SearchResultHeaderView.xib */,
 				A2D44DC91E36ACEE00053099 /* NextBannerView.xib */,
 				A2D44DCB1E36AE2700053099 /* NextBannerView.swift */,
+				A2483D431E3BB6AE007E92DD /* VideoQueueTableViewCell.swift */,
+				A2483D441E3BB6AE007E92DD /* VideoQueueTableViewCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -643,6 +649,9 @@
 		34DA46A71DE61FC600E989A9 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				KnownAssetTags = (
+					0,
+				);
 				LastSwiftUpdateCheck = 0810;
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = IBM;
@@ -713,6 +722,7 @@
 				34AD4C001E20400E00210F61 /* OpenSans-Italic.ttf in Resources */,
 				34AD4C081E20400E00210F61 /* WorkSans-Bold.ttf in Resources */,
 				3401B44B1E2FE39E005ACB96 /* LICENSE in Resources */,
+				A2483D461E3BB6AE007E92DD /* VideoQueueTableViewCell.xib in Resources */,
 				34AD4C0B1E20400E00210F61 /* WorkSans-Light.ttf in Resources */,
 				3401B43A1E2F1FF1005ACB96 /* ChatMessageTableViewCell.xib in Resources */,
 				34AD4BFC1E20400E00210F61 /* OpenSans-Bold.ttf in Resources */,
@@ -841,6 +851,7 @@
 				A29D11041DF8B30D00FA0EEC /* User.swift in Sources */,
 				4A240FBC1E2D8CF600DCD418 /* FriendTableViewCell.swift in Sources */,
 				A2F95F7C1E380AE300E41C58 /* ThreadSafeCallbackQueue.swift in Sources */,
+				A2483D451E3BB6AE007E92DD /* VideoQueueTableViewCell.swift in Sources */,
 				A2A4360D1DFB2421008C2FB2 /* FacebookDataManager.swift in Sources */,
 				A2A4360F1DFB24CE008C2FB2 /* ServerError.swift in Sources */,
 				A25D962C1E1D965A008FD996 /* HomeViewModel.swift in Sources */,

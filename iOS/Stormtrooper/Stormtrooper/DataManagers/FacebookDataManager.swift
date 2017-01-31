@@ -10,7 +10,9 @@ import Foundation
 import FBSDKLoginKit
 
 class FacebookDataManager {
-	static let sharedInstance = FacebookDataManager()
+    static let sharedInstance = FacebookDataManager()
+
+    let highResSize = CGSize(width:500, height:500)
 	
 	var profile: FBSDKProfile? {
 		return FBSDKProfile.current() ?? nil
@@ -32,8 +34,8 @@ class FacebookDataManager {
 		innerFetchFriends(withAfterCursor: nil, friends: [], callback: callback)
 	}
 	
-	func fetchProfilePictureForCurrentUser(as size: CGSize, callback: @escaping (Error?, UIImage?) -> Void) {
-		guard let profile = profile, let pictureURL = profile.imageURL(for: .square, size: size) else {
+	func fetchProfilePictureForCurrentUser(callback: @escaping (Error?, UIImage?) -> Void) {
+		guard let profile = profile, let pictureURL = profile.imageURL(for: .square, size: highResSize) else {
 			callback(ServerError.invalidConfiguration, nil)
 			return
 		}
@@ -69,7 +71,7 @@ class FacebookDataManager {
         }
         if queueStatus.didAddFirst
         {
-            let parameters = ["fields": "name, picture"]
+            let parameters = ["fields": "name, picture.width(\(Int(highResSize.width))).height(\(Int(highResSize.height)))"]
             let request = FBSDKGraphRequest(graphPath: id, parameters: parameters)
             let _ = request?.start(){(request, result, error) in
                 guard error == nil else {
@@ -117,7 +119,7 @@ class FacebookDataManager {
 	private func innerFetchFriends(withAfterCursor afterCursor: String?, friends: [User], callback: @escaping (Error?, [User]?) -> Void) {
 		var afterCursor = afterCursor
 		var friends = friends
-		var parameters = ["fields": "friends{name, picture}"]
+		var parameters = ["fields": "friends{name, picture.width(\(Int(highResSize.width))).height(\(Int(highResSize.height)))}"]
 		if let afterCursor = afterCursor {
 			parameters["after"] = afterCursor
 		}
