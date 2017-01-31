@@ -307,7 +307,9 @@ class StreamViewController: UIViewController {
         // update popup with user profile picture
         FacebookDataManager.sharedInstance.fetchProfilePictureForCurrentUser { error, image in
             if let image = image {
-                popup.image = image
+                DispatchQueue.main.async {
+                    popup.image = image
+                }
             }
         }
     }
