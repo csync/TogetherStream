@@ -8,6 +8,7 @@
 
 import UIKit
 import Foundation
+import Crashlytics
 
 class HomeViewController: UIViewController {
 	@IBOutlet weak var streamsTableView: UITableView!
@@ -86,6 +87,16 @@ class HomeViewController: UIViewController {
             }
             present(loginVC, animated: true, completion: { _ in
             })
+        }
+        logUserWithCrashlytics()
+    }
+    
+    /// Log the current user's id and name with Crashlytics to support detailed crash reports.
+    /// (The current user's profile must not be nil.)
+    func logUserWithCrashlytics() {
+        if let profile = FacebookDataManager.sharedInstance.profile {
+            Crashlytics.sharedInstance().setUserIdentifier(profile.userID)
+            Crashlytics.sharedInstance().setUserName(profile.name)
         }
     }
     
