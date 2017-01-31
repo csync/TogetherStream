@@ -305,16 +305,9 @@ class StreamViewController: UIViewController {
         present(popup, animated: true)
         
         // update popup with user profile picture
-        guard let hostFacebookID = stream?.hostFacebookID else { return }
-        FacebookDataManager.sharedInstance.fetchInfoForUser(withID: hostFacebookID) { error, user in
-            guard error == nil else { return }
-            if let user = user {
-                user.fetchProfileImage { error, image in
-                    guard error == nil else { return }
-                    if let image = image {
-                        popup.image = image
-                    }
-                }
+        FacebookDataManager.sharedInstance.fetchProfilePictureForCurrentUser { error, image in
+            if let image = image {
+                popup.image = image
             }
         }
     }
