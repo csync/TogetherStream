@@ -198,7 +198,7 @@ a:hover {
 
 footer {
   background-color: rgb(40, 36, 36);
-  height: 400px;
+  padding-top:50px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;

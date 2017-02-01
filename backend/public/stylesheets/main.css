@@ -28,6 +28,7 @@ section {
   color: white;
   justify-content: flex-start;
   align-items: center;
+  justify-content: center;
 }
 
 .splash .icon {
@@ -60,8 +61,10 @@ section {
 
 .splash .left-container {
   text-align: left;
-  position:relative;
-  left: 10%;
+  width: 475px;
+}
+.splash .right-container {
+  overflow: hidden;
 }
 
 .splash .appstore-icon {
@@ -69,20 +72,12 @@ section {
   height: 42px;
   width: 143px;
 }
-.splash.main {
-  background-image: url("http://ipadflava.com/wp-content/uploads/storm-trooper.jpg");
-  background-repeat: no-repeat;
-  background-size: 40% auto;
-  background-position: 90% 60%;
-  padding-top: 150px;
-  padding-bottom: 150px;
-}
 .splash .iphone-pic {
   height: 632px;
   width: 450px;
   margin-left: 120px;
-  margin-top: 184px;
-  overflow: hidden;
+  position: relative;
+  top: 80px;
 }
 .splash .iphone-pic-2 {
   height: 392px;
@@ -456,30 +451,39 @@ section {
 
 
 @media (max-width: 735px) {
-  .splash.main {
-    background-image: initial;
-    padding: initial;
-  }
-
-  .splash .left-container {
-    left: 0%;
-    text-align: center;
+  
+  .splash .iphone-pic {
     width: 100%;
+    margin: initial;
+  }
+  .splash .left-container {
+    text-align: center;
+  }
+  .splash .left-container h1 {
+    padding: 0px 50px 0px 50px;
   }
   .appstore-icon {
+    display: flex;
+    margin: auto;
     float: none !important;
-    align-self: center;
   }
   .tuning-in p {
     padding: 5% 5% 0px 5%;
   }
-}
-
-@media (min-width: 1235px){
-  .splash.main {
-    background-size: 500px auto;
-    background-position: 90% 60%;
-    padding-top: 150px;
-    padding-bottom: 150px;
+  .centered-container .text {
+    width: 90% !important;
   }
 }
+
+@media (max-width: 1067px) {
+  .splash.main {
+    flex-direction: column;
+  }
+  .splash .iphone-pic {
+    margin: auto;
+  }
+  .splash .left-container {
+    margin-top: 70px;
+  }
+}
+
