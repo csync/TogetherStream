@@ -28,7 +28,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         let invite = ProfileRow(
             label: "Invite Friends to Together Stream",
             showDisclosure: true,
-            action: { }
+            action: { self.pushViewController("inviteStream", from: "InviteStream") }
         )
         let about = ProfileRow(
             label: "About Together Stream",
@@ -38,7 +38,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         let disclaimer = ProfileRow(
             label: "Disclaimer",
             showDisclosure: true,
-            action: { }
+            action: { self.pushViewController("disclaimer") }
         )
         let privacy = ProfileRow(
             label: "Privacy Policy",
@@ -53,7 +53,10 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         let signOut = ProfileRow(
             label: "Sign Out of Facebook",
             showDisclosure: false,
-            action: { self.facebookDataManager.logOut() }
+            action: {
+                self.facebookDataManager.logOut()
+                _ = self.navigationController?.popViewController(animated: true)
+            }
         )
         return [invite, about, disclaimer, privacy, licenses, signOut]
     }()
