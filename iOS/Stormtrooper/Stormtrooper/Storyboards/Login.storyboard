@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -22,7 +26,7 @@
                         <viewControllerLayoutGuide type="bottom" id="jPW-Dj-L78"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="6Yc-wI-AJw">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4lj-p3-UCl">
@@ -38,7 +42,7 @@
                                         <color key="textColor" red="0.88627450980392153" green="0.27843137254901962" blue="0.043137254901960784" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="stormtrooper_helmet" translatesAutoresizingMaskIntoConstraints="NO" id="Eac-cl-RPi">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Profile_50" translatesAutoresizingMaskIntoConstraints="NO" id="Eac-cl-RPi">
                                         <rect key="frame" x="111" y="0.0" width="110" height="110"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="110" id="gHH-7D-4g9"/>
@@ -84,7 +88,6 @@
                             <constraint firstItem="4lj-p3-UCl" firstAttribute="centerX" secondItem="6Yc-wI-AJw" secondAttribute="centerX" id="oiN-qL-d9H"/>
                         </constraints>
                     </view>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4_7.fullscreen"/>
                     <connections>
                         <outlet property="facebookLoginButton" destination="fp8-cs-CKk" id="pH5-4Y-eUA"/>
                     </connections>
@@ -95,6 +98,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="stormtrooper_helmet" width="400" height="400"/>
+        <image name="Profile_50" width="50" height="50"/>
     </resources>
 </document>

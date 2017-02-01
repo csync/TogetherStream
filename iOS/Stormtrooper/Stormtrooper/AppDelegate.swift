@@ -177,7 +177,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         // define popup with default user profile picture and name
         let popup = PopupViewController.instantiate(
             titleText: "YOU'VE BEEN INVITED",
-            image: #imageLiteral(resourceName: "stormtrooper_helmet"),
+            image: #imageLiteral(resourceName: "Profile_50"),
             messageText: stream.name,
             descriptionText: "",
             primaryButtonText: "JOIN STREAM",
@@ -216,7 +216,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         
         let popup = PopupViewController.instantiate(
             titleText: "MY STREAM",
-            image: #imageLiteral(resourceName: "stormtrooper_helmet"),
+            image: #imageLiteral(resourceName: "Profile_50"),
             messageText: stream.name,
             descriptionText: "Would you like to end your stream?",
             primaryButtonText: "END STREAM",

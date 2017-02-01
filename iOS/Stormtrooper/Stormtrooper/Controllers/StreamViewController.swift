@@ -431,7 +431,7 @@ class StreamViewController: UIViewController {
         // present popup with default user profile picture
         let popup = PopupViewController.instantiate(
             titleText: stream?.name ?? "MY STREAM",
-            image: #imageLiteral(resourceName: "stormtrooper_helmet"),
+            image: #imageLiteral(resourceName: "Profile_50"),
             messageText: stream?.name ?? "",
             descriptionText: "Would you like to end your stream?",
             primaryButtonText: "END STREAM",
@@ -595,7 +595,7 @@ extension StreamViewController: StreamViewModelDelegate {
         // present popup with default user profile picture
 		let popup = PopupViewController.instantiate(
             titleText: (stream?.name ?? "").uppercased(),
-            image: #imageLiteral(resourceName: "stormtrooper_helmet"),
+            image: #imageLiteral(resourceName: "Profile_50"),
             messageText: (stream?.name ?? "").uppercased(),
             descriptionText: "This stream has ended.",
             primaryButtonText: "OKAY",
