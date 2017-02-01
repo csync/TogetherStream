@@ -53,14 +53,14 @@
                                 </constraints>
                             </imageView>
                             <view alpha="0.84999999999999998" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h2y-Ho-5ud" customClass="GradientView" customModule="Stormtrooper" customModuleProvider="target">
-                                <rect key="frame" x="20" y="166" width="292" height="80"/>
+                                <rect key="frame" x="20" y="187" width="292" height="58"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="80" id="nrz-Jb-MN2"/>
+                                    <constraint firstAttribute="height" constant="58" id="nrz-Jb-MN2"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="bottomColor">
-                                        <color key="value" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="value" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="color" keyPath="topColor">
                                         <color key="value" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -121,7 +121,7 @@
                             <constraint firstItem="v2k-tT-2Gc" firstAttribute="leading" secondItem="eSZ-5Z-Mw6" secondAttribute="leading" constant="-13" id="MZU-yb-cJJ"/>
                             <constraint firstItem="PlC-EX-dae" firstAttribute="centerY" secondItem="7gl-1v-qNA" secondAttribute="centerY" id="NFH-d2-168"/>
                             <constraint firstItem="v2k-tT-2Gc" firstAttribute="top" secondItem="zBg-MP-7fF" secondAttribute="bottom" constant="10" id="NU3-4A-MHe"/>
-                            <constraint firstItem="h2y-Ho-5ud" firstAttribute="top" secondItem="v2k-tT-2Gc" secondAttribute="bottom" constant="-79" id="VEj-0Z-S0B"/>
+                            <constraint firstItem="h2y-Ho-5ud" firstAttribute="top" secondItem="v2k-tT-2Gc" secondAttribute="bottom" constant="-58" id="VEj-0Z-S0B"/>
                             <constraint firstItem="FfH-L1-58f" firstAttribute="leading" secondItem="PlC-EX-dae" secondAttribute="trailing" constant="5" id="arm-bH-LT3"/>
                             <constraint firstItem="PlC-EX-dae" firstAttribute="top" secondItem="FfH-L1-58f" secondAttribute="top" id="dHt-V9-evO"/>
                             <constraint firstItem="CJv-5p-fnp" firstAttribute="top" secondItem="v2k-tT-2Gc" secondAttribute="bottom" constant="12" id="eaU-au-jrd"/>
