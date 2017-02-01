@@ -10,6 +10,7 @@ import UIKit
 
 class StreamViewController: UIViewController {
     @IBOutlet weak var playerView: YTPlayerView!
+    @IBOutlet weak var playerContainerView: UIView!
     @IBOutlet weak var playPauseButton: UIButton!
     @IBOutlet weak var mediaControllerView: UIView!
 	@IBOutlet weak var chatInputTextField: UITextField!
@@ -84,17 +85,17 @@ class StreamViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         UIView.setAnimationsEnabled(true)
-        
+        if firstLoad {
+            originalPlayerViewFrame = playerContainerView.frame
+            saveOriginalPlayerViewFrame()
+            firstLoad = false
+        }
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if firstLoad {
-            originalPlayerViewFrame = playerView.frame
-            saveOriginalPlayerViewFrame()
-            firstLoad = false
-        }
+        
         
     }
 	
@@ -112,38 +113,27 @@ class StreamViewController: UIViewController {
     }
     
     private func saveOriginalPlayerViewFrame() {
-        //NSLayoutConstraint.deactivate(rotatedPlayerViewConstraints)
-        let constraint1 = NSLayoutConstraint(item: self.playerView, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.top, multiplier: 1.0, constant: 0.0)
-        let constraint2 = NSLayoutConstraint(item: self.playerView, attribute: NSLayoutAttribute.bottom, relatedBy: NSLayoutRelation.equal, toItem: self.headerView, attribute: NSLayoutAttribute.top, multiplier: 1.0, constant: 0.0)
-        let constraint3 = NSLayoutConstraint(item: self.playerView, attribute: NSLayoutAttribute.leading, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.leading, multiplier: 1.0, constant: 0.0)
-        let constraint4 = NSLayoutConstraint(item: self.playerView, attribute: NSLayoutAttribute.trailing, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.trailing, multiplier: 1.0, constant: 0.0)
-        let constraint5 = NSLayoutConstraint(item: self.playerView, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1.0, constant: 211)
-        //expand button
-        //let expandTempButton = UIButton(frame: CGRect(x: self.playerView.frame.width-50, y: self.playerView.frame.height-50, width: 50, height: 50))
-//        expandTempButton.backgroundColor = .red
-//        self.view.addSubview(expandTempButton)
-        let constraint6 = NSLayoutConstraint(item: expandButton, attribute: NSLayoutAttribute.trailing, relatedBy: NSLayoutRelation.equal, toItem: self.playerView, attribute: NSLayoutAttribute.trailing, multiplier: 1.0, constant: 0.0)
-        let constraint7 = NSLayoutConstraint(item: expandButton, attribute: NSLayoutAttribute.bottom, relatedBy: NSLayoutRelation.equal, toItem: self.playerView, attribute: NSLayoutAttribute.bottom, multiplier: 1.0, constant: 0.0)
-        let constraintArray = [constraint1, constraint2, constraint3, constraint4, constraint5, constraint6, constraint7]
-        NSLayoutConstraint.activate(constraintArray)
+        NSLayoutConstraint.deactivate(rotatedPlayerViewConstraints)
+        let constraint1 = NSLayoutConstraint(item: self.playerContainerView, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.top, multiplier: 1.0, constant: 0.0)
+        let constraint2 = NSLayoutConstraint(item: self.playerContainerView, attribute: NSLayoutAttribute.bottom, relatedBy: NSLayoutRelation.equal, toItem: self.headerView, attribute: NSLayoutAttribute.top, multiplier: 1.0, constant: 0.0)
+        let constraint3 = NSLayoutConstraint(item: self.playerContainerView, attribute: NSLayoutAttribute.leading, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.leading, multiplier: 1.0, constant: 0.0)
+        let constraint4 = NSLayoutConstraint(item: self.playerContainerView, attribute: NSLayoutAttribute.trailing, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.trailing, multiplier: 1.0, constant: 0.0)
+        let constraint5 = NSLayoutConstraint(item: self.playerContainerView, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1.0, constant: 211)
+        let constraintArray = [constraint1, constraint2, constraint3, constraint4, constraint5]
         originalPlayerViewConstraints = constraintArray
+        NSLayoutConstraint.activate(originalPlayerViewConstraints)
     }
     
     private func addRotatingConstraints() {
-        //NSLayoutConstraint.deactivate(originalPlayerViewConstraints)
-        let constraint1 = NSLayoutConstraint(item: self.playerView, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.height, multiplier: 1.0, constant: 0.0)
-        let constraint2 = NSLayoutConstraint(item: self.playerView, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.width, multiplier: 1.0, constant: 0.0)
-        let constraint3 = NSLayoutConstraint(item: self.playerView, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.centerX, multiplier: 1.0, constant: 0.0)
-        let constraint4 = NSLayoutConstraint(item: self.playerView, attribute: NSLayoutAttribute.centerY, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.centerY, multiplier: 1.0, constant: 0.0)
-        //expand button
-        //let expandTempButton = UIButton(frame: CGRect(x: self.playerView.frame.height-50, y: self.playerView.frame.width-50, width: 50, height: 50))
-//        expandTempButton.backgroundColor = .red
-//        self.view.addSubview(expandTempButton)
-        let constraint5 = NSLayoutConstraint(item: expandButton, attribute: NSLayoutAttribute.trailing, relatedBy: NSLayoutRelation.equal, toItem: self.playerView, attribute: NSLayoutAttribute.trailing, multiplier: 1.0, constant: 0.0)
-        let constraint6 = NSLayoutConstraint(item: expandButton, attribute: NSLayoutAttribute.bottom, relatedBy: NSLayoutRelation.equal, toItem: self.playerView, attribute: NSLayoutAttribute.bottom, multiplier: 1.0, constant: 0.0)
-        let constraintArray = [constraint1, constraint2, constraint3, constraint4, constraint5, constraint6]
-        self.rotatedPlayerViewConstraints = constraintArray
-        NSLayoutConstraint.activate(constraintArray)
+        NSLayoutConstraint.deactivate(originalPlayerViewConstraints)
+        let screenFrame = UIScreen.main.bounds
+        let constraint1 = NSLayoutConstraint(item: self.playerContainerView, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1.0, constant: screenFrame.height)
+        let constraint2 = NSLayoutConstraint(item: self.playerContainerView, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1.0, constant: screenFrame.width)
+        let constraint3 = NSLayoutConstraint(item: self.playerContainerView, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.centerX, multiplier: 1.0, constant: 0.0)
+        let constraint4 = NSLayoutConstraint(item: self.playerContainerView, attribute: NSLayoutAttribute.centerY, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.centerY, multiplier: 1.0, constant: 0.0)
+        let constraintArray = [constraint1, constraint2, constraint3, constraint4]
+        rotatedPlayerViewConstraints = constraintArray
+        NSLayoutConstraint.activate(rotatedPlayerViewConstraints)
     }
     
 
@@ -276,9 +266,11 @@ class StreamViewController: UIViewController {
     @IBAction func expandButtonTapped(_ sender: Any) {
         if statusBarHidden {
             returnPlayerViewToPortrait()
+            mediaControllerView.isHidden = false
         }
         else {
             rotatePlayerView(byAngle: CGFloat(M_PI_2))
+            mediaControllerView.isHidden = true
         }
     }
     
@@ -287,16 +279,22 @@ class StreamViewController: UIViewController {
             switch UIDevice.current.orientation {
             case .landscapeLeft:
                 print("Landscape Left")
+                if !statusBarHidden {
                 rotatePlayerView(byAngle: CGFloat(M_PI_2))
                 mediaControllerView.isHidden = true
+                }
             case .landscapeRight:
+                if !statusBarHidden {
                 print("Landscape Right")
                 rotatePlayerView(byAngle: CGFloat(-M_PI_2))
                 mediaControllerView.isHidden = true
+                }
             case .portrait:
                 print("Portrait")
+                if statusBarHidden {
                 returnPlayerViewToPortrait()
                 mediaControllerView.isHidden = false
+                }
             default:
                 break
             }
@@ -307,30 +305,30 @@ class StreamViewController: UIViewController {
     private func rotatePlayerView(byAngle angle: CGFloat) {
         self.statusBarHidden = true
         //self.outerPlayerView.removeConstraints(self.outerPlayerView.constraints)
-        self.playerView.removeConstraints(self.playerView.constraints)
+        //self.playerContainerView.removeConstraints(self.playerContainerView.constraints)
         NSLayoutConstraint.deactivate(originalPlayerViewConstraints)
         self.navigationController?.navigationBar.isHidden = true
         //                for constraint in self.playerView.constraints {
         //                    constraint.isActive = false
         //                }
-        self.playerView.translatesAutoresizingMaskIntoConstraints = false
+        //self.playerView.translatesAutoresizingMaskIntoConstraints = false
         DispatchQueue.main.async {
             //self.outerPlayerView.translatesAutoresizingMaskIntoConstraints = false
-            self.playerView.transform = CGAffineTransform(rotationAngle: angle)
-            self.expandButton.transform = CGAffineTransform(rotationAngle: angle)
+            self.playerContainerView.transform = CGAffineTransform(rotationAngle: angle)
+            //self.expandButton.transform = CGAffineTransform(rotationAngle: angle)
             self.setNeedsStatusBarAppearanceUpdate()
             self.addRotatingConstraints()
             self.view.updateConstraintsIfNeeded()
-            //self.playerView.frame = screenSize //make fullscreen if landscape
+            //self.playerContainerView.frame = CGRect(x: screenSize.width, y: 0, width: screenSize.height, height: screenSize.width) //make fullscreen if landscape
         }
     }
     
     private func returnPlayerViewToPortrait() {
         self.statusBarHidden = false
-        self.playerView.removeConstraints(self.playerView.constraints)
+        //self.playerContainerView.removeConstraints(self.playerContainerView.constraints)
         //self.playerView.addConstraints(originalPlayerViewConstraints)
         NSLayoutConstraint.deactivate(rotatedPlayerViewConstraints)
-        NSLayoutConstraint.activate(originalPlayerViewConstraints)
+        //NSLayoutConstraint.activate(originalPlayerViewConstraints)
         //self.playerView.translatesAutoresizingMaskIntoConstraints = true
         self.navigationController?.navigationBar.isHidden = false
         //                for constraint in self.playerView.constraints {
@@ -338,10 +336,11 @@ class StreamViewController: UIViewController {
         //                }
         DispatchQueue.main.async {
             //self.outerPlayerView.translatesAutoresizingMaskIntoConstraints = true
-            self.playerView.transform = CGAffineTransform.identity
-            self.expandButton.transform = CGAffineTransform.identity
+            self.playerContainerView.transform = CGAffineTransform.identity
+           // self.expandButton.transform = CGAffineTransform.identity
             self.setNeedsStatusBarAppearanceUpdate()
-            self.playerView.frame = self.originalPlayerViewFrame //reset playerview if portrait
+            self.saveOriginalPlayerViewFrame()
+            self.playerContainerView.frame = self.originalPlayerViewFrame //reset playerview if portrait
             self.view.updateConstraintsIfNeeded()
             //self.view.layoutIfNeeded()
         }

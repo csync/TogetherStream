@@ -294,19 +294,35 @@
                                     <constraint firstItem="g4f-7A-fEP" firstAttribute="top" secondItem="q4i-Y2-lar" secondAttribute="top" constant="-8" id="tbq-tq-SEF"/>
                                 </constraints>
                             </view>
-                            <view contentMode="redraw" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lt2-Nk-1YZ" customClass="YTPlayerView">
+                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yki-41-hq1">
                                 <rect key="frame" x="0.0" y="20" width="375" height="211"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <view contentMode="redraw" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lt2-Nk-1YZ" customClass="YTPlayerView">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="211"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </view>
+                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QHR-Gx-V89">
+                                        <rect key="frame" x="325" y="161" width="50" height="50"/>
+                                        <color key="backgroundColor" red="0.84705882349999995" green="0.25490196079999999" blue="0.027450980390000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="MBx-EC-5GK"/>
+                                            <constraint firstAttribute="width" constant="50" id="aKw-da-bFR"/>
+                                        </constraints>
+                                        <connections>
+                                            <action selector="expandButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="IJi-8H-0zR"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="lt2-Nk-1YZ" firstAttribute="centerY" secondItem="yki-41-hq1" secondAttribute="centerY" id="Hrd-rQ-4wm"/>
+                                    <constraint firstAttribute="bottom" secondItem="QHR-Gx-V89" secondAttribute="bottom" id="buY-JE-Yv0"/>
+                                    <constraint firstAttribute="trailing" secondItem="QHR-Gx-V89" secondAttribute="trailing" id="lzF-a7-yFf"/>
+                                    <constraint firstItem="lt2-Nk-1YZ" firstAttribute="centerX" secondItem="yki-41-hq1" secondAttribute="centerX" id="pHF-YH-WXc"/>
+                                    <constraint firstItem="lt2-Nk-1YZ" firstAttribute="height" secondItem="yki-41-hq1" secondAttribute="height" id="rcA-gI-00K"/>
+                                    <constraint firstItem="lt2-Nk-1YZ" firstAttribute="width" secondItem="yki-41-hq1" secondAttribute="width" id="zPN-Xh-fBX"/>
+                                </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QHR-Gx-V89">
-                                <rect key="frame" x="327" y="182" width="50" height="50"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.84705882349999995" green="0.25490196079999999" blue="0.027450980390000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <connections>
-                                    <action selector="expandButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="IJi-8H-0zR"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -345,6 +361,7 @@
                         <outlet property="headerViewHeightConstraint" destination="8RW-43-RGV" id="nyp-x5-3Yz"/>
                         <outlet property="mediaControllerView" destination="g4f-7A-fEP" id="iBP-6P-a37"/>
                         <outlet property="playPauseButton" destination="fKU-Jj-50I" id="1Vn-VJ-7fW"/>
+                        <outlet property="playerContainerView" destination="yki-41-hq1" id="KYc-19-ErX"/>
                         <outlet property="playerView" destination="lt2-Nk-1YZ" id="lxf-Lz-SRg"/>
                         <outlet property="profileImageView" destination="A15-q2-X7f" id="rJC-er-b3v"/>
                         <outlet property="queueView" destination="q4i-Y2-lar" id="WHj-gP-3VR"/>
