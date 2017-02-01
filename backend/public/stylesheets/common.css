@@ -49,9 +49,9 @@ a div.button:hover {
   color: white;
 }
 .footer-button {
-  width: 271px;
+  width: 300px;
   border-radius: 64px;
-  height: 34px;
+  height: 45px;
   background-color: rgb(216,65,6);
   color: white;
   border: none;

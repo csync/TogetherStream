@@ -161,6 +161,7 @@ section {
 .tuning-in h2 {
   margin: 0;
   color: white;
+  font-size: 42px;
 }
 
 .tuning-in p {
@@ -459,7 +460,7 @@ section {
   .splash .left-container {
     text-align: center;
   }
-  .splash .left-container h1 {
+  .splash .left-container h1, .splash .left-container p {
     padding: 0px 50px 0px 50px;
   }
   .appstore-icon {
