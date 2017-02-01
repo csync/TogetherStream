@@ -16,19 +16,18 @@ section {
 .requirement {
   font-size: 0.75rem;
 }
-
 .main-color {
-  background-color: #D84106;
+  background-color: rgb(216,65,6);
 }
 .splash {
   padding: 0;
   display: flex;
-  flex-direction: column;
-  min-height: 790px;
+  min-height: 500px;
   background-repeat: no-repeat;
   background-size: cover;
   color: white;
-  justify-content: center;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .splash .icon {
@@ -36,9 +35,10 @@ section {
 }
 
 .splash h1 {
-  font-size: 2.5rem;
+  font-size: 53px;
+  font-weight: 500;
   margin-top: 33px;
-  margin-bottom: 36px;
+  margin-bottom: 0px;
   color: white;
 }
 
@@ -47,11 +47,50 @@ section {
 }
 
 .splash .text {
-  margin-bottom: 63px;
+  margin-top:0px;
+  margin-bottom: 23px;
   max-width: 690px;
   font-weight: 300;
+  font-size: 20px;
+}
+.splash .text-seperator {
+  font-weight: 500;
+  font-size: -webkit-xxx-large
 }
 
+.splash .left-container {
+  text-align: left;
+  position:relative;
+  left: 10%;
+}
+
+.splash .appstore-icon {
+  float:left;
+  height: 42px;
+  width: 143px;
+}
+.splash.main {
+  background-image: url("http://ipadflava.com/wp-content/uploads/storm-trooper.jpg");
+  background-repeat: no-repeat;
+  background-size: 40% auto;
+  background-position: 90% 60%;
+  padding-top: 150px;
+  padding-bottom: 150px;
+}
+.splash .iphone-pic {
+  height: 632px;
+  width: 450px;
+  margin-left: 120px;
+  margin-top: 184px;
+  overflow: hidden;
+}
+.splash .iphone-pic-2 {
+  height: 392px;
+  width: 570px;
+  margin-left: -180px;
+  margin-top: 184px;
+  overflow: hidden;
+}
 .splash .button {
   height: 50px;
   width: 260px;
@@ -74,40 +113,65 @@ section {
   cursor: pointer;
 }
 
-.swift-offerings {
+.tuning-in {
   background-color: rgb(235, 235, 235);
-  padding-top: 20px;
-  padding-bottom: 30px;
+  padding: 0;
+  color: white;
 }
 
-.swift-offerings div {
+.tuning-in .left-div {
+  background: 
+    /* top, transparent red */ 
+    linear-gradient(
+      rgba(55, 55, 52, 0.8), 
+      rgba(55, 55, 52, 0.8)
+    ),
+    /* bottom, image */
+    url(http://ipadflava.com/wp-content/uploads/storm-trooper.jpg);
+    background-size: 100%;
+}
+
+.tuning-in .right-div {
+  background: 
+    /* top, transparent red */ 
+    linear-gradient(
+      rgba(216,65,6,0.8),
+      rgba(216,65,6,0.8)
+    ),
+    /* bottom, image */
+    url(http://ipadflava.com/wp-content/uploads/storm-trooper.jpg);
+    background-size: 100%;
+
+}
+.tuning-in div {
   display: flex;
+  height: 531px;
+  flex-basis: 50%;
   flex-direction: column;
   justify-content: center;
   align-content: center;
   align-items: center;
   padding: 20px 0;
 }
-
-.swift-offerings h2 {
-  margin: 0;
+.tuning-in .circle {
+  width: 75px;
+  height: 75px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  border: white solid 3px;
+  margin-bottom: 35px;
 }
 
-.swift-offerings p {
+.tuning-in h2 {
+  margin: 0;
+  color: white;
+}
+
+.tuning-in p {
   margin-top: 10px;
   margin-bottom: 20px;
-}
-
-.swift-offerings .button {
-  border: solid 1px rgb(85, 160, 249);
-  color: rgb(85, 160, 249);
-  background-color: transparent;
-  padding: 10px 20px;
-}
-
-.swift-offerings .button:hover {
-  color: white;
-  background-color: rgb(85, 160, 249);
+  padding: 30px 70px 0px 70px;
 }
 
 .integrate {
@@ -116,11 +180,14 @@ section {
 
 .integrate h2 {
   margin-top: 0;
-  margin-bottom: 22px;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: rgb(216,65,7);
 }
 
 .integrate .text {
-  max-width: 555px;
+  max-width: 700px;
+  font-weight: 500;
 }
 
 .integrate .image {
@@ -132,6 +199,12 @@ section {
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
+}
+
+.integrate .iphone-pic {
+  max-width: 100%;
+  width: 800px;
+  overflow: hidden;
 }
 
 .manage .screenshot {
@@ -379,4 +452,34 @@ section {
 .emailContainer form p {
   flex-basis: 100%;
   color: red;
+}
+
+
+@media (max-width: 735px) {
+  .splash.main {
+    background-image: initial;
+    padding: initial;
+  }
+
+  .splash .left-container {
+    left: 0%;
+    text-align: center;
+    width: 100%;
+  }
+  .appstore-icon {
+    float: none !important;
+    align-self: center;
+  }
+  .tuning-in p {
+    padding: 5% 5% 0px 5%;
+  }
+}
+
+@media (min-width: 1235px){
+  .splash.main {
+    background-size: 500px auto;
+    background-position: 90% 60%;
+    padding-top: 150px;
+    padding-bottom: 150px;
+  }
 }
