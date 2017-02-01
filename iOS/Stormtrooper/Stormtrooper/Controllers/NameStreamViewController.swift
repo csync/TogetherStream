@@ -86,23 +86,6 @@ class NameStreamViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-    // TODO: Delete skip button
-    @IBAction func skipToStreamTapped(_ sender: Any) {
-        guard let streamVC = Utils.vcWithNameFromStoryboardWithName("stream", storyboardName: "Stream") as? StreamViewController else {
-            return
-        }
-        let facebookID = FacebookDataManager.sharedInstance.profile?.userID ?? ""
-        let descriptionText = isDescriptionPlaceholder ? "" : descriptionTextView.text ?? ""
-        let stream = Stream(
-            name: nameTextField.text ?? "",
-            csyncPath: "streams.\(facebookID)",
-            description: descriptionText,
-            hostFacebookID: facebookID)
-		streamVC.stream = stream
-        streamVC.navigationItem.title = nameTextField.text
-        streamVC.navigationItem.hidesBackButton = true
-        self.navigationController?.pushViewController(streamVC, animated: true)
-    }
     
     @objc private func addVideosTapped(_ sender: Any) {
         guard let addVideosVC = Utils.vcWithNameFromStoryboardWithName("addVideos", storyboardName: "AddVideos") as? AddVideosViewController else {
