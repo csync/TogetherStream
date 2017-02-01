@@ -36,6 +36,12 @@ class StreamViewController: UIViewController {
     var estimatedChatCellHeight: CGFloat = 56
     
     //constants
+    private enum PlayerDirection {
+        case left
+        case right
+        case portrait
+    }
+    private var playerDirection: PlayerDirection = .portrait
     private let closeButtonFrame = CGRect(x: 0, y: 0, width: 17, height: 17)
     private let profileButtonFrame = CGRect(x: 0, y: 0, width: 19, height: 24)
     private let headerViewAnimationDuration: TimeInterval = 0.3
@@ -304,23 +310,34 @@ class StreamViewController: UIViewController {
             case .landscapeLeft:
                 print("Landscape Left")
                 if !statusBarHidden {
+                    playerDirection = .left
+                    rotatePlayerView(byAngle: CGFloat(M_PI_2))
+                }
+                if playerDirection == .right {
+                    returnPlayerViewToPortrait()
+                    playerDirection = .left
                     rotatePlayerView(byAngle: CGFloat(M_PI_2))
                 }
             case .landscapeRight:
                 if !statusBarHidden {
                     print("Landscape Right")
+                    playerDirection = .right
+                    rotatePlayerView(byAngle: CGFloat(-M_PI_2))
+                }
+                if playerDirection == .left {
+                    returnPlayerViewToPortrait()
+                    playerDirection = .right
                     rotatePlayerView(byAngle: CGFloat(-M_PI_2))
                 }
             case .portrait:
                 print("Portrait")
                 if statusBarHidden {
+                    playerDirection = .portrait
                     returnPlayerViewToPortrait()
                 }
             default:
                 break
             }
-
-        
     }
     
     private func rotatePlayerView(byAngle angle: CGFloat) {
