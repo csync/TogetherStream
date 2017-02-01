@@ -100,6 +100,7 @@ class NameStreamViewController: UIViewController {
             description: descriptionText,
             hostFacebookID: facebookID)
 		addVideosVC.stream = stream
+        addVideosVC.isCreatingStream = true
         self.navigationController?.pushViewController(addVideosVC, animated: true)
     }
 }

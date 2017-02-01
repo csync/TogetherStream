@@ -186,7 +186,7 @@ class StreamViewController: UIViewController {
             let profileButton = UIButton(type: .custom)
             profileButton.setImage(UIImage(named: "inviteIcon"), for: .normal)
             profileButton.frame = profileButtonFrame
-            profileButton.addTarget(self, action: #selector(StreamViewController.profileTapped), for: .touchUpInside)
+            profileButton.addTarget(self, action: #selector(StreamViewController.inviteTapped), for: .touchUpInside)
             let item2 = UIBarButtonItem(customView: profileButton)
             
             navigationItem.setLeftBarButtonItems([item1], animated: false)
@@ -392,7 +392,7 @@ class StreamViewController: UIViewController {
     }
     
     
-    func profileTapped() {
+    func inviteTapped() {
         guard let inviteVC = Utils.vcWithNameFromStoryboardWithName("inviteStream", storyboardName: "InviteStream") as? InviteStreamViewController else {
             return
         }
@@ -445,7 +445,9 @@ class StreamViewController: UIViewController {
         guard let addVideosVC = Utils.vcWithNameFromStoryboardWithName("addVideos", storyboardName: "AddVideos") as? AddVideosViewController else {
             return
         }
-        present(addVideosVC, animated: true, completion: nil)
+        addVideosVC.stream = stream
+        addVideosVC.isCreatingStream = false
+        navigationController?.pushViewController(addVideosVC, animated: true)
     }
     
     
