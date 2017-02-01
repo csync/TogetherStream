@@ -26,7 +26,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="375" height="55"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="down_temp_arrow" translatesAutoresizingMaskIntoConstraints="NO" id="Zt3-P9-Heg">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Zt3-P9-Heg">
                         <rect key="frame" x="17" y="13" width="30" height="30"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="30" id="LnA-hw-uMk"/>
@@ -39,7 +39,7 @@
                         </userDefinedRuntimeAttributes>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="joined the stream." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LOT-N6-I4P">
-                        <rect key="frame" x="164" y="11" width="159" height="31"/>
+                        <rect key="frame" x="65" y="11" width="159" height="31"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="159" id="Mrs-Sc-vb0"/>
                             <constraint firstAttribute="height" constant="31" id="i8Z-vS-nMm"/>
@@ -48,8 +48,8 @@
                         <color key="textColor" red="0.58039215686274503" green="0.57647058823529407" blue="0.58039215686274503" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nathan Hekman" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RHn-dD-ned">
-                        <rect key="frame" x="61" y="20" width="99" height="16"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RHn-dD-ned">
+                        <rect key="frame" x="61" y="20" width="0.0" height="16"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="16" id="a8x-8O-gVa"/>
                         </constraints>
@@ -75,7 +75,4 @@
             <point key="canvasLocation" x="-12.5" y="249"/>
         </tableViewCell>
     </objects>
-    <resources>
-        <image name="down_temp_arrow" width="102" height="69"/>
-    </resources>
 </document>

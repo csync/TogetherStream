@@ -36,8 +36,6 @@ class AddVideosViewController: UIViewController {
         
         streamNameLabel.text = "\"\(stream?.name ?? "")\" Queue".localizedUppercase
         
-        checkIfCreatingStream()
-        
         viewModel.fetchTrendingVideos() {[weak self] error, videos in
             DispatchQueue.main.async {
                 self?.searchTableView.reloadData()
@@ -50,6 +48,16 @@ class AddVideosViewController: UIViewController {
         UIView.setAnimationsEnabled(true)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if isCreatingStream {
+            nextButton.setTitle("NEXT", for: .normal)
+        }
+        else {
+            nextButton.setTitle("DONE", for: .normal)
+        }
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self)
@@ -58,16 +66,6 @@ class AddVideosViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    private func checkIfCreatingStream() {
-        guard let _ = self.navigationController else {
-            //if inviting from stream, not in nav controller, so will dismiss when done is tapped rather than moving forward in stream creation process
-            isCreatingStream = false
-            return
-        }
-        //if navigation controller exists, user is creating stream, so push forward in flow
-        isCreatingStream = true
     }
     
     private func setupSearchBar() {
@@ -107,7 +105,7 @@ class AddVideosViewController: UIViewController {
 
         }
         else { //dismiss
-            self.dismiss(animated: true, completion: nil)
+            let _ = self.navigationController?.popViewController(animated: true)
         }
     }
 	
