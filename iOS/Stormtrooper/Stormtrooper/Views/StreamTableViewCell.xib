@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -52,8 +52,23 @@
                                     <constraint firstAttribute="height" constant="180" id="CCW-Z5-P46"/>
                                 </constraints>
                             </imageView>
+                            <view alpha="0.84999999999999998" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h2y-Ho-5ud" customClass="GradientView" customModule="Stormtrooper" customModuleProvider="target">
+                                <rect key="frame" x="20" y="166" width="292" height="80"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="80" id="nrz-Jb-MN2"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="bottomColor">
+                                        <color key="value" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="topColor">
+                                        <color key="value" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7gl-1v-qNA">
-                                <rect key="frame" x="67" y="20" width="34" height="18"/>
+                                <rect key="frame" x="66" y="20" width="34" height="18"/>
                                 <fontDescription key="fontDescription" name="OpenSans-Semibold" family="Open Sans" pointSize="13"/>
                                 <color key="textColor" red="0.2901960784" green="0.2901960784" blue="0.2901960784" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -98,19 +113,22 @@
                             <constraint firstItem="FfH-L1-58f" firstAttribute="trailing" secondItem="v2k-tT-2Gc" secondAttribute="trailing" constant="1.5" id="2Qg-w1-E6j"/>
                             <constraint firstItem="vvc-ye-igT" firstAttribute="leading" secondItem="eSZ-5Z-Mw6" secondAttribute="leading" id="3wi-R8-UmR"/>
                             <constraint firstItem="CJv-5p-fnp" firstAttribute="leading" secondItem="v2k-tT-2Gc" secondAttribute="leading" id="5gg-i0-xb8"/>
+                            <constraint firstItem="h2y-Ho-5ud" firstAttribute="width" secondItem="v2k-tT-2Gc" secondAttribute="width" id="6vk-A9-VG3"/>
                             <constraint firstItem="EvI-gA-R0v" firstAttribute="bottom" secondItem="zBg-MP-7fF" secondAttribute="bottom" id="9oI-PN-eeP"/>
-                            <constraint firstItem="7gl-1v-qNA" firstAttribute="leading" secondItem="EvI-gA-R0v" secondAttribute="trailing" constant="13" id="Bps-9c-K3v"/>
+                            <constraint firstItem="7gl-1v-qNA" firstAttribute="leading" secondItem="EvI-gA-R0v" secondAttribute="trailing" constant="12" id="Bps-9c-K3v"/>
                             <constraint firstItem="v2k-tT-2Gc" firstAttribute="leading" secondItem="EvI-gA-R0v" secondAttribute="leading" id="GCE-uW-gqV"/>
                             <constraint firstItem="EvI-gA-R0v" firstAttribute="top" secondItem="7gl-1v-qNA" secondAttribute="top" id="HE8-NZ-Q6K"/>
                             <constraint firstItem="v2k-tT-2Gc" firstAttribute="leading" secondItem="eSZ-5Z-Mw6" secondAttribute="leading" constant="-13" id="MZU-yb-cJJ"/>
                             <constraint firstItem="PlC-EX-dae" firstAttribute="centerY" secondItem="7gl-1v-qNA" secondAttribute="centerY" id="NFH-d2-168"/>
                             <constraint firstItem="v2k-tT-2Gc" firstAttribute="top" secondItem="zBg-MP-7fF" secondAttribute="bottom" constant="10" id="NU3-4A-MHe"/>
+                            <constraint firstItem="h2y-Ho-5ud" firstAttribute="top" secondItem="v2k-tT-2Gc" secondAttribute="bottom" constant="-79" id="VEj-0Z-S0B"/>
                             <constraint firstItem="FfH-L1-58f" firstAttribute="leading" secondItem="PlC-EX-dae" secondAttribute="trailing" constant="5" id="arm-bH-LT3"/>
                             <constraint firstItem="PlC-EX-dae" firstAttribute="top" secondItem="FfH-L1-58f" secondAttribute="top" id="dHt-V9-evO"/>
                             <constraint firstItem="CJv-5p-fnp" firstAttribute="top" secondItem="v2k-tT-2Gc" secondAttribute="bottom" constant="12" id="eaU-au-jrd"/>
                             <constraint firstItem="eSZ-5Z-Mw6" firstAttribute="bottom" secondItem="v2k-tT-2Gc" secondAttribute="bottom" constant="-10" id="fGV-sW-3Ju"/>
                             <constraint firstItem="eSZ-5Z-Mw6" firstAttribute="top" secondItem="vvc-ye-igT" secondAttribute="bottom" constant="2" id="fGc-wu-Lgi"/>
-                            <constraint firstItem="zBg-MP-7fF" firstAttribute="leading" secondItem="7gl-1v-qNA" secondAttribute="leading" id="h9u-YH-QCk"/>
+                            <constraint firstItem="h2y-Ho-5ud" firstAttribute="centerX" secondItem="AES-hx-nRV" secondAttribute="centerX" constant="-1" id="ghn-8D-wIw"/>
+                            <constraint firstItem="zBg-MP-7fF" firstAttribute="leading" secondItem="7gl-1v-qNA" secondAttribute="leading" constant="1" id="h9u-YH-QCk"/>
                             <constraint firstAttribute="bottom" secondItem="CJv-5p-fnp" secondAttribute="bottom" constant="12" id="itS-7s-vZq"/>
                             <constraint firstAttribute="topMargin" secondItem="7gl-1v-qNA" secondAttribute="top" constant="-12" id="p07-UF-mNH"/>
                             <constraint firstItem="eSZ-5Z-Mw6" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="v2k-tT-2Gc" secondAttribute="trailing" constant="-13" id="q0w-UB-2UQ"/>
