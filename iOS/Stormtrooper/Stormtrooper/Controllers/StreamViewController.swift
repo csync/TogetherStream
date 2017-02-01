@@ -258,9 +258,9 @@ class StreamViewController: UIViewController {
     }
     
     private func setupPlayerView() {
-        self.playerView.backgroundColor = UIColor.white
-        self.playerView.delegate = self
-        //self.playerView.loadPlaylist(byVideos: ["4NFDhxhWyIw", "RTDuUiVSCo4"], index: 0, startSeconds: 0, suggestedQuality: .auto)
+        playerView.backgroundColor = UIColor.white
+        playerView.delegate = self
+        playerView.setLoop(true)
 		if viewModel.isHost, let queue = viewModel.videoQueue, queue.count > 0 {
             updateView(forVideoWithID: queue[0].id)
 			playerView.load(withVideoId: queue[0].id, playerVars: playerVars)
