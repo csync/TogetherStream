@@ -79,6 +79,7 @@
 		4ABA7DD21E3948B80059CA1F /* InviteStreamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABA7DD11E3948B80059CA1F /* InviteStreamViewModel.swift */; };
 		4AD6F7BC1E2D3755006104CF /* TextEmailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD6F7BA1E2D3755006104CF /* TextEmailTableViewCell.swift */; };
 		4AD6F7BD1E2D3755006104CF /* TextEmailTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4AD6F7BB1E2D3755006104CF /* TextEmailTableViewCell.xib */; };
+		6860C0A61E4245A700651132 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6860C0A51E4245A700651132 /* WebViewController.swift */; };
 		68991ECF1E411F7F00F5B4A0 /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68991ECD1E411F7F00F5B4A0 /* ProfileTableViewCell.swift */; };
 		68991ED01E411F7F00F5B4A0 /* ProfileTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68991ECE1E411F7F00F5B4A0 /* ProfileTableViewCell.xib */; };
 		689A111E1E2FF35200B87DEF /* Popup.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 689A111D1E2FF35200B87DEF /* Popup.storyboard */; };
@@ -218,6 +219,7 @@
 		4ABA7DD11E3948B80059CA1F /* InviteStreamViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InviteStreamViewModel.swift; sourceTree = "<group>"; };
 		4AD6F7BA1E2D3755006104CF /* TextEmailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextEmailTableViewCell.swift; sourceTree = "<group>"; };
 		4AD6F7BB1E2D3755006104CF /* TextEmailTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextEmailTableViewCell.xib; sourceTree = "<group>"; };
+		6860C0A51E4245A700651132 /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		68991ECD1E411F7F00F5B4A0 /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileTableViewCell.swift; sourceTree = "<group>"; };
 		68991ECE1E411F7F00F5B4A0 /* ProfileTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileTableViewCell.xib; sourceTree = "<group>"; };
 		689A111D1E2FF35200B87DEF /* Popup.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Popup.storyboard; sourceTree = "<group>"; };
@@ -439,6 +441,7 @@
 				34C6E5321DF23D4600EB4972 /* StreamViewController.swift */,
 				34C6E5361DF23DBC00EB4972 /* ProfileViewController.swift */,
 				689A111F1E2FFF3900B87DEF /* PopupViewController.swift */,
+				6860C0A51E4245A700651132 /* WebViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -809,6 +812,7 @@
 				A25D962A1E1D92EB008FD996 /* StreamTableViewCell.swift in Sources */,
 				34DA473A1DEDEF3300E989A9 /* YTPlayerView.h in Sources */,
 				A2D44DBA1E301E9400053099 /* NoStreamsTableViewCell.swift in Sources */,
+				6860C0A61E4245A700651132 /* WebViewController.swift in Sources */,
 				3401B4361E2EEA58005ACB96 /* UITextFieldExtension.swift in Sources */,
 				A25D96241E0B16BA008FD996 /* StreamViewModel.swift in Sources */,
 				A2C1BD7F1E23FA9400F515E7 /* Message.swift in Sources */,
