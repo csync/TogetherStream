@@ -83,8 +83,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     /// Set the profile image view using the current user's Facebook profile picture
     private func setupProfilePicture() {
         let facebookDataManager = FacebookDataManager.sharedInstance
-        let size = profileImageView.frame.size
-        facebookDataManager.fetchProfilePictureForCurrentUser(as: size) { error, image in
+        facebookDataManager.fetchProfilePictureForCurrentUser() { error, image in
             if let image = image {
                 DispatchQueue.main.async {
                     self.profileImageView.image = image

@@ -45,19 +45,19 @@
                                 </userDefinedRuntimeAttributes>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Version 0.0.0 (0)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1TT-ZS-dVv">
-                                <rect key="frame" x="146.5" y="634" width="82" height="15"/>
+                                <rect key="frame" x="148" y="636" width="79" height="13"/>
                                 <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="11"/>
                                 <color key="textColor" red="0.60784313725490191" green="0.60784313725490191" blue="0.60784313725490191" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nathan Hekman" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J0B-mg-2MD">
-                                <rect key="frame" x="117.5" y="128" width="140.5" height="23.5"/>
+                                <rect key="frame" x="127" y="128" width="123" height="20"/>
                                 <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="17"/>
                                 <color key="textColor" red="0.29019607843137252" green="0.29019607843137252" blue="0.29019607843137252" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Kew-nO-y1O">
-                                <rect key="frame" x="0.0" y="179.5" width="375" height="436.5"/>
+                                <rect key="frame" x="0.0" y="176" width="375" height="442"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="dataSource" destination="QWc-ec-29c" id="AQ9-sx-L3Q"/>
@@ -107,10 +107,10 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="1022"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bVn-md-FIo" userLabel="Container">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="1021"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="952"/>
                                         <subviews>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wwk-Rw-bJV" userLabel="App Description">
-                                                <rect key="frame" x="30" y="30" width="315" height="246.5"/>
+                                                <rect key="frame" x="30" y="30" width="315" height="203"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <string key="text">Media Sync Stream is an app designed and developed by the IBM Mobile Inovation Lab. Here’s some placeholder text to show that this screen will most likely be long. Media Sync Stream is an app designed and developed by the IBM Mobile Inovation Lab. Here’s some placeholder text to show that this screen will most likely be long.
 
@@ -120,27 +120,27 @@ Media Sync Stream is an app designed and developed by the IBM Mobile Inovation L
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             </textView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2zO-5j-fVn" userLabel="Separator">
-                                                <rect key="frame" x="0.0" y="314.5" width="375" height="1"/>
+                                                <rect key="frame" x="0.0" y="271" width="375" height="1"/>
                                                 <color key="backgroundColor" red="0.85882352941176465" green="0.85882352941176465" blue="0.85882352941176465" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="fAh-fU-dRC"/>
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CREATED WITH" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yTe-ch-atp" userLabel="Created With">
-                                                <rect key="frame" x="0.0" y="353.5" width="375" height="14"/>
+                                                <rect key="frame" x="0.0" y="310" width="375" height="14"/>
                                                 <fontDescription key="fontDescription" name="WorkSans-SemiBold" family="Work Sans" pointSize="12"/>
                                                 <color key="textColor" red="0.84705882352941175" green="0.25490196078431371" blue="0.027450980392156862" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="S6R-Dg-1ej" userLabel="CSync Logo">
-                                                <rect key="frame" x="89" y="385.5" width="196" height="59"/>
+                                                <rect key="frame" x="89" y="342" width="196" height="59"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="196" id="Vzr-qf-4Zo"/>
                                                     <constraint firstAttribute="height" constant="59" id="otI-5b-EdK"/>
                                                 </constraints>
                                             </imageView>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZSq-fe-bDy" userLabel="CSync Description">
-                                                <rect key="frame" x="30" y="462.5" width="315" height="105"/>
+                                                <rect key="frame" x="30" y="419" width="315" height="94"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <string key="text">Contextual sync is an IBM service that is super cool and helps power this app. Here’s a short blurb about the service. Contextual sync is an IBM service that is super cool and helps power this app. Here’s a short blurb about the service.</string>
                                                 <color key="textColor" red="0.2901960784" green="0.2901960784" blue="0.2901960784" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -148,14 +148,14 @@ Media Sync Stream is an app designed and developed by the IBM Mobile Inovation L
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             </textView>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5S4-Pe-bST" userLabel="Bluemix Logo">
-                                                <rect key="frame" x="89" y="585.5" width="196" height="59"/>
+                                                <rect key="frame" x="89" y="531" width="196" height="59"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="196" id="1fr-bQ-1AG"/>
                                                     <constraint firstAttribute="height" constant="59" id="VEA-Ce-RWj"/>
                                                 </constraints>
                                             </imageView>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O6V-FB-Iha" userLabel="CSync Description">
-                                                <rect key="frame" x="30" y="662.5" width="315" height="87"/>
+                                                <rect key="frame" x="30" y="608" width="315" height="79"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <string key="text">Here’s some words about Bluemix and how we’re using it for Media Sync Stream. Here’s some words about Bluemix and how we’re using it for Media Sync Stream.</string>
                                                 <color key="textColor" red="0.2901960784" green="0.2901960784" blue="0.2901960784" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -163,21 +163,21 @@ Media Sync Stream is an app designed and developed by the IBM Mobile Inovation L
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             </textView>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bkD-xH-es7" userLabel="xLab Logo">
-                                                <rect key="frame" x="89" y="767.5" width="196" height="59"/>
+                                                <rect key="frame" x="89" y="705" width="196" height="59"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="196" id="JuJ-po-ik9"/>
                                                     <constraint firstAttribute="height" constant="59" id="eIe-LM-Zgi"/>
                                                 </constraints>
                                             </imageView>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="Here’s some short words about the Mobile Innovatino Lab even though we’re about to be the Cloud Experience Lab." textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lcm-8J-bLk" userLabel="xLab Description">
-                                                <rect key="frame" x="30" y="844.5" width="315" height="69.5"/>
+                                                <rect key="frame" x="30" y="782" width="315" height="63"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <color key="textColor" red="0.2901960784" green="0.2901960784" blue="0.2901960784" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="13"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             </textView>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jFN-cA-IHF" userLabel="YouTube Logo">
-                                                <rect key="frame" x="89" y="932" width="196" height="59"/>
+                                                <rect key="frame" x="89" y="863" width="196" height="59"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="59" id="GUt-iE-3t2"/>
                                                     <constraint firstAttribute="width" constant="196" id="o8D-BI-0nz"/>
@@ -260,7 +260,7 @@ Media Sync Stream is an app designed and developed by the IBM Mobile Inovation L
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                         <subviews>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lbp-3i-Agb" userLabel="Disclaimer">
-                                                <rect key="frame" x="30" y="30" width="315" height="1450"/>
+                                                <rect key="frame" x="30" y="30" width="315" height="1257"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <string key="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus at enim eros. Nam facilisis ante sed odio consequat, at posuere ligula commodo. Curabitur id orci vel quam vulputate porttitor eu quis dolor. Fusce justo ligula, ornare sed arcu eu, accumsan tincidunt lectus. Proin nec metus ac erat posuere lobortis nec eu urna. Nulla suscipit urna lacinia est ultrices consectetur. Sed et malesuada massa. Integer urna justo, tristique sed blandit ut, elementum sit amet enim. Sed lobortis tincidunt neque at gravida. In viverra quam et dignissim vestibulum. Ut vulputate tellus vel tortor cursus aliquet. Nam congue ligula eget molestie efficitur. Quisque vel urna orci. Morbi id porta dolor, eget porta dolor.
 
