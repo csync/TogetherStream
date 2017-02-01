@@ -43,12 +43,12 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         let privacy = ProfileRow(
             label: "Privacy Policy",
             showDisclosure: false,
-            action: { }
+            action: { self.presentViewController("webView") }
         )
         let licenses = ProfileRow(
             label: "Licenses",
             showDisclosure: false,
-            action: { }
+            action: { self.presentViewController("webView") }
         )
         let signOut = ProfileRow(
             label: "Sign Out of Facebook",
@@ -117,6 +117,13 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         let storyboard = UIStoryboard(name: storyboard, bundle: nil)
         let viewController = storyboard.instantiateViewController(withIdentifier: identifier)
         navigationController?.pushViewController(viewController, animated: true)
+    }
+    
+    /// Present the view controller with the given identifier
+    private func presentViewController(_ identifier: String, from storyboard: String = "Profile") {
+        let storyboard = UIStoryboard(name: storyboard, bundle: nil)
+        let viewController = storyboard.instantiateViewController(withIdentifier: identifier)
+        present(viewController, animated: true)
     }
     
     // MARK: - UITableViewDataSource
