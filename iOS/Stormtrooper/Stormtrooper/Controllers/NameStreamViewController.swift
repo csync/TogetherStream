@@ -18,7 +18,7 @@ class NameStreamViewController: UIViewController {
     private let nameTextFieldSpacingFrame = CGRect(x: 0, y: 0, width: 18, height: 5)
     private let descriptionTextViewSpacingInset = UIEdgeInsets(top: 14, left: 13, bottom: 10, right: 16)
     
-    fileprivate let descriptionPlaceholder = "Description (Optional)"
+    fileprivate let descriptionPlaceholder = "Description (optional)"
     fileprivate var isDescriptionPlaceholder: Bool {
         return descriptionTextView.text == descriptionPlaceholder
     }
@@ -49,6 +49,7 @@ class NameStreamViewController: UIViewController {
     private func setupTextFields() {
         nameTextField.leftViewMode = .always
         nameTextField.leftView = UIView(frame: nameTextFieldSpacingFrame)
+        descriptionTextView.delegate = self
         descriptionTextView.textContainerInset = descriptionTextViewSpacingInset
         descriptionTextView.textColor = UIColor.stormtrooperPlaceholderGray
         
