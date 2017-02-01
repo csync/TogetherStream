@@ -109,9 +109,9 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         tableView.register(nib, forCellReuseIdentifier: "profileCell")
     }
     
-    /// Push the view controller from the "Profile" storyboard with the given identifier
-    private func pushViewController(_ identifier: String) {
-        let storyboard = UIStoryboard(name: "Profile", bundle: nil)
+    /// Push the view controller with the given identifier onto the stack
+    private func pushViewController(_ identifier: String, from storyboard: String = "Profile") {
+        let storyboard = UIStoryboard(name: storyboard, bundle: nil)
         let viewController = storyboard.instantiateViewController(withIdentifier: identifier)
         navigationController?.pushViewController(viewController, animated: true)
     }
