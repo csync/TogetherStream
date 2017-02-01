@@ -8,6 +8,7 @@
 
 import UIKit
 import Foundation
+import Crashlytics
 
 class HomeViewController: UIViewController {
 	@IBOutlet weak var streamsTableView: UITableView!
@@ -15,7 +16,7 @@ class HomeViewController: UIViewController {
 	fileprivate let viewModel = HomeViewModel()
     
     private let profileButtonFrame = CGRect(x: 0, y: 0, width: 23, height: 23)
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -51,7 +52,7 @@ class HomeViewController: UIViewController {
         
         let profileButton = UIButton(type: .custom)
         profileButton.frame = profileButtonFrame
-        FacebookDataManager.sharedInstance.fetchProfilePictureForCurrentUser(as: profileButton.frame.size) {error, image in
+        FacebookDataManager.sharedInstance.fetchProfilePictureForCurrentUser() {error, image in
             if let image = image {
                 DispatchQueue.main.async {
                     profileButton.setImage(image, for: .normal)
@@ -87,6 +88,16 @@ class HomeViewController: UIViewController {
             }
             present(loginVC, animated: true, completion: { _ in
             })
+        }
+        logUserWithCrashlytics()
+    }
+    
+    /// Log the current user's id and name with Crashlytics to support detailed crash reports.
+    /// (The current user's profile must not be nil.)
+    func logUserWithCrashlytics() {
+        if let profile = FacebookDataManager.sharedInstance.profile {
+            Crashlytics.sharedInstance().setUserIdentifier(profile.userID)
+            Crashlytics.sharedInstance().setUserName(profile.name)
         }
     }
     

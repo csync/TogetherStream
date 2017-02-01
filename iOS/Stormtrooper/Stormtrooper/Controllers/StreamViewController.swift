@@ -25,6 +25,7 @@ class StreamViewController: UIViewController {
     @IBOutlet weak var dismissView: UIView!
     @IBOutlet weak var videoTitleLabel: UILabel!
     @IBOutlet weak var videoSubtitleLabel: UILabel!
+    @IBOutlet weak var queueTableView: UITableView!
     
     //constraints
     private var originalHeaderViewHeightConstraint: CGFloat = 0
@@ -34,23 +35,47 @@ class StreamViewController: UIViewController {
     private let closeButtonFrame = CGRect(x: 0, y: 0, width: 17, height: 17)
     private let profileButtonFrame = CGRect(x: 0, y: 0, width: 19, height: 24)
     private let headerViewAnimationDuration: TimeInterval = 0.3
+    fileprivate let chatTableTag = 0
+    fileprivate let queueTableTag = 1
+    fileprivate let playerVars = [ //TODO: hide controls if participant
+        "playsinline" : 1,
+        "modestbranding" : 1,
+        "showinfo" : 0,
+        "controls" : 1
+				]
 	
-    var stream: Stream?
+    var stream: Stream? {
+        get {
+            return viewModel.stream
+        }
+        set {
+            viewModel.stream = newValue
+        }
+    }
+    
+    var videoQueue: [Video]? {
+        get {
+            return viewModel.videoQueue
+        }
+        set {
+            viewModel.videoQueue = newValue
+        }
+    }
 	
 	// TODO: Remove or move to viewModel
     fileprivate var isPlaying = false
 	
-    var viewModel: StreamViewModel!
+    let viewModel = StreamViewModel()
     
     //accessory view shown above keyboard while chatting
     fileprivate var accessoryView: ChatTextFieldAccessoryView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel = StreamViewModel(stream: stream ?? Stream(name: "", csyncPath: "", description: "", hostFacebookID: ""))
         viewModel.delegate = self
 		
         setupChatTableView()
+        setupQueueTableView()
         setupPlayerView()
         setupChatTextFieldView()
         setupProfilePictures()
@@ -140,7 +165,7 @@ class StreamViewController: UIViewController {
     }
     
     private func setupProfilePictures() {
-        FacebookDataManager.sharedInstance.fetchProfilePictureForCurrentUser(as: profileImageView.frame.size) {error, image in
+        FacebookDataManager.sharedInstance.fetchProfilePictureForCurrentUser() {error, image in
             if let image = image {
                 DispatchQueue.main.async {
                     self.profileImageView.image = image
@@ -158,6 +183,10 @@ class StreamViewController: UIViewController {
         
     }
     
+    private func setupQueueTableView() {
+        queueTableView.register(UINib(nibName: "VideoQueueTableViewCell", bundle: nil), forCellReuseIdentifier: "queueCell")
+    }
+    
     private func setupConstraints() {
         originalHeaderViewHeightConstraint = headerViewHeightConstraint.constant
         
@@ -166,15 +195,10 @@ class StreamViewController: UIViewController {
     private func setupPlayerView() {
         playerView.delegate = self
         //self.playerView.loadPlaylist(byVideos: ["4NFDhxhWyIw", "RTDuUiVSCo4"], index: 0, startSeconds: 0, suggestedQuality: .auto)
-		if viewModel.isHost {
-            updateView(forVideoWithID: "VGfn-NFMrXg")
-			playerView.load(withVideoId: "VGfn-NFMrXg", playerVars: [ //TODO: hide controls if participant
-				"playsinline" : 1,
-				"modestbranding" : 1,
-				"showinfo" : 0,
-				"controls" : 1,
-				"playlist": "7D3Ud2JIFhA, 2VuFqm8re5c"
-				])
+		if viewModel.isHost, let queue = viewModel.videoQueue, queue.count > 0 {
+            updateView(forVideoWithID: queue[0].id)
+			playerView.load(withVideoId: queue[0].id, playerVars: playerVars)
+            viewModel.currentVideoIndex = 0
 		}
 		
     }
@@ -218,25 +242,6 @@ class StreamViewController: UIViewController {
         
     }
     
-    @IBAction func playTapped(_ sender: Any) {
-        if !isPlaying {
-           playerView.playVideo()
-        }
-        else {
-            playerView.pauseVideo()
-        }
-        
-    }
-    
-    
-    @IBAction func nextTapped(_ sender: Any) {
-        playerView.nextVideo()
-    }
-
-    @IBAction func backTapped(_ sender: Any) {
-        playerView.previousVideo()
-    }
-    
     //header tapped, so show or hide queue if host
     @IBAction func headerTapped(_ sender: Any) {
         UIView.setAnimationsEnabled(true) //fix for animations breaking
@@ -273,6 +278,43 @@ class StreamViewController: UIViewController {
     }
 
     func closeTapped() {
+        if viewModel.isHost {
+            closeTappedAsHost()
+        } else {
+            closeTappedAsParticipant()
+        }
+    }
+    
+    private func closeTappedAsHost() {
+        // define callback to end the stream
+        let endStream = {
+            self.viewModel.endStream()
+            let _ = self.navigationController?.popToRootViewController(animated: true)
+        }
+        
+        // present popup with default user profile picture
+        let popup = PopupViewController.instantiate(
+            titleText: stream?.name ?? "MY STREAM",
+            image: #imageLiteral(resourceName: "stormtrooper_helmet"),
+            messageText: stream?.name ?? "",
+            descriptionText: "Would you like to end your stream?",
+            primaryButtonText: "END STREAM",
+            secondaryButtonText: "Cancel",
+            completion: endStream
+        )
+        present(popup, animated: true)
+        
+        // update popup with user profile picture
+        FacebookDataManager.sharedInstance.fetchProfilePictureForCurrentUser { error, image in
+            if let image = image {
+                DispatchQueue.main.async {
+                    popup.image = image
+                }
+            }
+        }
+    }
+    
+    private func closeTappedAsParticipant() {
         let _ = navigationController?.popToRootViewController(animated: true)
     }
 
@@ -308,6 +350,16 @@ class StreamViewController: UIViewController {
         updateView(forIsKeyboardShowing: false)
         
 	}
+    @IBAction func didToggleQueueEdit(_ sender: UIButton) {
+        if queueTableView.isEditing {
+            queueTableView.isEditing = false
+            sender.setTitle("Edit", for: .normal)
+        }
+        else {
+            queueTableView.isEditing = true
+            sender.setTitle("Done", for: .normal)
+        }
+    }
 	
 	fileprivate func getVideoID(from url: URL) -> String? {
 		guard let queries = url.query?.components(separatedBy: "&") else {
@@ -359,12 +411,7 @@ extension StreamViewController: StreamViewModelDelegate {
 		if playerView.videoUrl() == nil || currentVideoID != playerID {
             updateView(forVideoWithID: currentVideoID)
 			DispatchQueue.main.async { //TODO: hide controls if participant
-				self.playerView.load(withVideoId: currentVideoID, playerVars: [
-					"playsinline" : 1,
-					"modestbranding" : 1,
-					"showinfo" : 0,
-					"controls" : 1,
-					])
+				self.playerView.load(withVideoId: currentVideoID, playerVars: self.playerVars)
 			}
 		}
 	}
@@ -399,52 +446,43 @@ extension StreamViewController: StreamViewModelDelegate {
 	}
 	
 	func streamEnded() {
-		playerView.pauseVideo()
-		 // TODO: Logic for displaying end stream popup
-		print("stream ended")
+        playerView.pauseVideo()
+        
+        // present popup with default user profile picture
+		let popup = PopupViewController.instantiate(
+            titleText: (stream?.name ?? "").uppercased(),
+            image: #imageLiteral(resourceName: "stormtrooper_helmet"),
+            messageText: (stream?.name ?? "").uppercased(),
+            descriptionText: "This stream has ended.",
+            primaryButtonText: "OKAY",
+            completion: { _ = self.navigationController?.popViewController(animated: true) }
+        )
+        present(popup, animated: true)
+        
+        // update popup with user profile picture from Facebook
+        if let hostFacebookID = stream?.hostFacebookID {
+            FacebookDataManager.sharedInstance.fetchInfoForUser(withID: hostFacebookID) { error, user in
+                guard error == nil else { return }
+                user?.fetchProfileImage { error, image in
+                    guard error == nil else { return }
+                    if let image = image {
+                        popup.image = image
+                    }
+                }
+            }
+        }
 	}
 }
 
 extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let messageCell = tableView.dequeueReusableCell(withIdentifier: "chatMessage") as? ChatMessageTableViewCell
-        let eventCell = tableView.dequeueReusableCell(withIdentifier: "chatEvent") as? ChatEventTableViewCell
-        
-		let message = viewModel.messages[indexPath.row]
-		
-		FacebookDataManager.sharedInstance.fetchInfoForUser(withID: message.subjectID) { error, user in
-			if let message = message as? ChatMessage {
-                DispatchQueue.main.async {
-                    messageCell?.messageLabel.text = message.content
-                    messageCell?.nameLabel.text = user?.name
-                }
-			}
-			else if let message = message as? ParticipantMessage {
-                DispatchQueue.main.async {
-                    eventCell?.messageLabel.text = message.isJoining ? " joined the stream." : " left the stream."
-                    eventCell?.nameLabel.text = user?.name
-                }
-			}
-			user?.fetchProfileImage { error, image in
-                DispatchQueue.main.async {
-                    messageCell?.profileImageView.image = image
-                    eventCell?.profileImageView.image = image
-                }
-			}
-		}
-        
-        //return messageCell ?? eventCell ?? UITableViewCell()
-        if message is ChatMessage, let messageCell = messageCell {
-            return messageCell
+        if tableView.tag == chatTableTag {
+            return cellFor(chatTableView: tableView, at: indexPath)
         }
-        else if message is ParticipantMessage, let eventCell = eventCell {
-            return eventCell
+        else if tableView.tag == queueTableTag {
+            return cellFor(queueTableView: tableView, at: indexPath)
         }
-        else {
-            return UITableViewCell()
-        }
-        
+        return UITableViewCell()
 	}
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -465,12 +503,132 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
             dismissView.isHidden = true
         }
     }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return indexPath.row != viewModel.currentVideoIndex
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete, indexPath.row != viewModel.currentVideoIndex {
+            tableView.beginUpdates()
+            viewModel.videoQueue?.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            if viewModel.currentVideoIndex ?? 0 > indexPath.row {
+                viewModel.currentVideoIndex = (viewModel.currentVideoIndex ?? 0) - 1
+            }
+            tableView.endUpdates()
+        }
+    }
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return viewModel.messages.count //TODO: limit this to 50 or whatever performance allows
+        if tableView.tag == chatTableTag {
+            return viewModel.messages.count //TODO: limit this to 50 or whatever performance allows
+        }
+        else if tableView.tag == queueTableTag {
+            return viewModel.videoQueue?.count ?? 0
+        }
+        return 0
 	}
+    
+    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        if tableView.tag == queueTableTag {
+            return true
+        }
+        return false
+    }
+    
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        guard let currentVideoIndex = viewModel.currentVideoIndex, let video = viewModel.videoQueue?.remove(at: sourceIndexPath.row) else {
+            return
+        }
+        viewModel.videoQueue?.insert(video, at: destinationIndexPath.row)
+        if sourceIndexPath.row == currentVideoIndex {
+            viewModel.currentVideoIndex = destinationIndexPath.row
+        }
+        else if destinationIndexPath.row == currentVideoIndex {
+            viewModel.currentVideoIndex = destinationIndexPath.row + (sourceIndexPath.row > destinationIndexPath.row ? 1 : -1)
+        }
+        // left-to-right
+        else if sourceIndexPath.row < currentVideoIndex, currentVideoIndex < destinationIndexPath.row {
+            viewModel.currentVideoIndex = currentVideoIndex - 1
+        }
+        
+        // right-to-left
+        else if sourceIndexPath.row > currentVideoIndex, currentVideoIndex > destinationIndexPath.row {
+            viewModel.currentVideoIndex = currentVideoIndex + 1
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {
+        return proposedDestinationIndexPath
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if viewModel.currentVideoIndex != indexPath.row {
+            viewModel.currentVideoIndex = indexPath.row
+            playerView.cueVideo(byId: viewModel.videoQueue?[indexPath.row].id ?? "", startSeconds: 0, suggestedQuality: .default)
+            playerView.playVideo()
+        }
+    }
 	
-	
+    private func cellFor(chatTableView tableView: UITableView, at indexPath: IndexPath) -> UITableViewCell {
+        let messageCell = tableView.dequeueReusableCell(withIdentifier: "chatMessage") as? ChatMessageTableViewCell
+        let eventCell = tableView.dequeueReusableCell(withIdentifier: "chatEvent") as? ChatEventTableViewCell
+        
+        let message = viewModel.messages[indexPath.row]
+        
+        FacebookDataManager.sharedInstance.fetchInfoForUser(withID: message.subjectID) { error, user in
+            if let message = message as? ChatMessage {
+                DispatchQueue.main.async {
+                    messageCell?.messageLabel.text = message.content
+                    messageCell?.nameLabel.text = user?.name
+                }
+            }
+            else if let message = message as? ParticipantMessage {
+                DispatchQueue.main.async {
+                    eventCell?.messageLabel.text = message.isJoining ? " joined the stream." : " left the stream."
+                    eventCell?.nameLabel.text = user?.name
+                }
+            }
+            user?.fetchProfileImage { error, image in
+                DispatchQueue.main.async {
+                    messageCell?.profileImageView.image = image
+                    eventCell?.profileImageView.image = image
+                }
+            }
+        }
+        
+        //return messageCell ?? eventCell ?? UITableViewCell()
+        if message is ChatMessage, let messageCell = messageCell {
+            return messageCell
+        }
+        else if message is ParticipantMessage, let eventCell = eventCell {
+            return eventCell
+        }
+        else {
+            return UITableViewCell()
+        }
+    }
+    
+	private func cellFor(queueTableView tableView: UITableView, at indexPath: IndexPath) -> UITableViewCell {
+        guard
+        let cell = tableView.dequeueReusableCell(withIdentifier: "queueCell") as? VideoQueueTableViewCell,
+        let video = viewModel.videoQueue?[indexPath.row] else {
+            return UITableViewCell()
+        }
+        cell.titleLabel.text = video.title
+        cell.channelTitleLabel.text = video.channelTitle
+        YouTubeDataManager.sharedInstance.getThumbnailForVideo(with: video.mediumThumbnailURL) {error, image in
+            if let image = image {
+                cell.thumbnailImageView.image = image
+            }
+        }
+        if indexPath.row == viewModel.currentVideoIndex {
+            cell.isSelected = true
+        }
+        cell.selectionStyle = .none
+        return cell
+    }
 }
 
 extension StreamViewController: YTPlayerViewDelegate {
@@ -513,7 +671,6 @@ extension StreamViewController: YTPlayerViewDelegate {
     func playerView(_ playerView: YTPlayerView, didChangeTo state: YTPlayerState) {
         switch (state) {
         case .paused:
-            playPauseButton.setTitle("▶️", for: .normal)
             isPlaying = false
 			if viewModel.isHost {
 				viewModel.send(playState: false)
@@ -526,7 +683,6 @@ extension StreamViewController: YTPlayerViewDelegate {
 				viewModel.send(isBuffering: true)
 			}
         case .playing:
-            playPauseButton.setTitle("⏸", for: .normal)
             isPlaying = true
 			if viewModel.isHost {
 				viewModel.send(isBuffering: false)
@@ -537,6 +693,12 @@ extension StreamViewController: YTPlayerViewDelegate {
 			}
             break
         case .ended:
+            if viewModel.isHost, let queue = viewModel.videoQueue, var queueIndex = viewModel.currentVideoIndex {
+                queueIndex = queueIndex < queue.count - 1 ? queueIndex + 1 : 0
+                playerView.cueVideo(byId: queue[queueIndex].id, startSeconds: 0, suggestedQuality: .default)
+                viewModel.currentVideoIndex = queueIndex
+                playerView.playVideo()
+            }
             break
         case .queued:
             break
