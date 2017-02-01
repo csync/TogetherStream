@@ -85,17 +85,13 @@ class StreamViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         UIView.setAnimationsEnabled(true)
-        if firstLoad {
-            originalPlayerViewFrame = playerContainerView.frame
-            saveOriginalPlayerViewFrame()
-            firstLoad = false
-        }
+        
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        setupPlayerViewFrame()
         
     }
 	
@@ -110,6 +106,14 @@ class StreamViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    private func setupPlayerViewFrame() {
+        if firstLoad {
+            originalPlayerViewFrame = playerContainerView.frame
+            saveOriginalPlayerViewFrame()
+            firstLoad = false
+        }
     }
     
     private func saveOriginalPlayerViewFrame() {

@@ -302,10 +302,10 @@
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QHR-Gx-V89">
-                                        <rect key="frame" x="325" y="161" width="50" height="50"/>
-                                        <color key="backgroundColor" red="0.84705882349999995" green="0.25490196079999999" blue="0.027450980390000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <rect key="frame" x="325" y="161" width="50" height="51"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="50" id="MBx-EC-5GK"/>
+                                            <constraint firstAttribute="height" constant="51" id="MBx-EC-5GK"/>
                                             <constraint firstAttribute="width" constant="50" id="aKw-da-bFR"/>
                                         </constraints>
                                         <connections>
