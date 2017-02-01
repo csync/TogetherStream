@@ -9,11 +9,19 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="OpenSans-Bold.ttf">
+            <string>OpenSans-Bold</string>
+        </array>
+        <array key="OpenSans-Regular.ttf">
+            <string>OpenSans</string>
+        </array>
+    </customFonts>
     <scenes>
-        <!--Profile View Controller-->
+        <!--My Profile-->
         <scene sceneID="SFc-vj-L8T">
             <objects>
-                <viewController storyboardIdentifier="profile" useStoryboardIdentifierAsRestorationIdentifier="YES" id="QWc-ec-29c" customClass="ProfileViewController" customModule="Stormtrooper" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="profile" title="My Profile" useStoryboardIdentifierAsRestorationIdentifier="YES" id="QWc-ec-29c" customClass="ProfileViewController" customModule="Stormtrooper" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="BuU-uf-R1A"/>
                         <viewControllerLayoutGuide type="bottom" id="EQy-hg-V10"/>
@@ -22,48 +30,101 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q5P-sA-nfj">
-                                <rect key="frame" x="315" y="34" width="44" height="30"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Profile_50" translatesAutoresizingMaskIntoConstraints="NO" id="cHG-cY-BwG">
+                                <rect key="frame" x="144" y="28" width="88" height="88"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="44" id="J5P-M0-ARl"/>
-                                    <constraint firstAttribute="height" constant="30" id="ZtR-Gf-ESo"/>
+                                    <constraint firstAttribute="width" constant="88" id="Can-Ri-d3l"/>
+                                    <constraint firstAttribute="height" constant="88" id="bmQ-Bt-VqD"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="27"/>
-                                <state key="normal" title="x"/>
-                                <connections>
-                                    <action selector="cancelTapped:" destination="QWc-ec-29c" eventType="touchUpInside" id="NBG-6J-lpA"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L4h-pJ-bNw" customClass="FBSDKLoginButton">
-                                <rect key="frame" x="102" y="318" width="170" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="170" id="jN6-P1-ayu"/>
-                                </constraints>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My Profile" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jtE-yV-B2l">
-                                <rect key="frame" x="149" y="39" width="77" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="44"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Version 0.0.0 (0)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1TT-ZS-dVv">
+                                <rect key="frame" x="147" y="634" width="82" height="15"/>
+                                <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="11"/>
+                                <color key="textColor" red="0.60784313725490191" green="0.60784313725490191" blue="0.60784313725490191" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nathan Hekman" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J0B-mg-2MD">
+                                <rect key="frame" x="118" y="128" width="140.5" height="23.5"/>
+                                <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="17"/>
+                                <color key="textColor" red="0.29019607843137252" green="0.29019607843137252" blue="0.29019607843137252" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Kew-nO-y1O">
+                                <rect key="frame" x="0.0" y="179.5" width="375" height="436.5"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="QWc-ec-29c" id="AQ9-sx-L3Q"/>
+                                    <outlet property="delegate" destination="QWc-ec-29c" id="yJi-az-aoL"/>
+                                </connections>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Q5P-sA-nfj" firstAttribute="top" secondItem="BuU-uf-R1A" secondAttribute="bottom" constant="14" id="605-c1-KYC"/>
-                            <constraint firstItem="jtE-yV-B2l" firstAttribute="top" secondItem="BuU-uf-R1A" secondAttribute="bottom" constant="19" id="CTU-Xz-1Rx"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="Q5P-sA-nfj" secondAttribute="trailing" id="EM9-yG-GDS"/>
-                            <constraint firstItem="L4h-pJ-bNw" firstAttribute="centerX" secondItem="Xwr-pg-drH" secondAttribute="centerX" id="FWS-7S-gku"/>
-                            <constraint firstItem="L4h-pJ-bNw" firstAttribute="centerY" secondItem="Xwr-pg-drH" secondAttribute="centerY" id="fYq-pj-5TG"/>
-                            <constraint firstItem="jtE-yV-B2l" firstAttribute="centerX" secondItem="Xwr-pg-drH" secondAttribute="centerX" id="gWr-LD-zJH"/>
+                            <constraint firstAttribute="trailing" secondItem="Kew-nO-y1O" secondAttribute="trailing" id="3lU-yU-Mwc"/>
+                            <constraint firstItem="J0B-mg-2MD" firstAttribute="centerX" secondItem="Xwr-pg-drH" secondAttribute="centerX" id="I6W-Xu-AIA"/>
+                            <constraint firstItem="cHG-cY-BwG" firstAttribute="centerX" secondItem="Xwr-pg-drH" secondAttribute="centerX" id="OIv-D0-DH6"/>
+                            <constraint firstItem="cHG-cY-BwG" firstAttribute="top" secondItem="BuU-uf-R1A" secondAttribute="bottom" constant="28" id="T4d-gt-FhL"/>
+                            <constraint firstItem="1TT-ZS-dVv" firstAttribute="centerX" secondItem="Xwr-pg-drH" secondAttribute="centerX" id="U98-MC-1pU"/>
+                            <constraint firstItem="J0B-mg-2MD" firstAttribute="top" secondItem="cHG-cY-BwG" secondAttribute="bottom" constant="12" id="mI1-QQ-j0q"/>
+                            <constraint firstItem="EQy-hg-V10" firstAttribute="top" secondItem="1TT-ZS-dVv" secondAttribute="bottom" constant="18" id="nc8-EF-hTl"/>
+                            <constraint firstItem="Kew-nO-y1O" firstAttribute="top" secondItem="J0B-mg-2MD" secondAttribute="bottom" constant="28" id="oFp-3C-yFD"/>
+                            <constraint firstItem="1TT-ZS-dVv" firstAttribute="top" secondItem="Kew-nO-y1O" secondAttribute="bottom" constant="18" id="q3r-ko-ksw"/>
+                            <constraint firstItem="Kew-nO-y1O" firstAttribute="leading" secondItem="Xwr-pg-drH" secondAttribute="leading" id="qfy-JP-IBZ"/>
                         </constraints>
                     </view>
+                    <nil key="simulatedStatusBarMetrics"/>
                     <connections>
-                        <outlet property="facebookLoginButton" destination="L4h-pJ-bNw" id="ZPn-oy-QIZ"/>
+                        <outlet property="nameLabel" destination="J0B-mg-2MD" id="PA4-tY-9O9"/>
+                        <outlet property="profileImageView" destination="cHG-cY-BwG" id="UPc-vh-cBE"/>
+                        <outlet property="tableView" destination="Kew-nO-y1O" id="NSI-nJ-713"/>
+                        <outlet property="versionLabel" destination="1TT-ZS-dVv" id="L0a-a3-3Cp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5Rx-ZY-RKT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2260" y="31.934032983508249"/>
         </scene>
+        <!--About-->
+        <scene sceneID="x3j-NM-nRf">
+            <objects>
+                <viewController storyboardIdentifier="about" title="About" id="8NC-JA-w6F" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="JUN-EF-hc9"/>
+                        <viewControllerLayoutGuide type="bottom" id="Lc1-8L-ULu"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="OeT-b8-zds">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="XiT-4n-BQ2">
+                                <rect key="frame" x="46" y="50" width="283" height="267"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <string key="text">Media Sync Stream is an app designed and developed by the IBM Mobile Inovation Lab. Here’s some placeholder text to show that this screen will most likely be long. Media Sync Stream is an app designed and developed by the IBM Mobile Inovation Lab. Here’s some placeholder text to show that this screen will most likely be long.
+
+Media Sync Stream is an app designed and developed by the IBM Mobile Inovation Lab. Here’s some placeholder text to show that this screen will most likely be long.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="XiT-4n-BQ2" firstAttribute="top" secondItem="JUN-EF-hc9" secondAttribute="bottom" constant="30" id="2Ow-lB-wRt"/>
+                            <constraint firstItem="XiT-4n-BQ2" firstAttribute="leading" secondItem="OeT-b8-zds" secondAttribute="leadingMargin" constant="30" id="dHe-QE-kAu"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="XiT-4n-BQ2" secondAttribute="trailing" constant="30" id="yQo-DQ-uQX"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gvl-l0-su4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2903" y="32"/>
+        </scene>
     </scenes>
+    <resources>
+        <image name="Profile_50" width="50" height="50"/>
+    </resources>
 </document>
