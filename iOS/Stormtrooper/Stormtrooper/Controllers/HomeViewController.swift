@@ -65,6 +65,7 @@ class HomeViewController: UIViewController {
         let item1 = UIBarButtonItem(customView: profileButton)
         
         navigationItem.setRightBarButtonItems([item1], animated: false)
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
     private func setupTableView() {
