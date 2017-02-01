@@ -857,7 +857,7 @@ NSString static *const kYTPlayerSyndicationRegexPattern = @"^https://tpc.googles
     webView.scrollView.bounces = NO;
     
     if ([self.delegate respondsToSelector:@selector(playerViewPreferredWebViewBackgroundColor:)]) {
-        webView.backgroundColor = [self.delegate playerViewPreferredWebViewBackgroundColor:self];
+        webView.backgroundColor = [UIColor clearColor];
         if (webView.backgroundColor == [UIColor clearColor]) {
             webView.opaque = NO;
         }
