@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -15,6 +14,9 @@
         </array>
         <array key="OpenSans-Regular.ttf">
             <string>OpenSans</string>
+        </array>
+        <array key="WorkSans-SemiBold.ttf">
+            <string>WorkSans-SemiBold</string>
         </array>
     </customFonts>
     <scenes>
@@ -98,30 +100,146 @@
                         <viewControllerLayoutGuide type="bottom" id="Lc1-8L-ULu"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="OeT-b8-zds">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="1021.5"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="XiT-4n-BQ2">
-                                <rect key="frame" x="46" y="50" width="283" height="267"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <string key="text">Media Sync Stream is an app designed and developed by the IBM Mobile Inovation Lab. Here’s some placeholder text to show that this screen will most likely be long. Media Sync Stream is an app designed and developed by the IBM Mobile Inovation Lab. Here’s some placeholder text to show that this screen will most likely be long.
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pby-gt-D1f">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="1021.5"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bVn-md-FIo" userLabel="Container">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="1021.5"/>
+                                        <subviews>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Wwk-Rw-bJV" userLabel="App Description">
+                                                <rect key="frame" x="30" y="30" width="315" height="246.5"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <string key="text">Media Sync Stream is an app designed and developed by the IBM Mobile Inovation Lab. Here’s some placeholder text to show that this screen will most likely be long. Media Sync Stream is an app designed and developed by the IBM Mobile Inovation Lab. Here’s some placeholder text to show that this screen will most likely be long.
 
 Media Sync Stream is an app designed and developed by the IBM Mobile Inovation Lab. Here’s some placeholder text to show that this screen will most likely be long.</string>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
+                                                <color key="textColor" red="0.29019607843137252" green="0.29019607843137252" blue="0.29019607843137252" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="13"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                            </textView>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2zO-5j-fVn" userLabel="Separator">
+                                                <rect key="frame" x="0.0" y="314.5" width="375" height="1"/>
+                                                <color key="backgroundColor" red="0.85882352941176465" green="0.85882352941176465" blue="0.85882352941176465" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="1" id="fAh-fU-dRC"/>
+                                                </constraints>
+                                            </view>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CREATED WITH" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yTe-ch-atp" userLabel="Created With">
+                                                <rect key="frame" x="0.0" y="353.5" width="375" height="14.5"/>
+                                                <fontDescription key="fontDescription" name="WorkSans-SemiBold" family="Work Sans" pointSize="12"/>
+                                                <color key="textColor" red="0.84705882352941175" green="0.25490196078431371" blue="0.027450980392156862" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="S6R-Dg-1ej" userLabel="CSync Logo">
+                                                <rect key="frame" x="89" y="386" width="196" height="59"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="196" id="Vzr-qf-4Zo"/>
+                                                    <constraint firstAttribute="height" constant="59" id="otI-5b-EdK"/>
+                                                </constraints>
+                                            </imageView>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ZSq-fe-bDy" userLabel="CSync Description">
+                                                <rect key="frame" x="30" y="463" width="315" height="105"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <string key="text">Contextual sync is an IBM service that is super cool and helps power this app. Here’s a short blurb about the service. Contextual sync is an IBM service that is super cool and helps power this app. Here’s a short blurb about the service.</string>
+                                                <color key="textColor" red="0.2901960784" green="0.2901960784" blue="0.2901960784" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="13"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                            </textView>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5S4-Pe-bST" userLabel="Bluemix Logo">
+                                                <rect key="frame" x="89" y="586" width="196" height="59"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="196" id="1fr-bQ-1AG"/>
+                                                    <constraint firstAttribute="height" constant="59" id="VEA-Ce-RWj"/>
+                                                </constraints>
+                                            </imageView>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="O6V-FB-Iha" userLabel="CSync Description">
+                                                <rect key="frame" x="30" y="663" width="315" height="87"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <string key="text">Here’s some words about Bluemix and how we’re using it for Media Sync Stream. Here’s some words about Bluemix and how we’re using it for Media Sync Stream.</string>
+                                                <color key="textColor" red="0.2901960784" green="0.2901960784" blue="0.2901960784" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="13"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                            </textView>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bkD-xH-es7" userLabel="xLab Logo">
+                                                <rect key="frame" x="89" y="768" width="196" height="59"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="196" id="JuJ-po-ik9"/>
+                                                    <constraint firstAttribute="height" constant="59" id="eIe-LM-Zgi"/>
+                                                </constraints>
+                                            </imageView>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" text="Here’s some short words about the Mobile Innovatino Lab even though we’re about to be the Cloud Experience Lab." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="lcm-8J-bLk" userLabel="xLab Description">
+                                                <rect key="frame" x="30" y="845" width="315" height="69.5"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="textColor" red="0.2901960784" green="0.2901960784" blue="0.2901960784" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="13"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                            </textView>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jFN-cA-IHF" userLabel="YouTube Logo">
+                                                <rect key="frame" x="89" y="932.5" width="196" height="59"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="59" id="GUt-iE-3t2"/>
+                                                    <constraint firstAttribute="width" constant="196" id="o8D-BI-0nz"/>
+                                                </constraints>
+                                            </imageView>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="O6V-FB-Iha" firstAttribute="leading" secondItem="bVn-md-FIo" secondAttribute="leading" constant="30" id="1Kp-dd-YzR"/>
+                                            <constraint firstItem="ZSq-fe-bDy" firstAttribute="top" secondItem="S6R-Dg-1ej" secondAttribute="bottom" constant="18" id="3f5-EE-2L6"/>
+                                            <constraint firstItem="Wwk-Rw-bJV" firstAttribute="leading" secondItem="bVn-md-FIo" secondAttribute="leading" constant="30" id="46F-Su-PVQ"/>
+                                            <constraint firstItem="lcm-8J-bLk" firstAttribute="leading" secondItem="bVn-md-FIo" secondAttribute="leading" constant="30" id="6dO-2d-pWK"/>
+                                            <constraint firstAttribute="trailing" secondItem="lcm-8J-bLk" secondAttribute="trailing" constant="30" id="9gb-g0-XlS"/>
+                                            <constraint firstAttribute="trailing" secondItem="2zO-5j-fVn" secondAttribute="trailing" id="Db3-Hf-QWF"/>
+                                            <constraint firstAttribute="bottom" secondItem="jFN-cA-IHF" secondAttribute="bottom" constant="30" id="EFT-4D-N94"/>
+                                            <constraint firstItem="2zO-5j-fVn" firstAttribute="leading" secondItem="bVn-md-FIo" secondAttribute="leading" id="G5X-0V-d5K"/>
+                                            <constraint firstItem="jFN-cA-IHF" firstAttribute="centerX" secondItem="bVn-md-FIo" secondAttribute="centerX" id="HU5-WN-E4B"/>
+                                            <constraint firstAttribute="trailing" secondItem="Wwk-Rw-bJV" secondAttribute="trailing" constant="30" id="Iss-yc-thS"/>
+                                            <constraint firstItem="yTe-ch-atp" firstAttribute="leading" secondItem="bVn-md-FIo" secondAttribute="leading" id="OLU-kx-Caw"/>
+                                            <constraint firstAttribute="trailing" secondItem="ZSq-fe-bDy" secondAttribute="trailing" constant="30" id="PUf-Ey-d7Q"/>
+                                            <constraint firstItem="lcm-8J-bLk" firstAttribute="top" secondItem="bkD-xH-es7" secondAttribute="bottom" constant="18" id="RGr-1U-DTo"/>
+                                            <constraint firstItem="O6V-FB-Iha" firstAttribute="top" secondItem="5S4-Pe-bST" secondAttribute="bottom" constant="18" id="TGg-xk-hkW"/>
+                                            <constraint firstItem="ZSq-fe-bDy" firstAttribute="leading" secondItem="bVn-md-FIo" secondAttribute="leading" constant="30" id="U9o-PY-BNx"/>
+                                            <constraint firstItem="5S4-Pe-bST" firstAttribute="centerX" secondItem="bVn-md-FIo" secondAttribute="centerX" id="UkF-hG-eLA"/>
+                                            <constraint firstItem="2zO-5j-fVn" firstAttribute="top" secondItem="Wwk-Rw-bJV" secondAttribute="bottom" constant="38" id="ZKB-l6-7e7"/>
+                                            <constraint firstAttribute="trailing" secondItem="O6V-FB-Iha" secondAttribute="trailing" constant="30" id="dMg-y7-8P1"/>
+                                            <constraint firstItem="S6R-Dg-1ej" firstAttribute="top" secondItem="yTe-ch-atp" secondAttribute="bottom" constant="18" id="eCA-i4-wco"/>
+                                            <constraint firstItem="bkD-xH-es7" firstAttribute="centerX" secondItem="bVn-md-FIo" secondAttribute="centerX" id="gcw-Cd-NLW"/>
+                                            <constraint firstItem="S6R-Dg-1ej" firstAttribute="centerX" secondItem="bVn-md-FIo" secondAttribute="centerX" id="iBT-Xu-QCj"/>
+                                            <constraint firstItem="bkD-xH-es7" firstAttribute="top" secondItem="O6V-FB-Iha" secondAttribute="bottom" constant="18" id="kQn-bs-dND"/>
+                                            <constraint firstItem="yTe-ch-atp" firstAttribute="top" secondItem="2zO-5j-fVn" secondAttribute="bottom" constant="38" id="odt-ed-SAw"/>
+                                            <constraint firstItem="5S4-Pe-bST" firstAttribute="top" secondItem="ZSq-fe-bDy" secondAttribute="bottom" constant="18" id="vX8-ln-b9g"/>
+                                            <constraint firstItem="Wwk-Rw-bJV" firstAttribute="top" secondItem="bVn-md-FIo" secondAttribute="top" constant="30" id="zBj-kp-G8F"/>
+                                            <constraint firstItem="jFN-cA-IHF" firstAttribute="top" secondItem="lcm-8J-bLk" secondAttribute="bottom" constant="18" id="zJ7-9p-xth"/>
+                                            <constraint firstAttribute="trailing" secondItem="yTe-ch-atp" secondAttribute="trailing" id="zib-i3-sfZ"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="bVn-md-FIo" firstAttribute="leading" secondItem="pby-gt-D1f" secondAttribute="leading" id="2aq-9p-K9E"/>
+                                    <constraint firstItem="bVn-md-FIo" firstAttribute="width" secondItem="pby-gt-D1f" secondAttribute="width" id="8hf-SY-yco"/>
+                                    <constraint firstAttribute="trailing" secondItem="bVn-md-FIo" secondAttribute="trailing" id="Q40-L1-oeU"/>
+                                    <constraint firstAttribute="bottom" secondItem="bVn-md-FIo" secondAttribute="bottom" id="be4-fr-Teb"/>
+                                    <constraint firstItem="bVn-md-FIo" firstAttribute="top" secondItem="pby-gt-D1f" secondAttribute="top" id="oWJ-iS-ysW"/>
+                                </constraints>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="XiT-4n-BQ2" firstAttribute="top" secondItem="JUN-EF-hc9" secondAttribute="bottom" constant="30" id="2Ow-lB-wRt"/>
-                            <constraint firstItem="XiT-4n-BQ2" firstAttribute="leading" secondItem="OeT-b8-zds" secondAttribute="leadingMargin" constant="30" id="dHe-QE-kAu"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="XiT-4n-BQ2" secondAttribute="trailing" constant="30" id="yQo-DQ-uQX"/>
+                            <constraint firstItem="pby-gt-D1f" firstAttribute="leading" secondItem="OeT-b8-zds" secondAttribute="leading" id="3rl-9R-exF"/>
+                            <constraint firstItem="Lc1-8L-ULu" firstAttribute="top" secondItem="pby-gt-D1f" secondAttribute="bottom" id="9Pa-re-526"/>
+                            <constraint firstItem="pby-gt-D1f" firstAttribute="top" secondItem="JUN-EF-hc9" secondAttribute="bottom" id="jXL-k6-EEj"/>
+                            <constraint firstAttribute="trailing" secondItem="pby-gt-D1f" secondAttribute="trailing" id="k3c-5k-1Ic"/>
                         </constraints>
                     </view>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="375" height="1021.5"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gvl-l0-su4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2903" y="32"/>
+            <point key="canvasLocation" x="2903" y="192"/>
         </scene>
     </scenes>
     <resources>
