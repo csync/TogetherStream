@@ -243,6 +243,9 @@
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="211"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </view>
+                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lpC-Ew-dv7">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="211"/>
+                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QHR-Gx-V89">
                                         <rect key="frame" x="325" y="161" width="50" height="51"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -257,11 +260,15 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstItem="lpC-Ew-dv7" firstAttribute="centerX" secondItem="yki-41-hq1" secondAttribute="centerX" id="DiG-2t-LWE"/>
                                     <constraint firstItem="lt2-Nk-1YZ" firstAttribute="centerY" secondItem="yki-41-hq1" secondAttribute="centerY" id="Hrd-rQ-4wm"/>
+                                    <constraint firstItem="lpC-Ew-dv7" firstAttribute="centerY" secondItem="yki-41-hq1" secondAttribute="centerY" id="Xfk-Pd-psK"/>
+                                    <constraint firstItem="lpC-Ew-dv7" firstAttribute="width" secondItem="yki-41-hq1" secondAttribute="width" id="a9B-bC-aTT"/>
                                     <constraint firstAttribute="bottom" secondItem="QHR-Gx-V89" secondAttribute="bottom" constant="-1" id="buY-JE-Yv0"/>
                                     <constraint firstAttribute="trailing" secondItem="QHR-Gx-V89" secondAttribute="trailing" id="lzF-a7-yFf"/>
                                     <constraint firstItem="lt2-Nk-1YZ" firstAttribute="centerX" secondItem="yki-41-hq1" secondAttribute="centerX" id="pHF-YH-WXc"/>
                                     <constraint firstItem="lt2-Nk-1YZ" firstAttribute="height" secondItem="yki-41-hq1" secondAttribute="height" id="rcA-gI-00K"/>
+                                    <constraint firstItem="lpC-Ew-dv7" firstAttribute="height" secondItem="yki-41-hq1" secondAttribute="height" id="tKN-eH-JRK"/>
                                     <constraint firstItem="lt2-Nk-1YZ" firstAttribute="width" secondItem="yki-41-hq1" secondAttribute="width" id="zPN-Xh-fBX"/>
                                 </constraints>
                             </view>
@@ -293,6 +300,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="blockClicksButton" destination="lpC-Ew-dv7" id="cLm-iz-kQa"/>
                         <outlet property="chatInputTextField" destination="aeg-Oe-oU6" id="Vfo-fO-wFJ"/>
                         <outlet property="chatTableView" destination="u6G-sD-SZi" id="JfH-Mp-mPH"/>
                         <outlet property="dismissView" destination="Mpa-Nr-Aea" id="Lrl-zS-Lpu"/>

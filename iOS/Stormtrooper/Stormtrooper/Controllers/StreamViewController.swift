@@ -26,6 +26,7 @@ class StreamViewController: UIViewController {
     @IBOutlet weak var videoTitleLabel: UILabel!
     @IBOutlet weak var videoSubtitleLabel: UILabel!
     @IBOutlet weak var queueTableView: UITableView!
+    @IBOutlet weak var blockClicksButton: UIButton!
     
     //constraints
     var originalHeaderViewHeightConstraint: CGFloat = 0
@@ -47,11 +48,17 @@ class StreamViewController: UIViewController {
     private let headerViewAnimationDuration: TimeInterval = 0.3
     fileprivate let chatTableTag = 0
     fileprivate let queueTableTag = 1
-    fileprivate let playerVars = [ //TODO: hide controls if participant
+    fileprivate let hostPlayerVars = [
         "playsinline" : 1,
         "modestbranding" : 1,
         "showinfo" : 0,
         "controls" : 1
+				]
+    fileprivate let participantPlayerVars = [ //hide controls
+        "playsinline" : 1,
+        "modestbranding" : 1,
+        "showinfo" : 0,
+        "controls" : 0
 				]
 	
     var stream: Stream? {
@@ -175,7 +182,6 @@ class StreamViewController: UIViewController {
             headerArrowImageView.isHidden = false
             headerViewButton.isHidden = false
             
-            
             //Set bar button items and their actions programmatically
             let closeButton = UIButton(type: .custom)
             closeButton.setImage(UIImage(named: "xStream"), for: .normal)
@@ -258,14 +264,21 @@ class StreamViewController: UIViewController {
     }
     
     private func setupPlayerView() {
-        self.playerView.backgroundColor = UIColor.white
-        self.playerView.delegate = self
-        //self.playerView.loadPlaylist(byVideos: ["4NFDhxhWyIw", "RTDuUiVSCo4"], index: 0, startSeconds: 0, suggestedQuality: .auto)
+        playerView.backgroundColor = UIColor.white
+        playerView.delegate = self
+        playerView.setLoop(true)
 		if viewModel.isHost, let queue = viewModel.videoQueue, queue.count > 0 {
+            blockClicksButton.isHidden = true
             updateView(forVideoWithID: queue[0].id)
-			playerView.load(withVideoId: queue[0].id, playerVars: playerVars)
+			playerView.load(withVideoId: queue[0].id, playerVars: hostPlayerVars)
             viewModel.currentVideoIndex = 0
 		}
+        else if !viewModel.isHost, let queue = viewModel.videoQueue, queue.count > 0{
+            blockClicksButton.isHidden = false //prevent user from playing/pausing video as participant
+            updateView(forVideoWithID: queue[0].id)
+            playerView.load(withVideoId: queue[0].id, playerVars: participantPlayerVars)
+            viewModel.currentVideoIndex = 0
+        }
 		
     }
     
@@ -535,8 +548,14 @@ extension StreamViewController: StreamViewModelDelegate {
 		}
 		if playerView.videoUrl() == nil || currentVideoID != playerID {
             updateView(forVideoWithID: currentVideoID)
-			DispatchQueue.main.async { //TODO: hide controls if participant
-				self.playerView.load(withVideoId: currentVideoID, playerVars: self.playerVars)
+			DispatchQueue.main.async {
+                if self.viewModel.isHost {
+                    self.playerView.load(withVideoId: currentVideoID, playerVars: self.hostPlayerVars)
+                }
+                else {
+                    self.playerView.load(withVideoId: currentVideoID, playerVars: self.participantPlayerVars)
+                }
+				
 			}
 		}
 	}
