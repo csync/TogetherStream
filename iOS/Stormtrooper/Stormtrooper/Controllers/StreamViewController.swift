@@ -11,8 +11,6 @@ import UIKit
 class StreamViewController: UIViewController {
     @IBOutlet weak var playerView: YTPlayerView!
     @IBOutlet weak var playerContainerView: UIView!
-    @IBOutlet weak var playPauseButton: UIButton!
-    @IBOutlet weak var mediaControllerView: UIView!
 	@IBOutlet weak var chatInputTextField: UITextField!
 	@IBOutlet weak var chatTableView: UITableView!
 	@IBOutlet weak var userCountLabel: UILabel!
@@ -294,11 +292,9 @@ class StreamViewController: UIViewController {
     @IBAction func expandButtonTapped(_ sender: Any) {
         if statusBarHidden {
             returnPlayerViewToPortrait()
-            mediaControllerView.isHidden = false
         }
         else {
             rotatePlayerView(byAngle: CGFloat(M_PI_2))
-            mediaControllerView.isHidden = true
         }
     }
     
@@ -309,19 +305,16 @@ class StreamViewController: UIViewController {
                 print("Landscape Left")
                 if !statusBarHidden {
                     rotatePlayerView(byAngle: CGFloat(M_PI_2))
-                    mediaControllerView.isHidden = true
                 }
             case .landscapeRight:
                 if !statusBarHidden {
                     print("Landscape Right")
                     rotatePlayerView(byAngle: CGFloat(-M_PI_2))
-                    mediaControllerView.isHidden = true
                 }
             case .portrait:
                 print("Portrait")
                 if statusBarHidden {
                     returnPlayerViewToPortrait()
-                    mediaControllerView.isHidden = false
                 }
             default:
                 break
