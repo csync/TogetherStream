@@ -109,7 +109,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bVn-md-FIo" userLabel="Container">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="1021.5"/>
                                         <subviews>
-                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Wwk-Rw-bJV" userLabel="App Description">
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wwk-Rw-bJV" userLabel="App Description">
                                                 <rect key="frame" x="30" y="30" width="315" height="246.5"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <string key="text">Media Sync Stream is an app designed and developed by the IBM Mobile Inovation Lab. Here’s some placeholder text to show that this screen will most likely be long. Media Sync Stream is an app designed and developed by the IBM Mobile Inovation Lab. Here’s some placeholder text to show that this screen will most likely be long.
@@ -139,7 +139,7 @@ Media Sync Stream is an app designed and developed by the IBM Mobile Inovation L
                                                     <constraint firstAttribute="height" constant="59" id="otI-5b-EdK"/>
                                                 </constraints>
                                             </imageView>
-                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ZSq-fe-bDy" userLabel="CSync Description">
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZSq-fe-bDy" userLabel="CSync Description">
                                                 <rect key="frame" x="30" y="463" width="315" height="105"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <string key="text">Contextual sync is an IBM service that is super cool and helps power this app. Here’s a short blurb about the service. Contextual sync is an IBM service that is super cool and helps power this app. Here’s a short blurb about the service.</string>
@@ -154,7 +154,7 @@ Media Sync Stream is an app designed and developed by the IBM Mobile Inovation L
                                                     <constraint firstAttribute="height" constant="59" id="VEA-Ce-RWj"/>
                                                 </constraints>
                                             </imageView>
-                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="O6V-FB-Iha" userLabel="CSync Description">
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O6V-FB-Iha" userLabel="CSync Description">
                                                 <rect key="frame" x="30" y="663" width="315" height="87"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <string key="text">Here’s some words about Bluemix and how we’re using it for Media Sync Stream. Here’s some words about Bluemix and how we’re using it for Media Sync Stream.</string>
@@ -169,7 +169,7 @@ Media Sync Stream is an app designed and developed by the IBM Mobile Inovation L
                                                     <constraint firstAttribute="height" constant="59" id="eIe-LM-Zgi"/>
                                                 </constraints>
                                             </imageView>
-                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" text="Here’s some short words about the Mobile Innovatino Lab even though we’re about to be the Cloud Experience Lab." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="lcm-8J-bLk" userLabel="xLab Description">
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="Here’s some short words about the Mobile Innovatino Lab even though we’re about to be the Cloud Experience Lab." textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lcm-8J-bLk" userLabel="xLab Description">
                                                 <rect key="frame" x="30" y="845" width="315" height="69.5"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <color key="textColor" red="0.2901960784" green="0.2901960784" blue="0.2901960784" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
