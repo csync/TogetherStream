@@ -14,7 +14,7 @@
         </array>
     </customFonts>
     <scenes>
-        <!--Media Sync Stream-->
+        <!--Together Stream-->
         <scene sceneID="RTf-KL-dA1">
             <objects>
                 <viewController storyboardIdentifier="home" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Moa-Ve-qFV" customClass="HomeViewController" customModule="Stormtrooper" customModuleProvider="target" sceneMemberID="viewController">
@@ -62,7 +62,7 @@
                             <constraint firstItem="uRe-g4-D1k" firstAttribute="top" secondItem="uLS-1R-2D0" secondAttribute="bottom" id="ohc-Ng-maE"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Media Sync Stream" id="Mdo-gI-S31"/>
+                    <navigationItem key="navigationItem" title="Together Stream" id="Mdo-gI-S31"/>
                     <connections>
                         <outlet property="streamsTableView" destination="ozw-Vf-J5s" id="LkL-og-PmG"/>
                     </connections>
@@ -75,7 +75,7 @@
         <scene sceneID="gWR-xo-do2">
             <objects>
                 <navigationController storyboardIdentifier="mainNavigation" id="3ka-qo-nCZ" customClass="MainNavigationController" customModule="Stormtrooper" customModuleProvider="target" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" barStyle="black" translucent="NO" id="HIf-u3-Kgu">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" translucent="NO" id="HIf-u3-Kgu">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.15686274509803921" green="0.14117647058823529" blue="0.14117647058823529" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
