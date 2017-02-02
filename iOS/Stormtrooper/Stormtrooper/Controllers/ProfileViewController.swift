@@ -9,58 +9,153 @@
 import UIKit
 import FBSDKLoginKit
 
-
-class ProfileViewController: UIViewController {
-	@IBOutlet weak var facebookLoginButton: FBSDKLoginButton!
-	let facebookDataManager = FacebookDataManager.sharedInstance
-
+class ProfileViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    
+    // MARK: - Outlets
+    
+    @IBOutlet private weak var profileImageView: UIImageView!
+    @IBOutlet private weak var nameLabel: UILabel!
+    @IBOutlet private weak var tableView: UITableView!
+    @IBOutlet private weak var versionLabel: UILabel!
+    
+    // MARK: - Properties
+    
+    private let facebookDataManager = FacebookDataManager.sharedInstance
+    
+    // MARK: - Table Rows
+    
+    private lazy var rows: [ProfileRow] = {
+        let invite = ProfileRow(
+            label: "Invite Friends to Together Stream",
+            showDisclosure: true,
+            action: { self.pushViewController("inviteStream", from: "InviteStream") }
+        )
+        let about = ProfileRow(
+            label: "About Together Stream",
+            showDisclosure: true,
+            action: { self.pushViewController("about") }
+        )
+        let disclaimer = ProfileRow(
+            label: "Disclaimer",
+            showDisclosure: true,
+            action: { self.pushViewController("disclaimer") }
+        )
+        let privacy = ProfileRow(
+            label: "Privacy Policy",
+            showDisclosure: false,
+            action: { self.presentViewController("webView") }
+        )
+        let licenses = ProfileRow(
+            label: "Licenses",
+            showDisclosure: false,
+            action: { self.presentViewController("webView") }
+        )
+        let signOut = ProfileRow(
+            label: "Sign Out of Facebook",
+            showDisclosure: false,
+            action: {
+                self.facebookDataManager.logOut()
+                _ = self.navigationController?.popViewController(animated: true)
+            }
+        )
+        return [invite, about, disclaimer, privacy, licenses, signOut]
+    }()
+    
+    // MARK: - View Controller Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        
-		facebookDataManager.setupLoginButton(facebookLoginButton)
-		
+        setupNavigationBar()
+        setupProfilePicture()
+        setupNameLabel()
+        setupTableView()
+        setupVersionNumber()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        UIView.setAnimationsEnabled(true)
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    // MARK: - Helper Functions
+    
+    /// Set the back button's text to the empty string
+    private func setupNavigationBar() {
+        let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem = backButton
     }
     
-    @IBAction func cancelTapped(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
-    }
-
-
-}
-
-extension ProfileViewController: FBSDKLoginButtonDelegate {
-    func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
-        if result.isCancelled {
-            // User canceled login
-        }
-        else if result.declinedPermissions.count == 0 {
-            // User accepted all permissions
-            if facebookDataManager.profile != nil {
-                // done
-            }
-            else{
-                FBSDKProfile.loadCurrentProfile() { profile, error in
-                    if let error = error {
-                        print(error)
-                    }
-                    else {
-                        // done
-                    }
+    /// Set the profile image view using the current user's Facebook profile picture
+    private func setupProfilePicture() {
+        let facebookDataManager = FacebookDataManager.sharedInstance
+        facebookDataManager.fetchProfilePictureForCurrentUser() { error, image in
+            if let image = image {
+                DispatchQueue.main.async {
+                    self.profileImageView.image = image
                 }
             }
         }
     }
     
-    func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {}
+    /// Set the name label with the current user's Facebook profile name
+    private func setupNameLabel() {
+        nameLabel.text = facebookDataManager.profile?.name ?? ""
+    }
+    
+    /// Set the version number label
+    private func setupVersionNumber() {
+        let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") ?? "0.0.0"
+        let build = Bundle.main.object(forInfoDictionaryKey: kCFBundleVersionKey as String) ?? "0"
+        let label = "Version \(version) (\(build))"
+        versionLabel.text = label
+    }
+    
+    /// Register the nib containing the cell with the table view
+    private func setupTableView() {
+        let nib = UINib(nibName: "ProfileTableViewCell", bundle: nil)
+        tableView.register(nib, forCellReuseIdentifier: "profileCell")
+    }
+    
+    /// Push the view controller with the given identifier onto the stack
+    private func pushViewController(_ identifier: String, from storyboard: String = "Profile") {
+        let storyboard = UIStoryboard(name: storyboard, bundle: nil)
+        let viewController = storyboard.instantiateViewController(withIdentifier: identifier)
+        navigationController?.pushViewController(viewController, animated: true)
+    }
+    
+    /// Present the view controller with the given identifier
+    private func presentViewController(_ identifier: String, from storyboard: String = "Profile") {
+        let storyboard = UIStoryboard(name: storyboard, bundle: nil)
+        let viewController = storyboard.instantiateViewController(withIdentifier: identifier)
+        present(viewController, animated: true)
+    }
+    
+    // MARK: - UITableViewDataSource
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return rows.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "profileCell")
+        guard let profileCell = cell as? ProfileTableViewCell else { return UITableViewCell() }
+        let row = rows[indexPath.row]
+        profileCell.labelText = row.label
+        profileCell.accessoryType = (row.showDisclosure) ? .disclosureIndicator : .none
+        return profileCell
+    }
+    
+    // MARK: - UITableViewDelegate
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let row = rows[indexPath.row]
+        row.action()
+    }
+}
+
+/// Data associated with a profile row
+private struct ProfileRow {
+    let label: String
+    let showDisclosure: Bool
+    let action: (Void) -> Void
 }

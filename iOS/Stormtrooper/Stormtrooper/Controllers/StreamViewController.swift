@@ -105,6 +105,7 @@ class StreamViewController: UIViewController {
         super.viewDidLoad()
         viewModel.delegate = self
 		
+        setupNavigationBar()
         setupChatTableView()
         setupQueueTableView()
         setupPlayerView()
@@ -142,6 +143,10 @@ class StreamViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    private func setupNavigationBar() {
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
     private func setupPlayerViewFrame() {

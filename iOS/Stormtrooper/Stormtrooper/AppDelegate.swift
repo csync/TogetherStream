@@ -44,7 +44,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Set back button appearance
         UINavigationBar.appearance().tintColor = UIColor.white
-        UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffsetMake(0, -100), for:UIBarMetrics.default)
         
         return true
     }
