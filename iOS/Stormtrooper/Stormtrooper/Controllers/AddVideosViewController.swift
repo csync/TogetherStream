@@ -155,6 +155,7 @@ extension AddVideosViewController: UITextFieldDelegate {
                 DispatchQueue.main.async {
                     self?.searchTableView.reloadData()
                 }
+                self?.searchTableView.setContentOffset(CGPoint.zero, animated: true)
             }
         }
         else {
