@@ -97,7 +97,7 @@ class InviteStreamViewController: UIViewController {
     func textTapped() {
         let messageVC = MFMessageComposeViewController()
         
-        messageVC.body = "Download Stormtrooper to join my Stream: http://ibm.biz/BdsMEz";
+        messageVC.body = "Download Together Stream to join my Stream: http://ibm.biz/BdsMEz";
         //messageVC.recipients = [""]
         messageVC.messageComposeDelegate = self
         
@@ -110,7 +110,7 @@ class InviteStreamViewController: UIViewController {
         
         //mailComposerVC.setToRecipients([""])
         mailComposerVC.setSubject("Check this out!")
-        mailComposerVC.setMessageBody("Download Stormtrooper to join my Stream: http://ibm.biz/BdsMEz", isHTML: false)
+        mailComposerVC.setMessageBody("Download Together Stream to join my Stream: http://ibm.biz/BdsMEz", isHTML: false)
         
         if MFMailComposeViewController.canSendMail() {
             present(mailComposerVC, animated: true, completion: nil)
