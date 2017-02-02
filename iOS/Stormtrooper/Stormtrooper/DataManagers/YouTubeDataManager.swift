@@ -12,7 +12,7 @@ class YouTubeDataManager {
 	static let sharedInstance = YouTubeDataManager()
 	
 	private let apiKey = Utils.getStringValueWithKeyFromPlist("keys", key: "youtube_api_key")
-	private let maxVideoResults = 10
+	private let maxVideoResults = 25
 	
     // TODO: Cache
 	func getThumbnailForVideo(with url: URL, callback: @escaping (Error?, UIImage?) -> Void) {
