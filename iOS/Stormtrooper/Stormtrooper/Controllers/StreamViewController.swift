@@ -465,6 +465,7 @@ class StreamViewController: UIViewController {
         }
         addVideosVC.stream = stream
         addVideosVC.isCreatingStream = false
+        addVideosVC.delegate = self
         navigationController?.pushViewController(addVideosVC, animated: true)
     }
     
@@ -889,5 +890,15 @@ extension StreamViewController: UITextFieldDelegate {
 
         
         return true
+    }
+}
+
+extension StreamViewController: AddVideosDelegate {
+    func didAddVideos(selectedVideos: [Video]) {
+        let videoQueue = viewModel.videoQueue ?? [Video]()
+        viewModel.videoQueue = videoQueue + selectedVideos
+        DispatchQueue.main.async {
+            self.queueTableView.reloadData()
+        }
     }
 }
