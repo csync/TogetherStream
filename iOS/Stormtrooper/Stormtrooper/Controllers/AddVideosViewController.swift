@@ -94,6 +94,7 @@ class AddVideosViewController: UIViewController {
 	
     @IBAction func doneTapped(_ sender: Any) {
         if isCreatingStream { //move to next screen in flow
+            delegate?.didAddVideos(selectedVideos: viewModel.selectedVideos)
             guard let inviteVC = Utils.vcWithNameFromStoryboardWithName("inviteStream", storyboardName: "InviteStream") as? InviteStreamViewController else {
                 return
             }
