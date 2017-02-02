@@ -15,6 +15,9 @@
         <array key="OpenSans-Semibold.ttf">
             <string>OpenSans-Semibold</string>
         </array>
+        <array key="WorkSans-Medium.ttf">
+            <string>WorkSans-Medium</string>
+        </array>
         <array key="WorkSans-SemiBold.ttf">
             <string>WorkSans-SemiBold</string>
         </array>
@@ -208,9 +211,13 @@
                                             <action selector="addToStreamTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tLF-8y-7FU"/>
                                         </connections>
                                     </button>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="89" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="iC4-5G-MpH">
+                                    <tableView clipsSubviews="YES" tag="1" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="89" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="iC4-5G-MpH">
                                         <rect key="frame" x="0.0" y="42" width="375" height="247"/>
                                         <color key="backgroundColor" red="0.15686274510000001" green="0.14117647059999999" blue="0.14117647059999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <connections>
+                                            <outlet property="dataSource" destination="BYZ-38-t0r" id="2Ly-0p-jhB"/>
+                                            <outlet property="delegate" destination="BYZ-38-t0r" id="kd1-Sm-0Z4"/>
+                                        </connections>
                                     </tableView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UP NEXT" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zJg-2p-vtP">
                                         <rect key="frame" x="16" y="8" width="160" height="18"/>
@@ -222,6 +229,16 @@
                                         <color key="textColor" red="0.84705882349999995" green="0.25490196079999999" blue="0.023529411760000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tnF-Qz-F5f">
+                                        <rect key="frame" x="329" y="2.5" width="30" height="29"/>
+                                        <fontDescription key="fontDescription" name="WorkSans-Medium" family="Work Sans" pointSize="14"/>
+                                        <state key="normal" title="Edit">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="didToggleQueueEdit:" destination="BYZ-38-t0r" eventType="touchUpInside" id="lv0-WP-4AQ"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.15686274510000001" green="0.14117647059999999" blue="0.14117647059999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -230,6 +247,8 @@
                                     <constraint firstAttribute="bottom" secondItem="j8A-8z-cfk" secondAttribute="bottom" id="8I4-WH-WTx"/>
                                     <constraint firstItem="j8A-8z-cfk" firstAttribute="centerX" secondItem="q4i-Y2-lar" secondAttribute="centerX" id="DD5-KP-89F"/>
                                     <constraint firstItem="iC4-5G-MpH" firstAttribute="top" secondItem="q4i-Y2-lar" secondAttribute="top" constant="42" id="Egb-Cz-3Tu"/>
+                                    <constraint firstItem="tnF-Qz-F5f" firstAttribute="centerY" secondItem="zJg-2p-vtP" secondAttribute="centerY" id="FHg-l5-QBz"/>
+                                    <constraint firstAttribute="trailing" secondItem="tnF-Qz-F5f" secondAttribute="trailing" constant="16" id="NMv-cD-Jet"/>
                                     <constraint firstItem="iC4-5G-MpH" firstAttribute="centerX" secondItem="q4i-Y2-lar" secondAttribute="centerX" id="YCs-MR-cBX"/>
                                     <constraint firstItem="j8A-8z-cfk" firstAttribute="top" secondItem="iC4-5G-MpH" secondAttribute="bottom" id="dY3-0p-Ygc"/>
                                     <constraint firstItem="iC4-5G-MpH" firstAttribute="width" secondItem="q4i-Y2-lar" secondAttribute="width" id="fcp-O9-WS7"/>
