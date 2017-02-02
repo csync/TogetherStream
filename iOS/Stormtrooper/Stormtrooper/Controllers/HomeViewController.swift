@@ -20,7 +20,7 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        setupNavBar()
+        setupNavigationBar()
         setupTableView()
         
 		viewModel.resetCurrentUserStream()
@@ -47,7 +47,7 @@ class HomeViewController: UIViewController {
     
     
     ///Set bar button items and their actions programmatically
-    private func setupNavBar() {
+    private func setupNavigationBar() {
         navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont(name: "WorkSans-Regular", size: 17) ?? UIFont.systemFont(ofSize: 17)]
         
         let profileButton = UIButton(type: .custom)
