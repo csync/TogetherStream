@@ -95,12 +95,19 @@ class InviteStreamViewController: UIViewController {
     }
     
     func textTapped() {
+        guard MFMessageComposeViewController.canSendText() else {
+            let title = "Could Not Send SMS"
+            let message = "SMS services are not available on this device."
+            let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            let action = UIAlertAction(title: "OK", style: .default)
+            alertController.addAction(action)
+            present(alertController, animated: true)
+            return
+        }
+        
         let messageVC = MFMessageComposeViewController()
-        
         messageVC.body = "Download Together Stream to join my Stream: http://ibm.biz/BdsMEz";
-        //messageVC.recipients = [""]
         messageVC.messageComposeDelegate = self
-        
         present(messageVC, animated: true, completion: nil)
     }
     
