@@ -602,9 +602,9 @@ extension StreamViewController: StreamViewModelDelegate {
 		let popup = PopupViewController.instantiate(
             titleText: (stream?.name ?? "").uppercased(),
             image: #imageLiteral(resourceName: "profile_85"),
-            messageText: (stream?.name ?? "").uppercased(),
+            messageText: (stream?.name ?? ""),
             descriptionText: "This stream has ended.",
-            primaryButtonText: "OKAY",
+            primaryButtonText: "DISMISS",
             completion: { _ = self.navigationController?.popViewController(animated: true) }
         )
         present(popup, animated: true)
