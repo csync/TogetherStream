@@ -604,7 +604,7 @@ extension StreamViewController: StreamViewModelDelegate {
             image: #imageLiteral(resourceName: "profile_85"),
             messageText: (stream?.name ?? "").uppercased(),
             descriptionText: "This stream has ended.",
-            primaryButtonText: "OKAY",
+            primaryButtonText: "DISMISS",
             completion: { _ = self.navigationController?.popViewController(animated: true) }
         )
         present(popup, animated: true)
