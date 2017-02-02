@@ -25,10 +25,9 @@ class NameStreamViewController: UIViewController {
 	
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupNavigationBar()
         setupTextFields()
         setupAddVideosBanner()
-        
-        // Do any additional setup after loading the view.
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -44,6 +43,10 @@ class NameStreamViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    private func setupNavigationBar() {
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
     private func setupTextFields() {
