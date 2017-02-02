@@ -13,7 +13,7 @@ class AccountDataManager {
 	static let sharedInstance = AccountDataManager()
 	
 	// TODO: move to plist
-	private var serverAddress = "https://stormtrooper.mybluemix.net"
+	private var serverAddress = "https://together-stream.mybluemix.net"
 	private var urlSession = URLSession.shared
 	private var _serverAccessToken: String?
 	private var serverAccessToken: String? {
