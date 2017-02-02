@@ -56,7 +56,7 @@
                                             <constraint firstAttribute="height" constant="2" id="C2o-nl-C9h"/>
                                         </constraints>
                                     </view>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="down_temp_arrow" translatesAutoresizingMaskIntoConstraints="NO" id="ADJ-ie-0Vs" userLabel="Image">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile_85" translatesAutoresizingMaskIntoConstraints="NO" id="ADJ-ie-0Vs" userLabel="Image">
                                         <rect key="frame" x="109" y="67" width="84" height="84"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="84" id="WD6-lb-cw1"/>
@@ -191,7 +191,7 @@
                                             <constraint firstAttribute="height" constant="2" id="Y8R-BN-hdQ"/>
                                         </constraints>
                                     </view>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="down_temp_arrow" translatesAutoresizingMaskIntoConstraints="NO" id="hbU-T9-hRJ" userLabel="Image">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile_85" translatesAutoresizingMaskIntoConstraints="NO" id="hbU-T9-hRJ" userLabel="Image">
                                         <rect key="frame" x="109" y="67" width="84" height="84"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="84" id="W71-QF-Wol"/>
@@ -308,6 +308,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="down_temp_arrow" width="102" height="69"/>
+        <image name="profile_85" width="85" height="85"/>
     </resources>
 </document>
