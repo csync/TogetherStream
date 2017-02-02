@@ -1,5 +1,5 @@
 ---
 applications:
-- name: Stormtrooper
+- name: Together-Stream
   timeout: 60
   path: backend

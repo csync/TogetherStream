@@ -8,7 +8,7 @@ var appEnv = cfenv.getAppEnv({
         services: require('./private/VCAP_SERVICES.json')
     }
 });
-var postgresService = appEnv.getService('Compose for PostgreSQL-5h');
+var postgresService = appEnv.getService('Compose for PostgreSQL-hf');
 var credentials = require('./private/credentials');
 
 var appVars = {
