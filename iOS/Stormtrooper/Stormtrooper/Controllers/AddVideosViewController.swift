@@ -18,8 +18,8 @@ class AddVideosViewController: UIViewController {
     @IBOutlet weak var searchTableViewBottomConstraint: NSLayoutConstraint!
 	
     var stream: Stream?
-    
     var isCreatingStream = false
+    var delegate: AddVideosDelegate?
 	
     private let searchSpacerFrame = CGRect(x: 0, y: 0, width: 39, height: 5)
     private let searchClearFrame = CGRect(x: 0, y: 0, width: 54.5, height: 15)
@@ -105,6 +105,7 @@ class AddVideosViewController: UIViewController {
 
         }
         else { //dismiss
+            delegate?.didAddVideos(selectedVideos: viewModel.selectedVideos)
             let _ = self.navigationController?.popViewController(animated: true)
         }
     }
@@ -245,4 +246,8 @@ extension AddVideosViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return searchTableHeaderViewHeight
     }
+}
+
+protocol AddVideosDelegate {
+    func didAddVideos(selectedVideos: [Video])
 }
