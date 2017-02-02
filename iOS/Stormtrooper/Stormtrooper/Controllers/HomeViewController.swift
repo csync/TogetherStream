@@ -20,7 +20,7 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        setupNavBar()
+        setupNavigationBar()
         setupTableView()
         
 		viewModel.resetCurrentUserStream()
@@ -47,7 +47,7 @@ class HomeViewController: UIViewController {
     
     
     ///Set bar button items and their actions programmatically
-    private func setupNavBar() {
+    private func setupNavigationBar() {
         navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont(name: "WorkSans-Regular", size: 17) ?? UIFont.systemFont(ofSize: 17)]
         
         let profileButton = UIButton(type: .custom)
@@ -66,6 +66,7 @@ class HomeViewController: UIViewController {
         let item1 = UIBarButtonItem(customView: profileButton)
         
         navigationItem.setRightBarButtonItems([item1], animated: false)
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
     private func setupTableView() {
@@ -119,9 +120,9 @@ class HomeViewController: UIViewController {
         guard let profileVC = Utils.vcWithNameFromStoryboardWithName("profile", storyboardName: "Profile") as? ProfileViewController else {
             return
         }
-        present(profileVC, animated: true, completion: { _ in
-            
-        })
+        DispatchQueue.main.async {
+            self.navigationController?.pushViewController(profileVC, animated: true)
+        }
     }
     
     fileprivate func didSelectInviteFriends() {

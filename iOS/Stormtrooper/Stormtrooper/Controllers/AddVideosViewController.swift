@@ -89,7 +89,7 @@ class AddVideosViewController: UIViewController {
     
     private func setupNavigationBar() {
         navigationItem.titleView = UIImageView(image: #imageLiteral(resourceName: "youTube"))
-        
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
 	
     @IBAction func doneTapped(_ sender: Any) {

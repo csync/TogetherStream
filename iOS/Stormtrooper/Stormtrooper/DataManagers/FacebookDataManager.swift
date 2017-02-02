@@ -29,6 +29,11 @@ class FacebookDataManager {
 	func setupLoginButton(_ button: FBSDKLoginButton) {
 		button.readPermissions = ["public_profile", "email", "user_friends"]
 	}
+    
+    func logOut() {
+        let loginManager = FBSDKLoginManager()
+        loginManager.logOut()
+    }
 	
 	func fetchFriends(callback: @escaping (Error?, [User]?) -> Void) {
 		innerFetchFriends(withAfterCursor: nil, friends: [], callback: callback)
