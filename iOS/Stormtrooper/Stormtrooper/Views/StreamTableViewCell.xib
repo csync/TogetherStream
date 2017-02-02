@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -46,8 +46,8 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="v2k-tT-2Gc">
-                                <rect key="frame" x="20" y="65" width="292" height="180"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="v2k-tT-2Gc">
+                                <rect key="frame" x="21" y="65" width="292" height="180"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="180" id="CCW-Z5-P46"/>
                                 </constraints>
@@ -86,7 +86,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CJv-5p-fnp">
-                                <rect key="frame" x="20" y="257" width="292" height="7"/>
+                                <rect key="frame" x="20" y="257" width="293" height="7"/>
                                 <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="13"/>
                                 <color key="textColor" red="0.2901960784" green="0.2901960784" blue="0.2901960784" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -97,12 +97,12 @@
                             <constraint firstItem="v2k-tT-2Gc" firstAttribute="trailing" secondItem="AES-hx-nRV" secondAttribute="trailingMargin" constant="-13.5" id="0id-rZ-DzN"/>
                             <constraint firstItem="FfH-L1-58f" firstAttribute="trailing" secondItem="v2k-tT-2Gc" secondAttribute="trailing" constant="1.5" id="2Qg-w1-E6j"/>
                             <constraint firstItem="vvc-ye-igT" firstAttribute="leading" secondItem="eSZ-5Z-Mw6" secondAttribute="leading" id="3wi-R8-UmR"/>
-                            <constraint firstItem="CJv-5p-fnp" firstAttribute="leading" secondItem="v2k-tT-2Gc" secondAttribute="leading" id="5gg-i0-xb8"/>
+                            <constraint firstItem="CJv-5p-fnp" firstAttribute="leading" secondItem="v2k-tT-2Gc" secondAttribute="leading" constant="-1" id="5gg-i0-xb8"/>
                             <constraint firstItem="EvI-gA-R0v" firstAttribute="bottom" secondItem="zBg-MP-7fF" secondAttribute="bottom" id="9oI-PN-eeP"/>
                             <constraint firstItem="7gl-1v-qNA" firstAttribute="leading" secondItem="EvI-gA-R0v" secondAttribute="trailing" constant="13" id="Bps-9c-K3v"/>
-                            <constraint firstItem="v2k-tT-2Gc" firstAttribute="leading" secondItem="EvI-gA-R0v" secondAttribute="leading" id="GCE-uW-gqV"/>
+                            <constraint firstItem="v2k-tT-2Gc" firstAttribute="leading" secondItem="EvI-gA-R0v" secondAttribute="leading" constant="1" id="GCE-uW-gqV"/>
                             <constraint firstItem="EvI-gA-R0v" firstAttribute="top" secondItem="7gl-1v-qNA" secondAttribute="top" id="HE8-NZ-Q6K"/>
-                            <constraint firstItem="v2k-tT-2Gc" firstAttribute="leading" secondItem="eSZ-5Z-Mw6" secondAttribute="leading" constant="-13" id="MZU-yb-cJJ"/>
+                            <constraint firstItem="v2k-tT-2Gc" firstAttribute="leading" secondItem="eSZ-5Z-Mw6" secondAttribute="leading" constant="-12" id="MZU-yb-cJJ"/>
                             <constraint firstItem="PlC-EX-dae" firstAttribute="centerY" secondItem="7gl-1v-qNA" secondAttribute="centerY" id="NFH-d2-168"/>
                             <constraint firstItem="v2k-tT-2Gc" firstAttribute="top" secondItem="zBg-MP-7fF" secondAttribute="bottom" constant="10" id="NU3-4A-MHe"/>
                             <constraint firstItem="FfH-L1-58f" firstAttribute="leading" secondItem="PlC-EX-dae" secondAttribute="trailing" constant="5" id="arm-bH-LT3"/>
