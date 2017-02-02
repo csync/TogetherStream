@@ -107,14 +107,14 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="1022"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bVn-md-FIo" userLabel="Container">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="1021"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="953"/>
                                         <subviews>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wwk-Rw-bJV" userLabel="App Description">
                                                 <rect key="frame" x="30" y="30" width="315" height="246.5"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                <string key="text">Media Sync Stream is an app designed and developed by the IBM Mobile Inovation Lab. Here’s some placeholder text to show that this screen will most likely be long. Media Sync Stream is an app designed and developed by the IBM Mobile Inovation Lab. Here’s some placeholder text to show that this screen will most likely be long.
+                                                <string key="text">Together Stream is an app designed and developed by the IBM Mobile Innovation Lab. Here’s some placeholder text to show that this screen will most likely be long. Together Stream is an app designed and developed by the IBM Mobile Innovation Lab. Here’s some placeholder text to show that this screen will most likely be long.
 
-Media Sync Stream is an app designed and developed by the IBM Mobile Inovation Lab. Here’s some placeholder text to show that this screen will most likely be long.</string>
+Together Stream is an app designed and developed by the IBM Mobile Innovation Lab. Here’s some placeholder text to show that this screen will most likely be long.</string>
                                                 <color key="textColor" red="0.29019607843137252" green="0.29019607843137252" blue="0.29019607843137252" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="13"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -132,55 +132,55 @@ Media Sync Stream is an app designed and developed by the IBM Mobile Inovation L
                                                 <color key="textColor" red="0.84705882352941175" green="0.25490196078431371" blue="0.027450980392156862" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="S6R-Dg-1ej" userLabel="CSync Logo">
-                                                <rect key="frame" x="89" y="385.5" width="196" height="59"/>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-csync" translatesAutoresizingMaskIntoConstraints="NO" id="S6R-Dg-1ej" userLabel="CSync Logo">
+                                                <rect key="frame" x="99.5" y="405.5" width="175" height="33"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="196" id="Vzr-qf-4Zo"/>
-                                                    <constraint firstAttribute="height" constant="59" id="otI-5b-EdK"/>
+                                                    <constraint firstAttribute="width" constant="175" id="Vzr-qf-4Zo"/>
+                                                    <constraint firstAttribute="height" constant="33" id="otI-5b-EdK"/>
                                                 </constraints>
                                             </imageView>
-                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZSq-fe-bDy" userLabel="CSync Description">
-                                                <rect key="frame" x="30" y="462.5" width="315" height="105"/>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZSq-fe-bDy" userLabel="CSync Description">
+                                                <rect key="frame" x="30" y="456.5" width="315" height="105"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <string key="text">Contextual sync is an IBM service that is super cool and helps power this app. Here’s a short blurb about the service. Contextual sync is an IBM service that is super cool and helps power this app. Here’s a short blurb about the service.</string>
                                                 <color key="textColor" red="0.2901960784" green="0.2901960784" blue="0.2901960784" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="13"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             </textView>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5S4-Pe-bST" userLabel="Bluemix Logo">
-                                                <rect key="frame" x="89" y="585.5" width="196" height="59"/>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-bluemix" translatesAutoresizingMaskIntoConstraints="NO" id="5S4-Pe-bST" userLabel="Bluemix Logo">
+                                                <rect key="frame" x="116.5" y="585.5" width="141" height="33"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="196" id="1fr-bQ-1AG"/>
-                                                    <constraint firstAttribute="height" constant="59" id="VEA-Ce-RWj"/>
+                                                    <constraint firstAttribute="width" constant="141" id="1fr-bQ-1AG"/>
+                                                    <constraint firstAttribute="height" constant="33" id="VEA-Ce-RWj"/>
                                                 </constraints>
                                             </imageView>
-                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O6V-FB-Iha" userLabel="CSync Description">
-                                                <rect key="frame" x="30" y="662.5" width="315" height="87"/>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O6V-FB-Iha" userLabel="CSync Description">
+                                                <rect key="frame" x="30" y="636.5" width="315" height="87"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                <string key="text">Here’s some words about Bluemix and how we’re using it for Media Sync Stream. Here’s some words about Bluemix and how we’re using it for Media Sync Stream.</string>
+                                                <string key="text">Here’s some words about Bluemix and how we’re using it for Together Stream. Here’s some words about Bluemix and how we’re using it for Together Stream.</string>
                                                 <color key="textColor" red="0.2901960784" green="0.2901960784" blue="0.2901960784" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="13"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             </textView>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bkD-xH-es7" userLabel="xLab Logo">
-                                                <rect key="frame" x="89" y="767.5" width="196" height="59"/>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-mil" translatesAutoresizingMaskIntoConstraints="NO" id="bkD-xH-es7" userLabel="xLab Logo">
+                                                <rect key="frame" x="102" y="747.5" width="170" height="49"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="196" id="JuJ-po-ik9"/>
-                                                    <constraint firstAttribute="height" constant="59" id="eIe-LM-Zgi"/>
+                                                    <constraint firstAttribute="width" constant="170" id="JuJ-po-ik9"/>
+                                                    <constraint firstAttribute="height" constant="49" id="eIe-LM-Zgi"/>
                                                 </constraints>
                                             </imageView>
-                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="Here’s some short words about the Mobile Innovatino Lab even though we’re about to be the Cloud Experience Lab." textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lcm-8J-bLk" userLabel="xLab Description">
-                                                <rect key="frame" x="30" y="844.5" width="315" height="69.5"/>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="Here’s some short words about the Mobile Innovation Lab even though we’re about to be the Cloud Experience Lab." textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lcm-8J-bLk" userLabel="xLab Description">
+                                                <rect key="frame" x="30" y="814.5" width="315" height="69.5"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <color key="textColor" red="0.2901960784" green="0.2901960784" blue="0.2901960784" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="13"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             </textView>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jFN-cA-IHF" userLabel="YouTube Logo">
-                                                <rect key="frame" x="89" y="932" width="196" height="59"/>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-youtube" translatesAutoresizingMaskIntoConstraints="NO" id="jFN-cA-IHF" userLabel="YouTube Logo">
+                                                <rect key="frame" x="133" y="908" width="108" height="15"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="59" id="GUt-iE-3t2"/>
-                                                    <constraint firstAttribute="width" constant="196" id="o8D-BI-0nz"/>
+                                                    <constraint firstAttribute="height" constant="15" id="GUt-iE-3t2"/>
+                                                    <constraint firstAttribute="width" constant="108" id="o8D-BI-0nz"/>
                                                 </constraints>
                                             </imageView>
                                         </subviews>
@@ -204,14 +204,14 @@ Media Sync Stream is an app designed and developed by the IBM Mobile Inovation L
                                             <constraint firstItem="5S4-Pe-bST" firstAttribute="centerX" secondItem="bVn-md-FIo" secondAttribute="centerX" id="UkF-hG-eLA"/>
                                             <constraint firstItem="2zO-5j-fVn" firstAttribute="top" secondItem="Wwk-Rw-bJV" secondAttribute="bottom" constant="38" id="ZKB-l6-7e7"/>
                                             <constraint firstAttribute="trailing" secondItem="O6V-FB-Iha" secondAttribute="trailing" constant="30" id="dMg-y7-8P1"/>
-                                            <constraint firstItem="S6R-Dg-1ej" firstAttribute="top" secondItem="yTe-ch-atp" secondAttribute="bottom" constant="18" id="eCA-i4-wco"/>
+                                            <constraint firstItem="S6R-Dg-1ej" firstAttribute="top" secondItem="yTe-ch-atp" secondAttribute="bottom" constant="38" id="eCA-i4-wco"/>
                                             <constraint firstItem="bkD-xH-es7" firstAttribute="centerX" secondItem="bVn-md-FIo" secondAttribute="centerX" id="gcw-Cd-NLW"/>
                                             <constraint firstItem="S6R-Dg-1ej" firstAttribute="centerX" secondItem="bVn-md-FIo" secondAttribute="centerX" id="iBT-Xu-QCj"/>
-                                            <constraint firstItem="bkD-xH-es7" firstAttribute="top" secondItem="O6V-FB-Iha" secondAttribute="bottom" constant="18" id="kQn-bs-dND"/>
+                                            <constraint firstItem="bkD-xH-es7" firstAttribute="top" secondItem="O6V-FB-Iha" secondAttribute="bottom" constant="24" id="kQn-bs-dND"/>
                                             <constraint firstItem="yTe-ch-atp" firstAttribute="top" secondItem="2zO-5j-fVn" secondAttribute="bottom" constant="38" id="odt-ed-SAw"/>
-                                            <constraint firstItem="5S4-Pe-bST" firstAttribute="top" secondItem="ZSq-fe-bDy" secondAttribute="bottom" constant="18" id="vX8-ln-b9g"/>
+                                            <constraint firstItem="5S4-Pe-bST" firstAttribute="top" secondItem="ZSq-fe-bDy" secondAttribute="bottom" constant="24" id="vX8-ln-b9g"/>
                                             <constraint firstItem="Wwk-Rw-bJV" firstAttribute="top" secondItem="bVn-md-FIo" secondAttribute="top" constant="30" id="zBj-kp-G8F"/>
-                                            <constraint firstItem="jFN-cA-IHF" firstAttribute="top" secondItem="lcm-8J-bLk" secondAttribute="bottom" constant="18" id="zJ7-9p-xth"/>
+                                            <constraint firstItem="jFN-cA-IHF" firstAttribute="top" secondItem="lcm-8J-bLk" secondAttribute="bottom" constant="24" id="zJ7-9p-xth"/>
                                             <constraint firstAttribute="trailing" secondItem="yTe-ch-atp" secondAttribute="trailing" id="zib-i3-sfZ"/>
                                         </constraints>
                                     </view>
@@ -362,6 +362,10 @@ Nunc eros nisi, mattis sit amet porta quis, pretium id urna. Sed non risus laore
         </scene>
     </scenes>
     <resources>
+        <image name="logo-bluemix" width="141" height="33"/>
+        <image name="logo-csync" width="175" height="33"/>
+        <image name="logo-mil" width="170" height="49"/>
+        <image name="logo-youtube" width="108" height="15"/>
         <image name="profile_85" width="85" height="85"/>
     </resources>
 </document>
