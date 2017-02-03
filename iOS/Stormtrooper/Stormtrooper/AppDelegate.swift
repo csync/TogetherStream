@@ -44,7 +44,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Set back button appearance
         UINavigationBar.appearance().tintColor = UIColor.white
-        UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffsetMake(0, -100), for:UIBarMetrics.default)
         
         return true
     }
@@ -177,7 +176,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         // define popup with default user profile picture and name
         let popup = PopupViewController.instantiate(
             titleText: "YOU'VE BEEN INVITED",
-            image: #imageLiteral(resourceName: "stormtrooper_helmet"),
+            image: #imageLiteral(resourceName: "profile_85"),
             messageText: stream.name,
             descriptionText: "",
             primaryButtonText: "JOIN STREAM",
@@ -216,7 +215,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         
         let popup = PopupViewController.instantiate(
             titleText: "MY STREAM",
-            image: #imageLiteral(resourceName: "stormtrooper_helmet"),
+            image: #imageLiteral(resourceName: "profile_85"),
             messageText: stream.name,
             descriptionText: "Would you like to end your stream?",
             primaryButtonText: "END STREAM",

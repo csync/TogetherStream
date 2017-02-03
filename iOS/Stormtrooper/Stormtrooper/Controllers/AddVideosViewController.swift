@@ -18,8 +18,8 @@ class AddVideosViewController: UIViewController {
     @IBOutlet weak var searchTableViewBottomConstraint: NSLayoutConstraint!
 	
     var stream: Stream?
-    
     var isCreatingStream = false
+    var delegate: AddVideosDelegate?
 	
     private let searchSpacerFrame = CGRect(x: 0, y: 0, width: 39, height: 5)
     private let searchClearFrame = CGRect(x: 0, y: 0, width: 54.5, height: 15)
@@ -36,8 +36,6 @@ class AddVideosViewController: UIViewController {
         
         streamNameLabel.text = "\"\(stream?.name ?? "")\" Queue".localizedUppercase
         
-        checkIfCreatingStream()
-        
         viewModel.fetchTrendingVideos() {[weak self] error, videos in
             DispatchQueue.main.async {
                 self?.searchTableView.reloadData()
@@ -50,6 +48,16 @@ class AddVideosViewController: UIViewController {
         UIView.setAnimationsEnabled(true)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if isCreatingStream {
+            nextButton.setTitle("NEXT", for: .normal)
+        }
+        else {
+            nextButton.setTitle("DONE", for: .normal)
+        }
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self)
@@ -58,16 +66,6 @@ class AddVideosViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    private func checkIfCreatingStream() {
-        guard let _ = self.navigationController else {
-            //if inviting from stream, not in nav controller, so will dismiss when done is tapped rather than moving forward in stream creation process
-            isCreatingStream = false
-            return
-        }
-        //if navigation controller exists, user is creating stream, so push forward in flow
-        isCreatingStream = true
     }
     
     private func setupSearchBar() {
@@ -91,11 +89,12 @@ class AddVideosViewController: UIViewController {
     
     private func setupNavigationBar() {
         navigationItem.titleView = UIImageView(image: #imageLiteral(resourceName: "youTube"))
-        
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
 	
     @IBAction func doneTapped(_ sender: Any) {
         if isCreatingStream { //move to next screen in flow
+            delegate?.didAddVideos(selectedVideos: viewModel.selectedVideos)
             guard let inviteVC = Utils.vcWithNameFromStoryboardWithName("inviteStream", storyboardName: "InviteStream") as? InviteStreamViewController else {
                 return
             }
@@ -107,7 +106,8 @@ class AddVideosViewController: UIViewController {
 
         }
         else { //dismiss
-            self.dismiss(animated: true, completion: nil)
+            delegate?.didAddVideos(selectedVideos: viewModel.selectedVideos)
+            let _ = self.navigationController?.popViewController(animated: true)
         }
     }
 	
@@ -157,6 +157,7 @@ extension AddVideosViewController: UITextFieldDelegate {
                 DispatchQueue.main.async {
                     self?.searchTableView.reloadData()
                 }
+                self?.searchTableView.setContentOffset(CGPoint.zero, animated: true)
             }
         }
         else {
@@ -247,4 +248,8 @@ extension AddVideosViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return searchTableHeaderViewHeight
     }
+}
+
+protocol AddVideosDelegate {
+    func didAddVideos(selectedVideos: [Video])
 }

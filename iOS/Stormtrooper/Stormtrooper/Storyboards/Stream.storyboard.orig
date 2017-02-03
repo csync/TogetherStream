@@ -208,6 +208,11 @@
                                             <action selector="addToStreamTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tLF-8y-7FU"/>
                                         </connections>
                                     </button>
+<<<<<<< HEAD
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="89" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="iC4-5G-MpH">
+                                        <rect key="frame" x="0.0" y="42" width="375" height="247"/>
+                                        <color key="backgroundColor" red="0.15686274510000001" green="0.14117647059999999" blue="0.14117647059999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+=======
                                     <tableView clipsSubviews="YES" tag="1" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="89" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="iC4-5G-MpH">
                                         <rect key="frame" x="0.0" y="42" width="375" height="247"/>
                                         <color key="backgroundColor" red="0.15686274510000001" green="0.14117647059999999" blue="0.14117647059999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -215,6 +220,7 @@
                                             <outlet property="dataSource" destination="BYZ-38-t0r" id="2Ly-0p-jhB"/>
                                             <outlet property="delegate" destination="BYZ-38-t0r" id="kd1-Sm-0Z4"/>
                                         </connections>
+>>>>>>> develop
                                     </tableView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UP NEXT" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zJg-2p-vtP">
                                         <rect key="frame" x="16" y="8" width="160" height="18"/>
@@ -226,6 +232,8 @@
                                         <color key="textColor" red="0.84705882349999995" green="0.25490196079999999" blue="0.023529411760000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+<<<<<<< HEAD
+=======
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tnF-Qz-F5f">
                                         <rect key="frame" x="329" y="2.5" width="30" height="29"/>
                                         <fontDescription key="fontDescription" name="WorkSans-Medium" family="Work Sans" pointSize="14"/>
@@ -236,6 +244,7 @@
                                             <action selector="didToggleQueueEdit:" destination="BYZ-38-t0r" eventType="touchUpInside" id="lv0-WP-4AQ"/>
                                         </connections>
                                     </button>
+>>>>>>> develop
                                 </subviews>
                                 <color key="backgroundColor" red="0.15686274510000001" green="0.14117647059999999" blue="0.14117647059999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -244,8 +253,11 @@
                                     <constraint firstAttribute="bottom" secondItem="j8A-8z-cfk" secondAttribute="bottom" id="8I4-WH-WTx"/>
                                     <constraint firstItem="j8A-8z-cfk" firstAttribute="centerX" secondItem="q4i-Y2-lar" secondAttribute="centerX" id="DD5-KP-89F"/>
                                     <constraint firstItem="iC4-5G-MpH" firstAttribute="top" secondItem="q4i-Y2-lar" secondAttribute="top" constant="42" id="Egb-Cz-3Tu"/>
+<<<<<<< HEAD
+=======
                                     <constraint firstItem="tnF-Qz-F5f" firstAttribute="centerY" secondItem="zJg-2p-vtP" secondAttribute="centerY" id="FHg-l5-QBz"/>
                                     <constraint firstAttribute="trailing" secondItem="tnF-Qz-F5f" secondAttribute="trailing" constant="16" id="NMv-cD-Jet"/>
+>>>>>>> develop
                                     <constraint firstItem="iC4-5G-MpH" firstAttribute="centerX" secondItem="q4i-Y2-lar" secondAttribute="centerX" id="YCs-MR-cBX"/>
                                     <constraint firstItem="j8A-8z-cfk" firstAttribute="top" secondItem="iC4-5G-MpH" secondAttribute="bottom" id="dY3-0p-Ygc"/>
                                     <constraint firstItem="iC4-5G-MpH" firstAttribute="width" secondItem="q4i-Y2-lar" secondAttribute="width" id="fcp-O9-WS7"/>
@@ -259,9 +271,12 @@
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="211"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </view>
+<<<<<<< HEAD
+=======
                                     <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lpC-Ew-dv7">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="211"/>
                                     </button>
+>>>>>>> develop
                                     <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QHR-Gx-V89">
                                         <rect key="frame" x="325" y="161" width="50" height="51"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -276,15 +291,22 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+<<<<<<< HEAD
+                                    <constraint firstItem="lt2-Nk-1YZ" firstAttribute="centerY" secondItem="yki-41-hq1" secondAttribute="centerY" id="Hrd-rQ-4wm"/>
+=======
                                     <constraint firstItem="lpC-Ew-dv7" firstAttribute="centerX" secondItem="yki-41-hq1" secondAttribute="centerX" id="DiG-2t-LWE"/>
                                     <constraint firstItem="lt2-Nk-1YZ" firstAttribute="centerY" secondItem="yki-41-hq1" secondAttribute="centerY" id="Hrd-rQ-4wm"/>
                                     <constraint firstItem="lpC-Ew-dv7" firstAttribute="centerY" secondItem="yki-41-hq1" secondAttribute="centerY" id="Xfk-Pd-psK"/>
                                     <constraint firstItem="lpC-Ew-dv7" firstAttribute="width" secondItem="yki-41-hq1" secondAttribute="width" id="a9B-bC-aTT"/>
+>>>>>>> develop
                                     <constraint firstAttribute="bottom" secondItem="QHR-Gx-V89" secondAttribute="bottom" constant="-1" id="buY-JE-Yv0"/>
                                     <constraint firstAttribute="trailing" secondItem="QHR-Gx-V89" secondAttribute="trailing" id="lzF-a7-yFf"/>
                                     <constraint firstItem="lt2-Nk-1YZ" firstAttribute="centerX" secondItem="yki-41-hq1" secondAttribute="centerX" id="pHF-YH-WXc"/>
                                     <constraint firstItem="lt2-Nk-1YZ" firstAttribute="height" secondItem="yki-41-hq1" secondAttribute="height" id="rcA-gI-00K"/>
+<<<<<<< HEAD
+=======
                                     <constraint firstItem="lpC-Ew-dv7" firstAttribute="height" secondItem="yki-41-hq1" secondAttribute="height" id="tKN-eH-JRK"/>
+>>>>>>> develop
                                     <constraint firstItem="lt2-Nk-1YZ" firstAttribute="width" secondItem="yki-41-hq1" secondAttribute="width" id="zPN-Xh-fBX"/>
                                 </constraints>
                             </view>

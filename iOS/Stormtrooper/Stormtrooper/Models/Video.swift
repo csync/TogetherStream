@@ -17,6 +17,12 @@ struct Video {
 	let channelTitle: String
     let viewCount: String?
 	
+    private static let numberFormatter: NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        return formatter
+    }()
+    
 	init?(listVideoData: [String: Any]) {
 		// Check to make sure the video can be played in app
 		if (listVideoData["status"] as? [String: Any])?["embeddable"] as? Bool != true {
@@ -41,7 +47,12 @@ struct Video {
 		self.mediumThumbnailURL = mediumThumbnailURL
         self.defaultThumbnailURL = defaultThumbnailURL
 		self.channelTitle = channelTitle
-        self.viewCount = viewCount
+        
+        if let viewCountInt = Int(viewCount) {
+            self.viewCount = Video.numberFormatter.string(from: NSNumber(value: viewCountInt))
+        } else {
+            self.viewCount = viewCount
+        }
 	}
 	
 	init?(searchResultData: [String: Any]) {

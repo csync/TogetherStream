@@ -26,6 +26,7 @@ class StreamViewController: UIViewController {
     @IBOutlet weak var videoTitleLabel: UILabel!
     @IBOutlet weak var videoSubtitleLabel: UILabel!
     @IBOutlet weak var queueTableView: UITableView!
+    @IBOutlet weak var blockClicksButton: UIButton!
     
     //constraints
     var originalHeaderViewHeightConstraint: CGFloat = 0
@@ -47,11 +48,17 @@ class StreamViewController: UIViewController {
     private let headerViewAnimationDuration: TimeInterval = 0.3
     fileprivate let chatTableTag = 0
     fileprivate let queueTableTag = 1
-    fileprivate let playerVars = [ //TODO: hide controls if participant
+    fileprivate let hostPlayerVars = [
         "playsinline" : 1,
         "modestbranding" : 1,
         "showinfo" : 0,
         "controls" : 1
+				]
+    fileprivate let participantPlayerVars = [ //hide controls
+        "playsinline" : 1,
+        "modestbranding" : 1,
+        "showinfo" : 0,
+        "controls" : 0
 				]
 	
     var stream: Stream? {
@@ -98,6 +105,7 @@ class StreamViewController: UIViewController {
         super.viewDidLoad()
         viewModel.delegate = self
 		
+        setupNavigationBar()
         setupChatTableView()
         setupQueueTableView()
         setupPlayerView()
@@ -135,6 +143,10 @@ class StreamViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    private func setupNavigationBar() {
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
     private func setupPlayerViewFrame() {
@@ -175,7 +187,6 @@ class StreamViewController: UIViewController {
             headerArrowImageView.isHidden = false
             headerViewButton.isHidden = false
             
-            
             //Set bar button items and their actions programmatically
             let closeButton = UIButton(type: .custom)
             closeButton.setImage(UIImage(named: "xStream"), for: .normal)
@@ -186,7 +197,7 @@ class StreamViewController: UIViewController {
             let profileButton = UIButton(type: .custom)
             profileButton.setImage(UIImage(named: "inviteIcon"), for: .normal)
             profileButton.frame = profileButtonFrame
-            profileButton.addTarget(self, action: #selector(StreamViewController.profileTapped), for: .touchUpInside)
+            profileButton.addTarget(self, action: #selector(StreamViewController.inviteTapped), for: .touchUpInside)
             let item2 = UIBarButtonItem(customView: profileButton)
             
             navigationItem.setLeftBarButtonItems([item1], animated: false)
@@ -262,10 +273,17 @@ class StreamViewController: UIViewController {
         playerView.delegate = self
         playerView.setLoop(true)
 		if viewModel.isHost, let queue = viewModel.videoQueue, queue.count > 0 {
+            blockClicksButton.isHidden = true
             updateView(forVideoWithID: queue[0].id)
-			playerView.load(withVideoId: queue[0].id, playerVars: playerVars)
+			playerView.load(withVideoId: queue[0].id, playerVars: hostPlayerVars)
             viewModel.currentVideoIndex = 0
 		}
+        else if !viewModel.isHost, let queue = viewModel.videoQueue, queue.count > 0{
+            blockClicksButton.isHidden = false //prevent user from playing/pausing video as participant
+            updateView(forVideoWithID: queue[0].id)
+            playerView.load(withVideoId: queue[0].id, playerVars: participantPlayerVars)
+            viewModel.currentVideoIndex = 0
+        }
 		
     }
     
@@ -392,7 +410,7 @@ class StreamViewController: UIViewController {
     }
     
     
-    func profileTapped() {
+    func inviteTapped() {
         guard let inviteVC = Utils.vcWithNameFromStoryboardWithName("inviteStream", storyboardName: "InviteStream") as? InviteStreamViewController else {
             return
         }
@@ -418,7 +436,7 @@ class StreamViewController: UIViewController {
         // present popup with default user profile picture
         let popup = PopupViewController.instantiate(
             titleText: stream?.name ?? "MY STREAM",
-            image: #imageLiteral(resourceName: "stormtrooper_helmet"),
+            image: #imageLiteral(resourceName: "profile_85"),
             messageText: stream?.name ?? "",
             descriptionText: "Would you like to end your stream?",
             primaryButtonText: "END STREAM",
@@ -445,7 +463,10 @@ class StreamViewController: UIViewController {
         guard let addVideosVC = Utils.vcWithNameFromStoryboardWithName("addVideos", storyboardName: "AddVideos") as? AddVideosViewController else {
             return
         }
-        present(addVideosVC, animated: true, completion: nil)
+        addVideosVC.stream = stream
+        addVideosVC.isCreatingStream = false
+        addVideosVC.delegate = self
+        navigationController?.pushViewController(addVideosVC, animated: true)
     }
     
     
@@ -533,8 +554,14 @@ extension StreamViewController: StreamViewModelDelegate {
 		}
 		if playerView.videoUrl() == nil || currentVideoID != playerID {
             updateView(forVideoWithID: currentVideoID)
-			DispatchQueue.main.async { //TODO: hide controls if participant
-				self.playerView.load(withVideoId: currentVideoID, playerVars: self.playerVars)
+			DispatchQueue.main.async {
+                if self.viewModel.isHost {
+                    self.playerView.load(withVideoId: currentVideoID, playerVars: self.hostPlayerVars)
+                }
+                else {
+                    self.playerView.load(withVideoId: currentVideoID, playerVars: self.participantPlayerVars)
+                }
+				
 			}
 		}
 	}
@@ -574,10 +601,10 @@ extension StreamViewController: StreamViewModelDelegate {
         // present popup with default user profile picture
 		let popup = PopupViewController.instantiate(
             titleText: (stream?.name ?? "").uppercased(),
-            image: #imageLiteral(resourceName: "stormtrooper_helmet"),
-            messageText: (stream?.name ?? "").uppercased(),
+            image: #imageLiteral(resourceName: "profile_85"),
+            messageText: (stream?.name ?? ""),
             descriptionText: "This stream has ended.",
-            primaryButtonText: "OKAY",
+            primaryButtonText: "DISMISS",
             completion: { _ = self.navigationController?.popViewController(animated: true) }
         )
         present(popup, animated: true)
@@ -628,7 +655,13 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return indexPath.row != viewModel.currentVideoIndex
+        if tableView.tag == chatTableTag {
+            return false
+        } else if tableView.tag == queueTableTag {
+            return indexPath.row != viewModel.currentVideoIndex
+        } else {
+            return false
+        }
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
@@ -857,5 +890,15 @@ extension StreamViewController: UITextFieldDelegate {
 
         
         return true
+    }
+}
+
+extension StreamViewController: AddVideosDelegate {
+    func didAddVideos(selectedVideos: [Video]) {
+        let videoQueue = viewModel.videoQueue ?? [Video]()
+        viewModel.videoQueue = videoQueue + selectedVideos
+        DispatchQueue.main.async {
+            self.queueTableView.reloadData()
+        }
     }
 }
