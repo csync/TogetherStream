@@ -34,8 +34,6 @@ class StreamViewController: UIViewController {
     var originalPlayerViewConstraints: [NSLayoutConstraint] = []
     var rotatedPlayerViewConstraints: [NSLayoutConstraint] = []
     
-    var estimatedChatCellHeight: CGFloat = 56
-    
     //constants
     private enum PlayerDirection {
         case left
