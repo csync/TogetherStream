@@ -10,22 +10,23 @@ import UIKit
 
 class AboutViewController: UIViewController {
     @IBAction func tappedCSync() {
-        let url = URL(string: "https://www.google.com")!
-        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        open(url: "https://ibm.biz/together-stream-csync-logo")
     }
     
     @IBAction func tappedBluemix() {
-        let url = URL(string: "https://www.google.com")!
-        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        open(url: "https://ibm.biz/together-stream-bluemix-logo")
     }
     
     @IBAction func tappedMIL() {
-        let url = URL(string: "https://www.google.com")!
-        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        open(url: "https://ibm.biz/together-stream-mil-logo")
     }
     
     @IBAction func tappedYoutube() {
-        let url = URL(string: "https://www.google.com")!
+        open(url: "https://ibm.biz/together-stream-youtube-logo")
+    }
+    
+    private func open(url: String) {
+        guard let url = URL(string: url) else { return }
         UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }
 }
