@@ -162,6 +162,9 @@ Together Stream is an app designed and developed by the IBM Mobile Innovation La
                                                     <constraint firstAttribute="width" constant="175" id="b4x-xV-fTz"/>
                                                 </constraints>
                                                 <state key="normal" image="logo-csync"/>
+                                                <connections>
+                                                    <action selector="tappedCSync" destination="8NC-JA-w6F" eventType="touchUpInside" id="jRg-RP-035"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5rL-OW-7kl">
                                                 <rect key="frame" x="117" y="585.5" width="141" height="33"/>
@@ -170,6 +173,9 @@ Together Stream is an app designed and developed by the IBM Mobile Innovation La
                                                     <constraint firstAttribute="width" constant="141" id="g4q-SR-3YX"/>
                                                 </constraints>
                                                 <state key="normal" image="logo-bluemix"/>
+                                                <connections>
+                                                    <action selector="tappedBluemix" destination="8NC-JA-w6F" eventType="touchUpInside" id="jGz-Ws-VS5"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NW7-ys-9BF">
                                                 <rect key="frame" x="102.5" y="747.5" width="170" height="49"/>
@@ -178,6 +184,9 @@ Together Stream is an app designed and developed by the IBM Mobile Innovation La
                                                     <constraint firstAttribute="width" constant="170" id="cpx-Yt-juL"/>
                                                 </constraints>
                                                 <state key="normal" image="logo-mil"/>
+                                                <connections>
+                                                    <action selector="tappedMIL" destination="8NC-JA-w6F" eventType="touchUpInside" id="yJC-nV-txE"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y53-LX-i46">
                                                 <rect key="frame" x="133.5" y="908" width="108" height="22"/>
@@ -186,6 +195,9 @@ Together Stream is an app designed and developed by the IBM Mobile Innovation La
                                                     <constraint firstAttribute="height" constant="22" id="UNs-hr-r2l"/>
                                                 </constraints>
                                                 <state key="normal" image="logo-youtube"/>
+                                                <connections>
+                                                    <action selector="tappedYoutube" destination="8NC-JA-w6F" eventType="touchUpInside" id="U0N-l7-J3t"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -240,12 +252,6 @@ Together Stream is an app designed and developed by the IBM Mobile Innovation La
                     <nil key="simulatedStatusBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="375" height="1021.5"/>
-                    <connections>
-                        <outlet property="bluemixLogo" destination="5rL-OW-7kl" id="qZa-rJ-HqN"/>
-                        <outlet property="csyncLogo" destination="3gq-DP-Anc" id="xT0-MD-gJd"/>
-                        <outlet property="milLogo" destination="NW7-ys-9BF" id="698-3y-pkI"/>
-                        <outlet property="youtubeLogo" destination="y53-LX-i46" id="vlO-wg-bLY"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gvl-l0-su4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
