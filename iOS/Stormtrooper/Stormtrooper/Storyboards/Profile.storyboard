@@ -324,58 +324,6 @@ Nunc eros nisi, mattis sit amet porta quis, pretium id urna. Sed non risus laore
             </objects>
             <point key="canvasLocation" x="3548" y="31.934032983508249"/>
         </scene>
-        <!--Web View Controller-->
-        <scene sceneID="LHO-Mg-mgs">
-            <objects>
-                <viewController storyboardIdentifier="webView" modalPresentationStyle="pageSheet" id="2Q3-Nq-7HF" customClass="WebViewController" customModule="Stormtrooper" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="JdC-bO-fcc"/>
-                        <viewControllerLayoutGuide type="bottom" id="8d4-55-VUo"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="9lx-Uh-Ifk">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <webView contentMode="scaleToFill" scalesPageToFit="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XZa-zW-pCE">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
-                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <connections>
-                                    <outlet property="delegate" destination="2Q3-Nq-7HF" id="zds-JK-aAi"/>
-                                </connections>
-                            </webView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qHA-Au-evb">
-                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="2Pk-UP-psy"/>
-                                </constraints>
-                                <items>
-                                    <barButtonItem systemItem="stop" id="Aiu-sT-BOh">
-                                        <connections>
-                                            <action selector="closeTapped:" destination="2Q3-Nq-7HF" id="bQe-Ru-MVt"/>
-                                        </connections>
-                                    </barButtonItem>
-                                </items>
-                            </toolbar>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="qHA-Au-evb" firstAttribute="top" secondItem="JdC-bO-fcc" secondAttribute="bottom" id="3cX-FS-cl2"/>
-                            <constraint firstItem="XZa-zW-pCE" firstAttribute="top" secondItem="qHA-Au-evb" secondAttribute="bottom" id="687-L4-Ke4"/>
-                            <constraint firstItem="qHA-Au-evb" firstAttribute="leading" secondItem="9lx-Uh-Ifk" secondAttribute="leading" id="cR5-wl-M0g"/>
-                            <constraint firstItem="XZa-zW-pCE" firstAttribute="leading" secondItem="9lx-Uh-Ifk" secondAttribute="leading" id="gaz-jf-xzm"/>
-                            <constraint firstItem="8d4-55-VUo" firstAttribute="top" secondItem="XZa-zW-pCE" secondAttribute="bottom" id="jMV-s8-TLy"/>
-                            <constraint firstAttribute="trailing" secondItem="XZa-zW-pCE" secondAttribute="trailing" id="v9Q-Fg-fyp"/>
-                            <constraint firstAttribute="trailing" secondItem="qHA-Au-evb" secondAttribute="trailing" id="x4r-AO-bzB"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="webView" destination="XZa-zW-pCE" id="Q6t-YQ-SON"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="AD6-U9-6o6" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="4189.6000000000004" y="31.934032983508249"/>
-        </scene>
     </scenes>
     <resources>
         <image name="logo-bluemix" width="141" height="33"/>
