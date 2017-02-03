@@ -639,10 +639,6 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
         return UITableViewAutomaticDimension
     }
     
-    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return estimatedChatCellHeight
-    }
-    
     func updateView(forIsKeyboardShowing isKeyboardShowing: Bool) {
         if isKeyboardShowing {
             visualEffectView.isHidden = false
