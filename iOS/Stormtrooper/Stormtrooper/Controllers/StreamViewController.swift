@@ -322,6 +322,7 @@ class StreamViewController: UIViewController {
     
     
     func rotated() {
+        if self.navigationController?.visibleViewController == self {
             switch UIDevice.current.orientation {
             case .landscapeLeft:
                 print("Landscape Left")
@@ -354,6 +355,7 @@ class StreamViewController: UIViewController {
             default:
                 break
             }
+        }
     }
     
     private func rotatePlayerView(byAngle angle: CGFloat) {
