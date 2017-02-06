@@ -547,6 +547,10 @@ extension StreamViewController: StreamViewModelDelegate {
             self.chatTableView.scrollTableViewToBottom(animated: false)
             self.chatTableView.endUpdates()
 	}
+    
+    func removedOldestMessage() {
+        chatTableView.deleteRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
+    }
 	
 	func recievedUpdate(forCurrentVideoID currentVideoID: String) {
 		var playerID: String?
