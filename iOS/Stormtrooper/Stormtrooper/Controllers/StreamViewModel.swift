@@ -12,6 +12,7 @@ import CSyncSDK
 protocol StreamViewModelDelegate: class {
 	func userCountChanged(toCount count: Int)
 	func recieved(message: Message, for position: Int) -> Void
+    func removedOldestMessage() -> Void
 	func recievedUpdate(forCurrentVideoID currentVideoID: String) -> Void
 	func recievedUpdate(forIsPlaying isPlaying: Bool) -> Void
 	func recievedUpdate(forIsBuffering isBuffering: Bool) -> Void
@@ -43,6 +44,8 @@ class StreamViewModel {
     }
     
     let maximumDesyncTime: Float = 1.0
+    
+    private let maximumChatMessages = 50
 	
 	fileprivate(set) var messages: [Message] = []
 	fileprivate(set) var hostPlaying = false
@@ -70,6 +73,10 @@ class StreamViewModel {
         let messageCallback: (Message) -> Void = {[unowned self] message in
             // insert on main queue to avoid table datasource corruption
             DispatchQueue.main.async {
+                if self.messages.count >= self.maximumChatMessages {
+                    self.messages.remove(at: 0)
+                    self.delegate?.removedOldestMessage()
+                }
                 let position = self.insertIntoMessages(message)
                 self.delegate?.recieved(message: message, for: position)
             }
