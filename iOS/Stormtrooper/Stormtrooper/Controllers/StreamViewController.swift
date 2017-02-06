@@ -325,7 +325,7 @@ class StreamViewController: UIViewController {
     
     
     func rotated() {
-        if self.navigationController?.visibleViewController == self {
+        if navigationController?.visibleViewController == self {
             switch UIDevice.current.orientation {
             case .landscapeLeft:
                 print("Landscape Left")
