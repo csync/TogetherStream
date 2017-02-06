@@ -73,7 +73,7 @@ class StreamViewModel {
         let messageCallback: (Message) -> Void = {[unowned self] message in
             // insert on main queue to avoid table datasource corruption
             DispatchQueue.main.async {
-                if self.messages.count >= self.maximumChatMessages {
+                while self.messages.count >= self.maximumChatMessages {
                     self.messages.remove(at: 0)
                     self.delegate?.removedOldestMessage()
                 }
