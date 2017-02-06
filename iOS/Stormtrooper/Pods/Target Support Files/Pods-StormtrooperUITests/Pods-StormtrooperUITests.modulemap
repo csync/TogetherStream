@@ -1,6 +1,0 @@
-framework module Pods_StormtrooperUITests {
-  umbrella header "Pods-StormtrooperUITests-umbrella.h"
-
-  export *
-  module * { export * }
-}
