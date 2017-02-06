@@ -118,6 +118,9 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         let line = UIView(frame: frame)
         line.backgroundColor = tableView.separatorColor
         tableView.tableHeaderView = line
+        
+        // add a zero-height footer to hide trailing empty cells
+        tableView.tableFooterView = UIView()
     }
     
     /// Push the view controller with the given identifier onto the stack
