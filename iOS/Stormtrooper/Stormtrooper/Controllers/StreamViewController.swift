@@ -35,8 +35,6 @@ class StreamViewController: UIViewController {
     var originalPlayerViewConstraints: [NSLayoutConstraint] = []
     var rotatedPlayerViewConstraints: [NSLayoutConstraint] = []
     
-    var estimatedChatCellHeight: CGFloat = 56
-    
     //constants
     private enum PlayerDirection {
         case left
@@ -325,6 +323,7 @@ class StreamViewController: UIViewController {
     
     
     func rotated() {
+        if self.navigationController?.visibleViewController == self {
             switch UIDevice.current.orientation {
             case .landscapeLeft:
                 print("Landscape Left")
@@ -357,6 +356,7 @@ class StreamViewController: UIViewController {
             default:
                 break
             }
+        }
     }
     
     private func rotatePlayerView(byAngle angle: CGFloat) {
@@ -642,10 +642,6 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
-    }
-    
-    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return estimatedChatCellHeight
     }
     
     func updateView(forIsKeyboardShowing isKeyboardShowing: Bool) {
