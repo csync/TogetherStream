@@ -8,7 +8,6 @@
 
 import UIKit
 import FBSDKLoginKit
-import SafariServices
 
 class ProfileViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
@@ -133,11 +132,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     /// Open the given URL in a Safari view controller
     private func open(url: String) {
         guard let url = URL(string: url) else { return }
-        let safari = SFSafariViewController(url: url)
-        safari.modalPresentationStyle = .pageSheet
-        DispatchQueue.main.async {
-            self.present(safari, animated: true)
-        }
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }
     
     // MARK: - UITableViewDataSource
