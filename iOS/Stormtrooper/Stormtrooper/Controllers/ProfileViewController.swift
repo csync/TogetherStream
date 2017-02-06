@@ -110,6 +110,14 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     private func setupTableView() {
         let nib = UINib(nibName: "ProfileTableViewCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: "profileCell")
+        
+        // add separator above first cell
+        let width = tableView.frame.size.width
+        let height = 1 / UIScreen.main.scale // 1 pixel
+        let frame = CGRect(x: 0, y: 0, width: width, height: height)
+        let line = UIView(frame: frame)
+        line.backgroundColor = tableView.separatorColor
+        tableView.tableHeaderView = line
     }
     
     /// Push the view controller with the given identifier onto the stack
