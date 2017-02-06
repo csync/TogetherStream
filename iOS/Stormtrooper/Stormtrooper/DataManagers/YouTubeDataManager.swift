@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 class YouTubeDataManager {
 	static let sharedInstance = YouTubeDataManager()

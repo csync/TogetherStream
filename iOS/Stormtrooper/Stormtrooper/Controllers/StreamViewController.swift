@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import youtube_ios_player_helper
 
 class StreamViewController: UIViewController {
     @IBOutlet weak var playerView: YTPlayerView!

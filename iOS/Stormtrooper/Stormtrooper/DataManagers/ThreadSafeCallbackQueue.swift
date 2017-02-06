@@ -6,6 +6,8 @@
 //  Copyright © 2017 IBM. All rights reserved.
 //
 
+import Foundation
+
 class ThreadSafeCallbackQueue<T> {
     
     private var checkingQueue: DispatchQueue
