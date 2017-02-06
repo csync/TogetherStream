@@ -65,7 +65,9 @@ class InviteStreamViewController: UIViewController {
         tableView.register(UINib(nibName: "TextEmailTableViewCell", bundle: nil), forCellReuseIdentifier: "textEmailCell")
         tableView.register(UINib(nibName: "FriendTableViewCell", bundle: nil), forCellReuseIdentifier: "friendCell")
         tableView.register(UINib(nibName: "InviteFriendsHeaderTableViewCell", bundle: nil), forCellReuseIdentifier: "friendsHeaderCell")
-
+        
+        // add a zero-height footer to hide trailing empty cells
+        tableView.tableFooterView = UIView()
     }
 
     /*
