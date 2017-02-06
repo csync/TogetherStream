@@ -9,6 +9,10 @@ target 'Stormtrooper' do
   pod 'Fabric'
   pod 'Crashlytics'
   pod 'Google/Analytics'
+  pod 'FBSDKCoreKit'
+  pod 'FBSDKLoginKit'
+  pod 'youtube-ios-player-helper'
+  pod 'ALTextInputBar'
 
   target 'StormtrooperTests' do
     inherit! :search_paths
