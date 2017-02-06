@@ -7,7 +7,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var passport = require('passport');
-var session = require('express-session');
+var cookieSession = require('cookie-session');
 
 var appVars = require('./appVars');
 var userController = require('../user/user.controller');
@@ -19,10 +19,11 @@ module.exports = function (app) {
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(cookieParser());
-    app.use(session({
+    app.use(cookieSession({
         secret: appVars.sessionSecret,
         resave: "false",
-        saveUninitialized: "false"
+        saveUninitialized: "false",
+        maxAge: 1000*60*60
     }));
     app.use(passport.initialize());
     app.use(passport.session());
