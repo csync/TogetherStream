@@ -43,12 +43,12 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         let privacy = ProfileRow(
             label: "Privacy Policy",
             showDisclosure: false,
-            action: { self.presentViewController("webView") }
+            action: { self.open(url: "https://ibm.biz/together-stream-privacy-policy") }
         )
         let licenses = ProfileRow(
             label: "Licenses",
             showDisclosure: false,
-            action: { self.presentViewController("webView") }
+            action: { self.open(url: "https://ibm.biz/together-stream-licenses") }
         )
         let signOut = ProfileRow(
             label: "Sign Out of Facebook",
@@ -109,6 +109,17 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     private func setupTableView() {
         let nib = UINib(nibName: "ProfileTableViewCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: "profileCell")
+        
+        // add separator above first cell
+        let width = tableView.frame.size.width
+        let height = 1 / UIScreen.main.scale // 1 pixel
+        let frame = CGRect(x: 0, y: 0, width: width, height: height)
+        let line = UIView(frame: frame)
+        line.backgroundColor = tableView.separatorColor
+        tableView.tableHeaderView = line
+        
+        // add a zero-height footer to hide trailing empty cells
+        tableView.tableFooterView = UIView()
     }
     
     /// Push the view controller with the given identifier onto the stack
@@ -118,11 +129,10 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         navigationController?.pushViewController(viewController, animated: true)
     }
     
-    /// Present the view controller with the given identifier
-    private func presentViewController(_ identifier: String, from storyboard: String = "Profile") {
-        let storyboard = UIStoryboard(name: storyboard, bundle: nil)
-        let viewController = storyboard.instantiateViewController(withIdentifier: identifier)
-        present(viewController, animated: true)
+    /// Open the given URL in a Safari view controller
+    private func open(url: String) {
+        guard let url = URL(string: url) else { return }
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }
     
     // MARK: - UITableViewDataSource
