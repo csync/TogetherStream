@@ -1164,7 +1164,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ibm.cloud.stormtrooper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "a1f0bce2-ba52-4f43-8c50-619d282b2ded";
+				PROVISIONING_PROFILE = "91731f23-dffc-46fa-afbd-c22d05fea2c1";
 				PROVISIONING_PROFILE_SPECIFIER = "IBM Cloud Stormtrooper - Dev Profile";
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Stormtrooper/SupportingFiles/Stormtrooper-Bridging-Header.h";
