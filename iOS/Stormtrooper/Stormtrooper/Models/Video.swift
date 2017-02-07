@@ -97,10 +97,5 @@ fileprivate func isBlocked(_ videoData: [String: Any]) -> Bool {
         let blockedRegions = ((videoData["contentDetails"] as? [String: Any])?["regionRestriction"] as? [String: [String]])?["blocked"] else {
             return false
     }
-    if blockedRegions.first(where: {$0 == region}) != nil {
-        return true
-    }
-    else {
-        return false
-    }
+    return blockedRegions.first(where: {$0 == region}) != nil
 }
