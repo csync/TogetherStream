@@ -50,7 +50,6 @@ class StreamViewModel {
 	fileprivate(set) var messages: [Message] = []
 	fileprivate(set) var hostPlaying = false
 	var isHost: Bool {
-        print(FacebookDataManager.sharedInstance.profile?.userID)
 		return FacebookDataManager.sharedInstance.profile?.userID == stream?.hostFacebookID
 	}
     
