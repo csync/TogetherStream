@@ -662,12 +662,10 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        if tableView.tag == chatTableTag {
-            return false
-        } else if tableView.tag == queueTableTag {
-            return indexPath.row != viewModel.currentVideoIndex
-        } else {
-            return false
+        switch tableView.tag {
+        case chatTableTag: return false
+        case queueTableTag: return true
+        default: return false
         }
     }
     
