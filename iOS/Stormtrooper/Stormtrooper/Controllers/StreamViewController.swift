@@ -779,7 +779,7 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
                 return UITableViewCell()
         }
         
-        cell.number = indexPath.row
+        cell.number = "\(indexPath.row)"
         cell.title = video.title
         cell.channel = video.channelTitle
         cell.isCurrentVideo = (viewModel.currentVideoIndex == indexPath.row)

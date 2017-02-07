@@ -18,9 +18,9 @@ class VideoQueueTableViewCell: UITableViewCell {
     private let highlightedBackgroundColor = UIColor(red: 251/255, green: 252/255, blue: 252/255, alpha: 0.10)
     private let unhighlightedBackgroundColor = UIColor(red: 40/255, green: 36/255, blue: 36/255, alpha: 1.0)
     
-    var number: Int? {
-        get { return Int(numberLabel.text ?? "") }
-        set { numberLabel.text = "\(newValue)" }
+    var number: String? {
+        get { return numberLabel.text }
+        set { numberLabel.text = newValue }
     }
     
     var thumbnail: UIImage? {
