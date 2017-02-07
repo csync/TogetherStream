@@ -53,11 +53,14 @@ class HomeViewController: UIViewController {
         let profileButton = UIButton(type: .custom)
         profileButton.frame = profileButtonFrame
         FacebookDataManager.sharedInstance.fetchProfilePictureForCurrentUser() {error, image in
-            if let image = image {
-                DispatchQueue.main.async {
+            DispatchQueue.main.async {
+                if let image = image {
                     profileButton.setImage(image, for: .normal)
                     profileButton.layer.cornerRadius = profileButton.frame.width / 2
                     profileButton.clipsToBounds = true
+                }
+                else {
+                    profileButton.setImage(#imageLiteral(resourceName: "Profile_50"), for: .normal)
                 }
             }
         }
