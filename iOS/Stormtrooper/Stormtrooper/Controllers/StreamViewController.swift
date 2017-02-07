@@ -774,22 +774,21 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
 	private func cellFor(queueTableView tableView: UITableView, at indexPath: IndexPath) -> UITableViewCell {
-        guard
-        let cell = tableView.dequeueReusableCell(withIdentifier: "queueCell") as? VideoQueueTableViewCell,
-        let video = viewModel.videoQueue?[indexPath.row] else {
-            return UITableViewCell()
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "queueCell") as? VideoQueueTableViewCell,
+            let video = viewModel.videoQueue?[indexPath.row] else {
+                return UITableViewCell()
         }
-        cell.titleLabel.text = video.title
-        cell.channelTitleLabel.text = video.channelTitle
+        
+        cell.number = indexPath.row
+        cell.title = video.title
+        cell.channel = video.channelTitle
+        cell.isCurrentVideo = (viewModel.currentVideoIndex == indexPath.row)
+        
         YouTubeDataManager.sharedInstance.getThumbnailForVideo(with: video.mediumThumbnailURL) {error, image in
-            if let image = image {
-                cell.thumbnailImageView.image = image
-            }
+            guard let image = image else { return }
+            cell.thumbnail = image
         }
-        if indexPath.row == viewModel.currentVideoIndex {
-            cell.isSelected = true
-        }
-        cell.selectionStyle = .none
+        
         return cell
     }
 }
