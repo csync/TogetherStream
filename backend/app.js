@@ -1,3 +1,5 @@
+require('newrelic'); // setup new relic performance monitoring
+
 'use strict';
 
 var express = require('express');
