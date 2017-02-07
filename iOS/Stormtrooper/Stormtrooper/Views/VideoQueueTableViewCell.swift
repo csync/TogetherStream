@@ -44,12 +44,12 @@ class VideoQueueTableViewCell: UITableViewCell {
         set {
             _isCurrentVideo = newValue
             if _isCurrentVideo {
-                // show play icon and highlighted background
+                // update design for current video
                 playImageView.isHidden = false
                 numberLabel.isHidden = true
                 contentView.backgroundColor = highlightedBackgroundColor
             } else {
-                // show number and unhighlighted background
+                // update design for queued video
                 playImageView.isHidden = true
                 numberLabel.isHidden = false
                 contentView.backgroundColor = unhighlightedBackgroundColor
