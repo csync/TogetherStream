@@ -47,12 +47,12 @@ class VideoQueueTableViewCell: UITableViewCell {
                 // show play icon and highlighted background
                 playImageView.isHidden = false
                 numberLabel.isHidden = true
-                backgroundColor = highlightedBackgroundColor
+                contentView.backgroundColor = highlightedBackgroundColor
             } else {
                 // show number and unhighlighted background
                 playImageView.isHidden = true
                 numberLabel.isHidden = false
-                backgroundColor = unhighlightedBackgroundColor
+                contentView.backgroundColor = unhighlightedBackgroundColor
             }
         }
     }
