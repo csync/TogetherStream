@@ -25,7 +25,7 @@ struct Video {
     
 	init?(listVideoData: [String: Any]) {
 		// Check to make sure the video can be played in app
-		if (listVideoData["status"] as? [String: Any])?["embeddable"] as? Bool != true {
+		guard isEmbeddable(listVideoData), !isBlocked(listVideoData) else {
 			return nil
 		}
 		let snippetInfo = listVideoData["snippet"] as? [String: Any]
@@ -83,4 +83,19 @@ extension Video: Hashable {
     }
     
     var hashValue: Int { return id.hashValue }
+}
+
+
+// Note: these functions are outside the class so they can be called
+// before all stored properties are initialized
+fileprivate func isEmbeddable(_ videoData: [String: Any]) -> Bool {
+    return (videoData["status"] as? [String: Any])?["embeddable"] as? Bool ?? false
+}
+
+fileprivate func isBlocked(_ videoData: [String: Any]) -> Bool {
+    guard let region = Locale.current.regionCode,
+        let blockedRegions = ((videoData["contentDetails"] as? [String: Any])?["regionRestriction"] as? [String: [String]])?["blocked"] else {
+            return false
+    }
+    return blockedRegions.first(where: {$0 == region}) != nil
 }
