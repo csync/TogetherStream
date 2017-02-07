@@ -9,19 +9,51 @@
 import UIKit
 
 class VideoQueueTableViewCell: UITableViewCell {
-    @IBOutlet weak var thumbnailImageView: UIImageView!
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var channelTitleLabel: UILabel!
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    @IBOutlet private weak var playImageView: UIImageView!
+    @IBOutlet private weak var numberLabel: UILabel!
+    @IBOutlet private weak var thumbnailImageView: UIImageView!
+    @IBOutlet private weak var titleLabel: UILabel!
+    @IBOutlet private weak var channelLabel: UILabel!
+    
+    private let highlightedBackgroundColor = UIColor(red: 251/255, green: 252/255, blue: 252/255, alpha: 0.10)
+    private let unhighlightedBackgroundColor = UIColor(red: 40/255, green: 36/255, blue: 36/255, alpha: 1.0)
+    
+    var number: Int? {
+        get { return Int(numberLabel.text ?? "") }
+        set { numberLabel.text = "\(newValue)" }
     }
     
+    var thumbnail: UIImage? {
+        get { return thumbnailImageView.image }
+        set { thumbnailImageView.image = newValue }
+    }
+    
+    var title: String? {
+        get { return titleLabel.text }
+        set { titleLabel.text = newValue }
+    }
+    
+    var channel: String? {
+        get { return channelLabel.text }
+        set { channelLabel.text = newValue }
+    }
+    
+    private var _isCurrentVideo = false
+    var isCurrentVideo: Bool {
+        get { return _isCurrentVideo }
+        set {
+            _isCurrentVideo = newValue
+            if _isCurrentVideo {
+                // show play icon and highlighted background
+                playImageView.isHidden = false
+                numberLabel.isHidden = true
+                backgroundColor = highlightedBackgroundColor
+            } else {
+                // show number and unhighlighted background
+                playImageView.isHidden = true
+                numberLabel.isHidden = false
+                backgroundColor = unhighlightedBackgroundColor
+            }
+        }
+    }
 }
