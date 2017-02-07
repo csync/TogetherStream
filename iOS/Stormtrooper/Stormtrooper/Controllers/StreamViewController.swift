@@ -498,8 +498,8 @@ class StreamViewController: UIViewController {
 
         //scroll table view down
         if viewModel.messages.count > 0 {
-            let indexPath = NSIndexPath(item: viewModel.messages.count - 1, section: 0)
-            chatTableView.scrollToRow(at: indexPath as IndexPath, at: .bottom, animated: true)
+            let indexPath = IndexPath(item: viewModel.messages.count - 1, section: 0)
+            chatTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
         }
         
 	}
