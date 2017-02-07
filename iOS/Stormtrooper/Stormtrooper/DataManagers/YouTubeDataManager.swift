@@ -52,10 +52,16 @@ class YouTubeDataManager {
 	}
 	
 	func fetchTrendingVideos(callback: @escaping (Error?, [Video]?) -> Void) {
-		guard let apiKey = apiKey, let url = URL(string: "https://www.googleapis.com/youtube/v3/videos?chart=mostPopular&part=snippet,status,statistics&maxResults=\(maxVideoResults)&videoEmbeddable=true&videoSyndicated=true&key=\(apiKey)") else {
+        var urlString = "https://www.googleapis.com/youtube/v3/videos?chart=mostPopular&part=snippet,status,statistics,contentDetails&maxResults=\(maxVideoResults)"
+        if let regionCode = Locale.current.regionCode {
+            urlString += "&regionCode=\(regionCode)"
+        }
+		guard let apiKey = apiKey,
+            let url = URL(string: urlString + "&key=\(apiKey)") else {
 			callback(ServerError.cannotFormURL, nil)
 			return
 		}
+        
 		let task = URLSession.shared.dataTask(with: url) {data, response, error in
 			
 			guard let data = data, error == nil else {
