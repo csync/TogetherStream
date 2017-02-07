@@ -20,7 +20,6 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        setupNavigationBar()
         setupTableView()
         
 		viewModel.resetCurrentUserStream()
@@ -29,6 +28,7 @@ class HomeViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         displayLoginIfNeeded()
+        setupNavigationBar()
         refreshStreams()
         UIView.setAnimationsEnabled(true)
     }
