@@ -214,6 +214,7 @@
                                     <tableView clipsSubviews="YES" tag="1" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="89" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="iC4-5G-MpH">
                                         <rect key="frame" x="0.0" y="42" width="375" height="247"/>
                                         <color key="backgroundColor" red="0.15686274510000001" green="0.14117647059999999" blue="0.14117647059999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="separatorColor" red="0.34901960784313724" green="0.34509803921568627" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <connections>
                                             <outlet property="dataSource" destination="BYZ-38-t0r" id="2Ly-0p-jhB"/>
                                             <outlet property="delegate" destination="BYZ-38-t0r" id="kd1-Sm-0Z4"/>
