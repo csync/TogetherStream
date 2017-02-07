@@ -58,7 +58,9 @@ class HomeViewModel {
 	
 	func resetCurrentUserStream() {
 		if let username = FacebookDataManager.sharedInstance.profile?.userID {
+            CSyncDataManager.sharedInstance.write("false", toKeyPath: "streams.\(username).isPlaying")
 			CSyncDataManager.sharedInstance.write("false", toKeyPath: "streams.\(username).isActive")
+            AccountDataManager.sharedInstance.deleteInvites()
 		}
 	}
 }
