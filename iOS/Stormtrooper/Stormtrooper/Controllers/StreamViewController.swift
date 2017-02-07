@@ -495,6 +495,12 @@ class StreamViewController: UIViewController {
         
         //hide keyboard views
         updateView(forIsKeyboardShowing: false)
+
+        //scroll table view down
+        if viewModel.messages.count > 0 {
+            let indexPath = IndexPath(item: viewModel.messages.count - 1, section: 0)
+            chatTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+        }
         
 	}
     @IBAction func didToggleQueueEdit(_ sender: UIButton) {
