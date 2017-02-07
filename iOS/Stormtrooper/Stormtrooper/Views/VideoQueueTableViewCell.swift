@@ -48,6 +48,7 @@ class VideoQueueTableViewCell: UITableViewCell {
                 playImageView.isHidden = false
                 numberLabel.isHidden = true
                 contentView.backgroundColor = highlightedBackgroundColor
+                separatorInset = UIEdgeInsetsMake(0, 0, 0, bounds.size.width)
             } else {
                 // update design for queued video
                 playImageView.isHidden = true
