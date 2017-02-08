@@ -91,7 +91,7 @@ class InviteStreamViewController: UIViewController {
             navigationController?.pushViewController(streamVC, animated: true)
         }
         else { //not creating stream, so pop
-            navigationController?.popViewController(animated: true)
+            let _ = navigationController?.popViewController(animated: true)
         }
         viewModel.sendInvites(stream:stream, users:[User](viewModel.selectedFriends.values))
     }
