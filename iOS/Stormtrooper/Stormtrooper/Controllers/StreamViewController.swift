@@ -725,11 +725,24 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if viewModel.currentVideoIndex != indexPath.row {
-            viewModel.currentVideoIndex = indexPath.row
-            playerView.cueVideo(byId: viewModel.videoQueue?[indexPath.row].id ?? "", startSeconds: 0, suggestedQuality: .default)
-            playerView.playVideo()
-        }
+        guard viewModel.currentVideoIndex != indexPath.row else { return }
+        guard let currentVideoIndex = viewModel.currentVideoIndex else { return }
+        
+        // remove highlight for the current video
+        let currentVideoIndexPath = IndexPath(row: currentVideoIndex, section: 0)
+        let currentVideoCell = tableView.cellForRow(at: currentVideoIndexPath) as? VideoQueueTableViewCell
+        currentVideoCell?.isCurrentVideo = false
+        
+        // add highlight for the selected video
+        let selectedVideoCell = tableView.cellForRow(at: indexPath) as? VideoQueueTableViewCell
+        selectedVideoCell?.isCurrentVideo = true
+        
+        // update the view model
+        viewModel.currentVideoIndex = indexPath.row
+        
+        // play the selected video
+        playerView.cueVideo(byId: viewModel.videoQueue?[indexPath.row].id ?? "", startSeconds: 0, suggestedQuality: .default)
+        playerView.playVideo()
     }
 	
     private func cellFor(chatTableView tableView: UITableView, at indexPath: IndexPath) -> UITableViewCell {
