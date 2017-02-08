@@ -66,7 +66,6 @@ love, together with friends.</string>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="2dT-JB-OYJ" firstAttribute="centerX" secondItem="6Yc-wI-AJw" secondAttribute="centerX" id="4eW-qr-wV7"/>
-                            <constraint firstItem="Eac-cl-RPi" firstAttribute="top" secondItem="6Yc-wI-AJw" secondAttribute="top" constant="154" id="8op-Qf-jgJ"/>
                             <constraint firstAttribute="trailingMargin" secondItem="NbB-hF-ZWu" secondAttribute="trailing" constant="29" id="E71-jE-gZv"/>
                             <constraint firstItem="Eac-cl-RPi" firstAttribute="leading" secondItem="6Yc-wI-AJw" secondAttribute="leadingMargin" constant="35" id="EWA-qo-csU"/>
                             <constraint firstItem="NbB-hF-ZWu" firstAttribute="top" secondItem="Eac-cl-RPi" secondAttribute="bottom" constant="45" id="Xsa-ue-EO6"/>
@@ -77,6 +76,7 @@ love, together with friends.</string>
                             <constraint firstItem="Eac-cl-RPi" firstAttribute="centerX" secondItem="6Yc-wI-AJw" secondAttribute="centerX" id="m7v-uh-06v"/>
                             <constraint firstItem="fp8-cs-CKk" firstAttribute="top" secondItem="NbB-hF-ZWu" secondAttribute="bottom" constant="88" id="s3Q-Vw-JwP"/>
                             <constraint firstItem="NbB-hF-ZWu" firstAttribute="leading" secondItem="6Yc-wI-AJw" secondAttribute="leadingMargin" constant="29" id="sx5-RS-Xml"/>
+                            <constraint firstItem="Eac-cl-RPi" firstAttribute="top" secondItem="Zmf-Ri-ms5" secondAttribute="bottom" constant="134" id="vWE-a9-OP8"/>
                         </constraints>
                     </view>
                     <connections>
