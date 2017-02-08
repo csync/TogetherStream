@@ -15,18 +15,6 @@ class YouTubeDataManager {
 	private let apiKey = Utils.getStringValueWithKeyFromPlist("keys", key: "youtube_api_key")
 	private let maxVideoResults = 25
 	
-    // TODO: Cache
-	func getThumbnailForVideo(with url: URL, callback: @escaping (Error?, UIImage?) -> Void) {
-        let task = URLSession.shared.dataTask(with: URLRequest(url: url)) {data, response, error in
-            guard let data = data, let image = UIImage(data: data) else {
-                callback(ServerError.unexpectedResponse, nil)
-                return
-            }
-            callback(nil, image)
-        }
-        task.resume()
-	}
-	
 	func getVideo(withID id: String, callback: @escaping (Error?, Video?) -> Void) {
 		guard let apiKey = apiKey, let url = URL(string: "https://www.googleapis.com/youtube/v3/videos?key=\(apiKey)&part=snippet,status,statistics&id=\(id)") else {
 			callback(ServerError.cannotFormURL, nil)

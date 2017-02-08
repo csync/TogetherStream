@@ -51,10 +51,6 @@ class HomeViewModel {
 		youtubeDataManager.getVideo(withID: id, callback: callback)
 	}
 	
-	func getThumbnailForVideo(with url: URL, callback: @escaping (Error?, UIImage?) -> Void) {
-        youtubeDataManager.getThumbnailForVideo(with: url, callback: callback)
-	}
-	
 	func resetCurrentUserStream() {
 		if let username = FacebookDataManager.sharedInstance.profile?.userID {
             CSyncDataManager.sharedInstance.write("false", toKeyPath: "streams.\(username).isPlaying")
