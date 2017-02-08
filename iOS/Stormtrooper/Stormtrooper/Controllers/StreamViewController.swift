@@ -680,13 +680,11 @@ extension StreamViewController: StreamViewModelDelegate {
 
 extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if tableView.tag == chatTableTag {
-            return cellFor(chatTableView: tableView, at: indexPath)
+        switch tableView.tag {
+        case chatTableTag: return cellFor(chatTableView: tableView, at: indexPath)
+        case queueTableTag: return cellFor(queueTableView: tableView, at: indexPath)
+        default: return UITableViewCell()
         }
-        else if tableView.tag == queueTableTag {
-            return cellFor(queueTableView: tableView, at: indexPath)
-        }
-        return UITableViewCell()
 	}
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -701,8 +699,7 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
         if isKeyboardShowing {
             visualEffectView.isHidden = false
             dismissView.isHidden = false
-        }
-        else {
+        } else {
             visualEffectView.isHidden = true
             dismissView.isHidden = true
         }
@@ -724,20 +721,19 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
     }
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if tableView.tag == chatTableTag {
-            return viewModel.messages.count //TODO: limit this to 50 or whatever performance allows
+        switch tableView.tag {
+        case chatTableTag: return viewModel.messages.count
+        case queueTableTag: return viewModel.videoQueue?.count ?? 0
+        default: return 0
         }
-        else if tableView.tag == queueTableTag {
-            return viewModel.videoQueue?.count ?? 0
-        }
-        return 0
 	}
     
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        if tableView.tag == queueTableTag {
-            return true
+        switch tableView.tag {
+        case chatTableTag: return false
+        case queueTableTag: return true
+        default: return false
         }
-        return false
     }
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
