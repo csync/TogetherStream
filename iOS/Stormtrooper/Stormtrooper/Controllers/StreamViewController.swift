@@ -398,6 +398,10 @@ class StreamViewController: UIViewController {
                 self.headerArrowImageView.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
             }, completion: { complete in
                 self.queueView.isHidden = false
+                if let currentVideoIndex = self.viewModel.currentVideoIndex {
+                    let currentVideoIndexPath = IndexPath(row: currentVideoIndex, section: 0)
+                    self.queueTableView.scrollToRow(at: currentVideoIndexPath, at: .top, animated: true)
+                }
             })
         }
         else {
@@ -545,7 +549,50 @@ class StreamViewController: UIViewController {
             }
         }
     }
-
+    
+    fileprivate func setHighlightForVideo(at row: Int, highlighted: Bool) {
+        // update the previous video (i.e. whether to hide its separator)
+        let previousIndexPath = IndexPath(row: row-1, section: 0)
+        let previousVideoCell = queueTableView.cellForRow(at: previousIndexPath) as? VideoQueueTableViewCell
+        previousVideoCell?.isPreviousVideo = highlighted
+        
+        // update the current video (i.e. whether to highlight it)
+        let indexPath = IndexPath(row: row, section: 0)
+        let videoCell = queueTableView.cellForRow(at: indexPath) as? VideoQueueTableViewCell
+        videoCell?.isCurrentVideo = highlighted
+    }
+    
+    fileprivate func deleteVideo(at indexPath: IndexPath) {
+        guard let currentVideoIndex = viewModel.currentVideoIndex else { return }
+        let previousIndexPath = IndexPath(row: indexPath.row - 1, section: 0)
+        let nextIndexPath = IndexPath(row: indexPath.row + 1, section: 0)
+        
+        // deleted the previous video
+        if indexPath.row == currentVideoIndex - 1 {
+            let previousCell = queueTableView.cellForRow(at: previousIndexPath)
+            let previousVideoCell = previousCell as? VideoQueueTableViewCell
+            previousVideoCell?.isPreviousVideo = true
+        }
+        
+        // deleted the current video
+        if indexPath.row == currentVideoIndex {
+            guard let videoQueue = viewModel.videoQueue else { return }
+            setHighlightForVideo(at: nextIndexPath.row, highlighted: true)
+            viewModel.currentVideoIndex = nextIndexPath.row
+            let nextVideoId = videoQueue[nextIndexPath.row].id
+            playerView.cueVideo(byId: nextVideoId, startSeconds: 0, suggestedQuality: .default)
+            playerView.playVideo()
+        }
+        
+        // remove deleted video from queue and view model
+        queueTableView.beginUpdates()
+        queueTableView.deleteRows(at: [indexPath], with: .automatic)
+        viewModel.videoQueue?.remove(at: indexPath.row)
+        if currentVideoIndex > indexPath.row {
+            viewModel.currentVideoIndex = currentVideoIndex - 1
+        }
+        queueTableView.endUpdates()
+    }
 }
 
 extension StreamViewController: StreamViewModelDelegate {
@@ -643,13 +690,11 @@ extension StreamViewController: StreamViewModelDelegate {
 
 extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if tableView.tag == chatTableTag {
-            return cellFor(chatTableView: tableView, at: indexPath)
+        switch tableView.tag {
+        case chatTableTag: return cellFor(chatTableView: tableView, at: indexPath)
+        case queueTableTag: return cellFor(queueTableView: tableView, at: indexPath)
+        default: return UITableViewCell()
         }
-        else if tableView.tag == queueTableTag {
-            return cellFor(queueTableView: tableView, at: indexPath)
-        }
-        return UITableViewCell()
 	}
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -664,70 +709,62 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
         if isKeyboardShowing {
             visualEffectView.isHidden = false
             dismissView.isHidden = false
-        }
-        else {
+        } else {
             visualEffectView.isHidden = true
             dismissView.isHidden = true
         }
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        if tableView.tag == chatTableTag {
-            return false
-        } else if tableView.tag == queueTableTag {
-            return indexPath.row != viewModel.currentVideoIndex
-        } else {
-            return false
+        switch tableView.tag {
+        case chatTableTag: return false
+        case queueTableTag: return indexPath.row != viewModel.currentVideoIndex
+        default: return false
         }
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete, indexPath.row != viewModel.currentVideoIndex {
-            tableView.beginUpdates()
-            viewModel.videoQueue?.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .automatic)
-            if viewModel.currentVideoIndex ?? 0 > indexPath.row {
-                viewModel.currentVideoIndex = (viewModel.currentVideoIndex ?? 0) - 1
-            }
-            tableView.endUpdates()
+        switch editingStyle {
+        case .delete: deleteVideo(at: indexPath)
+        default: break
         }
     }
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if tableView.tag == chatTableTag {
-            return viewModel.messages.count //TODO: limit this to 50 or whatever performance allows
+        switch tableView.tag {
+        case chatTableTag: return viewModel.messages.count
+        case queueTableTag: return viewModel.videoQueue?.count ?? 0
+        default: return 0
         }
-        else if tableView.tag == queueTableTag {
-            return viewModel.videoQueue?.count ?? 0
-        }
-        return 0
 	}
     
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        if tableView.tag == queueTableTag {
-            return true
+        switch tableView.tag {
+        case chatTableTag: return false
+        case queueTableTag: return true
+        default: return false
         }
-        return false
     }
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        guard let currentVideoIndex = viewModel.currentVideoIndex, let video = viewModel.videoQueue?.remove(at: sourceIndexPath.row) else {
-            return
+        guard let currentVideoIndex = viewModel.currentVideoIndex,
+            let video = viewModel.videoQueue?.remove(at: sourceIndexPath.row) else {
+                return
         }
         viewModel.videoQueue?.insert(video, at: destinationIndexPath.row)
-        if sourceIndexPath.row == currentVideoIndex {
-            viewModel.currentVideoIndex = destinationIndexPath.row
-        }
-        else if destinationIndexPath.row == currentVideoIndex {
-            viewModel.currentVideoIndex = destinationIndexPath.row + (sourceIndexPath.row > destinationIndexPath.row ? 1 : -1)
-        }
-        // left-to-right
-        else if sourceIndexPath.row < currentVideoIndex, currentVideoIndex < destinationIndexPath.row {
-            viewModel.currentVideoIndex = currentVideoIndex - 1
-        }
         
-        // right-to-left
-        else if sourceIndexPath.row > currentVideoIndex, currentVideoIndex > destinationIndexPath.row {
+        // update the view model's current video index
+        if sourceIndexPath.row == currentVideoIndex {
+            // moved the current video
+            viewModel.currentVideoIndex = destinationIndexPath.row
+        } else if destinationIndexPath.row == currentVideoIndex {
+            // moved a video to the current video's index
+            viewModel.currentVideoIndex = destinationIndexPath.row + (sourceIndexPath.row > destinationIndexPath.row ? 1 : -1)
+        } else if sourceIndexPath.row < currentVideoIndex, currentVideoIndex < destinationIndexPath.row {
+            // moved a video from the left-side of the current video to the right-side
+            viewModel.currentVideoIndex = currentVideoIndex - 1
+        } else if sourceIndexPath.row > currentVideoIndex, currentVideoIndex > destinationIndexPath.row {
+            // moved a video from the right-side of the current video to the left-side
             viewModel.currentVideoIndex = currentVideoIndex + 1
         }
     }
@@ -737,11 +774,15 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if viewModel.currentVideoIndex != indexPath.row {
-            viewModel.currentVideoIndex = indexPath.row
-            playerView.cueVideo(byId: viewModel.videoQueue?[indexPath.row].id ?? "", startSeconds: 0, suggestedQuality: .default)
-            playerView.playVideo()
+        guard viewModel.currentVideoIndex != indexPath.row,
+            let currentVideoIndex = viewModel.currentVideoIndex else {
+                return
         }
+        setHighlightForVideo(at: currentVideoIndex, highlighted: false)
+        setHighlightForVideo(at: indexPath.row, highlighted: true)
+        viewModel.currentVideoIndex = indexPath.row
+        playerView.cueVideo(byId: viewModel.videoQueue?[indexPath.row].id ?? "", startSeconds: 0, suggestedQuality: .default)
+        playerView.playVideo()
     }
 	
     private func cellFor(chatTableView tableView: UITableView, at indexPath: IndexPath) -> UITableViewCell {
@@ -784,22 +825,22 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
 	private func cellFor(queueTableView tableView: UITableView, at indexPath: IndexPath) -> UITableViewCell {
-        guard
-        let cell = tableView.dequeueReusableCell(withIdentifier: "queueCell") as? VideoQueueTableViewCell,
-        let video = viewModel.videoQueue?[indexPath.row] else {
-            return UITableViewCell()
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "queueCell") as? VideoQueueTableViewCell,
+            let video = viewModel.videoQueue?[indexPath.row],
+            let currentVideoIndex = viewModel.currentVideoIndex else {
+                return UITableViewCell()
         }
-        cell.titleLabel.text = video.title
-        cell.channelTitleLabel.text = video.channelTitle
+        
+        cell.title = video.title
+        cell.channel = video.channelTitle
+        cell.isPreviousVideo = (currentVideoIndex-1 == indexPath.row)
+        cell.isCurrentVideo = (currentVideoIndex == indexPath.row)
+        
         YouTubeDataManager.sharedInstance.getThumbnailForVideo(with: video.mediumThumbnailURL) {error, image in
-            if let image = image {
-                cell.thumbnailImageView.image = image
-            }
+            guard let image = image else { return }
+            cell.thumbnail = image
         }
-        if indexPath.row == viewModel.currentVideoIndex {
-            cell.isSelected = true
-        }
-        cell.selectionStyle = .none
+        
         return cell
     }
 }
@@ -868,11 +909,8 @@ extension StreamViewController: YTPlayerViewDelegate {
 			}
             break
         case .ended:
-            if viewModel.isHost, let queue = viewModel.videoQueue, var queueIndex = viewModel.currentVideoIndex {
-                queueIndex = queueIndex < queue.count - 1 ? queueIndex + 1 : 0
-                playerView.cueVideo(byId: queue[queueIndex].id, startSeconds: 0, suggestedQuality: .default)
-                viewModel.currentVideoIndex = queueIndex
-                playerView.playVideo()
+            if viewModel.isHost {
+                playNextVideo()
             }
             break
         case .queued:
@@ -884,6 +922,17 @@ extension StreamViewController: YTPlayerViewDelegate {
         }
     }
     
+    private func playNextVideo() {
+        guard let videoQueue = viewModel.videoQueue else { return }
+        guard let currentVideoIndex = viewModel.currentVideoIndex else { return }
+        let nextVideoIndex = currentVideoIndex < videoQueue.count-1 ? currentVideoIndex+1 : 0
+        setHighlightForVideo(at: currentVideoIndex, highlighted: false)
+        setHighlightForVideo(at: nextVideoIndex, highlighted: true)
+        viewModel.currentVideoIndex = nextVideoIndex
+        let nextVideoId = videoQueue[nextVideoIndex].id
+        playerView.cueVideo(byId: nextVideoId, startSeconds: 0, suggestedQuality: .default)
+        playerView.playVideo()
+    }
 }
 
 extension StreamViewController: UITextFieldDelegate {
