@@ -28,7 +28,6 @@ class HomeViewModel {
 //        return
 		accountDataManager.retrieveInvites {[weak self] error, streams in
 			if let error = error {
-                print(error)
 				callback(error, nil)
 			}
 			else {
