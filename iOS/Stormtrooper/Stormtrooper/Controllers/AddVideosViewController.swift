@@ -38,6 +38,9 @@ class AddVideosViewController: UIViewController {
         
         viewModel.fetchTrendingVideos() {[weak self] error, videos in
             DispatchQueue.main.async {
+                if let error = error {
+                    self?.showVideoAlert(with: error)
+                }
                 self?.searchTableView.reloadData()
             }
         }
@@ -66,6 +69,12 @@ class AddVideosViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    fileprivate func showVideoAlert(with error: Error) {
+        let alert = UIAlertController(title: "Error Loading Videos", message: error.localizedDescription, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
     }
     
     private func setupSearchBar() {
@@ -125,6 +134,9 @@ class AddVideosViewController: UIViewController {
         searchTextField.resignFirstResponder()
         viewModel.fetchTrendingVideos() {[weak self] error, videos in
             DispatchQueue.main.async {
+                if let error = error {
+                    self?.showVideoAlert(with: error)
+                }
                 self?.searchTableView.reloadData()
             }
         }
@@ -155,14 +167,20 @@ extension AddVideosViewController: UITextFieldDelegate {
         if query.characters.count > 0 {
             viewModel.searchForVideos(withQuery: query) {[weak self] error, videos in
                 DispatchQueue.main.async {
+                    if let error = error {
+                        self?.showVideoAlert(with: error)
+                    }
                     self?.searchTableView.reloadData()
+                    self?.searchTableView.setContentOffset(CGPoint.zero, animated: true)
                 }
-                self?.searchTableView.setContentOffset(CGPoint.zero, animated: true)
             }
         }
         else {
             viewModel.fetchTrendingVideos {[weak self] error, videos in
                 DispatchQueue.main.async {
+                    if let error = error {
+                        self?.showVideoAlert(with: error)
+                    }
                     self?.searchTableView.reloadData()
                 }
             }
