@@ -866,11 +866,8 @@ extension StreamViewController: YTPlayerViewDelegate {
 			}
             break
         case .ended:
-            if viewModel.isHost, let queue = viewModel.videoQueue, var queueIndex = viewModel.currentVideoIndex {
-                queueIndex = queueIndex < queue.count - 1 ? queueIndex + 1 : 0
-                playerView.cueVideo(byId: queue[queueIndex].id, startSeconds: 0, suggestedQuality: .default)
-                viewModel.currentVideoIndex = queueIndex
-                playerView.playVideo()
+            if viewModel.isHost {
+                playNextVideo()
             }
             break
         case .queued:
@@ -882,6 +879,31 @@ extension StreamViewController: YTPlayerViewDelegate {
         }
     }
     
+    private func playNextVideo() {
+        guard let videoQueue = viewModel.videoQueue else { return }
+        guard let currentVideoIndex = viewModel.currentVideoIndex else { return }
+        
+        // identify the next video (wrapping around, if necessary)
+        let nextVideoIndex = currentVideoIndex < videoQueue.count-1 ? currentVideoIndex+1 : 0
+        
+        // remove highlight for the current video
+        let currentVideoIndexPath = IndexPath(row: currentVideoIndex, section: 0)
+        let currentVideoCell = queueTableView.cellForRow(at: currentVideoIndexPath) as? VideoQueueTableViewCell
+        currentVideoCell?.isCurrentVideo = false
+        
+        // add highlight for the next video
+        let nextVideoIndexPath = IndexPath(row: nextVideoIndex, section: 0)
+        let selectedVideoCell = queueTableView.cellForRow(at: nextVideoIndexPath) as? VideoQueueTableViewCell
+        selectedVideoCell?.isCurrentVideo = true
+        
+        // update view model
+        viewModel.currentVideoIndex = nextVideoIndex
+        
+        // play the next video
+        let nextVideoId = videoQueue[nextVideoIndex].id
+        playerView.cueVideo(byId: nextVideoId, startSeconds: 0, suggestedQuality: .default)
+        playerView.playVideo()
+    }
 }
 
 extension StreamViewController: UITextFieldDelegate {
