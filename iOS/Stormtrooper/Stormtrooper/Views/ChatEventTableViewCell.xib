@@ -26,7 +26,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="375" height="55"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Zt3-P9-Heg">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Profile_50" translatesAutoresizingMaskIntoConstraints="NO" id="Zt3-P9-Heg">
                         <rect key="frame" x="17" y="13" width="30" height="30"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="30" id="LnA-hw-uMk"/>
@@ -76,4 +76,7 @@
             <point key="canvasLocation" x="-12.5" y="249"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="Profile_50" width="50" height="50"/>
+    </resources>
 </document>

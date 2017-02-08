@@ -24,11 +24,12 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="92"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pjQ-Xb-dT9" id="nuy-5u-3fy">
-                <rect key="frame" x="0.0" y="0.0" width="375" height="91"/>
+                <rect key="frame" x="0.0" y="0.0" width="375" height="91.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="zeJ-L7-XaG">
                         <rect key="frame" x="16" y="12" width="120" height="67.5"/>
+                        <color key="backgroundColor" red="0.21960784310000001" green="0.21960784310000001" blue="0.21960784310000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="120" id="W09-zS-Fqk"/>
                             <constraint firstAttribute="height" constant="67.5" id="jqo-eD-8hd"/>
@@ -57,7 +58,7 @@
                 <color key="backgroundColor" red="0.15686274510000001" green="0.14117647059999999" blue="0.14117647059999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 <constraints>
                     <constraint firstItem="WHP-hA-r3x" firstAttribute="leading" secondItem="zeJ-L7-XaG" secondAttribute="leading" id="7iY-HF-EFc"/>
-                    <constraint firstAttribute="bottom" secondItem="zeJ-L7-XaG" secondAttribute="bottom" constant="12.5" id="E15-ZJ-Z87"/>
+                    <constraint firstItem="WHP-hA-r3x" firstAttribute="top" secondItem="zeJ-L7-XaG" secondAttribute="bottom" constant="11" id="Fls-zT-tHv"/>
                     <constraint firstAttribute="leading" secondItem="zeJ-L7-XaG" secondAttribute="leading" constant="-16" id="HIm-Vd-4bl"/>
                     <constraint firstAttribute="trailing" secondItem="WHP-hA-r3x" secondAttribute="trailing" id="Kcv-zX-sJx"/>
                     <constraint firstItem="zeJ-L7-XaG" firstAttribute="top" secondItem="bKH-c6-NpJ" secondAttribute="top" constant="-15.5" id="ThB-1n-RK0"/>
