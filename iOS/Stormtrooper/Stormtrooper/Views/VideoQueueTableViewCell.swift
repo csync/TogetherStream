@@ -74,7 +74,7 @@ class VideoQueueTableViewCell: UITableViewCell {
             } else {
                 // update design for queued video
                 playImageView.isHidden = true
-                numberLabel.isHidden = false
+                numberLabel.isHidden = true // TODO: set to false when moveRowAt updates the number
                 backgroundColor = unhighlightedBackgroundColor
                 contentView.backgroundColor = unhighlightedBackgroundColor
                 separatorInset = UIEdgeInsetsMake(0, 15, 0, 0)

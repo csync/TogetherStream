@@ -717,12 +717,6 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
             // moved a video from the right-side of the current video to the left-side
             viewModel.currentVideoIndex = currentVideoIndex + 1
         }
-        
-        // update the video numbers
-        let first = min(sourceIndexPath.row, destinationIndexPath.row)
-        let last = max(sourceIndexPath.row, destinationIndexPath.row)
-        let rows = [Int](first...last).map() { row in IndexPath(row: row, section: 0) }
-        tableView.reloadRows(at: rows, with: .automatic)
     }
     
     func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {
