@@ -14,6 +14,8 @@ class SearchResultTableViewCell: UITableViewCell {
     @IBOutlet weak var channelTitleLabel: UILabel!
     @IBOutlet weak var addImageView: UIImageView!
     
+    var videoID: String?
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()

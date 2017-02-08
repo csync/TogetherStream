@@ -789,13 +789,20 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
         let video = viewModel.videoQueue?[indexPath.row] else {
             return UITableViewCell()
         }
-        cell.titleLabel.text = video.title
-        cell.channelTitleLabel.text = video.channelTitle
-        YouTubeDataManager.sharedInstance.getThumbnailForVideo(with: video.mediumThumbnailURL) {error, image in
-            if let image = image {
-                cell.thumbnailImageView.image = image
+        
+        if cell.videoID != video.id {
+            cell.videoID = video.id
+            cell.thumbnailImageView.image = nil
+            cell.titleLabel.text = video.title
+            cell.channelTitleLabel.text = video.channelTitle
+            cell.thumbnailImageView.image = nil
+            video.getMediumThumbnail {error, image in
+                if let image = image {
+                    cell.thumbnailImageView.image = image
+                }
             }
         }
+        
         if indexPath.row == viewModel.currentVideoIndex {
             cell.isSelected = true
         }

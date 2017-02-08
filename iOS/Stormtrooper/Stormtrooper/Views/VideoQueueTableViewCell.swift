@@ -12,6 +12,8 @@ class VideoQueueTableViewCell: UITableViewCell {
     @IBOutlet weak var thumbnailImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var channelTitleLabel: UILabel!
+    
+    var videoID: String?
 
     override func awakeFromNib() {
         super.awakeFromNib()

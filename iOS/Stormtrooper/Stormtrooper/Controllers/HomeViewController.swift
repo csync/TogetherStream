@@ -183,7 +183,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 						DispatchQueue.main.async {
 							cell.videoTitleLabel.text = video.title
 						}
-                        self.viewModel.getThumbnailForVideo(with: video.mediumThumbnailURL) {error, thumbnail in
+                        video.getMediumThumbnail {error, thumbnail in
                             if let thumbnail = thumbnail {
                                 DispatchQueue.main.async {
                                     cell.currentVideoThumbnailImageView.image = thumbnail
