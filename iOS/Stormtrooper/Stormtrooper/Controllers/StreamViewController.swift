@@ -737,8 +737,10 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        guard let currentVideoIndex = viewModel.currentVideoIndex else { return }
-        guard let video = viewModel.videoQueue?.remove(at: sourceIndexPath.row) else { return }
+        guard let currentVideoIndex = viewModel.currentVideoIndex,
+            let video = viewModel.videoQueue?.remove(at: sourceIndexPath.row) else {
+                return
+        }
         viewModel.videoQueue?.insert(video, at: destinationIndexPath.row)
         
         // update the view model's current video index
@@ -762,8 +764,10 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard viewModel.currentVideoIndex != indexPath.row else { return }
-        guard let currentVideoIndex = viewModel.currentVideoIndex else { return }
+        guard viewModel.currentVideoIndex != indexPath.row,
+            let currentVideoIndex = viewModel.currentVideoIndex else {
+                return
+        }
         setHighlightForVideo(at: currentVideoIndex, highlighted: false)
         setHighlightForVideo(at: indexPath.row, highlighted: true)
         viewModel.currentVideoIndex = indexPath.row
