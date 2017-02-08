@@ -442,7 +442,7 @@ class StreamViewController: UIViewController {
         
         // present popup with default user profile picture
         let popup = PopupViewController.instantiate(
-            titleText: stream?.name ?? "MY STREAM",
+            titleText: stream?.name.uppercased() ?? "MY STREAM",
             image: #imageLiteral(resourceName: "profile_85"),
             messageText: stream?.name ?? "",
             descriptionText: "Would you like to end your stream?",
@@ -499,6 +499,12 @@ class StreamViewController: UIViewController {
         
         //hide keyboard views
         updateView(forIsKeyboardShowing: false)
+
+        //scroll table view down
+        if viewModel.messages.count > 0 {
+            let indexPath = IndexPath(item: viewModel.messages.count - 1, section: 0)
+            chatTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+        }
         
 	}
     @IBAction func didToggleQueueEdit(_ sender: UIButton) {
@@ -527,14 +533,18 @@ class StreamViewController: UIViewController {
     
     fileprivate func updateView(forVideoWithID id: String) {
         viewModel.getVideo(withID: id) {[weak self] error, video in
-            if let video = video {
-                DispatchQueue.main.async {
+            DispatchQueue.main.async {
+                if let video = video {
                     self?.videoTitleLabel.text = video.title
                     var subtitle = video.channelTitle
                     if let viewCount = video.viewCount {
                         subtitle += " - \(viewCount) views"
                     }
                     self?.videoSubtitleLabel.text = subtitle
+                }
+                else {
+                    self?.videoTitleLabel.text = "-"
+                    self?.videoSubtitleLabel.text = "-"
                 }
             }
         }
@@ -654,7 +664,7 @@ extension StreamViewController: StreamViewModelDelegate {
         
         // present popup with default user profile picture
 		let popup = PopupViewController.instantiate(
-            titleText: (stream?.name ?? "").uppercased(),
+            titleText: stream?.name.uppercased() ?? "",
             image: #imageLiteral(resourceName: "profile_85"),
             messageText: (stream?.name ?? ""),
             descriptionText: "This stream has ended.",
@@ -844,7 +854,9 @@ extension StreamViewController: YTPlayerViewDelegate {
     }
     
     func playerView(_ playerView: YTPlayerView, receivedError error: YTPlayerError) {
-        //error received
+        let alert = UIAlertController(title: "Recieved Error from Player", message: "\(error)", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
     }
     
     func playerView(_ playerView: YTPlayerView, didChangeTo quality: YTPlaybackQuality) {

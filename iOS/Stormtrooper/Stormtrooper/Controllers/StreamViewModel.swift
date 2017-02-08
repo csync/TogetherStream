@@ -147,7 +147,9 @@ class StreamViewModel {
 	}
 	
 	func endStream() {
+        cSyncDataManager.write("false", toKeyPath: "\(csyncPath).isPlaying")
 		cSyncDataManager.write("false", toKeyPath: "\(csyncPath).isActive")
+        AccountDataManager.sharedInstance.deleteInvites()
 	}
 	
 	private func setupHost() {

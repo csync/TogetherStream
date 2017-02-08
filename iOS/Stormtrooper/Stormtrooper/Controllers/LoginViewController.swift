@@ -35,6 +35,15 @@ class LoginViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    @IBAction func csyncTapped(_ sender: Any) {
+        open(url: "https://ibm.biz/together-stream-csync-logo")
+    }
+    
+    private func open(url: String) {
+        guard let url = URL(string: url) else { return }
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+    }
 }
 
 extension LoginViewController: FBSDKLoginButtonDelegate {

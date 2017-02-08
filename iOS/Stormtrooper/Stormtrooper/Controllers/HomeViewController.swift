@@ -20,7 +20,6 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        setupNavigationBar()
         setupTableView()
         
 		viewModel.resetCurrentUserStream()
@@ -29,6 +28,7 @@ class HomeViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         displayLoginIfNeeded()
+        setupNavigationBar()
         refreshStreams()
         UIView.setAnimationsEnabled(true)
     }
@@ -53,11 +53,14 @@ class HomeViewController: UIViewController {
         let profileButton = UIButton(type: .custom)
         profileButton.frame = profileButtonFrame
         FacebookDataManager.sharedInstance.fetchProfilePictureForCurrentUser() {error, image in
-            if let image = image {
-                DispatchQueue.main.async {
+            DispatchQueue.main.async {
+                if let image = image {
                     profileButton.setImage(image, for: .normal)
                     profileButton.layer.cornerRadius = profileButton.frame.width / 2
                     profileButton.clipsToBounds = true
+                }
+                else {
+                    profileButton.setImage(#imageLiteral(resourceName: "Profile_50"), for: .normal)
                 }
             }
         }
@@ -104,8 +107,17 @@ class HomeViewController: UIViewController {
     func refreshStreams(callback: ((Void) -> Void)? = nil) {
         viewModel.refreshStreams { error, streams in
             DispatchQueue.main.async {
-                self.streamsTableView.reloadData()
-                callback?()
+                if let error = error {
+                    let alert = UIAlertController(title: "Error Loading Streams", message: error.localizedDescription, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .default))
+                    self.present(alert, animated: true) {
+                        callback?()
+                    }
+                }
+                else {
+                    self.streamsTableView.reloadData()
+                    callback?()
+                }
             }
         }
     }

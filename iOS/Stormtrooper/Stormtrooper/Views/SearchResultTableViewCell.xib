@@ -29,6 +29,7 @@
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nG4-Pk-zlc">
                         <rect key="frame" x="16" y="12" width="120" height="67.5"/>
+                        <color key="backgroundColor" red="0.2196078431372549" green="0.2196078431372549" blue="0.2196078431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="67.5" id="3N3-Lu-WXb"/>
                             <constraint firstAttribute="width" constant="120" id="mjg-pB-4O5"/>
@@ -65,7 +66,6 @@
                 <constraints>
                     <constraint firstItem="zzU-0G-chd" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="rQa-ge-4Pm" secondAttribute="trailing" constant="18" id="8JW-ci-Roa"/>
                     <constraint firstAttribute="leading" secondItem="nG4-Pk-zlc" secondAttribute="leading" constant="-16" id="CFP-p1-0hk"/>
-                    <constraint firstAttribute="bottom" secondItem="nG4-Pk-zlc" secondAttribute="bottom" constant="12.5" id="I3b-mk-Rqu"/>
                     <constraint firstAttribute="bottom" secondItem="OY1-WO-c4O" secondAttribute="bottom" id="SxR-pf-eE0"/>
                     <constraint firstItem="nG4-Pk-zlc" firstAttribute="top" secondItem="rQa-ge-4Pm" secondAttribute="top" constant="-15.5" id="Vg9-n3-RfJ"/>
                     <constraint firstItem="nG4-Pk-zlc" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="12" id="Zqo-Qc-UQK"/>
@@ -75,6 +75,7 @@
                     <constraint firstItem="zzU-0G-chd" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="2i1-wD-H0Z" secondAttribute="trailing" constant="18" id="c7V-eN-X4R"/>
                     <constraint firstAttribute="trailing" secondItem="zzU-0G-chd" secondAttribute="trailing" constant="16" id="cFG-8G-R0J"/>
                     <constraint firstItem="rQa-ge-4Pm" firstAttribute="leading" secondItem="nG4-Pk-zlc" secondAttribute="trailing" constant="13" id="ekO-yi-3oC"/>
+                    <constraint firstItem="OY1-WO-c4O" firstAttribute="top" secondItem="nG4-Pk-zlc" secondAttribute="bottom" constant="11" id="jg2-8K-EHd"/>
                     <constraint firstItem="zzU-0G-chd" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="p87-Wm-ovt"/>
                     <constraint firstItem="2i1-wD-H0Z" firstAttribute="top" secondItem="rQa-ge-4Pm" secondAttribute="bottom" constant="3" id="vzk-If-iw1"/>
                 </constraints>

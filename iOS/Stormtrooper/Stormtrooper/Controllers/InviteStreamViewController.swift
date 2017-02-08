@@ -41,10 +41,13 @@ class InviteStreamViewController: UIViewController {
             navigationItem.setRightBarButtonItems([skipItem], animated: false)
         }
         viewModel.fetchFriends(callback:{ (error: Error?) -> Void in
-            if error == nil {
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
+            DispatchQueue.main.async {
+                if let error = error {
+                    let alert = UIAlertController(title: "Error Loading Friends", message: error.localizedDescription, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .default))
+                    self.present(alert, animated: true)
                 }
+                self.tableView.reloadData()
             }
         })
     }
@@ -91,7 +94,7 @@ class InviteStreamViewController: UIViewController {
             navigationController?.pushViewController(streamVC, animated: true)
         }
         else { //not creating stream, so pop
-            navigationController?.popViewController(animated: true)
+            let _ = navigationController?.popViewController(animated: true)
         }
         viewModel.sendInvites(stream:stream, users:[User](viewModel.selectedFriends.values))
     }
@@ -108,7 +111,7 @@ class InviteStreamViewController: UIViewController {
         }
         
         let messageVC = MFMessageComposeViewController()
-        messageVC.body = "Download Together Stream to join my Stream: http://ibm.biz/BdsMEz";
+        messageVC.body = "Download Together Stream to join my Stream: http://ibm.biz/together-stream-invite-friends";
         messageVC.messageComposeDelegate = self
         present(messageVC, animated: true, completion: nil)
     }
@@ -119,7 +122,7 @@ class InviteStreamViewController: UIViewController {
         
         //mailComposerVC.setToRecipients([""])
         mailComposerVC.setSubject("Check this out!")
-        mailComposerVC.setMessageBody("Download Together Stream to join my Stream: http://ibm.biz/BdsMEz", isHTML: false)
+        mailComposerVC.setMessageBody("Download Together Stream to join my Stream: http://ibm.biz/together-stream-invite-friends", isHTML: false)
         
         if MFMailComposeViewController.canSendMail() {
             present(mailComposerVC, animated: true, completion: nil)
