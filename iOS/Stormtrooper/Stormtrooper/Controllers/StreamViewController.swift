@@ -539,7 +539,18 @@ class StreamViewController: UIViewController {
             }
         }
     }
-
+    
+    fileprivate func setHighlightForVideo(at row: Int, highlighted: Bool) {
+        // update the previous video (i.e. whether to hide its separator)
+        let previousIndexPath = IndexPath(row: row-1, section: 0)
+        let previousVideoCell = queueTableView.cellForRow(at: previousIndexPath) as? VideoQueueTableViewCell
+        previousVideoCell?.isPreviousVideo = highlighted
+        
+        // update the current video (i.e. whether to highlight it)
+        let indexPath = IndexPath(row: row, section: 0)
+        let videoCell = queueTableView.cellForRow(at: indexPath) as? VideoQueueTableViewCell
+        videoCell?.isCurrentVideo = highlighted
+    }
 }
 
 extension StreamViewController: StreamViewModelDelegate {
@@ -730,20 +741,9 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard viewModel.currentVideoIndex != indexPath.row else { return }
         guard let currentVideoIndex = viewModel.currentVideoIndex else { return }
-        
-        // remove highlight for the current video
-        let currentVideoIndexPath = IndexPath(row: currentVideoIndex, section: 0)
-        let currentVideoCell = tableView.cellForRow(at: currentVideoIndexPath) as? VideoQueueTableViewCell
-        currentVideoCell?.isCurrentVideo = false
-        
-        // add highlight for the selected video
-        let selectedVideoCell = tableView.cellForRow(at: indexPath) as? VideoQueueTableViewCell
-        selectedVideoCell?.isCurrentVideo = true
-        
-        // update the view model
+        setHighlightForVideo(at: currentVideoIndex, highlighted: false)
+        setHighlightForVideo(at: indexPath.row, highlighted: true)
         viewModel.currentVideoIndex = indexPath.row
-        
-        // play the selected video
         playerView.cueVideo(byId: viewModel.videoQueue?[indexPath.row].id ?? "", startSeconds: 0, suggestedQuality: .default)
         playerView.playVideo()
     }
@@ -885,24 +885,10 @@ extension StreamViewController: YTPlayerViewDelegate {
     private func playNextVideo() {
         guard let videoQueue = viewModel.videoQueue else { return }
         guard let currentVideoIndex = viewModel.currentVideoIndex else { return }
-        
-        // identify the next video (wrapping around, if necessary)
         let nextVideoIndex = currentVideoIndex < videoQueue.count-1 ? currentVideoIndex+1 : 0
-        
-        // remove highlight for the current video
-        let currentVideoIndexPath = IndexPath(row: currentVideoIndex, section: 0)
-        let currentVideoCell = queueTableView.cellForRow(at: currentVideoIndexPath) as? VideoQueueTableViewCell
-        currentVideoCell?.isCurrentVideo = false
-        
-        // add highlight for the next video
-        let nextVideoIndexPath = IndexPath(row: nextVideoIndex, section: 0)
-        let selectedVideoCell = queueTableView.cellForRow(at: nextVideoIndexPath) as? VideoQueueTableViewCell
-        selectedVideoCell?.isCurrentVideo = true
-        
-        // update view model
+        setHighlightForVideo(at: currentVideoIndex, highlighted: false)
+        setHighlightForVideo(at: nextVideoIndex, highlighted: true)
         viewModel.currentVideoIndex = nextVideoIndex
-        
-        // play the next video
         let nextVideoId = videoQueue[nextVideoIndex].id
         playerView.cueVideo(byId: nextVideoId, startSeconds: 0, suggestedQuality: .default)
         playerView.playVideo()
