@@ -30,8 +30,8 @@ class InviteStreamViewController: UIViewController {
 
         setupTableView()
 
-        // Show skip button when creating a stream
         if isCreatingStream {
+            // Show skip button when creating a stream
             let skipButton = UIButton(type: .custom)
             skipButton.setTitle("Skip", for: .normal)
             skipButton.frame = skipButtonFrame
@@ -39,14 +39,19 @@ class InviteStreamViewController: UIViewController {
             let skipItem = UIBarButtonItem(customView: skipButton)
 
             navigationItem.setRightBarButtonItems([skipItem], animated: false)
-        }
-        viewModel.fetchFriends(callback:{ (error: Error?) -> Void in
-            if error == nil {
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
+            
+            // Fetch friends to invite
+            viewModel.fetchFriends(callback:{ (error: Error?) -> Void in
+                if error == nil {
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                    }
                 }
-            }
-        })
+            })
+        }
+        else {
+            navigationItem.title = "Invite to App"
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -279,7 +284,7 @@ extension InviteStreamViewController: UITableViewDelegate, UITableViewDataSource
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.numberOfStaticCellsBeforeFriends + viewModel.facebookFriends.count
+        return viewModel.numberOfRows(ifCreatingStream: isCreatingStream)
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
