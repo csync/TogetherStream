@@ -10,8 +10,6 @@ import UIKit
 
 class VideoQueueTableViewCell: UITableViewCell {
     
-    @IBOutlet private weak var playImageView: UIImageView!
-    @IBOutlet private weak var numberLabel: UILabel!
     @IBOutlet private weak var thumbnailImageView: UIImageView!
     @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var channelLabel: UILabel!
@@ -21,12 +19,6 @@ class VideoQueueTableViewCell: UITableViewCell {
     
     private var _isPreviousVideo = false
     private var _isCurrentVideo = false
-    
-    /// The video's position in the playlist.
-    var number: String? {
-        get { return numberLabel.text }
-        set { numberLabel.text = newValue }
-    }
     
     /// The video's thumbnail.
     var thumbnail: UIImage? {
@@ -66,15 +58,11 @@ class VideoQueueTableViewCell: UITableViewCell {
             _isCurrentVideo = newValue
             if _isCurrentVideo {
                 // update design for current video
-                playImageView.isHidden = false
-                numberLabel.isHidden = true
                 backgroundColor = highlightedBackgroundColor
                 contentView.backgroundColor = highlightedBackgroundColor
                 separatorInset = UIEdgeInsetsMake(0, 0, 0, bounds.size.width)
             } else {
                 // update design for queued video
-                playImageView.isHidden = true
-                numberLabel.isHidden = true // TODO: set to false when moveRowAt updates the number
                 backgroundColor = unhighlightedBackgroundColor
                 contentView.backgroundColor = unhighlightedBackgroundColor
                 separatorInset = UIEdgeInsetsMake(0, 15, 0, 0)

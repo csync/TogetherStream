@@ -817,7 +817,6 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
                 return UITableViewCell()
         }
         
-        cell.number = "\(indexPath.row + 1)"
         cell.title = video.title
         cell.channel = video.channelTitle
         cell.isPreviousVideo = (currentVideoIndex-1 == indexPath.row)
