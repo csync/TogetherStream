@@ -398,6 +398,10 @@ class StreamViewController: UIViewController {
                 self.headerArrowImageView.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
             }, completion: { complete in
                 self.queueView.isHidden = false
+                if let currentVideoIndex = self.viewModel.currentVideoIndex {
+                    let currentVideoIndexPath = IndexPath(row: currentVideoIndex, section: 0)
+                    self.queueTableView.scrollToRow(at: currentVideoIndexPath, at: .top, animated: true)
+                }
             })
         }
         else {
