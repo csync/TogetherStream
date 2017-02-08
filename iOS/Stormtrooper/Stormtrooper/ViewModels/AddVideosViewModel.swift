@@ -44,8 +44,8 @@ class AddVideosViewModel {
         youtubeDataManager.fetchTrendingVideos() {error, videos in
             if let videos = videos {
                 self.videos = videos
-                callback(error, videos)
             }
+            callback(error, videos)
         }
 	}
 	
@@ -53,8 +53,8 @@ class AddVideosViewModel {
         youtubeDataManager.searchForVideos(withQuery: query) {error, videos in
             if let videos = videos {
                 self.videos = videos
-                callback(error, videos)
             }
+            callback(error, videos)
         }
 	}
     

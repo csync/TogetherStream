@@ -41,10 +41,13 @@ class InviteStreamViewController: UIViewController {
             navigationItem.setRightBarButtonItems([skipItem], animated: false)
         }
         viewModel.fetchFriends(callback:{ (error: Error?) -> Void in
-            if error == nil {
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
+            DispatchQueue.main.async {
+                if let error = error {
+                    let alert = UIAlertController(title: "Error Loading Friends", message: error.localizedDescription, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .default))
+                    self.present(alert, animated: true)
                 }
+                self.tableView.reloadData()
             }
         })
     }

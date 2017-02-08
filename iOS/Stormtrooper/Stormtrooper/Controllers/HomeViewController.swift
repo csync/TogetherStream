@@ -107,8 +107,17 @@ class HomeViewController: UIViewController {
     func refreshStreams(callback: ((Void) -> Void)? = nil) {
         viewModel.refreshStreams { error, streams in
             DispatchQueue.main.async {
-                self.streamsTableView.reloadData()
-                callback?()
+                if let error = error {
+                    let alert = UIAlertController(title: "Error Loading Streams", message: error.localizedDescription, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .default))
+                    self.present(alert, animated: true) {
+                        callback?()
+                    }
+                }
+                else {
+                    self.streamsTableView.reloadData()
+                    callback?()
+                }
             }
         }
     }
