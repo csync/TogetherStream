@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
         <array key="OpenSans-Regular.ttf">
             <string>OpenSans</string>
-        </array>
-        <array key="WorkSans-SemiBold.ttf">
-            <string>WorkSans-SemiBold</string>
         </array>
     </customFonts>
     <scenes>
@@ -29,63 +27,56 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4lj-p3-UCl">
-                                <rect key="frame" x="21" y="151" width="333" height="285"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to Together Stream" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HrK-kv-M2X">
-                                        <rect key="frame" x="20" y="127" width="293" height="31"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="293" id="0Ra-a7-FIt"/>
-                                            <constraint firstAttribute="height" constant="31" id="0UL-A1-uxh"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="WorkSans-SemiBold" family="Work Sans" pointSize="17"/>
-                                        <color key="textColor" red="0.88627450980392153" green="0.27843137254901962" blue="0.043137254901960784" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile_85" translatesAutoresizingMaskIntoConstraints="NO" id="Eac-cl-RPi">
-                                        <rect key="frame" x="111" y="0.0" width="110" height="110"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="110" id="gHH-7D-4g9"/>
-                                            <constraint firstAttribute="width" constant="110" id="ldR-Qh-tjG"/>
-                                        </constraints>
-                                    </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please sign in to join or create video streams." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NbB-hF-ZWu">
-                                        <rect key="frame" x="31" y="196" width="270" height="53"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="270" id="KxY-NF-InT"/>
-                                            <constraint firstAttribute="height" constant="53" id="skb-fe-UQu"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="17"/>
-                                        <color key="textColor" red="0.29019607843137252" green="0.29019607843137252" blue="0.29019607843137252" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="333" id="3xf-My-Lu5"/>
-                                    <constraint firstItem="HrK-kv-M2X" firstAttribute="centerX" secondItem="4lj-p3-UCl" secondAttribute="centerX" id="4cP-oP-Feq"/>
-                                    <constraint firstItem="HrK-kv-M2X" firstAttribute="centerY" secondItem="4lj-p3-UCl" secondAttribute="centerY" id="5eJ-ke-1mS"/>
-                                    <constraint firstItem="HrK-kv-M2X" firstAttribute="top" secondItem="Eac-cl-RPi" secondAttribute="bottom" constant="17" id="6ES-BK-hZj"/>
-                                    <constraint firstItem="NbB-hF-ZWu" firstAttribute="centerX" secondItem="4lj-p3-UCl" secondAttribute="centerX" id="Ikq-XK-vpU"/>
-                                    <constraint firstItem="Eac-cl-RPi" firstAttribute="top" secondItem="4lj-p3-UCl" secondAttribute="top" id="Lb2-8S-65q"/>
-                                    <constraint firstItem="NbB-hF-ZWu" firstAttribute="top" secondItem="HrK-kv-M2X" secondAttribute="bottom" constant="38" id="lNo-IB-r05"/>
-                                    <constraint firstItem="Eac-cl-RPi" firstAttribute="centerX" secondItem="4lj-p3-UCl" secondAttribute="centerX" id="wHC-58-BC3"/>
-                                </constraints>
-                            </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fp8-cs-CKk" customClass="FBSDKLoginButton">
-                                <rect key="frame" x="102" y="461" width="170" height="30"/>
+                                <rect key="frame" x="108" y="447" width="159" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="170" id="8KP-oB-xeh"/>
+                                    <constraint firstAttribute="width" constant="159" id="8KP-oB-xeh"/>
                                     <constraint firstAttribute="height" constant="30" id="cyG-q3-rHi"/>
                                 </constraints>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2dT-JB-OYJ">
+                                <rect key="frame" x="69" y="607" width="236" height="27"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="236" id="bU7-tG-gjL"/>
+                                    <constraint firstAttribute="height" constant="27" id="jt9-v7-tah"/>
+                                </constraints>
+                                <state key="normal" image="powered_csync_horizontal"/>
+                                <connections>
+                                    <action selector="csyncTapped:" destination="hKv-4v-Dy1" eventType="touchUpInside" id="AZi-Jf-Jcc"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="11" translatesAutoresizingMaskIntoConstraints="NO" id="NbB-hF-ZWu">
+                                <rect key="frame" x="45" y="306" width="285" height="53"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="53" id="skb-fe-UQu"/>
+                                </constraints>
+                                <string key="text">Discover and share the content you 
+love, together with friends.</string>
+                                <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="17"/>
+                                <color key="textColor" red="0.29019607843137252" green="0.29019607843137252" blue="0.29019607843137252" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="togetherstreamLogoStacked" translatesAutoresizingMaskIntoConstraints="NO" id="Eac-cl-RPi">
+                                <rect key="frame" x="51" y="154" width="272" height="107"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="107" id="gHH-7D-4g9"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="4lj-p3-UCl" firstAttribute="top" secondItem="Zmf-Ri-ms5" secondAttribute="bottom" constant="131" id="di9-Jo-vQe"/>
+                            <constraint firstItem="2dT-JB-OYJ" firstAttribute="centerX" secondItem="6Yc-wI-AJw" secondAttribute="centerX" id="4eW-qr-wV7"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="NbB-hF-ZWu" secondAttribute="trailing" constant="29" id="E71-jE-gZv"/>
+                            <constraint firstItem="Eac-cl-RPi" firstAttribute="leading" secondItem="6Yc-wI-AJw" secondAttribute="leadingMargin" constant="35" id="EWA-qo-csU"/>
+                            <constraint firstItem="NbB-hF-ZWu" firstAttribute="top" secondItem="Eac-cl-RPi" secondAttribute="bottom" constant="45" id="Xsa-ue-EO6"/>
+                            <constraint firstItem="jPW-Dj-L78" firstAttribute="top" secondItem="2dT-JB-OYJ" secondAttribute="bottom" constant="33" id="aLZ-aT-kqU"/>
+                            <constraint firstItem="NbB-hF-ZWu" firstAttribute="centerX" secondItem="6Yc-wI-AJw" secondAttribute="centerX" id="eY4-MK-je6"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Eac-cl-RPi" secondAttribute="trailing" constant="36" id="gvd-Tu-KRK"/>
                             <constraint firstItem="fp8-cs-CKk" firstAttribute="centerX" secondItem="6Yc-wI-AJw" secondAttribute="centerX" id="hiD-Mg-Jsh"/>
-                            <constraint firstItem="jPW-Dj-L78" firstAttribute="top" secondItem="fp8-cs-CKk" secondAttribute="bottom" constant="176" id="lbp-NO-Ni4"/>
-                            <constraint firstItem="4lj-p3-UCl" firstAttribute="centerX" secondItem="6Yc-wI-AJw" secondAttribute="centerX" id="oiN-qL-d9H"/>
+                            <constraint firstItem="Eac-cl-RPi" firstAttribute="centerX" secondItem="6Yc-wI-AJw" secondAttribute="centerX" id="m7v-uh-06v"/>
+                            <constraint firstItem="fp8-cs-CKk" firstAttribute="top" secondItem="NbB-hF-ZWu" secondAttribute="bottom" constant="88" id="s3Q-Vw-JwP"/>
+                            <constraint firstItem="NbB-hF-ZWu" firstAttribute="leading" secondItem="6Yc-wI-AJw" secondAttribute="leadingMargin" constant="29" id="sx5-RS-Xml"/>
+                            <constraint firstItem="Eac-cl-RPi" firstAttribute="top" secondItem="Zmf-Ri-ms5" secondAttribute="bottom" constant="134" id="vWE-a9-OP8"/>
                         </constraints>
                     </view>
                     <connections>
@@ -98,6 +89,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="profile_85" width="85" height="85"/>
+        <image name="powered_csync_horizontal" width="236" height="27"/>
+        <image name="togetherstreamLogoStacked" width="272" height="107"/>
     </resources>
 </document>
