@@ -789,14 +789,16 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
     
 	private func cellFor(queueTableView tableView: UITableView, at indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "queueCell") as? VideoQueueTableViewCell,
-            let video = viewModel.videoQueue?[indexPath.row] else {
+            let video = viewModel.videoQueue?[indexPath.row],
+            let currentVideoIndex = viewModel.currentVideoIndex else {
                 return UITableViewCell()
         }
         
         cell.number = "\(indexPath.row + 1)"
         cell.title = video.title
         cell.channel = video.channelTitle
-        cell.isCurrentVideo = (viewModel.currentVideoIndex == indexPath.row)
+        cell.isPreviousVideo = (currentVideoIndex-1 == indexPath.row)
+        cell.isCurrentVideo = (currentVideoIndex == indexPath.row)
         
         YouTubeDataManager.sharedInstance.getThumbnailForVideo(with: video.mediumThumbnailURL) {error, image in
             guard let image = image else { return }
