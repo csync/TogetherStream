@@ -15,6 +15,8 @@ class HomeViewController: UIViewController {
 	
 	fileprivate let viewModel = HomeViewModel()
     
+    private var profileID: String?
+    
     private let profileButtonFrame = CGRect(x: 0, y: 0, width: 23, height: 23)
 
     override func viewDidLoad() {
@@ -50,6 +52,10 @@ class HomeViewController: UIViewController {
     private func setupNavigationBar() {
         navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont(name: "WorkSans-Regular", size: 17) ?? UIFont.systemFont(ofSize: 17)]
         
+        let currentID = FacebookDataManager.sharedInstance.profile?.userID
+        guard profileID != currentID else { return }
+        
+        profileID = currentID
         let profileButton = UIButton(type: .custom)
         profileButton.frame = profileButtonFrame
         FacebookDataManager.sharedInstance.fetchProfilePictureForCurrentUser() {error, image in
