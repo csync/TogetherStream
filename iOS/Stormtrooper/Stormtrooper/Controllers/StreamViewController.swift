@@ -708,7 +708,7 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         switch tableView.tag {
         case chatTableTag: return false
-        case queueTableTag: return true
+        case queueTableTag: return indexPath.row != viewModel.currentVideoIndex
         default: return false
         }
     }
