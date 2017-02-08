@@ -551,6 +551,38 @@ class StreamViewController: UIViewController {
         let videoCell = queueTableView.cellForRow(at: indexPath) as? VideoQueueTableViewCell
         videoCell?.isCurrentVideo = highlighted
     }
+    
+    fileprivate func deleteVideo(at indexPath: IndexPath) {
+        guard let currentVideoIndex = viewModel.currentVideoIndex else { return }
+        let previousIndexPath = IndexPath(row: indexPath.row - 1, section: 0)
+        let nextIndexPath = IndexPath(row: indexPath.row + 1, section: 0)
+        
+        // deleted the previous video
+        if indexPath.row == currentVideoIndex - 1 {
+            let previousCell = queueTableView.cellForRow(at: previousIndexPath)
+            let previousVideoCell = previousCell as? VideoQueueTableViewCell
+            previousVideoCell?.isPreviousVideo = true
+        }
+        
+        // deleted the current video
+        if indexPath.row == currentVideoIndex {
+            guard let videoQueue = viewModel.videoQueue else { return }
+            setHighlightForVideo(at: nextIndexPath.row, highlighted: true)
+            viewModel.currentVideoIndex = nextIndexPath.row
+            let nextVideoId = videoQueue[nextIndexPath.row].id
+            playerView.cueVideo(byId: nextVideoId, startSeconds: 0, suggestedQuality: .default)
+            playerView.playVideo()
+        }
+        
+        // remove deleted video from queue and view model
+        queueTableView.beginUpdates()
+        queueTableView.deleteRows(at: [indexPath], with: .automatic)
+        viewModel.videoQueue?.remove(at: indexPath.row)
+        if currentVideoIndex > indexPath.row {
+            viewModel.currentVideoIndex = currentVideoIndex - 1
+        }
+        queueTableView.endUpdates()
+    }
 }
 
 extension StreamViewController: StreamViewModelDelegate {
@@ -685,14 +717,9 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete, indexPath.row != viewModel.currentVideoIndex {
-            tableView.beginUpdates()
-            viewModel.videoQueue?.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .automatic)
-            if viewModel.currentVideoIndex ?? 0 > indexPath.row {
-                viewModel.currentVideoIndex = (viewModel.currentVideoIndex ?? 0) - 1
-            }
-            tableView.endUpdates()
+        switch editingStyle {
+        case .delete: deleteVideo(at: indexPath)
+        default: break
         }
     }
 	
