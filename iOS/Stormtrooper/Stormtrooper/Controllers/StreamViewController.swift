@@ -718,6 +718,19 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
             viewModel.currentVideoIndex = currentVideoIndex + 1
         }
         
+        // update the row numbering
+        let first = min(sourceIndexPath.row, destinationIndexPath.row)
+        let last = max(sourceIndexPath.row, destinationIndexPath.row)
+        let update = (sourceIndexPath.row < destinationIndexPath.row) ? -1 : 1
+        for row in first...last {
+            let indexPath = IndexPath(row: row, section: 0)
+            if let cell = tableView.cellForRow(at: indexPath) as? VideoQueueTableViewCell {
+                if row == sourceIndexPath.row {
+                    cell.number = "\(destinationIndexPath.row + 1)" // set number of moved row
+                } else {
+                    cell.number = "\(row + 1 + update)" // set number of intermediate row
+                }
+            }
         }
     }
     
