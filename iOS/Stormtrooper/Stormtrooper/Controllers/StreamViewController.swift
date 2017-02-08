@@ -529,14 +529,18 @@ class StreamViewController: UIViewController {
     
     fileprivate func updateView(forVideoWithID id: String) {
         viewModel.getVideo(withID: id) {[weak self] error, video in
-            if let video = video {
-                DispatchQueue.main.async {
+            DispatchQueue.main.async {
+                if let video = video {
                     self?.videoTitleLabel.text = video.title
                     var subtitle = video.channelTitle
                     if let viewCount = video.viewCount {
                         subtitle += " - \(viewCount) views"
                     }
                     self?.videoSubtitleLabel.text = subtitle
+                }
+                else {
+                    self?.videoTitleLabel.text = "-"
+                    self?.videoSubtitleLabel.text = "-"
                 }
             }
         }
@@ -809,7 +813,9 @@ extension StreamViewController: YTPlayerViewDelegate {
     }
     
     func playerView(_ playerView: YTPlayerView, receivedError error: YTPlayerError) {
-        //error received
+        let alert = UIAlertController(title: "Recieved Error from Player", message: "\(error)", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
     }
     
     func playerView(_ playerView: YTPlayerView, didChangeTo quality: YTPlaybackQuality) {
