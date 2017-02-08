@@ -14,6 +14,8 @@ class VideoQueueTableViewCell: UITableViewCell {
     @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var channelLabel: UILabel!
     
+    var videoID: String?
+    
     private let highlightedBackgroundColor = UIColor(red: 59/255, green: 59/255, blue: 59/255, alpha: 1.0)
     private let unhighlightedBackgroundColor = UIColor(red: 40/255, green: 36/255, blue: 36/255, alpha: 1.0)
     

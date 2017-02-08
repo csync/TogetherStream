@@ -200,8 +200,6 @@ extension AddVideosViewController: UITableViewDataSource, UITableViewDelegate {
             return UITableViewCell()
         }
         let video = viewModel.videos[indexPath.row]
-        cell.titleLabel.text = video.title
-        cell.channelTitleLabel.text = video.channelTitle
         
         if viewModel.videoIsSelected(at: indexPath) {
             cell.addImageView.image = #imageLiteral(resourceName: "addedVideos")
@@ -210,10 +208,17 @@ extension AddVideosViewController: UITableViewDataSource, UITableViewDelegate {
             cell.addImageView.image = #imageLiteral(resourceName: "addVideos")
         }
         
-        viewModel.getThumbnailForVideo(with: video.mediumThumbnailURL) {error, thumbnail in
-            if let thumbnail = thumbnail {
-                DispatchQueue.main.async {
-                    cell.thumbnailImageView.image = thumbnail
+        if cell.videoID != video.id {
+            cell.videoID = video.id
+            cell.thumbnailImageView.image = nil
+            cell.titleLabel.text = video.title
+            cell.channelTitleLabel.text = video.channelTitle
+            
+            video.getMediumThumbnail {error, thumbnail in
+                if let thumbnail = thumbnail {
+                    DispatchQueue.main.async {
+                        cell.thumbnailImageView.image = thumbnail
+                    }
                 }
             }
         }

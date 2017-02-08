@@ -7,8 +7,9 @@
 //
 
 import Foundation
+import UIKit
 
-struct Video {
+class Video {
 
 	let id: String
 	let title: String
@@ -16,6 +17,9 @@ struct Video {
     let defaultThumbnailURL: URL
 	let channelTitle: String
     let viewCount: String?
+    
+    private var mediumThumbnail: UIImage?
+    private var defaultThumbnail: UIImage?
 	
     private static let numberFormatter: NumberFormatter = {
         let formatter = NumberFormatter()
@@ -75,6 +79,41 @@ struct Video {
 		self.channelTitle = channelTitle
         self.viewCount = nil
 	}
+    
+    func getMediumThumbnail(callback: @escaping (Error?, UIImage?) -> Void) {
+        if mediumThumbnail != nil {
+            callback(nil, mediumThumbnail)
+        }
+        else {
+            getThumbnailForVideo(with: mediumThumbnailURL) {[weak self] error, image in
+                self?.mediumThumbnail = image
+                callback(error, image)
+            }
+        }
+    }
+    
+    func getDefaultThumbnail(callback: @escaping (Error?, UIImage?) -> Void) {
+        if defaultThumbnail != nil {
+            callback(nil, defaultThumbnail)
+        }
+        else {
+            getThumbnailForVideo(with: defaultThumbnailURL) {[weak self] error, image in
+                self?.defaultThumbnail = image
+                callback(error, image)
+            }
+        }
+    }
+    
+    private func getThumbnailForVideo(with url: URL, callback: @escaping (Error?, UIImage?) -> Void) {
+        let task = URLSession.shared.dataTask(with: URLRequest(url: url)) {data, response, error in
+            guard let data = data, let image = UIImage(data: data) else {
+                callback(ServerError.unexpectedResponse, nil)
+                return
+            }
+            callback(nil, image)
+        }
+        task.resume()
+    }
 }
 
 extension Video: Hashable {

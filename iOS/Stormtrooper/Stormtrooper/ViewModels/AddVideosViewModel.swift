@@ -57,8 +57,4 @@ class AddVideosViewModel {
             callback(error, videos)
         }
 	}
-    
-    func getThumbnailForVideo(with url: URL, callback: @escaping (Error?, UIImage?) -> Void) {
-        youtubeDataManager.getThumbnailForVideo(with: url, callback: callback)
-    }
 }
