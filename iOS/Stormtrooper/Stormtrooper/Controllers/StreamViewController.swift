@@ -831,14 +831,18 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
                 return UITableViewCell()
         }
         
-        cell.title = video.title
-        cell.channel = video.channelTitle
-        cell.isPreviousVideo = (currentVideoIndex-1 == indexPath.row)
-        cell.isCurrentVideo = (currentVideoIndex == indexPath.row)
-        
-        YouTubeDataManager.sharedInstance.getThumbnailForVideo(with: video.mediumThumbnailURL) {error, image in
-            guard let image = image else { return }
-            cell.thumbnail = image
+        if cell.videoID != video.id {
+            cell.videoID = video.id
+            cell.thumbnail = nil
+            cell.title = video.title
+            cell.channel = video.channelTitle
+            cell.isPreviousVideo = (currentVideoIndex-1 == indexPath.row)
+            cell.isCurrentVideo = (currentVideoIndex == indexPath.row)
+            
+            video.getMediumThumbnail {error, image in
+                guard let image = image else { return }
+                cell.thumbnail = image
+            }
         }
         
         return cell
