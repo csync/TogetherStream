@@ -19,8 +19,8 @@ class InviteStreamViewModel {
 
     var selectedFriends: [String: User] = [:]
     
-    func numberOfRows(ifCreatingStream creatingStream: Bool) -> Int {
-        return creatingStream ? numberOfStaticCellsBeforeFriends + facebookFriends.count
+    func numberOfRows(ifCanInviteToStream canInviteToStream: Bool) -> Int {
+        return canInviteToStream ? numberOfStaticCellsBeforeFriends + facebookFriends.count
             : numberOfStaticCellsBeforeFriends - 1
     }
 

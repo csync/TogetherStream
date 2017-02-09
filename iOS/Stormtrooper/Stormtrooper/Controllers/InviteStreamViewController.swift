@@ -23,6 +23,7 @@ class InviteStreamViewController: UIViewController {
     // hold for streamVC
     var videoQueue: [Video]?
     var isCreatingStream = false
+    var canInviteToStream = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,7 +40,8 @@ class InviteStreamViewController: UIViewController {
             let skipItem = UIBarButtonItem(customView: skipButton)
 
             navigationItem.setRightBarButtonItems([skipItem], animated: false)
-            
+        }
+        if canInviteToStream {
             // Fetch friends to invite
             viewModel.fetchFriends(callback:{ (error: Error?) -> Void in
                 DispatchQueue.main.async {
@@ -51,9 +53,6 @@ class InviteStreamViewController: UIViewController {
                     self.tableView.reloadData()
                 }
             })
-        }
-        else {
-            navigationItem.title = "Invite to App"
         }
     }
 
@@ -287,7 +286,7 @@ extension InviteStreamViewController: UITableViewDelegate, UITableViewDataSource
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.numberOfRows(ifCreatingStream: isCreatingStream)
+        return viewModel.numberOfRows(ifCanInviteToStream: canInviteToStream)
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {

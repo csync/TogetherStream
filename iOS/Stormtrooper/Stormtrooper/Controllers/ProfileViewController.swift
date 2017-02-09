@@ -28,7 +28,16 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         let invite = ProfileRow(
             label: "Invite Friends to Together Stream",
             showDisclosure: true,
-            action: { self.pushViewController("inviteStream", from: "InviteStream") }
+            action: { self.pushViewController("inviteStream", from: "InviteStream")
+            {viewController in
+                guard let viewController = viewController as? InviteStreamViewController else {
+                    return
+                }
+                viewController.isCreatingStream = false
+                viewController.canInviteToStream = false
+                viewController.navigationItem.title = "Invite to App"
+            }
+        }
         )
         let about = ProfileRow(
             label: "About Together Stream",
@@ -123,9 +132,10 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     /// Push the view controller with the given identifier onto the stack
-    private func pushViewController(_ identifier: String, from storyboard: String = "Profile") {
+    private func pushViewController(_ identifier: String, from storyboard: String = "Profile", withConfiguration configure: ((UIViewController) -> Void)? = nil) {
         let storyboard = UIStoryboard(name: storyboard, bundle: nil)
         let viewController = storyboard.instantiateViewController(withIdentifier: identifier)
+        configure?(viewController)
         navigationController?.pushViewController(viewController, animated: true)
     }
     
