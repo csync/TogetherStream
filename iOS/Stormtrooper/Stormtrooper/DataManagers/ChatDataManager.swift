@@ -24,8 +24,9 @@ class ChatDataManager {
 	}
 	
 	func send(message: String) {
-		let sendKey = csyncDataManager.createKey(atPath: streamPath + ".chat." + UUID().uuidString)
-		sendKey.write("{\"id\":\"\(id)\", \"content\":\"\(message)\", \"timestamp\":\"\(Date.timeIntervalSinceReferenceDate)\"}")
+		let keyPath = streamPath + ".chat." + UUID().uuidString
+        let message = "{\"id\":\"\(id)\", \"content\":\"\(message)\", \"timestamp\":\"\(Date.timeIntervalSinceReferenceDate)\"}"
+		csyncDataManager.write(message, toKeyPath: keyPath, withACL: .PublicReadWrite)
 	}
 	
 	private func setupChatListner() {

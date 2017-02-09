@@ -18,8 +18,8 @@ class CSyncDataManager {
 		return App(host: self.csyncURL, port: self.csyncPort, options: ["useSSL":"NO" as AnyObject, "dbInMemory":"YES" as AnyObject])
 	}()
 	
-	func authenticate(withID id: String) {
-		app.authenticate("demo", token: "demoToken(\(id))") {authData, error in
+	func authenticate(withFBAccessToken fbAccessToken: String) {
+		app.authenticate("facebook", token: fbAccessToken) {authData, error in
 		}
 	}
 	
@@ -34,7 +34,11 @@ class CSyncDataManager {
 	
 	func deleteKey(atPath path: String) {
 		let key = app.key(path)
-        key.delete()
+        key.delete() {key, error in
+            if let error = error {
+                print(error)
+            }
+        }
 	}
 	
 	func createKey(atPath path: String) -> Key {
