@@ -14,16 +14,12 @@ class HomeViewController: UIViewController {
 	@IBOutlet weak var streamsTableView: UITableView!
 	
 	fileprivate let viewModel = HomeViewModel()
-    
     private var profileID: String?
-    
     private let profileButtonFrame = CGRect(x: 0, y: 0, width: 23, height: 23)
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
         setupTableView()
-        
 		viewModel.resetCurrentUserStream()
     }
     
@@ -37,16 +33,8 @@ class HomeViewController: UIViewController {
 	
 	override func viewWillDisappear(_ animated: Bool) {
 		super.viewWillDisappear(animated)
-		
 		viewModel.stopStreamsListening()
 	}
-    
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     
     ///Set bar button items and their actions programmatically
     private func setupNavigationBar() {
