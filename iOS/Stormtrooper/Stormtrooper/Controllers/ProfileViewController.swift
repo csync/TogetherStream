@@ -40,6 +40,11 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
             showDisclosure: true,
             action: { self.pushViewController("disclaimer") }
         )
+        let feedback = ProfileRow(
+            label: "Feedback",
+            showDisclosure: false,
+            action: { self.open(url: "https://ibm.biz/together-stream-feedback") }
+        )
         let privacy = ProfileRow(
             label: "Privacy Policy",
             showDisclosure: false,
@@ -58,7 +63,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
                 _ = self.navigationController?.popViewController(animated: true)
             }
         )
-        return [invite, about, disclaimer, privacy, licenses, signOut]
+        return [invite, about, disclaimer, feedback, privacy, licenses, signOut]
     }()
     
     // MARK: - View Controller Life Cycle
