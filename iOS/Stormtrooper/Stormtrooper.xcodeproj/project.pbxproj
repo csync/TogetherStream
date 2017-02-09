@@ -70,6 +70,7 @@
 		4ABA7DD21E3948B80059CA1F /* InviteStreamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABA7DD11E3948B80059CA1F /* InviteStreamViewModel.swift */; };
 		4AD6F7BC1E2D3755006104CF /* TextEmailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD6F7BA1E2D3755006104CF /* TextEmailTableViewCell.swift */; };
 		4AD6F7BD1E2D3755006104CF /* TextEmailTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4AD6F7BB1E2D3755006104CF /* TextEmailTableViewCell.xib */; };
+		688C745A1E4D2802007B14EE /* DisclaimerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 688C74591E4D2802007B14EE /* DisclaimerViewController.swift */; };
 		6898A7871E44015B000C58F5 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6898A7861E44015B000C58F5 /* AboutViewController.swift */; };
 		68991ECF1E411F7F00F5B4A0 /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68991ECD1E411F7F00F5B4A0 /* ProfileTableViewCell.swift */; };
 		68991ED01E411F7F00F5B4A0 /* ProfileTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68991ECE1E411F7F00F5B4A0 /* ProfileTableViewCell.xib */; };
@@ -205,6 +206,7 @@
 		4AD6F7BA1E2D3755006104CF /* TextEmailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextEmailTableViewCell.swift; sourceTree = "<group>"; };
 		4AD6F7BB1E2D3755006104CF /* TextEmailTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextEmailTableViewCell.xib; sourceTree = "<group>"; };
 		53540351F8E16A64AC80305B /* Pods-StormtrooperUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StormtrooperUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-StormtrooperUITests/Pods-StormtrooperUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		688C74591E4D2802007B14EE /* DisclaimerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisclaimerViewController.swift; sourceTree = "<group>"; };
 		6898A7861E44015B000C58F5 /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		68991ECD1E411F7F00F5B4A0 /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileTableViewCell.swift; sourceTree = "<group>"; };
 		68991ECE1E411F7F00F5B4A0 /* ProfileTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileTableViewCell.xib; sourceTree = "<group>"; };
@@ -437,6 +439,7 @@
 				34C6E5361DF23DBC00EB4972 /* ProfileViewController.swift */,
 				689A111F1E2FFF3900B87DEF /* PopupViewController.swift */,
 				6898A7861E44015B000C58F5 /* AboutViewController.swift */,
+				688C74591E4D2802007B14EE /* DisclaimerViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -974,6 +977,7 @@
 				A23377A91E01DDD500E43DA0 /* HeartbeatDataManager.swift in Sources */,
 				A25D962A1E1D92EB008FD996 /* StreamTableViewCell.swift in Sources */,
 				A2D44DBA1E301E9400053099 /* NoStreamsTableViewCell.swift in Sources */,
+				688C745A1E4D2802007B14EE /* DisclaimerViewController.swift in Sources */,
 				3401B4361E2EEA58005ACB96 /* UITextFieldExtension.swift in Sources */,
 				A25D96241E0B16BA008FD996 /* StreamViewModel.swift in Sources */,
 				A2C1BD7F1E23FA9400F515E7 /* Message.swift in Sources */,

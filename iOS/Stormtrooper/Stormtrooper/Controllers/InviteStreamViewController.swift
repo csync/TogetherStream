@@ -26,8 +26,8 @@ class InviteStreamViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
 
+        setupBackButton()
         setupTableView()
 
         if isCreatingStream {
@@ -61,10 +61,14 @@ class InviteStreamViewController: UIViewController {
         super.viewDidAppear(animated)
         UIView.setAnimationsEnabled(true)
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    private func setupBackButton() {
+        let backButton = UIButton(type: .custom)
+        backButton.setImage(#imageLiteral(resourceName: "back_stream"), for: .normal)
+        backButton.frame = CGRect(x: 0, y: 0, width: 17, height: 17)
+        backButton.addTarget(self, action: #selector(backTapped), for: .touchUpInside)
+        let backButtonItem = UIBarButtonItem(customView: backButton)
+        navigationItem.setLeftBarButtonItems([backButtonItem], animated: false)
     }
 
     private func setupTableView() {
@@ -77,16 +81,11 @@ class InviteStreamViewController: UIViewController {
         // add a zero-height footer to hide trailing empty cells
         tableView.tableFooterView = UIView()
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    
+    @objc private func backTapped() {
+        let _ = navigationController?.popViewController(animated: true)
     }
-    */
+
     @IBAction func doneTapped(_ sender: Any) {
         if isCreatingStream { //move to next screen in flow
             guard let streamVC = Utils.vcWithNameFromStoryboardWithName("stream", storyboardName: "Stream") as? StreamViewController else {

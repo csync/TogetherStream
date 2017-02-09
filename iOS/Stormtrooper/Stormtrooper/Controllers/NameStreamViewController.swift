@@ -25,7 +25,7 @@ class NameStreamViewController: UIViewController {
 	
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupNavigationBar()
+        setupBackButton()
         setupTextFields()
         setupAddVideosBanner()
     }
@@ -39,14 +39,14 @@ class NameStreamViewController: UIViewController {
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
-    private func setupNavigationBar() {
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+    private func setupBackButton() {
+        let backButton = UIButton(type: .custom)
+        backButton.setImage(#imageLiteral(resourceName: "back_stream"), for: .normal)
+        backButton.frame = CGRect(x: 0, y: 0, width: 17, height: 17)
+        backButton.addTarget(self, action: #selector(backTapped), for: .touchUpInside)
+        let backButtonItem = UIBarButtonItem(customView: backButton)
+        navigationItem.setLeftBarButtonItems([backButtonItem], animated: false)
     }
     
     private func setupTextFields() {
@@ -71,6 +71,10 @@ class NameStreamViewController: UIViewController {
         descriptionTextView.inputAccessoryView = accessoryView
     }
     
+    @objc private func backTapped() {
+        let _ = navigationController?.popViewController(animated: true)
+    }
+    
     @objc private func nameTextFieldDidChange() {
         if nameTextField.text?.characters.count ?? 0 > 0 {
             accessoryView.isHidden = false
@@ -79,17 +83,6 @@ class NameStreamViewController: UIViewController {
             accessoryView.isHidden = true
         }
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     @objc private func addVideosTapped(_ sender: Any) {
         guard let addVideosVC = Utils.vcWithNameFromStoryboardWithName("addVideos", storyboardName: "AddVideos") as? AddVideosViewController else {

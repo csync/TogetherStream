@@ -14,16 +14,11 @@ class HomeViewController: UIViewController {
 	@IBOutlet weak var streamsTableView: UITableView!
 	
 	fileprivate let viewModel = HomeViewModel()
-    
     private var profileID: String?
-    
-    private let profileButtonFrame = CGRect(x: 0, y: 0, width: 23, height: 23)
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
         setupTableView()
-        
 		viewModel.resetCurrentUserStream()
     }
     
@@ -31,33 +26,28 @@ class HomeViewController: UIViewController {
         super.viewDidAppear(animated)
         displayLoginIfNeeded()
         setupNavigationBar()
+        setupProfileButton()
         refreshStreams()
         UIView.setAnimationsEnabled(true)
     }
 	
 	override func viewWillDisappear(_ animated: Bool) {
 		super.viewWillDisappear(animated)
-		
 		viewModel.stopStreamsListening()
 	}
     
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    private func setupNavigationBar() {
+        navigationController?.navigationBar.titleTextAttributes = [
+            NSForegroundColorAttributeName: UIColor.white,
+            NSFontAttributeName: UIFont(name: "WorkSans-Regular", size: 17) ?? UIFont.systemFont(ofSize: 17)
+        ]
     }
     
-    
-    ///Set bar button items and their actions programmatically
-    private func setupNavigationBar() {
-        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont(name: "WorkSans-Regular", size: 17) ?? UIFont.systemFont(ofSize: 17)]
-        
-        let currentID = FacebookDataManager.sharedInstance.profile?.userID
-        guard profileID != currentID else { return }
-        
-        profileID = currentID
+    private func setupProfileButton() {
+        guard profileID != FacebookDataManager.sharedInstance.profile?.userID else { return }
+        profileID = FacebookDataManager.sharedInstance.profile?.userID
         let profileButton = UIButton(type: .custom)
-        profileButton.frame = profileButtonFrame
+        profileButton.frame = CGRect(x: 0, y: 0, width: 23, height: 23)
         FacebookDataManager.sharedInstance.fetchProfilePictureForCurrentUser() {error, image in
             DispatchQueue.main.async {
                 if let image = image {
@@ -70,12 +60,9 @@ class HomeViewController: UIViewController {
                 }
             }
         }
-        
         profileButton.addTarget(self, action: #selector(HomeViewController.profileTapped), for: .touchUpInside)
-        let item1 = UIBarButtonItem(customView: profileButton)
-        
-        navigationItem.setRightBarButtonItems([item1], animated: false)
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        let profileButtonItem = UIBarButtonItem(customView: profileButton)
+        navigationItem.rightBarButtonItem = profileButtonItem
     }
     
     private func setupTableView() {
