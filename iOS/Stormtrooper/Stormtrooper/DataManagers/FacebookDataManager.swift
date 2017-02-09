@@ -98,11 +98,7 @@ class FacebookDataManager {
 	
 	private init() {
 		NotificationCenter.default.addObserver(self, selector: #selector(accessTokenDidChange), name: NSNotification.Name.FBSDKAccessTokenDidChange, object: nil)
-		NotificationCenter.default.addObserver(self, selector: #selector(profileDidChange), name: NSNotification.Name.FBSDKProfileDidChange, object: nil)
-		
-		if let profile = profile {
-			csyncDataManager.authenticate(withID: profile.userID)
-		}
+		//NotificationCenter.default.addObserver(self, selector: #selector(profileDidChange), name: NSNotification.Name.FBSDKProfileDidChange, object: nil)
 	}
     
     deinit {
@@ -113,12 +109,7 @@ class FacebookDataManager {
 	@objc private func accessTokenDidChange(notification: Notification) {
 		if let accessToken = FBSDKAccessToken.current() {
 			accountDataManager.signup(withFacebookAccessToken: accessToken.tokenString)
-		}
-	}
-	
-	@objc private func profileDidChange(notification: Notification) {
-		if let profile = profile {
-			csyncDataManager.authenticate(withID: profile.userID)
+            csyncDataManager.authenticate(withFBAccessToken: accessToken.tokenString)
 		}
 	}
 	
