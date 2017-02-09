@@ -261,7 +261,7 @@ Together Stream is an app designed and developed by the IBM Mobile Innovation La
         <!--Disclaimer-->
         <scene sceneID="j1U-WH-Sz2">
             <objects>
-                <viewController storyboardIdentifier="disclaimer" title="Disclaimer" id="hx6-SB-dIN" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="disclaimer" title="Disclaimer" id="hx6-SB-dIN" customClass="DisclaimerViewController" customModule="Stormtrooper" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="6qq-eP-A3r"/>
                         <viewControllerLayoutGuide type="bottom" id="3gM-4C-e4Y"/>
