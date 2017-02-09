@@ -60,10 +60,6 @@ class InviteStreamViewController: UIViewController {
         super.viewDidAppear(animated)
         UIView.setAnimationsEnabled(true)
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     private func setupTableView() {
