@@ -32,7 +32,14 @@ class StreamViewModel {
         }
     }
     
-    var videoQueue: [Video]?
+    var videoQueue: [Video]? {
+        didSet {
+            // Set inital video
+            if videoQueue?.count ?? 0 > 0, let firstVideo = videoQueue?[0] {
+                send(currentVideoID: firstVideo.id)
+            }
+        }
+    }
     var currentVideoIndex: Int?
 	
 	var userCount: Int {
@@ -147,14 +154,16 @@ class StreamViewModel {
 	}
 	
 	func endStream() {
+        // Reset stream
+        cSyncDataManager.deleteKey(atPath: csyncPath + ".*.*")
+        cSyncDataManager.deleteKey(atPath: csyncPath + ".*")
+        // Set empty state
         cSyncDataManager.write("false", toKeyPath: "\(csyncPath).isPlaying")
 		cSyncDataManager.write("false", toKeyPath: "\(csyncPath).isActive")
         AccountDataManager.sharedInstance.deleteInvites()
 	}
 	
 	private func setupHost() {
-		// Reset stream
-		cSyncDataManager.deleteKey(atPath: csyncPath + ".*")
 		// Create node so others can listen to it
 		cSyncDataManager.write("", toKeyPath: csyncPath)
 		// Creat heartbeat node so others can create in it
@@ -163,6 +172,8 @@ class StreamViewModel {
 		cSyncDataManager.write("", toKeyPath: csyncPath + ".chat", withACL: .PublicReadCreate)
 		// Set stream to active
 		cSyncDataManager.write("true", toKeyPath: csyncPath + ".isActive")
+        // Set state of inital video
+        send(playState: false)
 		
 		NotificationCenter.default.addObserver(self, selector: #selector(recievedWillTerminateNotification), name: NSNotification.Name.UIApplicationWillTerminate, object: nil)
 	}

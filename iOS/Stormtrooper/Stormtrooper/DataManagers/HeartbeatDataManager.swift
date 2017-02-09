@@ -39,7 +39,7 @@ class HeartbeatDataManager {
 		heartbeatTimer = Timer.scheduledTimer(withTimeInterval: beatInterval, repeats: true) {[weak self] _ in
 			if let `self` = self {
 				let currentTime = String(Date.timeIntervalSinceReferenceDate)
-				self.csyncDataManager.write(currentTime, toKeyPath: self.userHeartbeatPath, withACL: .PublicReadWriteCreate)
+				self.csyncDataManager.write(currentTime, toKeyPath: self.userHeartbeatPath, withACL: .PublicReadWrite)
 			}
 		}
 	}
@@ -51,9 +51,6 @@ class HeartbeatDataManager {
 				print(error)
 			}
 			if let value = value {
-                if !value.exists {
-                    return
-                }
 				let userID = value.key.components(separatedBy: ".").last ?? ""
 				if value.exists == false {
 					self?.streamHeartbeats[userID] = nil
