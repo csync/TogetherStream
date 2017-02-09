@@ -142,8 +142,6 @@ class AddVideosViewController: UIViewController {
         }
     }
     
-    
-    
 
     /*
     // MARK: - Navigation
@@ -255,6 +253,9 @@ extension AddVideosViewController: UITableViewDataSource, UITableViewDelegate {
             nextButton.isHidden = false
             searchTableViewBottomConstraint.constant = nextButton.frame.height * -1
         }
+        
+        // hide keyboard if present
+        view.endEditing(true)
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -270,6 +271,11 @@ extension AddVideosViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return searchTableHeaderViewHeight
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        // hide keyboard if present
+        view.endEditing(true)
     }
 }
 
