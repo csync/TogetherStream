@@ -66,11 +66,6 @@ class AddVideosViewController: UIViewController {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self)
     }
-	
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
     fileprivate func showVideoAlert(with error: Error) {
         let alert = UIAlertController(title: "Error Loading Videos", message: error.localizedDescription, preferredStyle: .alert)
