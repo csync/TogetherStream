@@ -16,7 +16,6 @@ class AddVideosViewController: UIViewController {
     @IBOutlet weak var searchTableView: UITableView!
     @IBOutlet weak var nextButton: UIButton!
     @IBOutlet weak var searchTableViewBottomConstraint: NSLayoutConstraint!
-    @IBOutlet var touchRecognizer: UITapGestureRecognizer!
 	
     var stream: Stream?
     var isCreatingStream = false
