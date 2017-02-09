@@ -134,7 +134,7 @@ class HomeViewController: UIViewController {
         guard let inviteVC = Utils.vcWithNameFromStoryboardWithName("inviteStream", storyboardName: "InviteStream") as? InviteStreamViewController else {
             return
         }
-        inviteVC.navigationItem.title = "Invite to Stream"
+        inviteVC.navigationItem.title = "Invite to App"
         navigationController?.pushViewController(inviteVC, animated: true)
     }
 
