@@ -99,6 +99,9 @@ class FacebookDataManager {
 	private init() {
 		NotificationCenter.default.addObserver(self, selector: #selector(accessTokenDidChange), name: NSNotification.Name.FBSDKAccessTokenDidChange, object: nil)
 		//NotificationCenter.default.addObserver(self, selector: #selector(profileDidChange), name: NSNotification.Name.FBSDKProfileDidChange, object: nil)
+        if let accessToken = FBSDKAccessToken.current() {
+            csyncDataManager.authenticate(withFBAccessToken: accessToken.tokenString)
+        }
 	}
     
     deinit {
