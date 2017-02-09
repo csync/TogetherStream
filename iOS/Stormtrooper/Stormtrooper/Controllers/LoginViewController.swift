@@ -16,8 +16,6 @@ class LoginViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        
 		self.setupFacebookLogin()
     }
     
@@ -29,11 +27,6 @@ class LoginViewController: UIViewController {
     func setupFacebookLogin() {
         facebookDataManager.setupLoginButton(facebookLoginButton)
 		facebookLoginButton.delegate = self
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     @IBAction func csyncTapped(_ sender: Any) {
