@@ -13,6 +13,7 @@ class InviteStreamViewController: UIViewController {
 	
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet weak var doneButton: UIButton!
+    @IBOutlet weak var bottomLayoutConstraint: NSLayoutConstraint!
 
     fileprivate let viewModel = InviteStreamViewModel()
     private let skipButtonFrame = CGRect(x: 0, y: 0, width: 35, height: 17)
@@ -208,6 +209,7 @@ extension InviteStreamViewController: UITableViewDelegate, UITableViewDataSource
                     }
 
                     doneButton.isHidden = viewModel.selectedFriends.values.count == 0
+                    bottomLayoutConstraint.constant = doneButton.isHidden ? -doneButton.frame.height : 0
                 }
             }
         default:
