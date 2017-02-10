@@ -42,32 +42,42 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         let about = ProfileRow(
             label: "About Together Stream",
             showDisclosure: true,
-            action: { Utils.sendGoogleAnalyticsEvent(withCategory: "Profile", action: "SelectedAbout")
-                self.pushViewController("about") }
+            action: {
+                Utils.sendGoogleAnalyticsEvent(withCategory: "Profile", action: "SelectedAbout")
+                self.pushViewController("about")
+            }
         )
         let disclaimer = ProfileRow(
             label: "Disclaimer",
             showDisclosure: true,
-            action: { Utils.sendGoogleAnalyticsEvent(withCategory: "Profile", action: "SelectedDisclaimer")
-                self.pushViewController("disclaimer") }
+            action: {
+                Utils.sendGoogleAnalyticsEvent(withCategory: "Profile", action: "SelectedDisclaimer")
+                self.pushViewController("disclaimer")
+            }
         )
         let feedback = ProfileRow(
             label: "Feedback",
             showDisclosure: false,
-            action: { Utils.sendGoogleAnalyticsEvent(withCategory: "Profile", action: "SelectedFeedback")
-                self.open(url: "https://ibm.biz/together-stream-feedback") }
+            action: {
+                Utils.sendGoogleAnalyticsEvent(withCategory: "Profile", action: "SelectedFeedback")
+                self.open(url: "https://ibm.biz/together-stream-feedback")
+            }
         )
         let privacy = ProfileRow(
             label: "Privacy Policy",
             showDisclosure: false,
-            action: { Utils.sendGoogleAnalyticsEvent(withCategory: "Profile", action: "SelectedPrivacy")
-                self.open(url: "https://ibm.biz/together-stream-privacy-policy") }
+            action: {
+                Utils.sendGoogleAnalyticsEvent(withCategory: "Profile", action: "SelectedPrivacy")
+                self.open(url: "https://ibm.biz/together-stream-privacy-policy")
+            }
         )
         let licenses = ProfileRow(
             label: "Licenses",
             showDisclosure: false,
-            action: { Utils.sendGoogleAnalyticsEvent(withCategory: "Profile", action: "SelectedLicenses")
-                self.open(url: "https://ibm.biz/together-stream-licenses") }
+            action: {
+                Utils.sendGoogleAnalyticsEvent(withCategory: "Profile", action: "SelectedLicenses")
+                self.open(url: "https://ibm.biz/together-stream-licenses")
+            }
         )
         let signOut = ProfileRow(
             label: "Sign Out of Facebook",
