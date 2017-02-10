@@ -27,7 +27,8 @@ class InviteStreamViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        trackScreenView()
+        
         setupBackButton()
         setupTableView()
 
@@ -82,10 +83,14 @@ class InviteStreamViewController: UIViewController {
     }
     
     @objc private func backTapped() {
+        Utils.sendGoogleAnalyticsEvent(withCategory: "InviteStream", action: "SelectedBackButton")
         let _ = navigationController?.popViewController(animated: true)
     }
 
     @IBAction func doneTapped(_ sender: Any) {
+        let label = isCreatingStream ? "StreamBeingCreated" : "StreamAlreadyCreated"
+        Utils.sendGoogleAnalyticsEvent(withCategory: "InviteStream", action: "FinishedInvitedFriends", label: label, value: viewModel.selectedFriends.count as NSNumber)
+        viewModel.sendInvites(stream:stream, users:[User](viewModel.selectedFriends.values))
         if isCreatingStream { //move to next screen in flow
             guard let streamVC = Utils.vcWithNameFromStoryboardWithName("stream", storyboardName: "Stream") as? StreamViewController else {
                 return
@@ -99,7 +104,6 @@ class InviteStreamViewController: UIViewController {
         else { //not creating stream, so pop
             let _ = navigationController?.popViewController(animated: true)
         }
-        viewModel.sendInvites(stream:stream, users:[User](viewModel.selectedFriends.values))
     }
     
     func textTapped() {
@@ -113,6 +117,7 @@ class InviteStreamViewController: UIViewController {
             return
         }
         
+        Utils.sendGoogleAnalyticsEvent(withCategory: "InviteStream", action: "SelectedSendText")
         let messageVC = MFMessageComposeViewController()
         messageVC.body = "Download Together Stream to join my Stream: http://ibm.biz/together-stream-invite-friends";
         messageVC.messageComposeDelegate = self
@@ -128,6 +133,7 @@ class InviteStreamViewController: UIViewController {
         mailComposerVC.setMessageBody("Download Together Stream to join my Stream: http://ibm.biz/together-stream-invite-friends", isHTML: false)
         
         if MFMailComposeViewController.canSendMail() {
+            Utils.sendGoogleAnalyticsEvent(withCategory: "InviteStream", action: "SelectedSendMail")
             present(mailComposerVC, animated: true, completion: nil)
         } else {
             showSendMailErrorAlert()

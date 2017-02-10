@@ -15,7 +15,7 @@
  **/
 
 import UIKit
-
+import Google
 
 class Utils: NSObject {
 
@@ -214,5 +214,16 @@ class Utils: NSObject {
         task.resume()
     }
 
-
+    class func sendGoogleAnalyticsEvent(withCategory category: String, action: String? = nil, label: String? = nil, value: NSNumber? = nil) {
+        #if !DEBUG
+        guard
+            let event = GAIDictionaryBuilder.createEvent(
+                withCategory: category,
+                action: action,
+                label: label,
+                value: value)
+                .build() as NSDictionary as? [AnyHashable: Any] else { return}
+        GAI.sharedInstance().defaultTracker.send(event)
+        #endif
+    }
 }

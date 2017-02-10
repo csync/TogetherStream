@@ -102,6 +102,10 @@ class StreamViewModel {
             self.delegate?.userCountChanged(toCount: self.userCount)
             for userID in changedUsers {
                 if self.isHost {
+                    Utils.sendGoogleAnalyticsEvent(withCategory: "Stream",
+                                                   action: "UserCountChange",
+                                                   label: heartbeats.contains(userID) ? "Joining" : "Leaving",
+                                                   value: self.userCount as NSNumber)
                     if heartbeats.contains(userID) {
                         self.send(participantID: userID, isJoining: true)
                     }
