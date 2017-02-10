@@ -15,6 +15,13 @@ class AboutViewController: UIViewController {
         trackScreenView()
     }
     
+    override func willMove(toParentViewController parent: UIViewController?) {
+        super.willMove(toParentViewController: parent)
+        if parent == nil {
+            Utils.sendGoogleAnalyticsEvent(withCategory: "About", action: "SelectedBackButton")
+        }
+    }
+    
     private func open(url: String) {
         guard let url = URL(string: url) else { return }
         UIApplication.shared.open(url, options: [:], completionHandler: nil)

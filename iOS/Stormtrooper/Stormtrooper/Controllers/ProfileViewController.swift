@@ -106,6 +106,13 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         setupVersionNumber()
     }
     
+    override func willMove(toParentViewController parent: UIViewController?) {
+        super.willMove(toParentViewController: parent)
+        if parent == nil {
+            Utils.sendGoogleAnalyticsEvent(withCategory: "Profile", action: "SelectedBackButton")
+        }
+    }
+    
     // MARK: - Helper Functions
     
     /// Set the navigation items for this view controller
