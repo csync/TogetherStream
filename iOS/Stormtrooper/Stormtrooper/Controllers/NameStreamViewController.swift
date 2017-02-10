@@ -25,7 +25,6 @@ class NameStreamViewController: UIViewController {
 	
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupBackButton()
         setupTextFields()
         setupAddVideosBanner()
     }
@@ -40,13 +39,6 @@ class NameStreamViewController: UIViewController {
         NotificationCenter.default.removeObserver(self)
     }
     
-    private func setupBackButton() {
-        let backButton = UIButton(type: .custom)
-        backButton.setImage(#imageLiteral(resourceName: "back_stream"), for: .normal)
-        backButton.frame = CGRect(x: 0, y: 0, width: 17, height: 17)
-        backButton.addTarget(self, action: #selector(backTapped), for: .touchUpInside)
-        let backButtonItem = UIBarButtonItem(customView: backButton)
-        navigationItem.setLeftBarButtonItems([backButtonItem], animated: false)
     }
     
     private func setupTextFields() {
@@ -69,10 +61,6 @@ class NameStreamViewController: UIViewController {
         //actually set accessory view
         nameTextField.inputAccessoryView = accessoryView
         descriptionTextView.inputAccessoryView = accessoryView
-    }
-    
-    @objc private func backTapped() {
-        let _ = navigationController?.popViewController(animated: true)
     }
     
     @objc private func nameTextFieldDidChange() {
