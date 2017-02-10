@@ -15,27 +15,27 @@ class FriendTableViewCell: UITableViewCell {
 
     let unselectedImageSource = "addFriends.png"
     let selectedImageSource   = "addedContent.png"
-    var friendIsSelected = false
-    var associatedUser:User?
+    var friendIsSelected = false {
+        didSet {
+            if friendIsSelected {
+                if let image = UIImage(named: selectedImageSource) {
+                    DispatchQueue.main.async {
+                        self.selectionIndicator.image = image
+                    }
+                }
+            } else {
+                if let image = UIImage(named: unselectedImageSource) {
+                    DispatchQueue.main.async {
+                        self.selectionIndicator.image = image
+                    }
+
+                }
+            }
+        }
+    }
 
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
-
-    func onTap() {
-        friendIsSelected = !friendIsSelected
-
-        if (friendIsSelected) {
-            if let image = UIImage(named: selectedImageSource) {
-                selectionIndicator.image = image
-            }
-        } else {
-            if let image = UIImage(named: unselectedImageSource) {
-                selectionIndicator.image = image
-            }
-        }
-
-    }
-    
 }
