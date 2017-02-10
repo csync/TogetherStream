@@ -37,6 +37,13 @@ class NameStreamViewController: UIViewController {
         UIView.setAnimationsEnabled(true)
     }
     
+    override func willMove(toParentViewController parent: UIViewController?) {
+        super.willMove(toParentViewController: parent)
+        if parent == nil {
+            Utils.sendGoogleAnalyticsEvent(withCategory: "Name", action: "SelectedBackButton")
+        }
+    }
+    
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
