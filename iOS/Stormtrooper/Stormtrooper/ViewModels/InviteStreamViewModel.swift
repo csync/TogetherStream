@@ -23,6 +23,10 @@ class InviteStreamViewModel {
         return canInviteToStream ? numberOfStaticCellsBeforeFriends + facebookFriends.count
             : numberOfStaticCellsBeforeFriends - 1
     }
+    
+    func userCollectionIndexForCell(at indexPath: IndexPath) -> Int {
+        return indexPath.row - numberOfStaticCellsBeforeFriends
+    }
 
     func fetchFriends(callback: @escaping (Error?) -> Void) {
         let friendIds = FacebookDataManager.sharedInstance.cachedFriendIds
