@@ -88,7 +88,8 @@ class InviteStreamViewController: UIViewController {
     }
 
     @IBAction func doneTapped(_ sender: Any) {
-        Utils.sendGoogleAnalyticsEvent(withCategory: "InviteStream", action: "FinishedInvitedFriends", value: viewModel.selectedFriends.count as NSNumber)
+        let label = isCreatingStream ? "StreamBeingCreated" : "StreamAlreadyCreated"
+        Utils.sendGoogleAnalyticsEvent(withCategory: "InviteStream", action: "FinishedInvitedFriends", label: label, value: viewModel.selectedFriends.count as NSNumber)
         viewModel.sendInvites(stream:stream, users:[User](viewModel.selectedFriends.values))
         if isCreatingStream { //move to next screen in flow
             guard let streamVC = Utils.vcWithNameFromStoryboardWithName("stream", storyboardName: "Stream") as? StreamViewController else {

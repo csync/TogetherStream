@@ -303,7 +303,6 @@ class StreamViewController: UIViewController {
     }
     
     func cancelChatTapped() {
-        
         accessoryView.textField.resignFirstResponder()
         chatInputTextField.resignFirstResponder()
         
