@@ -33,7 +33,6 @@ class AddVideosViewController: UIViewController {
         setupSearchBar()
         setupTableView()
         setupNavigationBar()
-        setupBackButton()
         
         streamNameLabel.text = "\"\(stream?.name ?? "")\" Queue".localizedUppercase
         
@@ -94,19 +93,6 @@ class AddVideosViewController: UIViewController {
     
     private func setupNavigationBar() {
         navigationItem.titleView = UIImageView(image: #imageLiteral(resourceName: "youTube"))
-    }
-    
-    private func setupBackButton() {
-        let backButton = UIButton(type: .custom)
-        backButton.setImage(#imageLiteral(resourceName: "back_stream"), for: .normal)
-        backButton.frame = CGRect(x: 0, y: 0, width: 17, height: 17)
-        backButton.addTarget(self, action: #selector(backTapped), for: .touchUpInside)
-        let backButtonItem = UIBarButtonItem(customView: backButton)
-        navigationItem.setLeftBarButtonItems([backButtonItem], animated: false)
-    }
-    
-    @objc private func backTapped() {
-        let _ = navigationController?.popViewController(animated: true)
     }
 	
     @IBAction func doneTapped(_ sender: Any) {
