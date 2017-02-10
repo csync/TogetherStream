@@ -11,6 +11,7 @@ import UIKit
 class DisclaimerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        trackScreenView()
         setupBackButton()
     }
     
@@ -24,6 +25,7 @@ class DisclaimerViewController: UIViewController {
     }
     
     @objc private func backTapped() {
+        Utils.sendGoogleAnalyticsEvent(withCategory: "Disclaimer", action: "SelectedBackButton")
         let _ = navigationController?.popViewController(animated: true)
     }
 }

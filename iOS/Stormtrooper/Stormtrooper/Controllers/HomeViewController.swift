@@ -18,6 +18,7 @@ class HomeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        trackScreenView()
         setupTableView()
 		viewModel.resetCurrentUserStream()
     }
@@ -116,6 +117,7 @@ class HomeViewController: UIViewController {
     }
     
     @objc private func refresh(_ refreshControl: UIRefreshControl) {
+        Utils.sendGoogleAnalyticsEvent(withCategory: "Home", action: "PulledRefresh")
         refreshStreams() {
             DispatchQueue.main.async {
                 refreshControl.endRefreshing()
@@ -124,6 +126,7 @@ class HomeViewController: UIViewController {
     }
     
     @objc private func profileTapped() {
+        Utils.sendGoogleAnalyticsEvent(withCategory: "Home", action: "ProfileTapped")
         guard let profileVC = Utils.vcWithNameFromStoryboardWithName("profile", storyboardName: "Profile") as? ProfileViewController else {
             return
         }
@@ -133,6 +136,7 @@ class HomeViewController: UIViewController {
     }
     
     fileprivate func didSelectInviteFriends() {
+        Utils.sendGoogleAnalyticsEvent(withCategory: "Home", action: "PressedInviteFriends")
         guard let inviteVC = Utils.vcWithNameFromStoryboardWithName("inviteStream", storyboardName: "InviteStream") as? InviteStreamViewController else {
             return
         }
@@ -141,6 +145,7 @@ class HomeViewController: UIViewController {
     }
 
     @IBAction func startStreamTapped(_ sender: Any) {
+        Utils.sendGoogleAnalyticsEvent(withCategory: "Home", action: "PressedStartStream")
         guard let nameStreamVC = Utils.vcWithNameFromStoryboardWithName("nameStream", storyboardName: "NameStream") as? NameStreamViewController else {
             return
         }
@@ -218,6 +223,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        Utils.sendGoogleAnalyticsEvent(withCategory: "Home", action: "SelectedStreamInvite")
 		let stream = viewModel.streams[indexPath.row]
         guard let streamVC = Utils.vcWithNameFromStoryboardWithName("stream", storyboardName: "Stream") as? StreamViewController else {
             return
