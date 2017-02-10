@@ -117,7 +117,9 @@ class HomeViewController: UIViewController {
     
     @objc private func refresh(_ refreshControl: UIRefreshControl) {
         refreshStreams() {
-            refreshControl.endRefreshing()
+            DispatchQueue.main.async {
+                refreshControl.endRefreshing()
+            }
         }
     }
     
