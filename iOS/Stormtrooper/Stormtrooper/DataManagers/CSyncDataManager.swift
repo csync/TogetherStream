@@ -19,10 +19,16 @@ class CSyncDataManager {
 	}()
 	
     func authenticate(withFBAccessToken fbAccessToken: String, callback: @escaping (AuthData?, Error?) -> ()) {
-		app.authenticate("facebook", token: fbAccessToken) {authData, error in
+        app.authenticate("facebook", token: fbAccessToken) {authData, error in
             callback(authData, error)
-		}
+        }
 	}
+
+    func unauthenticate(callback: @escaping (Error?) -> ()) {
+        app.unauth() {error in
+            callback(error)
+        }
+    }
 	
 	func write(_ value: String, toKeyPath path: String, withACL acl: ACL = .PublicRead) {
 		let key = app.key(path)

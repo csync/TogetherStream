@@ -36,7 +36,6 @@ class FacebookDataManager {
     func logOut() {
         let loginManager = FBSDKLoginManager()
         loginManager.logOut()
-        FBSDKProfile.setCurrent(nil)
     }
 	
 	func fetchFriends(callback: @escaping (Error?, [User]?) -> Void) {
