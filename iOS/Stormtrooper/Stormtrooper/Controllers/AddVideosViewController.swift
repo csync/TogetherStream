@@ -33,8 +33,7 @@ class AddVideosViewController: UIViewController {
         
         setupSearchBar()
         setupTableView()
-        setupNavigationBar()
-        setupBackButton()
+        setupNavigationItems()
         
         streamNameLabel.text = "\"\(stream?.name ?? "")\" Queue".localizedUppercase
         
@@ -68,6 +67,13 @@ class AddVideosViewController: UIViewController {
         NotificationCenter.default.removeObserver(self)
     }
     
+    override func willMove(toParentViewController parent: UIViewController?) {
+        super.willMove(toParentViewController: parent)
+        if parent == nil {
+            Utils.sendGoogleAnalyticsEvent(withCategory: "AddVideos", action: "SelectedBackButton")
+        }
+    }
+    
     fileprivate func showVideoAlert(with error: Error) {
         let alert = UIAlertController(title: "Error Loading Videos", message: error.localizedDescription, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
@@ -93,22 +99,10 @@ class AddVideosViewController: UIViewController {
         searchTableView.separatorColor = UIColor.stormtrooperSeperatorGray
     }
     
-    private func setupNavigationBar() {
+    /// Set the navigation items for this view controller
+    private func setupNavigationItems() {
         navigationItem.titleView = UIImageView(image: #imageLiteral(resourceName: "youTube"))
-    }
-    
-    private func setupBackButton() {
-        let backButton = UIButton(type: .custom)
-        backButton.setImage(#imageLiteral(resourceName: "back_stream"), for: .normal)
-        backButton.frame = CGRect(x: 0, y: 0, width: 17, height: 17)
-        backButton.addTarget(self, action: #selector(backTapped), for: .touchUpInside)
-        let backButtonItem = UIBarButtonItem(customView: backButton)
-        navigationItem.setLeftBarButtonItems([backButtonItem], animated: false)
-    }
-    
-    @objc private func backTapped() {
-        Utils.sendGoogleAnalyticsEvent(withCategory: "AddVideos", action: "SelectedBackButton")
-        let _ = navigationController?.popViewController(animated: true)
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
 	
     @IBAction func doneTapped(_ sender: Any) {

@@ -42,32 +42,42 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         let about = ProfileRow(
             label: "About Together Stream",
             showDisclosure: true,
-            action: { Utils.sendGoogleAnalyticsEvent(withCategory: "Profile", action: "SelectedAbout")
-                self.pushViewController("about") }
+            action: {
+                Utils.sendGoogleAnalyticsEvent(withCategory: "Profile", action: "SelectedAbout")
+                self.pushViewController("about")
+            }
         )
         let disclaimer = ProfileRow(
             label: "Disclaimer",
             showDisclosure: true,
-            action: { Utils.sendGoogleAnalyticsEvent(withCategory: "Profile", action: "SelectedDisclaimer")
-                self.pushViewController("disclaimer") }
+            action: {
+                Utils.sendGoogleAnalyticsEvent(withCategory: "Profile", action: "SelectedDisclaimer")
+                self.pushViewController("disclaimer")
+            }
         )
         let feedback = ProfileRow(
             label: "Feedback",
             showDisclosure: false,
-            action: { Utils.sendGoogleAnalyticsEvent(withCategory: "Profile", action: "SelectedFeedback")
-                self.open(url: "https://ibm.biz/together-stream-feedback") }
+            action: {
+                Utils.sendGoogleAnalyticsEvent(withCategory: "Profile", action: "SelectedFeedback")
+                self.open(url: "https://ibm.biz/together-stream-feedback")
+            }
         )
         let privacy = ProfileRow(
             label: "Privacy Policy",
             showDisclosure: false,
-            action: { Utils.sendGoogleAnalyticsEvent(withCategory: "Profile", action: "SelectedPrivacy")
-                self.open(url: "https://ibm.biz/together-stream-privacy-policy") }
+            action: {
+                Utils.sendGoogleAnalyticsEvent(withCategory: "Profile", action: "SelectedPrivacy")
+                self.open(url: "https://ibm.biz/together-stream-privacy-policy")
+            }
         )
         let licenses = ProfileRow(
             label: "Licenses",
             showDisclosure: false,
-            action: { Utils.sendGoogleAnalyticsEvent(withCategory: "Profile", action: "SelectedLicenses")
-                self.open(url: "https://ibm.biz/together-stream-licenses") }
+            action: {
+                Utils.sendGoogleAnalyticsEvent(withCategory: "Profile", action: "SelectedLicenses")
+                self.open(url: "https://ibm.biz/together-stream-licenses")
+            }
         )
         let signOut = ProfileRow(
             label: "Sign Out of Facebook",
@@ -86,23 +96,25 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     override func viewDidLoad() {
         super.viewDidLoad()
         trackScreenView()
-        setupBackButton()
+        setupNavigationItems()
         setupProfilePicture()
         setupNameLabel()
         setupTableView()
         setupVersionNumber()
     }
     
+    override func willMove(toParentViewController parent: UIViewController?) {
+        super.willMove(toParentViewController: parent)
+        if parent == nil {
+            Utils.sendGoogleAnalyticsEvent(withCategory: "Profile", action: "SelectedBackButton")
+        }
+    }
+    
     // MARK: - Helper Functions
     
-    /// Set the back button to use a custom image
-    private func setupBackButton() {
-        let backButton = UIButton(type: .custom)
-        backButton.setImage(#imageLiteral(resourceName: "back_stream"), for: .normal)
-        backButton.frame = CGRect(x: 0, y: 0, width: 17, height: 17)
-        backButton.addTarget(self, action: #selector(backTapped), for: .touchUpInside)
-        let backButtonItem = UIBarButtonItem(customView: backButton)
-        navigationItem.setLeftBarButtonItems([backButtonItem], animated: false)
+    /// Set the navigation items for this view controller
+    private func setupNavigationItems() {
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
     /// Set the profile image view using the current user's Facebook profile picture
@@ -159,12 +171,6 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     private func open(url: String) {
         guard let url = URL(string: url) else { return }
         UIApplication.shared.open(url, options: [:], completionHandler: nil)
-    }
-    
-    /// Pop the view controller
-    @objc private func backTapped() {
-         Utils.sendGoogleAnalyticsEvent(withCategory: "Profile", action: "SelectedBackButton")
-        let _ = navigationController?.popViewController(animated: true)
     }
     
     // MARK: - UITableViewDataSource
