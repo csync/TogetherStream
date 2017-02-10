@@ -75,7 +75,20 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
             action: {
                 Utils.sendGoogleAnalyticsEvent(withCategory: "Profile", action: "SelectedSignOut")
                 self.facebookDataManager.logOut()
-                _ = self.navigationController?.popViewController(animated: true)
+                CSyncDataManager.sharedInstance.unauthenticate {error in
+                    DispatchQueue.main.async {
+                        guard error == nil else {
+                            let alert = UIAlertController(title: "Error Logging out",
+                                                          message: error!.localizedDescription,
+                                                          preferredStyle: .alert)
+                            alert.addAction(UIAlertAction(title: "OK", style: .default))
+                            self.present(alert, animated: true)
+                            return
+                        }
+                        
+                        _ = self.navigationController?.popViewController(animated: true)
+                    }
+                }
             }
         )
         return [invite, about, disclaimer, feedback, privacy, licenses, signOut]
