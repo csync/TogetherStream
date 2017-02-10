@@ -261,18 +261,16 @@ extension InviteStreamViewController: UITableViewDelegate, UITableViewDataSource
 
             let index = viewModel.userCollectionIndexForCell(at: indexPath)
 
-            if index >= 0 && index < viewModel.facebookFriends.count {
-                let friendData = viewModel.facebookFriends[index]
+            let friendData = viewModel.facebookFriends[index]
 
-                friendCell.name.text = friendData.name
-                friendData.fetchProfileImage { error, image in
-                    // Using main thread to set image properly
-                    DispatchQueue.main.async {
-                        friendCell.profilePicture.image = image
-                    }
+            friendCell.name.text = friendData.name
+            friendData.fetchProfileImage { error, image in
+                // Using main thread to set image properly
+                DispatchQueue.main.async {
+                    friendCell.profilePicture.image = image
                 }
-                friendCell.friendIsSelected = viewModel.selectedFriends[friendData.id] != nil
             }
+            friendCell.friendIsSelected = viewModel.selectedFriends[friendData.id] != nil
 
             friendCell.selectionStyle = .none
             return friendCell
