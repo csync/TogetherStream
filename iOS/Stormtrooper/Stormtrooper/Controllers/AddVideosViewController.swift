@@ -29,7 +29,8 @@ class AddVideosViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        trackScreenView()
+        
         setupSearchBar()
         setupTableView()
         setupNavigationBar()
@@ -106,10 +107,12 @@ class AddVideosViewController: UIViewController {
     }
     
     @objc private func backTapped() {
+        Utils.sendGoogleAnalyticsEvent(withCategory: "AddVideos", action: "SelectedBackButton")
         let _ = navigationController?.popViewController(animated: true)
     }
 	
     @IBAction func doneTapped(_ sender: Any) {
+        Utils.sendGoogleAnalyticsEvent(withCategory: "AddVideos", action: "AddedVideos", value: viewModel.selectedVideos.count as NSNumber?)
         if isCreatingStream { //move to next screen in flow
             delegate?.didAddVideos(selectedVideos: viewModel.selectedVideos)
             guard let inviteVC = Utils.vcWithNameFromStoryboardWithName("inviteStream", storyboardName: "InviteStream") as? InviteStreamViewController else {
@@ -139,6 +142,7 @@ class AddVideosViewController: UIViewController {
     }
     
     @objc private func pressedSearchClear() {
+        Utils.sendGoogleAnalyticsEvent(withCategory: "AddVideos", action: "PressedSearchClear")
         searchTextField.text = ""
         searchTextField.resignFirstResponder()
         viewModel.fetchTrendingVideos() {[weak self] error, videos in
@@ -172,6 +176,7 @@ extension AddVideosViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         let query = textField.text ?? ""
         if query.characters.count > 0 {
+            Utils.sendGoogleAnalyticsEvent(withCategory: "AddVideos", action: "PerformedSearch")
             viewModel.searchForVideos(withQuery: query) {[weak self] error, videos in
                 DispatchQueue.main.async {
                     if let error = error {

@@ -25,6 +25,7 @@ class NameStreamViewController: UIViewController {
 	
     override func viewDidLoad() {
         super.viewDidLoad()
+        trackScreenView()
         setupBackButton()
         setupTextFields()
         setupAddVideosBanner()
@@ -72,6 +73,7 @@ class NameStreamViewController: UIViewController {
     }
     
     @objc private func backTapped() {
+        Utils.sendGoogleAnalyticsEvent(withCategory: "Name", action: "SelectedBackButton")
         let _ = navigationController?.popViewController(animated: true)
     }
     
@@ -85,6 +87,10 @@ class NameStreamViewController: UIViewController {
     }
     
     @objc private func addVideosTapped(_ sender: Any) {
+        Utils.sendGoogleAnalyticsEvent(withCategory: "Name", action: "SelectedAddVideos")
+        Utils.sendGoogleAnalyticsEvent(withCategory: "Name", action: "DidAddDescription", value:
+            isDescriptionPlaceholder ? 0 : 1)
+        
         guard let addVideosVC = Utils.vcWithNameFromStoryboardWithName("addVideos", storyboardName: "AddVideos") as? AddVideosViewController else {
             return
         }
