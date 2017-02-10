@@ -36,7 +36,10 @@ class HomeViewController: UIViewController {
 		viewModel.stopStreamsListening()
 	}
     
+    /// Set the navigation bar for all view controllers in the navigation stack
     private func setupNavigationBar() {
+        navigationController?.navigationBar.backIndicatorImage = #imageLiteral(resourceName: "back_stream")
+        navigationController?.navigationBar.backIndicatorTransitionMaskImage = #imageLiteral(resourceName: "back_stream")
         navigationController?.navigationBar.titleTextAttributes = [
             NSForegroundColorAttributeName: UIColor.white,
             NSFontAttributeName: UIFont(name: "WorkSans-Regular", size: 17) ?? UIFont.systemFont(ofSize: 17)
