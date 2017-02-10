@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import Google
 
 extension UIViewController {
 
@@ -65,5 +66,14 @@ extension UIViewController {
         }
         
         return self
+    }
+    
+    func trackScreenView() {
+        #if !DEBUG
+        let tracker = GAI.sharedInstance().defaultTracker
+        tracker?.set(kGAIScreenName, value: String(describing: self))
+        let view = GAIDictionaryBuilder.createScreenView().build() as NSDictionary as? [AnyHashable: Any]
+        tracker?.send(view)
+        #endif
     }
 }

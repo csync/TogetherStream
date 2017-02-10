@@ -104,6 +104,7 @@ class StreamViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        trackScreenView()
         viewModel.delegate = self
 		
         setupNavigationItems()
@@ -298,6 +299,7 @@ class StreamViewController: UIViewController {
     }
     
     @IBAction func dismissViewTapped(_ sender: Any) {
+        Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "SelectedDismissChat")
         //dismiss view tapped, so dismiss keyboard if shown
         cancelChatTapped()
     }
@@ -305,6 +307,7 @@ class StreamViewController: UIViewController {
     
     
     @IBAction func expandButtonTapped(_ sender: Any) {
+        Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "SelectedExpandVideo")
         if statusBarHidden {
             returnPlayerViewToPortrait()
         }
@@ -315,6 +318,7 @@ class StreamViewController: UIViewController {
     
     
     func rotated() {
+        Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "RotatedScreen")
         if navigationController?.visibleViewController == self {
             switch UIDevice.current.orientation {
             case .landscapeLeft:
@@ -381,6 +385,7 @@ class StreamViewController: UIViewController {
         UIView.setAnimationsEnabled(true) //fix for animations breaking
         
         if queueView.isHidden {
+            Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "PressedHeader", label: "ExpandedQueue")
             headerViewHeightConstraint.constant = originalHeaderViewHeightConstraint + queueView.frame.height
             UIView.animate(withDuration: headerViewAnimationDuration, delay: 0, options: .curveEaseOut, animations: { _ in
                 self.view.layoutIfNeeded()
@@ -395,6 +400,7 @@ class StreamViewController: UIViewController {
             })
         }
         else {
+            Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "PressedHeader", label: "CollapsedQueue")
             self.queueView.isHidden = true
             headerViewHeightConstraint.constant = originalHeaderViewHeightConstraint
             UIView.animate(withDuration: headerViewAnimationDuration, delay: 0, options: .curveEaseOut, animations: { _ in
@@ -408,6 +414,7 @@ class StreamViewController: UIViewController {
     
     
     func inviteTapped() {
+        Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "SelectedInvite")
         guard let inviteVC = Utils.vcWithNameFromStoryboardWithName("inviteStream", storyboardName: "InviteStream") as? InviteStreamViewController else {
             return
         }
@@ -419,8 +426,10 @@ class StreamViewController: UIViewController {
 
     func closeTapped() {
         if viewModel.isHost {
+            Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "LeftStream", label: "host")
             closeTappedAsHost()
         } else {
+            Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "LeftStream", label: "participant")
             closeTappedAsParticipant()
         }
     }
@@ -459,6 +468,7 @@ class StreamViewController: UIViewController {
     }
 
     @IBAction func addToStreamTapped(_ sender: Any) {
+        Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "SelectedAddVideos")
         guard let addVideosVC = Utils.vcWithNameFromStoryboardWithName("addVideos", storyboardName: "AddVideos") as? AddVideosViewController else {
             return
         }
@@ -470,6 +480,7 @@ class StreamViewController: UIViewController {
     
     
     func chatInputActionTriggered() {
+        Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "SelectedSendText")
         var textToSend = ""
 		if let text = chatInputTextField.text {
 			textToSend = text
@@ -501,10 +512,12 @@ class StreamViewController: UIViewController {
 	}
     @IBAction func didToggleQueueEdit(_ sender: UIButton) {
         if queueTableView.isEditing {
+            Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "ToggleQueueEdit", label: "Finished")
             queueTableView.isEditing = false
             sender.setTitle("Edit", for: .normal)
         }
         else {
+            Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "ToggleQueueEdit", label: "Started")
             queueTableView.isEditing = true
             sender.setTitle("Done", for: .normal)
         }
@@ -652,6 +665,7 @@ extension StreamViewController: StreamViewModelDelegate {
 	}
 	
 	func streamEnded() {
+        Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "ReceivedStreamEnded")
         playerView.pauseVideo()
         
         // present popup with default user profile picture
@@ -717,7 +731,9 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         switch editingStyle {
-        case .delete: deleteVideo(at: indexPath)
+        case .delete:
+            Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "DeletedVideo")
+            deleteVideo(at: indexPath)
         default: break
         }
     }
@@ -739,6 +755,7 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "ReorderedVideo")
         guard let currentVideoIndex = viewModel.currentVideoIndex,
             let video = viewModel.videoQueue?.remove(at: sourceIndexPath.row) else {
                 return
@@ -770,6 +787,7 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
             let currentVideoIndex = viewModel.currentVideoIndex else {
                 return
         }
+         Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "SelectedVideoToPlay")
         setHighlightForVideo(at: currentVideoIndex, highlighted: false)
         setHighlightForVideo(at: indexPath.row, highlighted: true)
         viewModel.currentVideoIndex = indexPath.row
@@ -850,6 +868,7 @@ extension StreamViewController: YTPlayerViewDelegate {
     }
     
     func playerView(_ playerView: YTPlayerView, receivedError error: YTPlayerError) {
+        Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "RecievedPlayerError", label: "\(error)")
         let alert = UIAlertController(title: "Recieved Error from Player", message: "\(error)", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
@@ -919,6 +938,7 @@ extension StreamViewController: YTPlayerViewDelegate {
     }
     
     private func playNextVideo() {
+         Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "NextVideoPlayed")
         guard let videoQueue = viewModel.videoQueue else { return }
         guard let currentVideoIndex = viewModel.currentVideoIndex else { return }
         let nextVideoIndex = currentVideoIndex < videoQueue.count-1 ? currentVideoIndex+1 : 0
