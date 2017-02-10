@@ -26,6 +26,7 @@ class HomeViewController: UIViewController {
         super.viewDidAppear(animated)
         displayLoginIfNeeded()
         setupNavigationBar()
+        setupNavigationItems()
         setupProfileButton()
         refreshStreams()
         UIView.setAnimationsEnabled(true)
@@ -44,6 +45,11 @@ class HomeViewController: UIViewController {
             NSForegroundColorAttributeName: UIColor.white,
             NSFontAttributeName: UIFont(name: "WorkSans-Regular", size: 17) ?? UIFont.systemFont(ofSize: 17)
         ]
+    }
+    
+    /// Set the navigation items for this view controller
+    private func setupNavigationItems() {
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
     private func setupProfileButton() {
