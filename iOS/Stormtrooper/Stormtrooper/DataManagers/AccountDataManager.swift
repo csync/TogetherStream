@@ -100,19 +100,28 @@ class AccountDataManager {
 		}
 	}
 	
-	func signup(withFacebookAccessToken accessToken: String) {
+    func signup(withFacebookAccessToken accessToken: String, callback: @escaping (Error?) -> Void) {
 		guard let url = URL(string: serverAddress + "/auth/facebook/token/login") else {
+            callback(ServerError.cannotFormURL)
 			return
 		}
 		var request = URLRequest(url: url)
 		request.addValue(accessToken, forHTTPHeaderField: "access_token")
 		let task = urlSession.dataTask(with: request) {data,response,error in
-			if let url = response?.url {
-				let queryItems = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems
-				let token = queryItems?.first(where: {$0.name == "access_token"})
-				self.serverAccessToken = token?.value
-				self.postDeviceTokenToServer()
-			}
+            guard error == nil else { callback(error); return }
+            guard let url = response?.url,
+                let queryItems = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems,
+                let token = queryItems.first(where: {$0.name == "access_token"}) else {
+                    callback(ServerError.unexpectedResponse)
+                    return
+            }
+            self.serverAccessToken = token.value
+            self.postDeviceTokenToServer() {error in
+                if let error = error {
+                    print(error.localizedDescription)
+                }
+            }
+            callback(nil)
 		}
 		task.resume()
 	}
@@ -121,15 +130,22 @@ class AccountDataManager {
 		_serverAccessToken = UserDefaults().string(forKey: "server_access_token")
 	}
 	
-	private func postDeviceTokenToServer() {
-		guard let serverAccessToken = serverAccessToken, let deviceToken = UserDefaults.standard.object(forKey: "deviceToken") as? String, let url = URL(string: serverAddress + "/invites/device-token?access_token=" + serverAccessToken) else {
+    private func postDeviceTokenToServer(callback: @escaping (Error?) -> Void) {
+        guard let deviceToken = UserDefaults.standard.object(forKey: "deviceToken") as? String else {
+            callback(ServerError.cannotGetDeviceToken)
+            return
+        }
+		guard let serverAccessToken = serverAccessToken, let url = URL(string: serverAddress + "/invites/device-token?access_token=" + serverAccessToken) else {
+            callback(ServerError.cannotFormURL)
 			return
 		}
 		var request = URLRequest(url: url)
 		request.httpMethod = "POST"
 		request.addValue("application/json", forHTTPHeaderField: "Content-Type")
 		request.httpBody = try? JSONSerialization.data(withJSONObject: ["token": deviceToken])
-		sendToServer(request: request){_,_,_ in}
+		sendToServer(request: request){data, response, error in
+            callback(error)
+        }
 		
 	}
 	
