@@ -18,8 +18,9 @@ class CSyncDataManager {
 		return App(host: self.csyncURL, port: self.csyncPort, options: ["useSSL":"NO" as AnyObject, "dbInMemory":"YES" as AnyObject])
 	}()
 	
-	func authenticate(withFBAccessToken fbAccessToken: String) {
+    func authenticate(withFBAccessToken fbAccessToken: String, callback: @escaping (AuthData?, Error?) -> ()) {
 		app.authenticate("facebook", token: fbAccessToken) {authData, error in
+            callback(authData, error)
 		}
 	}
 	

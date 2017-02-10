@@ -17,6 +17,9 @@ class FacebookDataManager {
 	var profile: FBSDKProfile? {
 		return FBSDKProfile.current() ?? nil
 	 }
+    var accessToken: String? {
+        return FBSDKAccessToken.current()?.tokenString
+    }
     var cachedFriendIds: [String] = []
     var userCache: [String: User] = [:]
 	
@@ -97,25 +100,21 @@ class FacebookDataManager {
 	}
 	
 	private init() {
-		NotificationCenter.default.addObserver(self, selector: #selector(accessTokenDidChange), name: NSNotification.Name.FBSDKAccessTokenDidChange, object: nil)
-        // Add method to call when the FB profile finishes loading
+        // Methods for when access token and profile changes
+		//NotificationCenter.default.addObserver(self, selector: #selector(accessTokenDidChange), name: NSNotification.Name.FBSDKAccessTokenDidChange, object: nil)
 		//NotificationCenter.default.addObserver(self, selector: #selector(profileDidChange), name: NSNotification.Name.FBSDKProfileDidChange, object: nil)
         if let accessToken = FBSDKAccessToken.current() {
-            csyncDataManager.authenticate(withFBAccessToken: accessToken.tokenString)
+            csyncDataManager.authenticate(withFBAccessToken: accessToken.tokenString) {authData, error in
+                if let error = error {
+                    print(error)
+                }
+            }
         }
 	}
     
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
-	
-	
-	@objc private func accessTokenDidChange(notification: Notification) {
-		if let accessToken = FBSDKAccessToken.current() {
-			accountDataManager.signup(withFacebookAccessToken: accessToken.tokenString)
-            csyncDataManager.authenticate(withFBAccessToken: accessToken.tokenString)
-		}
-	}
 	
 	private func innerFetchFriends(withAfterCursor afterCursor: String?, friends: [User], callback: @escaping (Error?, [User]?) -> Void) {
 		var afterCursor = afterCursor
