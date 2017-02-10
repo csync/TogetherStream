@@ -67,6 +67,13 @@ class AddVideosViewController: UIViewController {
         NotificationCenter.default.removeObserver(self)
     }
     
+    override func willMove(toParentViewController parent: UIViewController?) {
+        super.willMove(toParentViewController: parent)
+        if parent == nil {
+            Utils.sendGoogleAnalyticsEvent(withCategory: "AddVideos", action: "SelectedBackButton")
+        }
+    }
+    
     fileprivate func showVideoAlert(with error: Error) {
         let alert = UIAlertController(title: "Error Loading Videos", message: error.localizedDescription, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))

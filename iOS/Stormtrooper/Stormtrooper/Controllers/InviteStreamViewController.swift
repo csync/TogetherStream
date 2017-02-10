@@ -61,6 +61,13 @@ class InviteStreamViewController: UIViewController {
         UIView.setAnimationsEnabled(true)
     }
     
+    override func willMove(toParentViewController parent: UIViewController?) {
+        super.willMove(toParentViewController: parent)
+        if parent == nil {
+            Utils.sendGoogleAnalyticsEvent(withCategory: "InviteStream", action: "SelectedBackButton")
+        }
+    }
+    
     /// Set the navigation items for this view controller
     private func setupNavigationItems() {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
