@@ -318,7 +318,7 @@ class StreamViewController: UIViewController {
     
     
     @IBAction func expandButtonTapped(_ sender: Any) {
-        Utils.sendGoogleAnalyticsEvent(withCategory: "AddVideos", action: "SelectedExpandVideo")
+        Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "SelectedExpandVideo")
         if statusBarHidden {
             returnPlayerViewToPortrait()
         }
@@ -329,7 +329,7 @@ class StreamViewController: UIViewController {
     
     
     func rotated() {
-        Utils.sendGoogleAnalyticsEvent(withCategory: "AddVideos", action: "RotatedScreen")
+        Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "RotatedScreen")
         if navigationController?.visibleViewController == self {
             switch UIDevice.current.orientation {
             case .landscapeLeft:
@@ -396,7 +396,7 @@ class StreamViewController: UIViewController {
         UIView.setAnimationsEnabled(true) //fix for animations breaking
         
         if queueView.isHidden {
-            Utils.sendGoogleAnalyticsEvent(withCategory: "AddVideos", action: "PressedHeader", label: "ExpandedQueue")
+            Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "PressedHeader", label: "ExpandedQueue")
             headerViewHeightConstraint.constant = originalHeaderViewHeightConstraint + queueView.frame.height
             UIView.animate(withDuration: headerViewAnimationDuration, delay: 0, options: .curveEaseOut, animations: { _ in
                 self.view.layoutIfNeeded()
@@ -411,7 +411,7 @@ class StreamViewController: UIViewController {
             })
         }
         else {
-            Utils.sendGoogleAnalyticsEvent(withCategory: "AddVideos", action: "PressedHeader", label: "CollapsedQueue")
+            Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "PressedHeader", label: "CollapsedQueue")
             self.queueView.isHidden = true
             headerViewHeightConstraint.constant = originalHeaderViewHeightConstraint
             UIView.animate(withDuration: headerViewAnimationDuration, delay: 0, options: .curveEaseOut, animations: { _ in
