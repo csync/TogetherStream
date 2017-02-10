@@ -32,7 +32,7 @@ class AddVideosViewController: UIViewController {
 
         setupSearchBar()
         setupTableView()
-        setupNavigationBar()
+        setupNavigationItems()
         
         streamNameLabel.text = "\"\(stream?.name ?? "")\" Queue".localizedUppercase
         
@@ -91,8 +91,10 @@ class AddVideosViewController: UIViewController {
         searchTableView.separatorColor = UIColor.stormtrooperSeperatorGray
     }
     
-    private func setupNavigationBar() {
+    /// Set the navigation items for this view controller
+    private func setupNavigationItems() {
         navigationItem.titleView = UIImageView(image: #imageLiteral(resourceName: "youTube"))
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
 	
     @IBAction func doneTapped(_ sender: Any) {
