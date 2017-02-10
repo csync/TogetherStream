@@ -107,7 +107,7 @@ class StreamViewController: UIViewController {
         trackScreenView()
         viewModel.delegate = self
 		
-        setupNavigationBar()
+        setupNavigationItems()
         setupChatTableView()
         setupQueueTableView()
         setupPlayerView()
@@ -116,38 +116,28 @@ class StreamViewController: UIViewController {
         setupViewForHostOrParticipant()
         setupConstraints()
         
-		
         NotificationCenter.default.addObserver(self, selector: #selector(StreamViewController.rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
-		
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         UIView.setAnimationsEnabled(true)
-        
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupPlayerViewFrame()
-        
     }
 	
 	override func viewWillDisappear(_ animated: Bool) {
 		super.viewWillDisappear(animated)
-		
 		if isBeingDismissed {
 			NotificationCenter.default.removeObserver(self)
 		}
 	}
-	
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
-    private func setupNavigationBar() {
+    /// Set the navigation items for this view controller
+    private func setupNavigationItems() {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
