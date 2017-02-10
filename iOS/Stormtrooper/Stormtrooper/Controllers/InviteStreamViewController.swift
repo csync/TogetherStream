@@ -28,6 +28,7 @@ class InviteStreamViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setupNavigationItems()
         setupTableView()
 
         if isCreatingStream {
@@ -60,6 +61,9 @@ class InviteStreamViewController: UIViewController {
         UIView.setAnimationsEnabled(true)
     }
     
+    /// Set the navigation items for this view controller
+    private func setupNavigationItems() {
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
 
     private func setupTableView() {
