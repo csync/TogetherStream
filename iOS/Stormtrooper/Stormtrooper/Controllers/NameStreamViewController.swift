@@ -25,6 +25,7 @@ class NameStreamViewController: UIViewController {
 	
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupNavigationItems()
         setupTextFields()
         setupAddVideosBanner()
     }
@@ -39,6 +40,9 @@ class NameStreamViewController: UIViewController {
         NotificationCenter.default.removeObserver(self)
     }
     
+    /// Set the navigation items for this view controller
+    private func setupNavigationItems() {
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
     private func setupTextFields() {
