@@ -106,7 +106,7 @@ class StreamViewController: UIViewController {
         super.viewDidLoad()
         viewModel.delegate = self
 		
-        setupNavigationBar()
+        setupNavigationItems()
         setupChatTableView()
         setupQueueTableView()
         setupPlayerView()
@@ -135,7 +135,8 @@ class StreamViewController: UIViewController {
 		}
 	}
     
-    private func setupNavigationBar() {
+    /// Set the navigation items for this view controller
+    private func setupNavigationItems() {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
