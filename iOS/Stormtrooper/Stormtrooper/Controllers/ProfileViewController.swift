@@ -70,17 +70,18 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
             action: {
                 self.facebookDataManager.logOut()
                 CSyncDataManager.sharedInstance.unauthenticate {error in
-                    guard error == nil else {
-                        DispatchQueue.main.async {
+                    DispatchQueue.main.async {
+                        guard error == nil else {
                             let alert = UIAlertController(title: "Error Logging out",
                                                           message: error!.localizedDescription,
                                                           preferredStyle: .alert)
                             alert.addAction(UIAlertAction(title: "OK", style: .default))
                             self.present(alert, animated: true)
+                            return
                         }
-                        return
+                        
+                        _ = self.navigationController?.popViewController(animated: true)
                     }
-                    _ = self.navigationController?.popViewController(animated: true)
                 }
             }
         )
