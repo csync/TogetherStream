@@ -79,6 +79,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupNavigationItems()
         setupProfilePicture()
         setupNameLabel()
         setupTableView()
@@ -87,6 +88,9 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     
     // MARK: - Helper Functions
     
+    /// Set the navigation items for this view controller
+    private func setupNavigationItems() {
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
     /// Set the profile image view using the current user's Facebook profile picture
