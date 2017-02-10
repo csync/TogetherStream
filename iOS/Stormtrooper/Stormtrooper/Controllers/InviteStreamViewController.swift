@@ -206,17 +206,17 @@ extension InviteStreamViewController: UITableViewDelegate, UITableViewDataSource
         case viewModel.numberOfStaticCellsBeforeFriends...tableRowsNum:
             // Placed
             if let friendCell = tableView.cellForRow(at: indexPath) as? FriendTableViewCell {
-                friendCell.onTap()
-                if let associatedUser = friendCell.associatedUser {
-                    if friendCell.friendIsSelected {
-                        viewModel.selectedFriends[associatedUser.id] = associatedUser
-                    } else {
-                        viewModel.selectedFriends[associatedUser.id] = nil
-                    }
-
-                    doneButton.isHidden = viewModel.selectedFriends.values.count == 0
-                    bottomLayoutConstraint.constant = doneButton.isHidden ? -doneButton.frame.height : 0
+                friendCell.friendIsSelected = !friendCell.friendIsSelected
+                let index = viewModel.userCollectionIndexForCell(at: indexPath)
+                let friendData = viewModel.facebookFriends[index]
+                if friendCell.friendIsSelected {
+                    viewModel.selectedFriends[friendData.id] = friendData
+                } else {
+                    viewModel.selectedFriends[friendData.id] = nil
                 }
+
+                doneButton.isHidden = viewModel.selectedFriends.values.count == 0
+                bottomLayoutConstraint.constant = doneButton.isHidden ? -doneButton.frame.height : 0
             }
         default:
             // Do nothing
@@ -259,20 +259,18 @@ extension InviteStreamViewController: UITableViewDelegate, UITableViewDataSource
                 return UITableViewCell()
             }
 
-            let index = indexPath.item - viewModel.numberOfStaticCellsBeforeFriends
+            let index = viewModel.userCollectionIndexForCell(at: indexPath)
 
-            if index >= 0 && index < viewModel.facebookFriends.count {
-                let friendData = viewModel.facebookFriends[index]
+            let friendData = viewModel.facebookFriends[index]
 
-                friendCell.name.text = friendData.name
-                friendCell.associatedUser = friendData
-                friendCell.associatedUser?.fetchProfileImage { error, image in
-                    // Using main thread to set image properly
-                    DispatchQueue.main.async {
-                        friendCell.profilePicture.image = image
-                    }
+            friendCell.name.text = friendData.name
+            friendData.fetchProfileImage { error, image in
+                // Using main thread to set image properly
+                DispatchQueue.main.async {
+                    friendCell.profilePicture.image = image
                 }
             }
+            friendCell.friendIsSelected = viewModel.selectedFriends[friendData.id] != nil
 
             friendCell.selectionStyle = .none
             return friendCell
