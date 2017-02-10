@@ -20,11 +20,6 @@ class AboutViewController: UIViewController {
         UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }
     
-    @objc private func backTapped() {
-        Utils.sendGoogleAnalyticsEvent(withCategory: "About", action: "SelectedBackButton")
-        let _ = navigationController?.popViewController(animated: true)
-    }
-    
     @IBAction func tappedCSync() {
         Utils.sendGoogleAnalyticsEvent(withCategory: "About", action: "SelectedCSync")
         open(url: "https://ibm.biz/together-stream-csync-logo")
