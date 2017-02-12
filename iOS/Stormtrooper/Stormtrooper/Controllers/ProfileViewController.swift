@@ -72,7 +72,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
             }
         )
         let licenses = ProfileRow(
-            label: "Licenses",
+            label: "License",
             showDisclosure: false,
             action: {
                 Utils.sendGoogleAnalyticsEvent(withCategory: "Profile", action: "SelectedLicenses")
