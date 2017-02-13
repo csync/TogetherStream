@@ -117,7 +117,7 @@ class InviteStreamViewController: UIViewController {
         
         Utils.sendGoogleAnalyticsEvent(withCategory: "InviteStream", action: "SelectedSendText")
         let messageVC = MFMessageComposeViewController()
-        messageVC.body = "Download Together Stream to join my Stream: http://ibm.biz/together-stream-invite-friends";
+        messageVC.body = "Download Together Stream for iOS - A collaborative and synchronized streaming experience.\nhttp://ibm.biz/together-stream-invite-friends";
         messageVC.messageComposeDelegate = self
         present(messageVC, animated: true, completion: nil)
     }
@@ -128,7 +128,7 @@ class InviteStreamViewController: UIViewController {
         
         //mailComposerVC.setToRecipients([""])
         mailComposerVC.setSubject("Check this out!")
-        mailComposerVC.setMessageBody("Download Together Stream to join my Stream: http://ibm.biz/together-stream-invite-friends", isHTML: false)
+        mailComposerVC.setMessageBody("Download Together Stream for iOS - A collaborative and synchronized streaming experience.\nhttp://ibm.biz/together-stream-invite-friends", isHTML: false)
         
         if MFMailComposeViewController.canSendMail() {
             Utils.sendGoogleAnalyticsEvent(withCategory: "InviteStream", action: "SelectedSendMail")
