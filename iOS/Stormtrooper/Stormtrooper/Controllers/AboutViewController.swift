@@ -10,9 +10,14 @@ import UIKit
 
 class AboutViewController: UIViewController {
     
+    @IBOutlet weak var ourSiteTextView: UITextView!
+    
+    let linkedString = "visit our site."
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         trackScreenView()
+        setupOurSiteLabel()
     }
     
     override func willMove(toParentViewController parent: UIViewController?) {
@@ -20,6 +25,22 @@ class AboutViewController: UIViewController {
         if parent == nil {
             Utils.sendGoogleAnalyticsEvent(withCategory: "About", action: "SelectedBackButton")
         }
+    }
+    
+    private func setupOurSiteLabel() {
+        // Add hyperlink to our site
+        guard let attributedString = ourSiteTextView.attributedText?.mutableCopy() as? NSMutableAttributedString else {return}
+        let linkRange = attributedString.mutableString.range(of: linkedString)
+        guard linkRange.location != NSNotFound else {
+            return
+        }
+        attributedString.addAttribute(NSLinkAttributeName, value: "http://ibm.biz/together-stream", range: linkRange)
+        let linkAttributes = [
+            NSForegroundColorAttributeName: UIColor.stormtrooperTextBlack,
+            NSUnderlineColorAttributeName: UIColor.stormtrooperTextBlack,
+            NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue] as [String : Any]
+        ourSiteTextView.linkTextAttributes = linkAttributes
+        ourSiteTextView.attributedText = attributedString
     }
     
     private func open(url: String) {
@@ -45,5 +66,11 @@ class AboutViewController: UIViewController {
     @IBAction func tappedYoutube() {
         Utils.sendGoogleAnalyticsEvent(withCategory: "About", action: "SelectedYoutube")
         open(url: "https://ibm.biz/together-stream-youtube-logo")
+    }
+}
+
+extension AboutViewController: UITextViewDelegate {
+    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+        return true
     }
 }
