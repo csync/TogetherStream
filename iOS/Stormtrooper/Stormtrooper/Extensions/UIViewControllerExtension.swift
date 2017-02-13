@@ -71,7 +71,7 @@ extension UIViewController {
     func trackScreenView() {
         #if !DEBUG
         let tracker = GAI.sharedInstance().defaultTracker
-        tracker?.set(kGAIScreenName, value: String(describing: self))
+        tracker?.set(kGAIScreenName, value: String(describing: type(of: self)))
         let view = GAIDictionaryBuilder.createScreenView().build() as NSDictionary as? [AnyHashable: Any]
         tracker?.send(view)
         #endif
