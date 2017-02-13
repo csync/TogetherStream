@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -26,54 +26,67 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Name your Stream" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Mgl-N8-G1e">
-                                <rect key="frame" x="15" y="38" width="345" height="50"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8fo-5f-4ZA">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <subviews>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Name your Stream" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Mgl-N8-G1e">
+                                        <rect key="frame" x="15" y="18" width="345" height="50"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="xxQ-AH-WZH"/>
+                                        </constraints>
+                                        <color key="textColor" red="0.29019607843137252" green="0.29019607843137252" blue="0.29019607843137252" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="13"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="next"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="5"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="_placeholderLabel.textColor">
+                                                <color key="value" red="0.58039215686274503" green="0.57647058823529407" blue="0.58039215686274503" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <outlet property="delegate" destination="Mx7-Sk-Jgf" id="5vi-cE-R6C"/>
+                                        </connections>
+                                    </textField>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Description (optional)" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="SpN-Uk-38q">
+                                        <rect key="frame" x="15" y="84" width="345" height="144"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="144" id="dq9-oo-GFk"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="13"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="5"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <outlet property="delegate" destination="Mx7-Sk-Jgf" id="Nao-yn-cps"/>
+                                        </connections>
+                                    </textView>
+                                </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="xxQ-AH-WZH"/>
+                                    <constraint firstItem="Mgl-N8-G1e" firstAttribute="centerX" secondItem="8fo-5f-4ZA" secondAttribute="centerX" id="9EB-3e-xHe"/>
+                                    <constraint firstAttribute="trailing" secondItem="SpN-Uk-38q" secondAttribute="trailing" constant="15" id="H55-rC-5Rq"/>
+                                    <constraint firstAttribute="bottom" secondItem="SpN-Uk-38q" secondAttribute="bottom" constant="425" id="WzV-fI-k9N"/>
+                                    <constraint firstItem="Mgl-N8-G1e" firstAttribute="leading" secondItem="8fo-5f-4ZA" secondAttribute="leading" constant="15" id="YqV-wd-z1x"/>
+                                    <constraint firstItem="SpN-Uk-38q" firstAttribute="leading" secondItem="8fo-5f-4ZA" secondAttribute="leading" constant="15" id="bdT-Ea-NoI"/>
+                                    <constraint firstItem="Mgl-N8-G1e" firstAttribute="top" secondItem="8fo-5f-4ZA" secondAttribute="top" constant="18" id="puF-SM-dUC"/>
+                                    <constraint firstItem="SpN-Uk-38q" firstAttribute="top" secondItem="Mgl-N8-G1e" secondAttribute="bottom" constant="16" id="rrd-Nk-bna"/>
+                                    <constraint firstAttribute="trailing" secondItem="Mgl-N8-G1e" secondAttribute="trailing" constant="15" id="ulf-nQ-LUX"/>
                                 </constraints>
-                                <color key="textColor" red="0.29019607843137252" green="0.29019607843137252" blue="0.29019607843137252" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="13"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="next"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                        <real key="value" value="5"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="_placeholderLabel.textColor">
-                                        <color key="value" red="0.58039215686274503" green="0.57647058823529407" blue="0.58039215686274503" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <outlet property="delegate" destination="Mx7-Sk-Jgf" id="5vi-cE-R6C"/>
-                                </connections>
-                            </textField>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Description (optional)" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="SpN-Uk-38q">
-                                <rect key="frame" x="15" y="104" width="345" height="144"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="144" id="dq9-oo-GFk"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="13"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                        <real key="value" value="5"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <outlet property="delegate" destination="Mx7-Sk-Jgf" id="Nao-yn-cps"/>
-                                </connections>
-                            </textView>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" red="0.96470588235294119" green="0.96470588235294119" blue="0.96470588235294119" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="SpN-Uk-38q" firstAttribute="trailing" secondItem="Mgl-N8-G1e" secondAttribute="trailing" id="3fm-fL-sh1"/>
-                            <constraint firstItem="SpN-Uk-38q" firstAttribute="top" secondItem="Mgl-N8-G1e" secondAttribute="bottom" constant="16" id="7ua-qj-td3"/>
-                            <constraint firstItem="Mgl-N8-G1e" firstAttribute="leading" secondItem="Fuz-bi-iqW" secondAttribute="leading" constant="15" id="G3B-nB-hLI"/>
-                            <constraint firstItem="Mgl-N8-G1e" firstAttribute="top" secondItem="vQ3-t6-piw" secondAttribute="bottom" constant="18" id="Hrq-ur-l59"/>
-                            <constraint firstItem="SpN-Uk-38q" firstAttribute="leading" secondItem="Mgl-N8-G1e" secondAttribute="leading" id="MnF-sm-QAm"/>
-                            <constraint firstAttribute="trailing" secondItem="Mgl-N8-G1e" secondAttribute="trailing" constant="15" id="mix-dr-6ka"/>
+                            <constraint firstItem="8fo-5f-4ZA" firstAttribute="height" secondItem="Fuz-bi-iqW" secondAttribute="height" id="ACc-54-53v"/>
+                            <constraint firstItem="8fo-5f-4ZA" firstAttribute="centerY" secondItem="Fuz-bi-iqW" secondAttribute="centerY" id="Wiu-sf-40g"/>
+                            <constraint firstItem="8fo-5f-4ZA" firstAttribute="centerX" secondItem="Fuz-bi-iqW" secondAttribute="centerX" id="d3q-vu-nZ3"/>
+                            <constraint firstItem="8fo-5f-4ZA" firstAttribute="width" secondItem="Fuz-bi-iqW" secondAttribute="width" id="nAq-sS-DRB"/>
                         </constraints>
                     </view>
                     <connections>
