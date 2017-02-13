@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -31,7 +31,6 @@
                                 <rect key="frame" x="87.5" y="447" width="200" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="8KP-oB-xeh"/>
-                                    <constraint firstAttribute="height" constant="30" id="cyG-q3-rHi"/>
                                 </constraints>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2dT-JB-OYJ">
@@ -66,6 +65,7 @@ love, together with friends.</string>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="2dT-JB-OYJ" firstAttribute="centerX" secondItem="6Yc-wI-AJw" secondAttribute="centerX" id="4eW-qr-wV7"/>
+                            <constraint firstItem="jPW-Dj-L78" firstAttribute="top" relation="greaterThanOrEqual" secondItem="fp8-cs-CKk" secondAttribute="bottom" constant="75" id="AJQ-H2-kk2"/>
                             <constraint firstAttribute="trailingMargin" secondItem="NbB-hF-ZWu" secondAttribute="trailing" constant="29" id="E71-jE-gZv"/>
                             <constraint firstItem="Eac-cl-RPi" firstAttribute="leading" secondItem="6Yc-wI-AJw" secondAttribute="leadingMargin" constant="35" id="EWA-qo-csU"/>
                             <constraint firstItem="NbB-hF-ZWu" firstAttribute="top" secondItem="Eac-cl-RPi" secondAttribute="bottom" constant="45" id="Xsa-ue-EO6"/>
@@ -73,8 +73,7 @@ love, together with friends.</string>
                             <constraint firstItem="NbB-hF-ZWu" firstAttribute="centerX" secondItem="6Yc-wI-AJw" secondAttribute="centerX" id="eY4-MK-je6"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Eac-cl-RPi" secondAttribute="trailing" constant="36" id="gvd-Tu-KRK"/>
                             <constraint firstItem="fp8-cs-CKk" firstAttribute="centerX" secondItem="6Yc-wI-AJw" secondAttribute="centerX" id="hiD-Mg-Jsh"/>
-                            <constraint firstItem="Eac-cl-RPi" firstAttribute="centerX" secondItem="6Yc-wI-AJw" secondAttribute="centerX" id="m7v-uh-06v"/>
-                            <constraint firstItem="fp8-cs-CKk" firstAttribute="top" secondItem="NbB-hF-ZWu" secondAttribute="bottom" constant="88" id="s3Q-Vw-JwP"/>
+                            <constraint firstItem="fp8-cs-CKk" firstAttribute="top" secondItem="NbB-hF-ZWu" secondAttribute="bottom" priority="750" constant="88" id="s3Q-Vw-JwP"/>
                             <constraint firstItem="NbB-hF-ZWu" firstAttribute="leading" secondItem="6Yc-wI-AJw" secondAttribute="leadingMargin" constant="29" id="sx5-RS-Xml"/>
                             <constraint firstItem="Eac-cl-RPi" firstAttribute="top" secondItem="Zmf-Ri-ms5" secondAttribute="bottom" constant="134" id="vWE-a9-OP8"/>
                         </constraints>
