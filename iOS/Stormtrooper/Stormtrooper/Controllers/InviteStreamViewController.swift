@@ -127,7 +127,7 @@ class InviteStreamViewController: UIViewController {
         mailComposerVC.mailComposeDelegate = self // Extremely important to set the --mailComposeDelegate-- property, NOT the --delegate-- property
         
         //mailComposerVC.setToRecipients([""])
-        mailComposerVC.setSubject("Check this out!")
+        mailComposerVC.setSubject("Download Together Stream")
         mailComposerVC.setMessageBody("Download Together Stream for iOS - A collaborative and synchronized streaming experience.\nhttp://ibm.biz/together-stream-invite-friends", isHTML: false)
         
         if MFMailComposeViewController.canSendMail() {

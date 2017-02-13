@@ -42,7 +42,7 @@ var sendNotification = function (user, req) {
     var note = new apn.Notification();
     note.badge = req.body["currentBadgeCount"] + 1;
     note.sound = "ping.aiff";
-    note.alert = "You've been invited by " + req.body["host"] + "!";
+    note.alert = "You've been invited to join a stream by " + req.body["host"] + "!";
     note.payload = {
         user_id: req.user.id,
         csync_path: req.body["streamPath"],
