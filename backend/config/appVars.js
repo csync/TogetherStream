@@ -30,8 +30,7 @@ var appVars = {
     refreshTokenKey: credentials.app.refreshTokenKey,
     apn: new apn.Provider({
         cert: __dirname + '/private/cert.pem',
-        key: __dirname + '/private/key.pem',
-        production: false
+        key: __dirname + '/private/key.pem'
     })
 };
 
