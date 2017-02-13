@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -108,56 +108,54 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="1022"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bVn-md-FIo" userLabel="Container">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="960"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="827"/>
                                         <subviews>
-                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wwk-Rw-bJV" userLabel="App Description">
-                                                <rect key="frame" x="30" y="30" width="315" height="246.5"/>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wwk-Rw-bJV" userLabel="App Description">
+                                                <rect key="frame" x="25" y="28" width="325" height="87"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                <string key="text">Together Stream is an app designed and developed by the IBM Mobile Innovation Lab. Here’s some placeholder text to show that this screen will most likely be long. Together Stream is an app designed and developed by the IBM Mobile Innovation Lab. Here’s some placeholder text to show that this screen will most likely be long.
-
-Together Stream is an app designed and developed by the IBM Mobile Innovation Lab. Here’s some placeholder text to show that this screen will most likely be long.</string>
+                                                <string key="text">Together Stream allows users to stream content with friends in real time. The stream host has full control to choose, pause, and skip any video in their queue — syncing immediately with friends’ devices.</string>
                                                 <color key="textColor" red="0.29019607843137252" green="0.29019607843137252" blue="0.29019607843137252" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="13"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             </textView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2zO-5j-fVn" userLabel="Separator">
-                                                <rect key="frame" x="0.0" y="314.5" width="375" height="1"/>
+                                                <rect key="frame" x="0.0" y="149" width="375" height="1"/>
                                                 <color key="backgroundColor" red="0.85882352941176465" green="0.85882352941176465" blue="0.85882352941176465" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="fAh-fU-dRC"/>
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CREATED WITH" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yTe-ch-atp" userLabel="Created With">
-                                                <rect key="frame" x="0.0" y="353.5" width="375" height="14"/>
+                                                <rect key="frame" x="0.0" y="178" width="375" height="14"/>
                                                 <fontDescription key="fontDescription" name="WorkSans-SemiBold" family="Work Sans" pointSize="12"/>
                                                 <color key="textColor" red="0.84705882352941175" green="0.25490196078431371" blue="0.027450980392156862" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZSq-fe-bDy" userLabel="CSync Description">
-                                                <rect key="frame" x="30" y="456.5" width="315" height="105"/>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="An open source, real-time, continuous data sync service for web, IoT, and mobile." selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZSq-fe-bDy" userLabel="CSync Description">
+                                                <rect key="frame" x="25" y="277" width="325" height="51.5"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                <string key="text">Contextual sync is an IBM service that is super cool and helps power this app. Here’s a short blurb about the service. Contextual sync is an IBM service that is super cool and helps power this app. Here’s a short blurb about the service.</string>
                                                 <color key="textColor" red="0.2901960784" green="0.2901960784" blue="0.2901960784" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="13"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             </textView>
-                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O6V-FB-Iha" userLabel="CSync Description">
-                                                <rect key="frame" x="30" y="636.5" width="315" height="87"/>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O6V-FB-Iha" userLabel="CSync Description">
+                                                <rect key="frame" x="25" y="418.5" width="325" height="69.5"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                <string key="text">Here’s some words about Bluemix and how we’re using it for Together Stream. Here’s some words about Bluemix and how we’re using it for Together Stream.</string>
+                                                <string key="text">The IBM Bluemix cloud platform helps you solve real problems and drive business value with applications, infrastructure and services.</string>
                                                 <color key="textColor" red="0.2901960784" green="0.2901960784" blue="0.2901960784" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="13"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             </textView>
-                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="Here’s some short words about the Mobile Innovation Lab even though we’re about to be the Cloud Experience Lab." textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lcm-8J-bLk" userLabel="xLab Description">
-                                                <rect key="frame" x="30" y="814.5" width="315" height="69.5"/>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lcm-8J-bLk" userLabel="xLab Description">
+                                                <rect key="frame" x="25" y="592" width="325" height="87"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <string key="text">We enhance IBM’s cloud portfolio, explore disruptive technology, and enable client opportunities by experimenting in emerging technologies and trends.</string>
                                                 <color key="textColor" red="0.2901960784" green="0.2901960784" blue="0.2901960784" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="13"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             </textView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3gq-DP-Anc">
-                                                <rect key="frame" x="100" y="405.5" width="175" height="33"/>
+                                                <rect key="frame" x="100" y="218" width="175" height="33"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="33" id="PBY-9P-opE"/>
                                                     <constraint firstAttribute="width" constant="175" id="b4x-xV-fTz"/>
@@ -168,7 +166,7 @@ Together Stream is an app designed and developed by the IBM Mobile Innovation La
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5rL-OW-7kl">
-                                                <rect key="frame" x="117" y="585.5" width="141" height="33"/>
+                                                <rect key="frame" x="117" y="358.5" width="141" height="33"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="33" id="DAT-EF-BwZ"/>
                                                     <constraint firstAttribute="width" constant="141" id="g4q-SR-3YX"/>
@@ -179,7 +177,7 @@ Together Stream is an app designed and developed by the IBM Mobile Innovation La
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NW7-ys-9BF">
-                                                <rect key="frame" x="102.5" y="747.5" width="170" height="49"/>
+                                                <rect key="frame" x="102.5" y="521" width="170" height="49"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="49" id="YhE-Ec-bKF"/>
                                                     <constraint firstAttribute="width" constant="170" id="cpx-Yt-juL"/>
@@ -190,7 +188,7 @@ Together Stream is an app designed and developed by the IBM Mobile Innovation La
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y53-LX-i46">
-                                                <rect key="frame" x="133.5" y="908" width="108" height="22"/>
+                                                <rect key="frame" x="133.5" y="715" width="108" height="22"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="108" id="R3V-TL-5u1"/>
                                                     <constraint firstAttribute="height" constant="22" id="UNs-hr-r2l"/>
@@ -200,35 +198,47 @@ Together Stream is an app designed and developed by the IBM Mobile Innovation La
                                                     <action selector="tappedYoutube" destination="8NC-JA-w6F" eventType="touchUpInside" id="U0N-l7-J3t"/>
                                                 </connections>
                                             </button>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="For more information, visit our site." textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="VgE-oG-QgY">
+                                                <rect key="frame" x="75" y="773" width="224" height="34"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="textColor" red="0.2901960784" green="0.2901960784" blue="0.2901960784" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="13"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                <connections>
+                                                    <outlet property="delegate" destination="8NC-JA-w6F" id="XSu-f5-JzT"/>
+                                                </connections>
+                                            </textView>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstItem="5rL-OW-7kl" firstAttribute="top" secondItem="ZSq-fe-bDy" secondAttribute="bottom" constant="24" id="0Hf-5X-N97"/>
-                                            <constraint firstItem="O6V-FB-Iha" firstAttribute="leading" secondItem="bVn-md-FIo" secondAttribute="leading" constant="30" id="1Kp-dd-YzR"/>
-                                            <constraint firstItem="Wwk-Rw-bJV" firstAttribute="leading" secondItem="bVn-md-FIo" secondAttribute="leading" constant="30" id="46F-Su-PVQ"/>
-                                            <constraint firstItem="lcm-8J-bLk" firstAttribute="leading" secondItem="bVn-md-FIo" secondAttribute="leading" constant="30" id="6dO-2d-pWK"/>
+                                            <constraint firstItem="5rL-OW-7kl" firstAttribute="top" secondItem="ZSq-fe-bDy" secondAttribute="bottom" constant="30" id="0Hf-5X-N97"/>
+                                            <constraint firstItem="O6V-FB-Iha" firstAttribute="leading" secondItem="bVn-md-FIo" secondAttribute="leading" constant="25" id="1Kp-dd-YzR"/>
+                                            <constraint firstItem="Wwk-Rw-bJV" firstAttribute="leading" secondItem="bVn-md-FIo" secondAttribute="leading" constant="25" id="46F-Su-PVQ"/>
+                                            <constraint firstItem="lcm-8J-bLk" firstAttribute="leading" secondItem="bVn-md-FIo" secondAttribute="leading" constant="25" id="6dO-2d-pWK"/>
                                             <constraint firstItem="5rL-OW-7kl" firstAttribute="centerX" secondItem="bVn-md-FIo" secondAttribute="centerX" id="7dD-6g-B3s"/>
-                                            <constraint firstAttribute="trailing" secondItem="lcm-8J-bLk" secondAttribute="trailing" constant="30" id="9gb-g0-XlS"/>
-                                            <constraint firstItem="lcm-8J-bLk" firstAttribute="top" secondItem="NW7-ys-9BF" secondAttribute="bottom" constant="18" id="Cf3-sQ-2fb"/>
+                                            <constraint firstAttribute="trailing" secondItem="lcm-8J-bLk" secondAttribute="trailing" constant="25" id="9gb-g0-XlS"/>
+                                            <constraint firstItem="lcm-8J-bLk" firstAttribute="top" secondItem="NW7-ys-9BF" secondAttribute="bottom" constant="22" id="Cf3-sQ-2fb"/>
                                             <constraint firstAttribute="trailing" secondItem="2zO-5j-fVn" secondAttribute="trailing" id="Db3-Hf-QWF"/>
                                             <constraint firstItem="NW7-ys-9BF" firstAttribute="centerX" secondItem="bVn-md-FIo" secondAttribute="centerX" id="FlL-Qa-qjY"/>
                                             <constraint firstItem="2zO-5j-fVn" firstAttribute="leading" secondItem="bVn-md-FIo" secondAttribute="leading" id="G5X-0V-d5K"/>
                                             <constraint firstItem="y53-LX-i46" firstAttribute="centerX" secondItem="bVn-md-FIo" secondAttribute="centerX" id="Hl3-Jv-dfG"/>
-                                            <constraint firstAttribute="trailing" secondItem="Wwk-Rw-bJV" secondAttribute="trailing" constant="30" id="Iss-yc-thS"/>
+                                            <constraint firstAttribute="trailing" secondItem="Wwk-Rw-bJV" secondAttribute="trailing" constant="25" id="Iss-yc-thS"/>
                                             <constraint firstItem="yTe-ch-atp" firstAttribute="leading" secondItem="bVn-md-FIo" secondAttribute="leading" id="OLU-kx-Caw"/>
-                                            <constraint firstAttribute="trailing" secondItem="ZSq-fe-bDy" secondAttribute="trailing" constant="30" id="PUf-Ey-d7Q"/>
-                                            <constraint firstItem="NW7-ys-9BF" firstAttribute="top" secondItem="O6V-FB-Iha" secondAttribute="bottom" constant="24" id="SfF-a6-YQP"/>
-                                            <constraint firstItem="y53-LX-i46" firstAttribute="top" secondItem="lcm-8J-bLk" secondAttribute="bottom" constant="24" id="Soc-mo-0Uq"/>
-                                            <constraint firstItem="ZSq-fe-bDy" firstAttribute="leading" secondItem="bVn-md-FIo" secondAttribute="leading" constant="30" id="U9o-PY-BNx"/>
-                                            <constraint firstItem="2zO-5j-fVn" firstAttribute="top" secondItem="Wwk-Rw-bJV" secondAttribute="bottom" constant="38" id="ZKB-l6-7e7"/>
-                                            <constraint firstAttribute="trailing" secondItem="O6V-FB-Iha" secondAttribute="trailing" constant="30" id="dMg-y7-8P1"/>
-                                            <constraint firstItem="ZSq-fe-bDy" firstAttribute="top" secondItem="3gq-DP-Anc" secondAttribute="bottom" constant="18" id="eRq-Qd-Uvm"/>
+                                            <constraint firstAttribute="trailing" secondItem="ZSq-fe-bDy" secondAttribute="trailing" constant="25" id="PUf-Ey-d7Q"/>
+                                            <constraint firstItem="NW7-ys-9BF" firstAttribute="top" secondItem="O6V-FB-Iha" secondAttribute="bottom" constant="33" id="SfF-a6-YQP"/>
+                                            <constraint firstItem="y53-LX-i46" firstAttribute="top" secondItem="lcm-8J-bLk" secondAttribute="bottom" constant="36" id="Soc-mo-0Uq"/>
+                                            <constraint firstItem="ZSq-fe-bDy" firstAttribute="leading" secondItem="bVn-md-FIo" secondAttribute="leading" constant="25" id="U9o-PY-BNx"/>
+                                            <constraint firstItem="VgE-oG-QgY" firstAttribute="centerX" secondItem="bVn-md-FIo" secondAttribute="centerX" id="UdA-nc-jJD"/>
+                                            <constraint firstItem="2zO-5j-fVn" firstAttribute="top" secondItem="Wwk-Rw-bJV" secondAttribute="bottom" constant="34" id="ZKB-l6-7e7"/>
+                                            <constraint firstAttribute="trailing" secondItem="O6V-FB-Iha" secondAttribute="trailing" constant="25" id="dMg-y7-8P1"/>
+                                            <constraint firstItem="ZSq-fe-bDy" firstAttribute="top" secondItem="3gq-DP-Anc" secondAttribute="bottom" constant="26" id="eRq-Qd-Uvm"/>
                                             <constraint firstItem="3gq-DP-Anc" firstAttribute="centerX" secondItem="bVn-md-FIo" secondAttribute="centerX" id="fIl-DJ-8rw"/>
-                                            <constraint firstItem="3gq-DP-Anc" firstAttribute="top" secondItem="yTe-ch-atp" secondAttribute="bottom" constant="38" id="l7E-L2-gUR"/>
-                                            <constraint firstItem="yTe-ch-atp" firstAttribute="top" secondItem="2zO-5j-fVn" secondAttribute="bottom" constant="38" id="odt-ed-SAw"/>
-                                            <constraint firstItem="O6V-FB-Iha" firstAttribute="top" secondItem="5rL-OW-7kl" secondAttribute="bottom" constant="18" id="v00-80-Mon"/>
-                                            <constraint firstAttribute="bottom" secondItem="y53-LX-i46" secondAttribute="bottom" constant="30" id="vYy-Sg-En0"/>
-                                            <constraint firstItem="Wwk-Rw-bJV" firstAttribute="top" secondItem="bVn-md-FIo" secondAttribute="top" constant="30" id="zBj-kp-G8F"/>
+                                            <constraint firstItem="3gq-DP-Anc" firstAttribute="top" secondItem="yTe-ch-atp" secondAttribute="bottom" constant="26" id="l7E-L2-gUR"/>
+                                            <constraint firstItem="yTe-ch-atp" firstAttribute="top" secondItem="2zO-5j-fVn" secondAttribute="bottom" constant="28" id="odt-ed-SAw"/>
+                                            <constraint firstItem="VgE-oG-QgY" firstAttribute="top" secondItem="y53-LX-i46" secondAttribute="bottom" constant="36" id="oyp-0d-mau"/>
+                                            <constraint firstItem="O6V-FB-Iha" firstAttribute="top" secondItem="5rL-OW-7kl" secondAttribute="bottom" constant="27" id="v00-80-Mon"/>
+                                            <constraint firstAttribute="bottom" secondItem="VgE-oG-QgY" secondAttribute="bottom" constant="20" id="xYc-5M-rEE"/>
+                                            <constraint firstItem="Wwk-Rw-bJV" firstAttribute="top" secondItem="bVn-md-FIo" secondAttribute="top" constant="28" id="zBj-kp-G8F"/>
                                             <constraint firstAttribute="trailing" secondItem="yTe-ch-atp" secondAttribute="trailing" id="zib-i3-sfZ"/>
                                         </constraints>
                                     </view>
@@ -253,10 +263,13 @@ Together Stream is an app designed and developed by the IBM Mobile Innovation La
                     <nil key="simulatedStatusBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="375" height="1021.5"/>
+                    <connections>
+                        <outlet property="ourSiteTextView" destination="VgE-oG-QgY" id="CXJ-wE-mB9"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gvl-l0-su4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2903" y="192"/>
+            <point key="canvasLocation" x="2901.5999999999999" y="191.6041979010495"/>
         </scene>
         <!--Disclaimer-->
         <scene sceneID="j1U-WH-Sz2">
