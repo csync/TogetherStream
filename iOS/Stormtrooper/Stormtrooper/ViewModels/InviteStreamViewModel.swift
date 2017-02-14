@@ -47,7 +47,7 @@ class InviteStreamViewModel {
 
     func sendInvites(stream:Stream?, users:[User]) {
         if let stream = stream, users.count > 0 {
-            accountDataManager.sendInviteToStream(withName: stream.name, andDescription: stream.description, to: users)
+            accountDataManager.sendInvite(for: stream, to: users)
         }
     }
 }
