@@ -77,7 +77,7 @@ class FacebookDataManager {
                 callback(ServerError.unexpectedQueueFail, nil)
             }
         }
-        if queueStatus.didAddFirst
+        if queueStatus.wasEmpty
         {
             let parameters = ["fields": "name, picture.width(\(Int(highResSize.width))).height(\(Int(highResSize.height)))"]
             let request = FBSDKGraphRequest(graphPath: id, parameters: parameters)
