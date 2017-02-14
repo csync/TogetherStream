@@ -12,7 +12,7 @@ import CSyncSDK
 class CSyncDataManager {
 	static let sharedInstance = CSyncDataManager()
 	
-	private let csyncURL = "169.46.154.75"
+	private let csyncURL = "169.46.157.54"
 	private let csyncPort = 6005
 	private lazy var app: App = { [unowned self] in
 		return App(host: self.csyncURL, port: self.csyncPort, options: ["useSSL":"NO" as AnyObject, "dbInMemory":"YES" as AnyObject])

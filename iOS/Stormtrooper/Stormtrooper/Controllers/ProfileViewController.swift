@@ -47,36 +47,12 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
                 self.pushViewController("about")
             }
         )
-        let disclaimer = ProfileRow(
-            label: "Disclaimer",
-            showDisclosure: true,
-            action: {
-                Utils.sendGoogleAnalyticsEvent(withCategory: "Profile", action: "SelectedDisclaimer")
-                self.pushViewController("disclaimer")
-            }
-        )
         let feedback = ProfileRow(
             label: "Feedback",
             showDisclosure: false,
             action: {
                 Utils.sendGoogleAnalyticsEvent(withCategory: "Profile", action: "SelectedFeedback")
                 self.open(url: "https://ibm.biz/together-stream-feedback")
-            }
-        )
-        let privacy = ProfileRow(
-            label: "Privacy Policy",
-            showDisclosure: false,
-            action: {
-                Utils.sendGoogleAnalyticsEvent(withCategory: "Profile", action: "SelectedPrivacy")
-                self.open(url: "https://ibm.biz/together-stream-privacy-policy")
-            }
-        )
-        let licenses = ProfileRow(
-            label: "License",
-            showDisclosure: false,
-            action: {
-                Utils.sendGoogleAnalyticsEvent(withCategory: "Profile", action: "SelectedLicenses")
-                self.open(url: "https://ibm.biz/together-stream-licenses")
             }
         )
         let signOut = ProfileRow(
@@ -101,7 +77,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
                 }
             }
         )
-        return [invite, about, disclaimer, feedback, privacy, licenses, signOut]
+        return [invite, about, feedback, signOut]
     }()
     
     // MARK: - View Controller Life Cycle
