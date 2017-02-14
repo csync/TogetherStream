@@ -68,6 +68,5 @@ fastlane/test_output
 # Backend
 backend/node_modules
 backend/.idea
-backend/config/private
 newrelic_agent.log
 yarn.lock
