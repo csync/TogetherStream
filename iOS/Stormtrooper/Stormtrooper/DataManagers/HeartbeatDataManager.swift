@@ -15,7 +15,6 @@ class HeartbeatDataManager {
 	/// Closure to call when heartbeats are received.
 	var didReceiveHeartbeats: ((Set<String>) -> Void)?
     
-    
 	/// Shorthand for CSyncDataManager
 	private let csyncDataManager = CSyncDataManager.sharedInstance
 	/// The id of the user who is sending the heartbeat.
