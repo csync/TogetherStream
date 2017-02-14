@@ -9,7 +9,7 @@
 import Foundation
 import FBSDKLoginKit
 
-/// Data manager that manages requests for Facebook
+/// Data manager that manages requests for Facebook.
 class FacebookDataManager {
     /// Singleton object
     static let sharedInstance = FacebookDataManager()

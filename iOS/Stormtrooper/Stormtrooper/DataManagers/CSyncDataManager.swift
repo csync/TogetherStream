@@ -9,7 +9,7 @@
 import Foundation
 import CSyncSDK
 
-/// Manages connects to the CSync server
+/// Manages interacting with the the CSync server.
 class CSyncDataManager {
 	/// Singleton object
 	static let sharedInstance = CSyncDataManager()

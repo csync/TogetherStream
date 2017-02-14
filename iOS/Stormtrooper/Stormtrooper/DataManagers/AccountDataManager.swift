@@ -9,7 +9,7 @@
 import Foundation
 import FBSDKLoginKit
 
-/// Manages connections to the Together Stream server
+/// Manages connections to the Together Stream server.
 class AccountDataManager {
 	/// Singleton object
 	static let sharedInstance = AccountDataManager()

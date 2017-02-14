@@ -10,7 +10,7 @@ import Foundation
 import CSyncSDK
 
 class ParticipantsDataManager {
-	var didRecieveMessage: ((ParticipantMessage) -> Void)?
+	var didReceiveMessage: ((ParticipantMessage) -> Void)?
 	private let csyncDataManager = CSyncDataManager.sharedInstance
 	private let streamPath: String
 	private var listenParticipantsKey: Key
@@ -35,7 +35,7 @@ class ParticipantsDataManager {
                 return
             }
 			if let content = value?.data, let message = ParticipantMessage(content: content) {
-				self?.didRecieveMessage?(message)
+				self?.didReceiveMessage?(message)
 			}
 		}
 	}

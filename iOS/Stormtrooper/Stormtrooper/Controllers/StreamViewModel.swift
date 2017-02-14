@@ -11,12 +11,12 @@ import CSyncSDK
 
 protocol StreamViewModelDelegate: class {
 	func userCountChanged(toCount count: Int)
-	func recieved(message: Message, for position: Int) -> Void
+	func received(message: Message, for position: Int) -> Void
     func removedOldestMessage() -> Void
-	func recievedUpdate(forCurrentVideoID currentVideoID: String) -> Void
-	func recievedUpdate(forIsPlaying isPlaying: Bool) -> Void
-	func recievedUpdate(forIsBuffering isBuffering: Bool) -> Void
-	func recievedUpdate(forPlaytime playtime: Float) -> Void
+	func receivedUpdate(forCurrentVideoID currentVideoID: String) -> Void
+	func receivedUpdate(forIsPlaying isPlaying: Bool) -> Void
+	func receivedUpdate(forIsBuffering isBuffering: Bool) -> Void
+	func receivedUpdate(forPlaytime playtime: Float) -> Void
 	func streamEnded() -> Void
 }
 
@@ -85,18 +85,18 @@ class StreamViewModel {
                     self.delegate?.removedOldestMessage()
                 }
                 let position = self.insertIntoMessages(message)
-                self.delegate?.recieved(message: message, for: position)
+                self.delegate?.received(message: message, for: position)
             }
         }
         
         chatDataManager = ChatDataManager(streamPath: csyncPath, id: FacebookDataManager.sharedInstance.profile?.userID ?? "")
-        chatDataManager?.didRecieveMessage = messageCallback
+        chatDataManager?.didReceiveMessage = messageCallback
         
         participantsDataManager = ParticipantsDataManager(streamPath: csyncPath)
-        participantsDataManager?.didRecieveMessage = messageCallback
+        participantsDataManager?.didReceiveMessage = messageCallback
         
         heartbeatDataManager = HeartbeatDataManager(streamPath: csyncPath, id: userID)
-        heartbeatDataManager?.didRecieveHeartbeats = {[unowned self] heartbeats in
+        heartbeatDataManager?.didReceiveHeartbeats = {[unowned self] heartbeats in
             let changedUsers = self.currentUserIDs.symmetricDifference(heartbeats)
             self.currentUserIDs = heartbeats
             self.delegate?.userCountChanged(toCount: self.userCount)
@@ -179,7 +179,7 @@ class StreamViewModel {
         // Set state of inital video
         send(playState: false)
 		
-		NotificationCenter.default.addObserver(self, selector: #selector(recievedWillTerminateNotification), name: NSNotification.Name.UIApplicationWillTerminate, object: nil)
+		NotificationCenter.default.addObserver(self, selector: #selector(receivedWillTerminateNotification), name: NSNotification.Name.UIApplicationWillTerminate, object: nil)
 	}
 	
 	private func setupParticipant() {
@@ -192,21 +192,21 @@ class StreamViewModel {
 				switch value.key.components(separatedBy: ".").last ?? "" {
 				case "currentVideoID":
 					if let id = value.data {
-						self.delegate?.recievedUpdate(forCurrentVideoID: id)
+						self.delegate?.receivedUpdate(forCurrentVideoID: id)
 					}
 				case "isPlaying" where value.data == "true":
 					self.hostPlaying = true
-					self.delegate?.recievedUpdate(forIsPlaying: true)
+					self.delegate?.receivedUpdate(forIsPlaying: true)
 				case "isPlaying" where value.data == "false":
 					self.hostPlaying = false
-					self.delegate?.recievedUpdate(forIsPlaying: false)
+					self.delegate?.receivedUpdate(forIsPlaying: false)
 				case "isBuffering" where value.data == "true":
-					self.delegate?.recievedUpdate(forIsBuffering: true)
+					self.delegate?.receivedUpdate(forIsBuffering: true)
 				case "isBuffering" where value.data == "false":
-					self.delegate?.recievedUpdate(forIsBuffering: false)
+					self.delegate?.receivedUpdate(forIsBuffering: false)
 				case "playTime":
 					if let playtime = Float(value.data ?? "") {
-						self.delegate?.recievedUpdate(forPlaytime: playtime)
+						self.delegate?.receivedUpdate(forPlaytime: playtime)
 					}
 				case "isActive" where value.data == "false":
 					self.delegate?.streamEnded()
@@ -217,7 +217,7 @@ class StreamViewModel {
 		}
 	}
 	
-	@objc private func recievedWillTerminateNotification(_ notification: Notification) {
+	@objc private func receivedWillTerminateNotification(_ notification: Notification) {
 		endStream()
 	}
 	

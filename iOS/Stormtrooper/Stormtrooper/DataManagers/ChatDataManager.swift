@@ -9,8 +9,10 @@
 import Foundation
 import CSyncSDK
 
+/// Manages sending and receiving chat messages.
 class ChatDataManager {
-	var didRecieveMessage: ((ChatMessage) -> Void)?
+	/// Closure called when a message is received.
+	var didReceiveMessage: ((ChatMessage) -> Void)?
 	private let csyncDataManager = CSyncDataManager.sharedInstance
 	private let streamPath: String
 	private let id: String
@@ -38,7 +40,7 @@ class ChatDataManager {
                 return
             }
 			if let content = value?.data, let message = ChatMessage(content: content) {
-				self?.didRecieveMessage?(message)
+				self?.didReceiveMessage?(message)
 			}
 		}
 	}

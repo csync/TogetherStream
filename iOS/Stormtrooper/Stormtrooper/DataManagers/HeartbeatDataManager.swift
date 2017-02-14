@@ -12,8 +12,8 @@ import CSyncSDK
 /// Manages sending and receiving heartbeats of users.
 /// Used to determine who is connected to a given stream.
 class HeartbeatDataManager {
-	/// Closure to call when heartbeats are recieved.
-	var didRecieveHeartbeats: ((Set<String>) -> Void)?
+	/// Closure to call when heartbeats are received.
+	var didReceiveHeartbeats: ((Set<String>) -> Void)?
     
     
 	/// Shorthand for CSyncDataManager
@@ -32,7 +32,7 @@ class HeartbeatDataManager {
 	private var pulseTimer: Timer?
 	/// CSync key of the heartbeat storage
 	private var pulseKey: Key
-	/// Holds the beats recieved. Maps the user's id to the timestamp it was sent
+	/// Holds the beats received. Maps the user's id to the timestamp it was sent
 	private var streamHeartbeats: [String: String] = [:]
 	
 	/// Interval to send heartbeat in seconds.
@@ -93,7 +93,7 @@ class HeartbeatDataManager {
 				let currentHeartbeats = self.streamHeartbeats
 					.filter{currentTime - (TimeInterval($0.1) ?? 0) < self.heartbeatExpiredInterval}
 					.map {$0.0}
-				self.didRecieveHeartbeats?(Set(currentHeartbeats))
+				self.didReceiveHeartbeats?(Set(currentHeartbeats))
 			}
 		}
 	}
