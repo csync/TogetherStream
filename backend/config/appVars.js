@@ -1,20 +1,20 @@
-/**
- * Created by danielfirsht on 11/22/16.
- */
 var apn = require("apn");
 var cfenv = require("cfenv");
+var vcapServices = require('./private/VCAP_SERVICES.json')
+var vcapDbService = vcapServices["compose-for-postgresql"] ? vcapServices["compose-for-postgresql"][0] : null
 var appEnv = cfenv.getAppEnv({
     vcap: {
-        services: require('./private/VCAP_SERVICES.json')
+        services: vcapServices
     }
 });
-var postgresService = appEnv.getService('Compose for PostgreSQL-hf');
+var dbName =  vcapDbService ? vcapDbService.name : null
+var postgresService = appEnv.getService(dbName);
 var credentials = require('./private/credentials');
 
 var appVars = {
     port: appEnv.port,
     bind: appEnv.bind,
-    sessionSecret: "meow meow",
+    sessionSecret: credentials.sessionSecret,
     facebook: {
         clientID: credentials.facebook.appID,
         clientSecret: credentials.facebook.secret,
