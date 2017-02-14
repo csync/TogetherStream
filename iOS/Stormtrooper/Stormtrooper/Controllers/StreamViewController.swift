@@ -523,7 +523,7 @@ class StreamViewController: UIViewController {
         }
     }
 	
-	fileprivate func getVideoID(from url: URL) -> String? {
+	fileprivate func fetchVideoID(from url: URL) -> String? {
 		guard let queries = url.query?.components(separatedBy: "&") else {
 			return nil
 		}
@@ -537,7 +537,7 @@ class StreamViewController: UIViewController {
 	}
     
     fileprivate func updateView(forVideoWithID id: String) {
-        viewModel.getVideo(withID: id) {[weak self] error, video in
+        viewModel.fetchVideo(withID: id) {[weak self] error, video in
             DispatchQueue.main.async {
                 if let video = video {
                     self?.videoTitleLabel.text = video.title
@@ -619,7 +619,7 @@ extension StreamViewController: StreamViewModelDelegate {
 	func receivedUpdate(forCurrentVideoID currentVideoID: String) {
 		var playerID: String?
 		if let playerURL = playerView.videoUrl() {
-			playerID = getVideoID(from: playerURL)
+			playerID = fetchVideoID(from: playerURL)
 		}
 		if playerView.videoUrl() == nil || currentVideoID != playerID {
             updateView(forVideoWithID: currentVideoID)
@@ -908,7 +908,7 @@ extension StreamViewController: YTPlayerViewDelegate {
 			}
             break
         case .buffering:
-			if viewModel.isHost, let url = playerView.videoUrl(), let id = getVideoID(from: url) {
+			if viewModel.isHost, let url = playerView.videoUrl(), let id = fetchVideoID(from: url) {
                 updateView(forVideoWithID: id)
 				viewModel.send(currentVideoID: id)
 				viewModel.send(isBuffering: true)

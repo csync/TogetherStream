@@ -47,8 +47,8 @@ class HomeViewModel {
 		}
 	}
 	
-	func getVideo(withID id: String, callback: @escaping (Error?, Video?) -> Void) {
-		youtubeDataManager.getVideo(withID: id, callback: callback)
+	func fetchVideo(withID id: String, callback: @escaping (Error?, Video?) -> Void) {
+		youtubeDataManager.fetchVideo(withID: id, callback: callback)
 	}
 	
 	func resetCurrentUserStream() {

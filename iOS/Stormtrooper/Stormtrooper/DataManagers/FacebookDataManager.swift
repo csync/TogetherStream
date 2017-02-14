@@ -49,7 +49,7 @@ class FacebookDataManager {
 		button.readPermissions = ["public_profile", "email", "user_friends"]
 	}
     
-    /// Logs out of the current Facebook account
+    /// Logs out of the current Facebook account.
     func logOut() {
         let loginManager = FBSDKLoginManager()
         loginManager.logOut()

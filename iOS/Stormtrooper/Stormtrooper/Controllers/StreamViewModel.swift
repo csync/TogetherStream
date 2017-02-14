@@ -127,8 +127,8 @@ class StreamViewModel {
 		}
 	}
     
-    func getVideo(withID id: String, callback: @escaping (Error?, Video?) -> Void) {
-        YouTubeDataManager.sharedInstance.getVideo(withID: id, callback: callback)
+    func fetchVideo(withID id: String, callback: @escaping (Error?, Video?) -> Void) {
+        YouTubeDataManager.sharedInstance.fetchVideo(withID: id, callback: callback)
     }
 	
 	func send(chatMessage: String) {
