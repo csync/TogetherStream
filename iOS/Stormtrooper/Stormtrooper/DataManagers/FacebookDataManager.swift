@@ -35,7 +35,7 @@ class FacebookDataManager {
 	private let urlSession = URLSession.shared
 	/// Shorthand for shared AccountDataManager
 	private let accountDataManager = AccountDataManager.sharedInstance
-	/// Shorthand for CSyncDataManager
+	/// Shorthand for the CSyncDataManager
 	private let csyncDataManager = CSyncDataManager.sharedInstance
     /// Maps queue identifer to a thread safe callback queue for retrieving a User.
     private var userCallbackQueues: [String: ThreadSafeCallbackQueue<User>] = [:]

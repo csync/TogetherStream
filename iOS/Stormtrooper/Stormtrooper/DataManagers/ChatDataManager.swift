@@ -14,7 +14,7 @@ class ChatDataManager {
 	/// Closure called when a message is received.
 	var didReceiveMessage: ((ChatMessage) -> Void)?
     
-	/// Shorthand for CSyncDataManager
+	/// Shorthand for the CSyncDataManager
 	private let csyncDataManager = CSyncDataManager.sharedInstance
 	/// The CSync key path of the stream.
 	private let streamPath: String
@@ -51,13 +51,13 @@ class ChatDataManager {
 			if let error = error {
 				print(error)
 			}
-            if value?.exists == false {
-                return
+            // Decodes valid messages
+            guard value?.exists == true,
+                let content = value?.data,
+                let message = ChatMessage(content: content) else {
+                    return
             }
-            // Decode message
-			if let content = value?.data, let message = ChatMessage(content: content) {
-				self?.didReceiveMessage?(message)
-			}
+            self?.didReceiveMessage?(message)
 		}
 	}
 	
