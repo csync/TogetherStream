@@ -187,7 +187,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         cell.descriptionLabel.text = stream.description
 		stream.listenForCurrentVideo {[unowned self] error, videoID in
 			if let videoID = videoID {
-				self.viewModel.getVideo(withID: videoID) {error, video in
+				self.viewModel.fetchVideo(withID: videoID) {error, video in
 					if let video = video {
 						DispatchQueue.main.async {
 							cell.videoTitleLabel.text = video.title
