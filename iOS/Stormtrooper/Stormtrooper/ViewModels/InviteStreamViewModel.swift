@@ -29,7 +29,7 @@ class InviteStreamViewModel {
     }
 
     func fetchFriends(callback: @escaping (Error?) -> Void) {
-        let friendIds = FacebookDataManager.sharedInstance.cachedFriendIds
+        let friendIds = FacebookDataManager.sharedInstance.cachedFriendIDs
 
         facebookFriends = []
         for id in friendIds {

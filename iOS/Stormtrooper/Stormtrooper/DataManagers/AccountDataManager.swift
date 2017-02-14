@@ -16,7 +16,7 @@ class AccountDataManager {
 	
 	// TODO: move to plist
 	private var serverAddress = "https://together-stream.mybluemix.net"
-	/// Convenient short hand to the URL session
+	/// Shorthand for shared URLSession
 	private var urlSession = URLSession.shared
 	/// Token that is used to authenticate requests to server
 	private var _serverAccessToken: String?
