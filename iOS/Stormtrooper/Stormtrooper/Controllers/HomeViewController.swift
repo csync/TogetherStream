@@ -10,11 +10,18 @@ import UIKit
 import Foundation
 import Crashlytics
 
+/// View controller for the "Home/Stream Invites" screen
 class HomeViewController: UIViewController {
 	@IBOutlet weak var streamsTableView: UITableView!
 	
+	/// The model for the objects in this view.
 	fileprivate let viewModel = HomeViewModel()
-    private var profileID: String?
+    /// The facebook profile ID of the currently displayed user.
+    private var facebookProfileID: String?
+    // The size of the profile button.
+    private let profileFrame = CGRect(x: 0, y: 0, width: 23, height: 23)
+    // Inset to provide padding to the streams table view
+    private let streamsTableViewInset = UIEdgeInsets(top: 9, left: 0, bottom: 0, right: 0)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +33,7 @@ class HomeViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         displayLoginIfNeeded()
+        logUserWithCrashlytics()
         setupNavigationBar()
         setupNavigationItems()
         setupProfileButton()
@@ -38,7 +46,7 @@ class HomeViewController: UIViewController {
 		viewModel.stopStreamsListening()
 	}
     
-    /// Set the navigation bar for all view controllers in the navigation stack
+    /// Set the navigation bar for all view controllers in the navigation stack.
     private func setupNavigationBar() {
         navigationController?.navigationBar.backIndicatorImage = #imageLiteral(resourceName: "back_stream")
         navigationController?.navigationBar.backIndicatorTransitionMaskImage = #imageLiteral(resourceName: "back_stream")
@@ -48,16 +56,20 @@ class HomeViewController: UIViewController {
         ]
     }
     
-    /// Set the navigation items for this view controller
+    /// Set the navigation items for this view controller.
     private func setupNavigationItems() {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
+    /// Sets up the profile button.
     private func setupProfileButton() {
-        guard profileID != FacebookDataManager.sharedInstance.profile?.userID else { return }
-        profileID = FacebookDataManager.sharedInstance.profile?.userID
+        // Only set up if the profile has changed
+        guard facebookProfileID != FacebookDataManager.sharedInstance.profile?.userID else { return }
+        
+        facebookProfileID = FacebookDataManager.sharedInstance.profile?.userID
         let profileButton = UIButton(type: .custom)
-        profileButton.frame = CGRect(x: 0, y: 0, width: 23, height: 23)
+        profileButton.frame = profileFrame
+        // Set the profile button's image to the user's profile pic
         FacebookDataManager.sharedInstance.fetchProfilePictureForCurrentUser() {error, image in
             DispatchQueue.main.async {
                 if let image = image {
@@ -70,32 +82,33 @@ class HomeViewController: UIViewController {
                 }
             }
         }
+        
         profileButton.addTarget(self, action: #selector(HomeViewController.profileTapped), for: .touchUpInside)
+        
         let profileButtonItem = UIBarButtonItem(customView: profileButton)
         navigationItem.rightBarButtonItem = profileButtonItem
     }
     
+    /// Sets up the stream table view.
     private func setupTableView() {
         streamsTableView.register(UINib(nibName: "StreamTableViewCell", bundle: nil), forCellReuseIdentifier: "streamCell")
         streamsTableView.register(UINib(nibName: "NoStreamsTableViewCell", bundle: nil), forCellReuseIdentifier: "noStreamsCell")
-        streamsTableView.contentInset = UIEdgeInsets(top: 9, left: 0, bottom: 0, right: 0)
+        streamsTableView.contentInset = streamsTableViewInset
         
+        // Sets up pull to refresh functionality.
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
         streamsTableView.refreshControl = refreshControl
     }
     
+    /// Shows the "Login" screen if not logged in.
     private func displayLoginIfNeeded() {
-        if let _ = FacebookDataManager.sharedInstance.profile { //logged in
-        }
-        else { //if nil, not logged in, show login
+        if FacebookDataManager.sharedInstance.profile == nil {
             guard let loginVC = Utils.vcWithNameFromStoryboardWithName("login", storyboardName: "Login") as? LoginViewController else {
                 return
             }
-            present(loginVC, animated: true, completion: { _ in
-            })
+            present(loginVC, animated: true)
         }
-        logUserWithCrashlytics()
     }
     
     /// Log the current user's id and name with Crashlytics to support detailed crash reports.
@@ -107,6 +120,9 @@ class HomeViewController: UIViewController {
         }
     }
     
+    /// Fetches the latest stream invites.
+    ///
+    /// - Parameter callback: The callback called on completion.
     func refreshStreams(callback: ((Void) -> Void)? = nil) {
         viewModel.refreshStreams { error, streams in
             DispatchQueue.main.async {
@@ -125,15 +141,19 @@ class HomeViewController: UIViewController {
         }
     }
     
+    /// On pulled to refresh, refresh streams.
+    ///
+    /// - Parameter refreshControl: The refresh control that was pulled.
     @objc private func refresh(_ refreshControl: UIRefreshControl) {
         Utils.sendGoogleAnalyticsEvent(withCategory: "Home", action: "PulledRefresh")
-        refreshStreams() {
+        refreshStreams {
             DispatchQueue.main.async {
                 refreshControl.endRefreshing()
             }
         }
     }
     
+    /// On profile button tapped, show the "Profile" screen.
     @objc private func profileTapped() {
         Utils.sendGoogleAnalyticsEvent(withCategory: "Home", action: "ProfileTapped")
         guard let profileVC = Utils.vcWithNameFromStoryboardWithName("profile", storyboardName: "Profile") as? ProfileViewController else {
@@ -144,15 +164,23 @@ class HomeViewController: UIViewController {
         }
     }
     
+    /// On the invite friends button tapped, show the "Invite Friends" screen.
     fileprivate func didSelectInviteFriends() {
         Utils.sendGoogleAnalyticsEvent(withCategory: "Home", action: "PressedInviteFriends")
         guard let inviteVC = Utils.vcWithNameFromStoryboardWithName("inviteStream", storyboardName: "InviteStream") as? InviteStreamViewController else {
             return
         }
+        // Configure InviteStreamVC
         inviteVC.navigationItem.title = "Invite to App"
+        inviteVC.isCreatingStream = false
+        inviteVC.canInviteToStream = false
+        
         navigationController?.pushViewController(inviteVC, animated: true)
     }
 
+    /// On start stream tapped, show the "Name Stream" screen.
+    ///
+    /// - Parameter sender: The button that was tapped.
     @IBAction func startStreamTapped(_ sender: Any) {
         Utils.sendGoogleAnalyticsEvent(withCategory: "Home", action: "PressedStartStream")
         guard let nameStreamVC = Utils.vcWithNameFromStoryboardWithName("nameStream", storyboardName: "NameStream") as? NameStreamViewController else {
@@ -165,10 +193,22 @@ class HomeViewController: UIViewController {
 }
 
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
+    /// Returns the number of rows for the section.
+    ///
+    /// - Parameters:
+    ///   - tableView: The tableview requesting the number.
+    ///   - section: The section the request is for.
+    /// - Returns: The number of rows for the section.
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return viewModel.numberOfRows
 	}
 	
+    /// Dequeues and configures the cell for the given path.
+    ///
+    /// - Parameters:
+    ///   - tableView: The table requesting the cell.
+    ///   - indexPath: The path of the cell.
+    /// - Returns: The cell to display.
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == viewModel.numberOfRows - 1 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "noStreamsCell") as? NoStreamsTableViewCell else {
@@ -186,22 +226,18 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 		cell.streamNameLabel.text = stream.name
         cell.descriptionLabel.text = stream.description
 		stream.listenForCurrentVideo {[unowned self] error, videoID in
-			if let videoID = videoID {
-				self.viewModel.fetchVideo(withID: videoID) {error, video in
-					if let video = video {
-						DispatchQueue.main.async {
-							cell.videoTitleLabel.text = video.title
-						}
-                        video.getMediumThumbnail {error, thumbnail in
-                            if let thumbnail = thumbnail {
-                                DispatchQueue.main.async {
-                                    cell.currentVideoThumbnailImageView.image = thumbnail
-                                }
-                            }
-                        }
-					}
-				}
-				
+            guard let videoID = videoID else { return }
+            self.viewModel.fetchVideo(withID: videoID) {error, video in
+                guard let video = video else { return }
+                DispatchQueue.main.async {
+                    cell.videoTitleLabel.text = video.title
+                }
+                video.getMediumThumbnail {error, thumbnail in
+                    guard let thumbnail = thumbnail else { return }
+                    DispatchQueue.main.async {
+                        cell.currentVideoThumbnailImageView.image = thumbnail
+                    }
+                }
 			}
 		}
 		
