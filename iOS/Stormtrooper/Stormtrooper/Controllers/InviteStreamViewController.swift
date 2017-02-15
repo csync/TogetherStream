@@ -249,6 +249,7 @@ extension InviteStreamViewController: UITableViewDelegate, UITableViewDataSource
             }
             friendsHeaderCell.selectionStyle = .none
             friendsHeaderCell.separatorInset = UIEdgeInsetsMake(0, 1000, 0, 0); // Moving seperator out of the screen
+            friendsHeaderCell.isHidden = viewModel.facebookFriends.count == 0
             return friendsHeaderCell
         case viewModel.numberOfStaticCellsBeforeFriends...tableRowsNum:
             //number of stormtrooper friends

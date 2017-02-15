@@ -523,7 +523,7 @@ class StreamViewController: UIViewController {
         }
     }
 	
-	fileprivate func getVideoID(from url: URL) -> String? {
+	fileprivate func fetchVideoID(from url: URL) -> String? {
 		guard let queries = url.query?.components(separatedBy: "&") else {
 			return nil
 		}
@@ -537,7 +537,7 @@ class StreamViewController: UIViewController {
 	}
     
     fileprivate func updateView(forVideoWithID id: String) {
-        viewModel.getVideo(withID: id) {[weak self] error, video in
+        viewModel.fetchVideo(withID: id) {[weak self] error, video in
             DispatchQueue.main.async {
                 if let video = video {
                     self?.videoTitleLabel.text = video.title
@@ -605,7 +605,7 @@ extension StreamViewController: StreamViewModelDelegate {
 		userCountLabel.text = "\(count)"
 	}
 	
-	func recieved(message: Message, for position: Int) {
+	func received(message: Message, for position: Int) {
             self.chatTableView.beginUpdates()
             self.chatTableView.insertRows(at: [IndexPath(row: position, section: 0)], with: .automatic)
             self.chatTableView.scrollTableViewToBottom(animated: false)
@@ -616,10 +616,10 @@ extension StreamViewController: StreamViewModelDelegate {
         chatTableView.deleteRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
     }
 	
-	func recievedUpdate(forCurrentVideoID currentVideoID: String) {
+	func receivedUpdate(forCurrentVideoID currentVideoID: String) {
 		var playerID: String?
 		if let playerURL = playerView.videoUrl() {
-			playerID = getVideoID(from: playerURL)
+			playerID = fetchVideoID(from: playerURL)
 		}
 		if playerView.videoUrl() == nil || currentVideoID != playerID {
             updateView(forVideoWithID: currentVideoID)
@@ -635,7 +635,7 @@ extension StreamViewController: StreamViewModelDelegate {
 		}
 	}
 	
-	func recievedUpdate(forIsPlaying isPlaying: Bool) {
+	func receivedUpdate(forIsPlaying isPlaying: Bool) {
 		if isPlaying && playerView.playerState() != .playing {
             DispatchQueue.main.async {
                 self.playerView.playVideo()
@@ -648,7 +648,7 @@ extension StreamViewController: StreamViewModelDelegate {
 		}
 	}
 	
-	func recievedUpdate(forIsBuffering isBuffering: Bool) {
+	func receivedUpdate(forIsBuffering isBuffering: Bool) {
 		if isBuffering && playerView.playerState() == .playing {
             DispatchQueue.main.async {
                 self.playerView.pauseVideo()
@@ -656,7 +656,7 @@ extension StreamViewController: StreamViewModelDelegate {
 		}
 	}
 	
-	func recievedUpdate(forPlaytime playtime: Float) {
+	func receivedUpdate(forPlaytime playtime: Float) {
 		if abs(playtime - playerView.currentTime()) > viewModel.maximumDesyncTime {
             DispatchQueue.main.async {
                 self.playerView.seek(toSeconds: playtime, allowSeekAhead: true)
@@ -868,8 +868,8 @@ extension StreamViewController: YTPlayerViewDelegate {
     }
     
     func playerView(_ playerView: YTPlayerView, receivedError error: YTPlayerError) {
-        Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "RecievedPlayerError", label: "\(error)")
-        let alert = UIAlertController(title: "Recieved Error from Player", message: "\(error)", preferredStyle: .alert)
+        Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "ReceivedPlayerError", label: "\(error)")
+        let alert = UIAlertController(title: "Received Error from Player", message: "\(error)", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
     }
@@ -908,7 +908,7 @@ extension StreamViewController: YTPlayerViewDelegate {
 			}
             break
         case .buffering:
-			if viewModel.isHost, let url = playerView.videoUrl(), let id = getVideoID(from: url) {
+			if viewModel.isHost, let url = playerView.videoUrl(), let id = fetchVideoID(from: url) {
                 updateView(forVideoWithID: id)
 				viewModel.send(currentVideoID: id)
 				viewModel.send(isBuffering: true)
