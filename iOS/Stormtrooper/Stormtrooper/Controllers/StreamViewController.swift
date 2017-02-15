@@ -488,25 +488,27 @@ class StreamViewController: UIViewController {
         else if let text = accessoryView.textField.text {
             textToSend = text
         }
-        
-        //send chat
-        viewModel.send(chatMessage: textToSend)
-        
-        //reset textfields
-        accessoryView.textField.text = nil
-        chatInputTextField.text = nil
-        
-        //dismiss keyboard
-        accessoryView.textField.resignFirstResponder()
-        chatInputTextField.resignFirstResponder()
-        
-        //hide keyboard views
-        updateView(forIsKeyboardShowing: false)
 
-        //scroll table view down
-        if viewModel.messages.count > 0 {
-            let indexPath = IndexPath(item: viewModel.messages.count - 1, section: 0)
-            chatTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+        if textToSend.characters.count > 0 {
+            //send chat
+            viewModel.send(chatMessage: textToSend)
+
+            //reset textfields
+            accessoryView.textField.text = nil
+            chatInputTextField.text = nil
+
+            //dismiss keyboard
+            accessoryView.textField.resignFirstResponder()
+            chatInputTextField.resignFirstResponder()
+
+            //hide keyboard views
+            updateView(forIsKeyboardShowing: false)
+
+            //scroll table view down
+            if viewModel.messages.count > 0 {
+                let indexPath = IndexPath(item: viewModel.messages.count - 1, section: 0)
+                chatTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+            }
         }
         
 	}
