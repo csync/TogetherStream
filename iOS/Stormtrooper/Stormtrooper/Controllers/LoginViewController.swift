@@ -10,17 +10,22 @@ import UIKit
 import FBSDKLoginKit
 
 
+/// View controller for "Login" screen
 class LoginViewController: UIViewController {
 	@IBOutlet weak var facebookLoginButton: FBSDKLoginButton!
+	/// Shorthand for shared FacebookDataManager
 	let facebookDataManager = FacebookDataManager.sharedInstance
+    /// Shorthand for shared AccountDataManager
     let accountDataManager = AccountDataManager.sharedInstance
+    /// Shorthand for shared CSyncDataManager
     let csyncDataManager = CSyncDataManager.sharedInstance
+    /// Loading indicator used after logging in.
     let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
 
     override func viewDidLoad() {
         super.viewDidLoad()
         trackScreenView()
-		self.setupFacebookLogin()
+		setupFacebookLoginButton()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -28,15 +33,22 @@ class LoginViewController: UIViewController {
         UIView.setAnimationsEnabled(true)
     }
     
-    func setupFacebookLogin() {
+    /// Configures the Facebook login button.
+    func setupFacebookLoginButton() {
         facebookDataManager.setupLoginButton(facebookLoginButton)
 		facebookLoginButton.delegate = self
     }
     
+    /// When CSync logo is tapped, show the CSync homepage.
+    ///
+    /// - Parameter sender: the button tapped.
     @IBAction func csyncTapped(_ sender: Any) {
         open(url: "https://ibm.biz/together-stream-csync-logo")
     }
     
+    /// Open the given URL.
+    ///
+    /// - Parameter url: the URL to open.
     private func open(url: String) {
         guard let url = URL(string: url) else { return }
         UIApplication.shared.open(url, options: [:], completionHandler: nil)
@@ -44,13 +56,21 @@ class LoginViewController: UIViewController {
 }
 
 extension LoginViewController: FBSDKLoginButtonDelegate {
+	/// Checks the status of Facebook login. If successful, authenticate with the server
+    /// and CSync.
+	///
+	/// - Parameters:
+	///   - loginButton: The button pressed.
+	///   - result: The result of the login attempt.
+	///   - error: The error of the login attempt.
 	func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
+        // Check if login was successful
         guard !result.isCancelled, result.declinedPermissions.count == 0 else { return }
+        // Disable additional login attempts while configuring.
         loginButton.isEnabled = false
         activityIndicator.startAnimating()
         activityIndicator.center = view.center
         view.addSubview(activityIndicator)
-        // User accepted all permissions
         FBSDKProfile.loadCurrentProfile() { profile, error in
             guard error == nil else {
                 DispatchQueue.main.async {
@@ -76,6 +96,7 @@ extension LoginViewController: FBSDKLoginButtonDelegate {
                     }
                     return
                 }
+                // Authenticate with CSync
                 self.csyncDataManager.authenticate(withFBAccessToken: accessToken) {authData, error in
                     guard error == nil else {
                         DispatchQueue.main.async {
@@ -88,6 +109,7 @@ extension LoginViewController: FBSDKLoginButtonDelegate {
                         return
                     }
                     DispatchQueue.main.async {
+                        // Successfully logged in
                         self.activityIndicator.stopAnimating()
                         self.dismiss(animated: true, completion: nil)
                     }
