@@ -50,7 +50,7 @@ class User {
                 callback(ServerError.unexpectedQueueFail, profileImage)
             }
         }
-        else if queueStatus.didAddFirst {
+        else if queueStatus.wasEmpty {
             guard let url = URL(string: pictureURL) else {
                 imageCallbackQueue.executeAndClearCallbacks(withError: ServerError.cannotFormURL, object: nil)
                 return
