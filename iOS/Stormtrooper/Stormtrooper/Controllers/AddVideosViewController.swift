@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// View controller for the "Add Videos" screen.
 class AddVideosViewController: UIViewController {
 	
     @IBOutlet weak var streamNameLabel: UILabel!
@@ -17,15 +18,22 @@ class AddVideosViewController: UIViewController {
     @IBOutlet weak var nextButton: UIButton!
     @IBOutlet weak var searchTableViewBottomConstraint: NSLayoutConstraint!
 	
+    /// The stream to add videos to.
     var stream: Stream?
+    /// Change view based on whether a stream is currently being created.
     var isCreatingStream = false
+    /// Delegate to send updates to.
     var delegate: AddVideosDelegate?
 	
+    /// The size of the space in front of the search bar.
     private let searchSpacerFrame = CGRect(x: 0, y: 0, width: 39, height: 5)
+    /// The size of the clear button for the search bar.
     private let searchClearFrame = CGRect(x: 0, y: 0, width: 54.5, height: 15)
-	fileprivate let viewModel = AddVideosViewModel()
-    
+    /// The height of the header in the search table.
     fileprivate let searchTableHeaderViewHeight: CGFloat = 43
+    
+	/// The model for the objects in this view.
+	fileprivate let viewModel = AddVideosViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,14 +45,8 @@ class AddVideosViewController: UIViewController {
         
         streamNameLabel.text = "\"\(stream?.name ?? "")\" Queue".localizedUppercase
         
-        viewModel.fetchTrendingVideos() {[weak self] error, videos in
-            DispatchQueue.main.async {
-                if let error = error {
-                    self?.showVideoAlert(with: error)
-                }
-                self?.searchTableView.reloadData()
-            }
-        }
+        fetchTrendingVideos()
+
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -74,40 +76,69 @@ class AddVideosViewController: UIViewController {
         }
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    /// Shows the given error to indicate an error with loading videos.
+    ///
+    /// - Parameter error: The error message to show.
     fileprivate func showVideoAlert(with error: Error) {
         let alert = UIAlertController(title: "Error Loading Videos", message: error.localizedDescription, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
     }
     
+    /// Fetches the current trending videos and updates the view, displaying an error if necessary.
+    fileprivate func fetchTrendingVideos() {
+        viewModel.fetchTrendingVideos() {[weak self] error, videos in
+            DispatchQueue.main.async {
+                if let error = error {
+                    self?.showVideoAlert(with: error)
+                }
+                self?.searchTableView.reloadData()
+            }
+        }
+    }
+    
+    /// Sets up the search bar.
     private func setupSearchBar() {
+        // Adds space for the magnify glass
         searchTextField.leftViewMode = .always
         searchTextField.leftView = UIView(frame: searchSpacerFrame)
         searchTextField.rightViewMode = .never
+        
+        // Adds and configures clear button
         let clearButton = UIButton(frame: searchClearFrame)
         clearButton.setImage(#imageLiteral(resourceName: "xSearch"), for: .normal)
         clearButton.contentMode = .left
         searchTextField.rightView = clearButton
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(textFieldChanged), name: NSNotification.Name.UITextFieldTextDidChange, object: nil)
-        
         clearButton.addTarget(self, action: #selector(pressedSearchClear), for: .touchUpInside)
+        
+        // Add observer for search textfield changing
+        NotificationCenter.default.addObserver(self, selector: #selector(textFieldChanged), name: NSNotification.Name.UITextFieldTextDidChange, object: nil)
     }
     
+    /// Sets up the table view.
     private func setupTableView() {
         searchTableView.register(UINib(nibName: "SearchResultTableViewCell", bundle: nil), forCellReuseIdentifier: "resultCell")
         searchTableView.separatorColor = UIColor.stormtrooperSeperatorGray
     }
     
-    /// Set the navigation items for this view controller
+    /// Set the navigation items for this view controller.
     private func setupNavigationItems() {
         navigationItem.titleView = UIImageView(image: #imageLiteral(resourceName: "youTube"))
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
 	
+    /// When the done button is tapped, sends added videos to the appropriate receivers
+    /// and moves to the next screen.
+    ///
+    /// - Parameter sender: The button that sent the "done" signal.
     @IBAction func doneTapped(_ sender: Any) {
         Utils.sendGoogleAnalyticsEvent(withCategory: "AddVideos", action: "AddedVideos", value: viewModel.selectedVideos.count as NSNumber?)
-        if isCreatingStream { //move to next screen in flow
+        if isCreatingStream {
+            // Move to next screen in flow
             delegate?.didAddVideos(selectedVideos: viewModel.selectedVideos)
             guard let inviteVC = Utils.vcWithNameFromStoryboardWithName("inviteStream", storyboardName: "InviteStream") as? InviteStreamViewController else {
                 return
@@ -120,12 +151,17 @@ class AddVideosViewController: UIViewController {
             self.navigationController?.pushViewController(inviteVC, animated: true)
 
         }
-        else { //dismiss
+        else {
+            // Dismiss
             delegate?.didAddVideos(selectedVideos: viewModel.selectedVideos)
             let _ = self.navigationController?.popViewController(animated: true)
         }
     }
 	
+    /// When a text field changes, updates the right view of the search text field
+    /// based on the number of characters in the field.
+    ///
+    /// - Parameter notification: The notification sent.
     @objc private func textFieldChanged(_ notification: Notification) {
         if searchTextField.text?.characters.count ?? 0 > 0 {
             searchTextField.rightViewMode = .whileEditing
@@ -135,38 +171,21 @@ class AddVideosViewController: UIViewController {
         }
     }
     
+    /// Clears the serch results and fetches the trending videos.
     @objc private func pressedSearchClear() {
         Utils.sendGoogleAnalyticsEvent(withCategory: "AddVideos", action: "PressedSearchClear")
         searchTextField.text = ""
         searchTextField.resignFirstResponder()
-        viewModel.fetchTrendingVideos() {[weak self] error, videos in
-            DispatchQueue.main.async {
-                if let error = error {
-                    self?.showVideoAlert(with: error)
-                }
-                self?.searchTableView.reloadData()
-            }
-        }
+        fetchTrendingVideos()
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
 
 extension AddVideosViewController: UITextFieldDelegate {
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        print("Editing ended! Current text: \(textField.text)")
-    }
-    
+    /// When a text field returns, search for the text of the field or
+    /// fetch the trending videos if empty. Afterwards, update the view.
+    ///
+    /// - Parameter textField: The text field that returned.
+    /// - Returns: Whether to perform the return, is always true.
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         let query = textField.text ?? ""
         if query.characters.count > 0 {
@@ -182,14 +201,7 @@ extension AddVideosViewController: UITextFieldDelegate {
             }
         }
         else {
-            viewModel.fetchTrendingVideos {[weak self] error, videos in
-                DispatchQueue.main.async {
-                    if let error = error {
-                        self?.showVideoAlert(with: error)
-                    }
-                    self?.searchTableView.reloadData()
-                }
-            }
+            fetchTrendingVideos()
         }
         textField.resignFirstResponder()
         return true
@@ -197,15 +209,27 @@ extension AddVideosViewController: UITextFieldDelegate {
 }
 
 extension AddVideosViewController: UITableViewDataSource, UITableViewDelegate {
+    /// Returns the number of rows for the section.
+    ///
+    /// - Parameters:
+    ///   - tableView: The tableview requesting the number.
+    ///   - section: The section the request is for.
+    /// - Returns: The number of rows for the section.
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.videos.count
+        return viewModel.listedVideos.count
     }
     
+    /// Dequeues and configures the cell for the given path.
+    ///
+    /// - Parameters:
+    ///   - tableView: The table requesting the cell.
+    ///   - indexPath: The path of the cell.
+    /// - Returns: The cell to display.
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "resultCell") as? SearchResultTableViewCell else {
             return UITableViewCell()
         }
-        let video = viewModel.videos[indexPath.row]
+        let video = viewModel.listedVideos[indexPath.row]
         
         if viewModel.videoIsSelected(at: indexPath) {
             cell.addImageView.image = #imageLiteral(resourceName: "addedVideos")
@@ -214,6 +238,7 @@ extension AddVideosViewController: UITableViewDataSource, UITableViewDelegate {
             cell.addImageView.image = #imageLiteral(resourceName: "addVideos")
         }
         
+        // Only set view if video has changed
         if cell.videoID != video.id {
             cell.videoID = video.id
             cell.thumbnailImageView.image = nil
@@ -233,17 +258,37 @@ extension AddVideosViewController: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     
+    /// Sets the height to be automatic based on constraints.
+    ///
+    /// - Parameters:
+    ///   - tableView: The table requesting the height.
+    ///   - indexPath: The index path of the row the request is for.
+    /// - Returns: The height of the cell.
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
     
+    /// Sets the height to be automatic based on constraints.
+    ///
+    /// - Parameters:
+    ///   - tableView: The table requesting the height.
+    ///   - indexPath: The index path of the row being requested for.
+    /// - Returns: The height of the cell.
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
     
+    /// Toggles the selection of the selected video. Changes display of
+    /// "next" button if needed.
+    ///
+    /// - Parameters:
+    ///   - tableView: The table that was selected.
+    ///   - indexPath: The path of the cell that was selected.
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         viewModel.toggleSelectionOfVideo(at: indexPath)
+        // Updates selected video count view
         queueCountLabel.text = String(viewModel.selectedVideos.count)
+        // Updates selected image
         if let cell = tableView.cellForRow(at: indexPath) as? SearchResultTableViewCell {
             if viewModel.videoIsSelected(at: indexPath) {
                 cell.addImageView.image = #imageLiteral(resourceName: "addedVideos")
@@ -252,7 +297,7 @@ extension AddVideosViewController: UITableViewDataSource, UITableViewDelegate {
                 cell.addImageView.image = #imageLiteral(resourceName: "addVideos")
             }
         }
-        // show next button if at least one video is selected
+        // Show next button if at least one video is selected
         if viewModel.selectedVideos.count == 0 {
             nextButton.isHidden = true
             searchTableViewBottomConstraint.constant = 0
@@ -262,10 +307,16 @@ extension AddVideosViewController: UITableViewDataSource, UITableViewDelegate {
             searchTableViewBottomConstraint.constant = nextButton.frame.height * -1
         }
         
-        // hide keyboard if present
+        // Hide keyboard if present
         view.endEditing(true)
     }
     
+    /// Instantiates and configures the table header.
+    ///
+    /// - Parameters:
+    ///   - tableView: The table requesting the header.
+    ///   - section: The section the header is for.
+    /// - Returns: The header view.
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = SearchResultHeaderView.instanceFromNib()
         if searchTextField.text?.characters.count ?? 0 > 0 {
@@ -277,16 +328,28 @@ extension AddVideosViewController: UITableViewDataSource, UITableViewDelegate {
         return headerView
     }
     
+    /// Sets the height of the header.
+    ///
+    /// - Parameters:
+    ///   - tableView: The table requesting the header height.
+    ///   - section: The section the request is for.
+    /// - Returns: The height of the header.
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return searchTableHeaderViewHeight
     }
     
+    /// When the table view scrolls, hide the keyboard if present
+    ///
+    /// - Parameter scrollView: The scroll view that scrolled.
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        // hide keyboard if present
         view.endEditing(true)
     }
 }
 
+/// Delegate to receive notifications when videos are added.
 protocol AddVideosDelegate {
+    /// Notification triggered when videos are added.
+    ///
+    /// - Parameter selectedVideos: The videos added.
     func didAddVideos(selectedVideos: [Video])
 }
