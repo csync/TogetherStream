@@ -95,11 +95,14 @@ class AddVideosViewController: UIViewController {
     
     /// Fetches the current trending videos and updates the view, displaying an error if necessary.
     fileprivate func fetchTrendingVideos() {
+        // Clear table
         viewModel.listedVideos = []
         searchTableView.reloadData()
+        // Display loading indicator
         activityIndicator.startAnimating()
         viewModel.fetchTrendingVideos() {[weak self] error, videos in
             DispatchQueue.main.async {
+                // Hide loading indicator
                 self?.activityIndicator.stopAnimating()
                 if let error = error {
                     self?.showVideoAlert(with: error)
@@ -204,11 +207,14 @@ extension AddVideosViewController: UITextFieldDelegate {
         let query = textField.text ?? ""
         if query.characters.count > 0 {
             Utils.sendGoogleAnalyticsEvent(withCategory: "AddVideos", action: "PerformedSearch")
+            // Clear table
             viewModel.listedVideos = []
             searchTableView.reloadData()
+            // Display loading indicator
             activityIndicator.startAnimating()
             viewModel.searchForVideos(withQuery: query) {[weak self] error, videos in
                 DispatchQueue.main.async {
+                    // Hide loading indiciator
                     self?.activityIndicator.stopAnimating()
                     if let error = error {
                         self?.showVideoAlert(with: error)
