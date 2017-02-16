@@ -35,6 +35,7 @@ class AddVideosViewController: UIViewController {
 	/// The model for the objects in this view.
 	fileprivate let viewModel = AddVideosViewModel()
     
+    /// Loading indicator for fetching videos.
     fileprivate let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .white)
     
     override func viewDidLoad() {
@@ -138,6 +139,7 @@ class AddVideosViewController: UIViewController {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
+    /// Sets up the activity indicator.
     private func setupActivityIndicator() {
         activityIndicator.frame = view.frame
         view.addSubview(activityIndicator)
