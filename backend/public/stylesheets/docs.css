@@ -1,0 +1,120 @@
+section {
+	align-items: flex-start;
+	padding-top: 150px;
+	width: 83%;
+	margin: 0 auto;
+}
+
+section a {
+	text-decoration: underline;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+section a:hover, section a p:hover {
+	color: red;
+}
+
+.content-title {
+    margin: 0 0 12px 0;
+		font-weight: 500;
+		font-size: 1.8rem;
+		color: rgb(216,65,7);
+}
+
+.text-container {
+	text-align: left;
+	min-width: 0;
+	height: 100%;
+	padding-bottom: 100px;
+	padding: 0;
+	align-items: flex-start;
+} 
+
+.text-container .content {
+	margin-bottom: 0;
+}
+
+.row-list {
+	display: flex;
+	width: 100%;
+	margin-top: 40px;
+	margin-bottom: 20px;
+	justify-content: flex-start;
+}
+
+#doc-list {
+	justify-content: space-between;
+	padding-bottom: 60px;
+	width: 100%;
+}
+
+.feature {
+	margin-top: 40px;
+	margin-bottom: 50px;
+}
+
+.feature a {
+	margin: 0 auto;
+}
+
+.thumbnail {
+	height: 100px;
+	max-width: 100px;
+}
+
+.side-feature {
+	display: flex;
+	flex-direction: row;
+	align-items: flex-start;
+	text-align: left;
+	margin-right: 22px;
+	margin-bottom: 40px;
+}
+
+.side-feature .thumbnail {
+	max-width: 30px;
+	height: auto;
+}
+
+.side-feature .text {
+	max-width: 320px;
+	margin-left: 11px;
+}
+
+.side-feature .text h3 {
+	margin-top: 0;
+	margin-bottom: 11px;
+	font-weight: 600;
+}
+
+.side-feature .text p {
+	font-size: 16px;
+	margin-bottom: 0;
+}
+
+@media (max-width: 735px) {
+	section {
+		padding-left: 6%;
+		padding-right: 6%;
+		padding-top: 50px;
+	}
+}
+
+footer {
+	position: absolute;
+	bottom: 0;
+}
+
+
+@media (max-width: 963px) {
+	.row-list {
+		flex-direction: column;
+	}
+	footer {
+		position:relative;
+	}
+}
