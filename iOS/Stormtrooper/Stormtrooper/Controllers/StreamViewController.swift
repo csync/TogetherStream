@@ -480,7 +480,6 @@ class StreamViewController: UIViewController {
     
     
     func chatInputActionTriggered() {
-        Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "SelectedSendText")
         var textToSend = ""
 		if let text = chatInputTextField.text {
 			textToSend = text
@@ -490,6 +489,9 @@ class StreamViewController: UIViewController {
         }
 
         if textToSend.characters.count > 0 {
+
+            Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "SelectedSendText")
+
             //send chat
             viewModel.send(chatMessage: textToSend)
 
