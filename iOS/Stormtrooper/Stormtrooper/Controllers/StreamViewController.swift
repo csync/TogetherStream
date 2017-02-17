@@ -421,6 +421,7 @@ class StreamViewController: UIViewController {
         inviteVC.navigationItem.title = "Invite to Stream"
         inviteVC.canInviteToStream = true
         inviteVC.isCreatingStream = false
+        inviteVC.stream = stream
         navigationController?.pushViewController(inviteVC, animated: true)
     }
     
