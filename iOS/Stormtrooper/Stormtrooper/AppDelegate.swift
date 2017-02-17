@@ -215,29 +215,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
             return
         }
         
-        let popup = PopupViewController.instantiate(
-            titleText: "MY STREAM",
-            image: #imageLiteral(resourceName: "profile_85"),
-            messageText: stream.name,
-            descriptionText: "Would you like to end your stream?",
-            primaryButtonText: "END STREAM",
-            secondaryButtonText: "Cancel",
-            completion: { streamViewController.closeTapped(); callback() }
-        )
-        
-        streamViewController.present(popup, animated: true)
-        
-        FacebookDataManager.sharedInstance.fetchInfoForUser(withID: stream.hostFacebookID) { error, user in
-            guard error == nil else { return }
-            if let user = user {
-                user.fetchProfileImage { error, image in
-                    guard error == nil else { return }
-                    if let image = image {
-                        popup.image = image
-                    }
-                }
-            }
-        }
+        streamViewController.leaveStream { callback() }
     }
 }
 
