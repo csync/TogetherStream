@@ -498,7 +498,7 @@ section {
   .splash .appstore-icon {
     float: none;
   }
-  .splash .left-container {
+  .splash.main .left-container {
     margin-top: 70px;
   }
   .splash2 .right-container {
