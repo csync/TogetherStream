@@ -1,0 +1,7 @@
+{
+  "name": "Together-Stream",
+  "short_name": "Together-Stream",
+  "description": "Watch videos together with others.",
+  "start_url": "/",
+  "display": "standalone"
+}

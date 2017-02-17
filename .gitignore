@@ -71,3 +71,4 @@ backend/.idea
 backend/config/private
 newrelic_agent.log
 yarn.lock
+backend/public/app/bower_components

@@ -110,7 +110,7 @@ span.store-button {
   height: 100%;
 }
 .sticky-header nav li+li {
-  margin-right: 30px;
+  margin-right: 95px;
 }
 .sticky-header .logo {
   display: flex;
@@ -132,7 +132,6 @@ span.store-button {
 }
 
 .sticky-header .logo img {
-  margin-right: -25px;
   width: 200px;
 }
 
@@ -213,13 +212,11 @@ footer .links li {
 }
 
 footer .csync-icon {
-  width: 60%;
   max-width: 300px;
 }
 
 footer .powered-by {
   margin-right: 25px;
-  margin-left: 15px;
   color: rgb(148, 147, 148);
   text-transform: uppercase;
   font-weight: 500;
@@ -301,10 +298,10 @@ footer .more-links li {
   }
   .sticky-header nav ul .logo{
     position:relative;
-    left: -33px;
   }
   .sticky-header nav ul li+li {
     border-top: solid 1px rgba(151, 151, 151, 0.3);
+    margin-right: 0px;
   }
   footer .links {
     flex-direction: column;
@@ -313,6 +310,9 @@ footer .more-links li {
     padding-top: 10px;
     padding-bottom: 10px;
     text-align: center;
+  }
+  footer .csync-icon {
+    max-width: 220px;
   }
 }
 
