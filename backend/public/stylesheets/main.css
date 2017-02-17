@@ -462,6 +462,11 @@ section {
   color: red;
 }
 
+.csync-container {
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+}
 
 @media (max-width: 963px) {
   
@@ -510,6 +515,17 @@ section {
     padding: 0;
     margin: 0;
   }
+  .tuning-in {
+    height: 1062px;
+  }
 }
 
-
+@media (max-width: 470px) {
+  .csync-container {
+    flex-direction:column;
+  }
+  .powered-by {
+    margin-right: 0px !important;
+    margin-bottom: 20px;
+  }
+}
