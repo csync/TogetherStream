@@ -50,7 +50,7 @@ class StreamViewModel {
         return stream?.csyncPath ?? ""
     }
     
-    let maximumDesyncTime: Float = 1.0
+    let maximumDesyncTime: Float = 3.0
     
     private let maximumChatMessages = 50
 	
