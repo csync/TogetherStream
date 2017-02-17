@@ -15,7 +15,6 @@
 */
 
 var appVars = require('../config/appVars');
-var pg = require('pg');
 var userController = require('../user/user.controller')
 
 var idService = {};
