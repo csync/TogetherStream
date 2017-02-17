@@ -1,4 +1,4 @@
-/* 
+/*
   Copyright 2017 IBM Corporation
 
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,16 +16,22 @@
 
 var apn = require("apn");
 var cfenv = require("cfenv");
-var vcapServices = require('./private/VCAP_SERVICES.json')
-var vcapDbService = vcapServices["compose-for-postgresql"] ? vcapServices["compose-for-postgresql"][0] : null
+var vcapServices = require('./private/VCAP_SERVICES.json');
+var vcapDbService = vcapServices["compose-for-postgresql"] ? vcapServices["compose-for-postgresql"][0] : null;
 var appEnv = cfenv.getAppEnv({
     vcap: {
         services: vcapServices
     }
 });
-var dbName =  vcapDbService ? vcapDbService.name : null
+var dbName =  vcapDbService ? vcapDbService.name : null;
 var postgresService = appEnv.getService(dbName);
 var credentials = require('./private/credentials');
+var pg = require('pg');
+var config = parseDBURL(postgresService.credentials.uri);
+// max number of clients in the pool
+config['max'] = 10;
+// how long a client is allowed to remain idle before being closed
+config['idleTimeoutMillis'] = 30000;
 
 var appVars = {
     port: appEnv.port,
@@ -41,13 +47,29 @@ var appVars = {
         clientSecret: credentials.google.clientSecret,
         redirectURL: appEnv.url + "/auth/youtube/callback"
     },
-    postgres: postgresService.credentials,
+    pool: new pg.Pool(config),
     accessTokenKey: credentials.app.accessTokenKey,
     refreshTokenKey: credentials.app.refreshTokenKey,
     apn: new apn.Provider({
         cert: __dirname + '/private/cert.pem',
         key: __dirname + '/private/key.pem'
     })
+};
+
+function parseDBURL(dbURL) {
+    const url = require('url');
+
+    const params = url.parse(dbURL);
+    const auth = params.auth.split(':');
+
+    return {
+        user: auth[0],
+        password: auth[1],
+        host: params.hostname,
+        port: params.port,
+        database: params.pathname.split('/')[1],
+        ssl: true
+    };
 };
 
 module.exports = appVars;
