@@ -62,7 +62,8 @@ section {
 }
 .text-seperator {
   font-weight: 500;
-  font-size: -webkit-xxx-large
+  font-size: -webkit-xxx-large !important;
+  font-size: xx-large;
 }
 
 .splash .left-container {
