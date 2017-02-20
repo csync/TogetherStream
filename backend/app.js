@@ -17,6 +17,7 @@
 require('newrelic'); // setup new relic performance monitoring
 'use strict';
 
+var agent = require('bluemix-autoscaling-agent');
 var express = require('express');
 var path = require('path');
 
