@@ -16,16 +16,22 @@
 
 var apn = require("apn");
 var cfenv = require("cfenv");
+var credentials = require('./private/credentials');
 var vcapServices = require('./private/VCAP_SERVICES.json');
-var vcapDbService = vcapServices["compose-for-postgresql"] ? vcapServices["compose-for-postgresql"][0] : null;
-var appEnv = cfenv.getAppEnv({
-    vcap: {
-        services: vcapServices
-    }
-});
+
+var appEnv = cfenv.getAppEnv();
+if (appEnv.isLocal) {
+  console.log('Defaulting to local environment config.');
+  var appEnv = cfenv.getAppEnv({
+      vcap: {
+          services: vcapServices
+      }
+  });
+}
+
+var vcapDbService = vcapServices[credentials.app.postgresServiceName] ? vcapServices[credentials.app.postgresServiceName][0] : null;
 var dbName =  vcapDbService ? vcapDbService.name : null;
 var postgresService = appEnv.getService(dbName);
-var credentials = require('./private/credentials');
 var pg = require('pg');
 var config = parseDBURL(postgresService.credentials.uri);
 // max number of clients in the pool
