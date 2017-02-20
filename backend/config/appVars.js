@@ -22,7 +22,7 @@ var vcapServices = require('./private/VCAP_SERVICES.json');
 var appEnv = cfenv.getAppEnv();
 if (appEnv.isLocal) {
   console.log('Defaulting to local environment config.');
-  var appEnv = cfenv.getAppEnv({
+  appEnv = cfenv.getAppEnv({
       vcap: {
           services: vcapServices
       }
