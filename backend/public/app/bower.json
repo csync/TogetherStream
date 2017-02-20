@@ -1,5 +1,5 @@
 {
-  "name": "Together-Stream",
+  "name": "together-stream",
   "description": "Watch videos together with others.",
   "main": "index.html",
   "dependencies": {
