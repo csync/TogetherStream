@@ -32,14 +32,7 @@ class StreamViewModel {
         }
     }
     
-    var videoQueue: [Video]? {
-        didSet {
-            // Set inital video
-            if videoQueue?.count ?? 0 > 0, let firstVideo = videoQueue?[0] {
-                send(currentVideoID: firstVideo.id)
-            }
-        }
-    }
+    var videoQueue: [Video]?
     var currentVideoIndex: Int?
 	
 	var userCount: Int {
