@@ -3,9 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node app.js"
+    "start": "node --max-old-space-size=400 app.js"
   },
   "dependencies": {
+    "bluemix-autoscaling-agent" : "*",
     "@newrelic/native-metrics": "^2.0.2",
     "apn": "^2.1.2",
     "body-parser": "~1.15.1",
