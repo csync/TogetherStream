@@ -6,7 +6,5 @@ applications:
   path: backend
   instances: 3
   services:
-   - Compose for PostgreSQL-hf
-   - New Relic-ra
-   - Auto-Scaling-wg
-   - availability-monitoring-auto
+   - Compose for PostgreSQL-7a
+   - Auto-Scaling-0n
