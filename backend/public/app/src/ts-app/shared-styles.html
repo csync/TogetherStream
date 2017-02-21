@@ -1,0 +1,382 @@
+<dom-module id="shared-styles">
+  <template>
+    <style>
+      html,
+      body {
+        background-color: white;
+        width: 100%;
+        height: 100%;
+        margin: 0 auto;
+        font-family: 'Work Sans', 'helvetica Neue', Helvetica, Arial, "Lucida Grande", sans-serif;
+        color: rgb(52, 57, 63);
+        font-size: 14pt;
+        overflow-y: scroll;
+        -webkit-overflow-scrolling: touch;
+        overflow-x: hidden;
+        font-weight: 300;
+        letter-spacing: 0.5px;
+      }
+
+      h1,
+      h2 {
+        font-weight: 300;
+        color: black;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      p {
+        line-height: 1.6rem;
+      }
+
+      a {
+        text-decoration: none;
+      }
+
+      a div.button:hover {
+        background-color: rgb(43, 136, 248);
+      }
+
+      .button {
+        cursor: pointer;
+        background-color: rgb(85, 160, 249);
+        outline: none;
+        border: none;
+        border-radius: 0;
+        color: white;
+      }
+      .footer-button {
+        width: 300px;
+        border-radius: 64px;
+        height: 45px;
+        background-color: rgb(216,65,6);
+        color: white;
+        border: none;
+        text-transform: uppercase;
+        font-weight: 700;
+        font-size: 13px;
+        letter-spacing: 1.5px;
+      }
+      .hidden {
+        display: none;
+      }
+
+      span.store-button {
+        color: white;
+        text-decoration: none;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .super-script {
+        font-style: italic;
+        vertical-align: super;
+        margin-left: 10px;
+      }
+
+      .sticky-header {
+        z-index: 100;
+        position: fixed;
+        top: 0px;
+        width: 100%;
+        height: 60px;
+        background-color: white;
+        display: flex;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+        -webkit-box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.1);
+        -moz-box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.1);
+        box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.1);
+      }
+
+      .sticky-header nav {
+        width: 100%;
+        height: 100%;
+      }
+
+      .sticky-header nav ul {
+        display: flex;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        font-size: 0.75rem;
+        align-items: center;
+        align-content: center;
+        justify-content: space-around;
+        width: 100%;
+        height: 100%;
+      }
+      .link.name {
+        margin-right: 95px;
+        width: 200px;
+      }
+      .link.name .separator {
+        font-size: large;
+        font-weight: 400;
+        margin-right: 10px;
+      }
+      .link.name a {
+        text-transform: none;
+        justify-content: flex-start;
+        cursor: pointer;
+      }
+      .link.name img {
+        border-radius:50%;
+        margin-right: 10px;
+      }
+      .sticky-header .logo {
+        display: flex;
+        align-items: center;
+        letter-spacing: -0.2px;
+        flex: 4;
+        min-width: 250px;
+      }
+
+      .sticky-header .logo a {
+        margin-left: 95px;
+      }
+
+      .sticky-header .logo p {
+        margin: 0;
+        display: inline-block;
+        text-transform: none;
+        font-size: 17px;
+      }
+
+      .sticky-header .logo img {
+        width: 200px;
+      }
+
+      .sticky-header .logo .super-script {
+        font-size: 0.5rem;
+      }
+
+      .sticky-header .button {
+        height: 100%;
+        min-height: 60px;
+        width: 100%;
+        min-width: 200px;
+        background-color: rgb(85, 160, 249);
+        display: flex;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+        color: white;
+        font-size: 0.7rem;
+        letter-spacing: 1px;
+      }
+
+      .sticky-header nav ul li {
+        text-align: center;
+        height: 100%;
+        width: 100px;
+      }
+
+      a:hover {
+        color: rgb(216,65,6) !important;
+        text-decoration: underline;
+      }
+
+      .sticky-header nav ul .release-link {
+        flex: 0;
+        width: 100%;
+      }
+
+      .sticky-header nav ul .release-link a {
+        width: 100%;
+      }
+
+      .sticky-header nav ul a {
+        text-decoration: none;
+        color: rgb(40, 36, 36);
+        font-weight: 500;
+        font-size: 14px;
+        text-transform: uppercase;
+        align-items: center;
+        align-content: center;
+        display: flex;
+        margin: 0 auto;
+        height: 100%;
+        text-align: center;
+        justify-content: center;
+      }
+
+      .sticky-header nav ul a.active-link {
+        box-shadow: inset 0 -4px 0 0 rgb(85, 160, 249);
+      }
+
+      .sticky-header nav ul a.store-button {
+        color: white;
+      }
+
+      footer {
+        background-color: rgb(40, 36, 36);
+        padding-top:50px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        width: 100%;
+        color: white;
+      }
+
+      footer .links li {
+        flex: 1 1 auto;
+      }
+
+      footer .csync-icon {
+        max-width: 300px;
+      }
+
+      footer .powered-by {
+        margin-right: 25px;
+        color: rgb(148, 147, 148);
+        text-transform: uppercase;
+        font-weight: 500;
+      }
+
+      .more-links {
+        display: flex;
+        list-style: none;
+        flex-direction: row;
+        justify-content: center;
+        align-content: center;
+        align-items: center;
+        padding: 0;
+        text-align: left;
+      }
+
+      footer .more-links li {
+        flex: 0;
+        padding: 0 15px;
+        min-width: 50px;
+      }
+
+
+      .more-links li:nth-of-type(2) {
+        border-left: solid 1px white;
+        border-right: solid 1px white;
+      }
+
+      /*.more-links li:nth-of-type(3) {
+        border-right: solid 1px white;
+        padding-right: 30px;
+      }*/
+
+      @media (max-width: 963px) {
+        p {
+          margin-left: 5%;
+          margin-right: 5%;
+        }
+        section {
+          padding-top: 30px;
+          padding-bottom: 30px;
+        }
+        .splash .text {
+          margin-bottom: 30px;
+        }
+        .image-container .screenshot {
+          min-width: 300px;
+          height: 300px;
+        }
+        .sample .image,
+        .integrate .image {
+          height: 300px;
+        }
+        .illustration {
+          display: none;
+        }
+        .sticky-header nav ul .changelog-link a {
+          margin-right: auto;
+        }
+        .sticky-header .logo a {
+          margin-left: auto;
+        }
+        .sticky-header {
+          padding-top: 30px;
+        }
+        .sticky-header,
+        footer {
+          position: relative;
+          height: auto;
+          padding-bottom: 10px;
+        }
+        .sticky-header nav ul {
+          flex-direction: column;
+        }
+        .sticky-header nav ul li {
+          padding-top: 20px;
+          padding-bottom: 20px;
+          width: 100%;
+        }
+        .sticky-header nav ul .logo{
+          position:relative;
+        }
+        .sticky-header nav ul li+li {
+          border-top: solid 1px rgba(151, 151, 151, 0.3);
+          margin-right: 0px;
+        }
+        footer .links {
+          flex-direction: column;
+        }
+        footer .links li {
+          padding-top: 10px;
+          padding-bottom: 10px;
+          text-align: center;
+        }
+        footer .csync-icon {
+          max-width: 220px;
+        }
+      }
+
+      footer .links {
+        display: flex;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        color: white;
+        font-size: 0.75rem;
+        line-height: 1rem;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+        width: 100%;
+        text-align: center;
+      }
+
+      footer .nav-footer {
+        display: flex;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+        margin-bottom: 40px;
+        width: 100%;
+      }
+
+      footer .centered-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+        margin-bottom: 60px;
+
+      }
+
+      footer .swift-link {
+        font-size: 1rem;
+      }
+
+      footer .links a {
+        text-decoration: none;
+        color: white;
+      }
+    </style>
+  </template>
+</dom-module>

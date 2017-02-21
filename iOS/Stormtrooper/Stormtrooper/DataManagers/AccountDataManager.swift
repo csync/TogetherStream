@@ -57,7 +57,7 @@ class AccountDataManager {
 		sendToServer(request: request){_,_,_ in}
 	}
 	
-	/// Retireve all stream invites for the current user from server.
+	/// Fetches all stream invites for the current user from server.
 	///
 	/// - Parameter callback: The callback called on completion.
 	func retrieveInvites(callback: @escaping (Error?, [Stream]?) -> Void) {
