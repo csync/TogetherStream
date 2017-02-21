@@ -194,6 +194,11 @@ class StreamViewController: UIViewController {
             
             navigationItem.setLeftBarButtonItems([item1], animated: false)
             navigationItem.setRightBarButtonItems([item2], animated: false)
+            
+            // Set inital video
+            if videoQueue?.count ?? 0 > 0, let firstVideo = videoQueue?[0] {
+                viewModel.send(currentVideoID: firstVideo.id)
+            }
         }
         else { //participant-- cannot view queue, can't end stream, can't invite people
             headerArrowImageView.isHidden = true
