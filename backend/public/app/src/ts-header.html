@@ -1,4 +1,4 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="./shared-styles.html">
 
 <dom-module id="ts-header">
@@ -17,13 +17,15 @@
 						</a>
 					</li>
 					<li class="link"><a target="_blank" href="http://ibm.biz/together-stream-feedback" onclick="ga('send', 'event', 'link', 'click', 'feedback-1');">Feedback</a></li>
-          <li class="link name">
-            <a>
-              <span class="separator">|</span>
-              <img height=20 width=20 src={{loggedInUser.picture.data.url}}>
-              {{loggedInUser.name}}
-            </a>
-          </li>
+          <template is="dom-if" if="{{loggedInUser.name}}">
+            <li class="link name">
+              <a>
+                <span class="separator">|</span>
+                <img height=20 width=20 src={{loggedInUser.picture.data.url}}>
+                {{loggedInUser.name}}
+              </a>
+            </li>
+          </template>
           
         </ul>
 			</nav>
@@ -40,9 +42,7 @@
           notify: true,
           reflectToAttribute: true,
           value: function () {
-            return {
-              name: "WTF"
-            }
+            return {}
           }
         }
       },

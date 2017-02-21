@@ -1,30 +1,5 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="./ts-header.html">
-
-<dom-module id="ts-app">
-  <template>
-    <style>
-      :host {
-        display: block;
-        min-height: 500px;
-        padding-top: 60px;
-      }
-    </style>
-    <ts-header logged-in-user={{userFacebookData}}></ts-header>
-    <template is="dom-if" if="{{!loggedIn}}">
-      <button on-tap="fbLogin">Log In with FB</button>
-    </template>
-
-    <template is="dom-if" if="{{loggedIn}}">
-      <p> Already logged in </p>
-      <button on-tap="fbLogout">Logout</button>
-    </template>
-  </template>
-
-  <script>
-    Polymer({
-      is: 'ts-app',
-
+<script>
+    FacebookBehavior = {
       properties: {
         /**
         * Stores whether user is authenticated through Facebook.
@@ -32,6 +7,13 @@
         loggedIn: {
           type: Boolean,
           value: false,
+        },
+        /**
+        * Stores Facebook's access token.
+        */
+        facebookAccessToken: {
+          type: String,
+          value: ""
         },
         /**
         * Facebook's user id for authenticated user.
@@ -48,22 +30,10 @@
           value: function () {
             return {}
           }
-        },
-        /**
-        * Stores Facebook's access token.
-        */
-        facebookAccessToken: {
-          type: String,
-          value: ""
-        },
-        /**
-        * Stores the server's access token.
-        */
-        serverAccessToken: {
-          type: String,
-          value: ""
         }
       },
+
+      
       /**
       * On view attached to DOM, checking login status.
       */
@@ -140,31 +110,7 @@
         FB.api(userId, params, function(response) {
           this.set("userFacebookData", response)
         }.bind(this));
-      },
-      /**
-      * Sends Facebook's access token to the server to get the server's access token.
-      */
-      getServerAccessToken: function () {
-        var xhr = new XMLHttpRequest();
-
-        xhr.open('GET', '/auth/facebook/token/login', true);
-        xhr.setRequestHeader('access_token', this.facebookAccessToken)
-        xhr.onload = function () {
-          let responseUrl = xhr.responseURL
-
-          // verifying responseUrl is valid
-          if (responseUrl && responseUrl.indexOf("?") > 0 && responseUrl.indexOf("=" > 0) && responseUrl.indexOf("access_token" > 0)) {
-            let queryParams = responseUrl.split("?")[1].split("=")
-            let accessTokenIndex = queryParams.indexOf("access_token")
-            let accessToken = queryParams[accessTokenIndex + 1]
-            
-            this.set("serverAccessToken", accessToken)
-          } else {
-            console.error("Invalid responeUrl returned: " + responseUrl)
-          }
-        }.bind(this)
-        xhr.send(null);
       }
-    });
-  </script>
-</dom-module>
+
+    };
+</script>
