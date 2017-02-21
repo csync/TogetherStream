@@ -1,32 +1,44 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/google-youtube/google-youtube.html">
 <link rel="import" href="./ts-header.html">
 <link rel="import" href="./behaviors/facebook-behavior.html">
 <link rel="import" href="./behaviors/server-behavior.html">
+<link rel="import" href="./behaviors/youtube-behavior.html">
 
 <dom-module id="ts-app">
   <template>
     <style>
       :host {
-        display: block;
-        min-height: 500px;
+        display: flex;
+        min-height: 730px;
         padding-top: 60px;
       }
     </style>
     <ts-header logged-in-user={{userFacebookData}}></ts-header>
     <template is="dom-if" if="{{!loggedIn}}">
-      <button on-tap="fbLogin">Log In with FB</button>
+      <button style="height:50px;" on-tap="fbLogin">Log In with FB</button>
     </template>
 
     <template is="dom-if" if="{{loggedIn}}">
-      <p> Already logged in </p>
-      <button on-tap="fbLogout">Logout</button>
+      <div style="width:30%;">
+        CHAT GOES HERE
+      </div>
+      <google-youtube
+        style="width:70%;"
+        video-id="A1DbRhdyfJY"
+        height="100%"
+        width="100%"
+        rel="0"
+        start="20"
+        autoplay="0">
+      </google-youtube>
     </template>
   </template>
 
   <script>
     Polymer({
       is: 'ts-app',
-      behaviors: [FacebookBehavior, ServerBehavior],
+      behaviors: [FacebookBehavior, ServerBehavior, YoutubeBehavior],
       properties: {
       }
     });
