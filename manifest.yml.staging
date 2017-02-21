@@ -8,4 +8,3 @@ applications:
   services:
    - Compose for PostgreSQL-7a
    - Auto-Scaling-0n
-   - availability-monitoring-auto
