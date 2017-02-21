@@ -17,7 +17,12 @@
 var apn = require("apn");
 var cfenv = require("cfenv");
 var credentials = require('./private/credentials');
-var vcapServices = require('./private/VCAP_SERVICES.json');
+var vcapServices = null;
+if (process.env.VCAP_SERVICES) {
+    vcapServices = JSON.parse(process.env.VCAP_SERVICES);
+} else {
+  vcapServices = require('./private/VCAP_SERVICES.json');
+}
 
 var appEnv = cfenv.getAppEnv();
 if (appEnv.isLocal) {
@@ -27,6 +32,7 @@ if (appEnv.isLocal) {
           services: vcapServices
       }
   });
+  vcapServices = require('./private/VCAP_SERVICES.json');
 }
 
 var vcapDbService = vcapServices[credentials.app.postgresServiceName] ? vcapServices[credentials.app.postgresServiceName][0] : null;
