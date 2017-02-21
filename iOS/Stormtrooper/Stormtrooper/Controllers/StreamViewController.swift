@@ -10,6 +10,8 @@ import UIKit
 import youtube_ios_player_helper
 
 class StreamViewController: UIViewController {
+    // MARK: - Outlets
+    
     @IBOutlet weak var playerView: YTPlayerView!
     @IBOutlet weak var playerContainerView: UIView!
 	@IBOutlet weak var chatInputTextField: UITextField!
@@ -29,39 +31,9 @@ class StreamViewController: UIViewController {
     @IBOutlet weak var queueTableView: UITableView!
     @IBOutlet weak var blockClicksButton: UIButton!
     
-    //constraints
-    var originalHeaderViewHeightConstraint: CGFloat = 0
-    var originalPlayerViewFrame: CGRect = CGRect.zero
-    var originalPlayerViewConstraints: [NSLayoutConstraint] = []
-    var rotatedPlayerViewConstraints: [NSLayoutConstraint] = []
+    // MARK: - Exposed Properties
     
-    var estimatedChatCellHeight: CGFloat = 56
-    
-    //constants
-    private enum PlayerDirection {
-        case left
-        case right
-        case portrait
-    }
-    private var playerDirection: PlayerDirection = .portrait
-    private let closeButtonFrame = CGRect(x: 0, y: 0, width: 17, height: 17)
-    private let profileButtonFrame = CGRect(x: 0, y: 0, width: 19, height: 24)
-    private let headerViewAnimationDuration: TimeInterval = 0.3
-    fileprivate let chatTableTag = 0
-    fileprivate let queueTableTag = 1
-    fileprivate let hostPlayerVars = [
-        "playsinline" : 1,
-        "modestbranding" : 1,
-        "showinfo" : 0,
-        "controls" : 1
-				]
-    fileprivate let participantPlayerVars = [ //hide controls
-        "playsinline" : 1,
-        "modestbranding" : 1,
-        "showinfo" : 0,
-        "controls" : 0
-				]
-	
+    /// Exposed stream object to be set by other view controllers.
     var stream: Stream? {
         get {
             return viewModel.stream
@@ -71,6 +43,7 @@ class StreamViewController: UIViewController {
         }
     }
     
+    /// Exposed video queue to be set by other view controllers.
     var videoQueue: [Video]? {
         get {
             return viewModel.videoQueue
@@ -79,29 +52,94 @@ class StreamViewController: UIViewController {
             viewModel.videoQueue = newValue
         }
     }
-	
-	var hostID: String?
     
-    var statusBarHidden: Bool = false
+    /// Exposed whether the current user is hosting the stream.
+    var isHost: Bool {
+        return viewModel.isHost
+    }
     
-    private var firstLoad: Bool = true
+    // MARK: - Contraints
+
+    /// The original height of the header view.
+    private var originalHeaderViewHeight: CGFloat = 0
+    /// The original frame of the player view.
+    private var originalPlayerViewFrame: CGRect = CGRect.zero
+    /// The original constraints of the player view.
+    private var originalPlayerViewConstraints: [NSLayoutConstraint] = []
+    /// The contraints of the player view when it is in landscape.
+    private var rotatedPlayerViewConstraints: [NSLayoutConstraint] = []
     
+    // MARK: - Constants
+    
+    /// The frame of the close stream button.
+    private let closeButtonFrame = CGRect(x: 0, y: 0, width: 17, height: 17)
+    /// The frame of the invite to stream button.
+    private let profileButtonFrame = CGRect(x: 0, y: 0, width: 19, height: 24)
+    /// The length of the show/hide header animation in seconds.
+    private let headerViewAnimationDuration: TimeInterval = 0.3
+    /// The tag of the chat table.
+    fileprivate let chatTableTag = 0
+    /// The tag of the queue table.
+    fileprivate let queueTableTag = 1
+    /// The variables for the host player view.
+    fileprivate let hostPlayerVariables = [
+        "playsinline" : 1,
+        "modestbranding" : 1,
+        "showinfo" : 0,
+        "controls" : 1
+				]
+    /// The variables for the participant player view.
+    fileprivate let participantPlayerVariables = [
+        "playsinline" : 1,
+        "modestbranding" : 1,
+        "showinfo" : 0,
+        "controls" : 0
+				]
+    /// The estimated height of a chat cell.
+    fileprivate let estimatedChatCellHeight: CGFloat = 56
+    
+    // MARK: - Private Properties
+    
+    // TODO: Remove or move to viewModel
+    fileprivate var isPlaying = false
+    
+    /// The model for the objects in this view.
+    fileprivate let viewModel = StreamViewModel()
+    
+    // Accessory view shown above keyboard while chatting.
+    fileprivate var accessoryView: ChatTextFieldAccessoryView!
+    
+    /// The direction the player is rotated to.
+    ///
+    /// - left: Rotated to the left.
+    /// - right: Rotated to the right.
+    /// - portrait: In portait mode.
+    private enum PlayerDirection {
+        case left
+        case right
+        case portrait
+    }
+    /// The current player direction.
+    private var playerDirection: PlayerDirection = .portrait
+    
+    /// Whether the player view was previously setup
+    private var didPreviouslySetupPlayerView: Bool = false
+    
+    /// Whether the status bar is previously hidden.
+    private var statusBarHidden: Bool = false
+    
+    /// Whether the status bar should should be hidden.
     override var prefersStatusBarHidden: Bool {
         return statusBarHidden
     }
     
+    /// Specifies the animation style to use for hiding and showing the status bar for the view controller.
     override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
         return .slide
     }
-    
-	// TODO: Remove or move to viewModel
-    fileprivate var isPlaying = false
-	
-    let viewModel = StreamViewModel()
-    
-    //accessory view shown above keyboard while chatting
-    fileprivate var accessoryView: ChatTextFieldAccessoryView!
 
+    // MARK: - Lifecyle Events
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         trackScreenView()
@@ -114,9 +152,9 @@ class StreamViewController: UIViewController {
         setupChatTextFieldView()
         setupProfilePictures()
         setupViewForHostOrParticipant()
-        setupConstraints()
+        saveConstraints()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(StreamViewController.rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(StreamViewController.deviceDidRotate), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -136,19 +174,23 @@ class StreamViewController: UIViewController {
 		}
 	}
     
-    /// Set the navigation items for this view controller
+    // MARK: - Helper methods
+    
+    /// Set the navigation items for this view controller.
     private func setupNavigationItems() {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
+    /// Sets up the frame of the player view.
     private func setupPlayerViewFrame() {
-        if firstLoad {
+        if !didPreviouslySetupPlayerView {
             originalPlayerViewFrame = playerContainerView.frame
             saveOriginalPlayerViewFrame()
-            firstLoad = false
+            didPreviouslySetupPlayerView = true
         }
     }
     
+    /// TODO: ?
     private func saveOriginalPlayerViewFrame() {
         NSLayoutConstraint.deactivate(rotatedPlayerViewConstraints)
         let constraint1 = NSLayoutConstraint(item: self.playerContainerView, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.top, multiplier: 1.0, constant: 0.0)
@@ -161,6 +203,7 @@ class StreamViewController: UIViewController {
         NSLayoutConstraint.activate(originalPlayerViewConstraints)
     }
     
+    /// TODO: ?
     private func addRotatingConstraints() {
         NSLayoutConstraint.deactivate(originalPlayerViewConstraints)
         let screenFrame = UIScreen.main.bounds
@@ -174,18 +217,21 @@ class StreamViewController: UIViewController {
     }
     
 
-    private func setupViewForHostOrParticipant() { //TODO: player setup (don't allow participant to pause, etc)
+    /// Sets up the view depending on whether the user is the host or participant of the stream.
+    private func setupViewForHostOrParticipant() {
         if viewModel.isHost { //host-- can view queue, can end stream, can invite people
+            // Show header expansion option
             headerArrowImageView.isHidden = false
             headerViewButton.isHidden = false
             
-            //Set bar button items and their actions programmatically
+            // Set bar button items and their actions programmatically
             let closeButton = UIButton(type: .custom)
             closeButton.setImage(UIImage(named: "xStream"), for: .normal)
             closeButton.frame = closeButtonFrame
             closeButton.addTarget(self, action: #selector(StreamViewController.closeTapped), for: .touchUpInside)
             let item1 = UIBarButtonItem(customView: closeButton)
             
+            // Show invite to stream button
             let profileButton = UIButton(type: .custom)
             profileButton.setImage(UIImage(named: "inviteIcon"), for: .normal)
             profileButton.frame = profileButtonFrame
@@ -201,6 +247,7 @@ class StreamViewController: UIViewController {
             }
         }
         else { //participant-- cannot view queue, can't end stream, can't invite people
+            // Hide header expansion option
             headerArrowImageView.isHidden = true
             headerViewButton.isHidden = true
             
@@ -208,35 +255,36 @@ class StreamViewController: UIViewController {
             let closeButton = UIButton(type: .custom)
             closeButton.setImage(UIImage(named: "back_stream"), for: .normal)
             closeButton.frame = closeButtonFrame
-            closeButton.addTarget(self, action: #selector(StreamViewController.leaveStream), for: .touchUpInside) //TODO: Change this to not end stream
+            closeButton.addTarget(self, action: #selector(StreamViewController.closeTapped), for: .touchUpInside)
             let item1 = UIBarButtonItem(customView: closeButton)
             
             navigationItem.setLeftBarButtonItems([item1], animated: false)
         }
-        //set title
+        // Set title
         navigationItem.title = stream?.name
     }
     
-    /// Adds a textfield view above keyboard when user starts typing in chat
+    /// Adds a textfield view above keyboard when user starts typing in chat.
     private func setupChatTextFieldView() {
-        //new instance of accessory view
+        // New instance of accessory view
         accessoryView = ChatTextFieldAccessoryView.instanceFromNib()
         
-        //set delegates of text fields
+        // Set delegates of text fields
         accessoryView.textField.delegate = self
         chatInputTextField.delegate = self
         
-        //add selector to dismiss and when editing to sync up both textfields
+        // Add selector to dismiss and when editing to sync up both textfields
         accessoryView.sendButton.addTarget(self, action: #selector(StreamViewController.chatInputActionTriggered), for: .touchUpInside)
         chatInputTextField.addTarget(self, action: #selector(StreamViewController.chatEditingChanged), for: [.editingChanged, .editingDidEnd])
         accessoryView.textField.addTarget(self, action: #selector(StreamViewController.accessoryViewEditingChanged), for: [.editingChanged, .editingDidEnd])
         
-        //actually set accessory view
+        // Actually set accessory view
         chatInputTextField.inputAccessoryView = accessoryView
         
         
     }
     
+    /// Show current user's profile picture.
     private func setupProfilePictures() {
         FacebookDataManager.sharedInstance.fetchProfilePictureForCurrentUser() {error, image in
             if let image = image {
@@ -248,69 +296,81 @@ class StreamViewController: UIViewController {
         }
     }
     
+    /// Sets up the chat table view.
     private func setupChatTableView() {
-        chatTableView.delegate = self
-        chatTableView.dataSource = self
         chatTableView.register(UINib(nibName: "ChatMessageTableViewCell", bundle: nil), forCellReuseIdentifier: "chatMessage")
         chatTableView.register(UINib(nibName: "ChatEventTableViewCell", bundle: nil), forCellReuseIdentifier: "chatEvent")
         
     }
     
+    /// Sets up the queue table view.
     private func setupQueueTableView() {
         queueTableView.register(UINib(nibName: "VideoQueueTableViewCell", bundle: nil), forCellReuseIdentifier: "queueCell")
     }
     
-    private func setupConstraints() {
-        originalHeaderViewHeightConstraint = headerViewHeightConstraint.constant
-        
+    /// Saves the needed constraints.
+    private func saveConstraints() {
+        originalHeaderViewHeight = headerViewHeightConstraint.constant
     }
     
+    /// Sets up the player view.
     private func setupPlayerView() {
         playerView.backgroundColor = UIColor.white
         playerView.delegate = self
-        playerView.setLoop(true)
+        // Load the inital video.
 		if viewModel.isHost, let queue = viewModel.videoQueue, queue.count > 0 {
+            // TODO: ?
             blockClicksButton.isHidden = true
             updateView(forVideoWithID: queue[0].id)
-			playerView.load(withVideoId: queue[0].id, playerVars: hostPlayerVars)
+			playerView.load(withVideoId: queue[0].id, playerVars: hostPlayerVariables)
             viewModel.currentVideoIndex = 0
 		}
         else if !viewModel.isHost, let queue = viewModel.videoQueue, queue.count > 0{
             blockClicksButton.isHidden = false //prevent user from playing/pausing video as participant
             updateView(forVideoWithID: queue[0].id)
-            playerView.load(withVideoId: queue[0].id, playerVars: participantPlayerVars)
+            playerView.load(withVideoId: queue[0].id, playerVars: participantPlayerVariables)
             viewModel.currentVideoIndex = 0
         }
 		
     }
     
     
-    //copy text from main screen chat input textfield to accessory view textfield when editing changes or ends
-    func chatEditingChanged(textField: UITextField) {
+    /// Copy text from main screen chat input textfield to accessory view textfield
+    /// when editing changes or ends.
+    ///
+    /// - Parameter textField: The text field that changed.
+    @objc private func chatEditingChanged(textField: UITextField) {
         accessoryView.textField.text = chatInputTextField.text
         
     }
     
-    //copy text from accessory view textfield to main screen chat input textfield when editing changes or ends
-    func accessoryViewEditingChanged(textField: UITextField) {
+    /// Copy text from accessory view textfield to main screen chat input textfield
+    /// when editing changes or ends.
+    ///
+    /// - Parameter textField: The text field that changed.
+    @objc private func accessoryViewEditingChanged(textField: UITextField) {
         chatInputTextField.text = accessoryView.textField.text
         
     }
     
-    func cancelChatTapped() {
+    /// Dismisses accessory view and keyboard.
+    private func cancelChatTapped() {
         accessoryView.textField.resignFirstResponder()
         chatInputTextField.resignFirstResponder()
-        
     }
     
+    /// On tapping dismiss chat, dismiss chat view and keyboard.
+    ///
+    /// - Parameter sender: The button tapped.
     @IBAction func dismissViewTapped(_ sender: Any) {
         Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "SelectedDismissChat")
         //dismiss view tapped, so dismiss keyboard if shown
         cancelChatTapped()
     }
     
-    
-    
+    /// On tapping rotate player, rotate to either expanded or portait view.
+    ///
+    /// - Parameter sender: The button tapped.
     @IBAction func expandButtonTapped(_ sender: Any) {
         Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "SelectedExpandVideo")
         if statusBarHidden {
@@ -322,9 +382,11 @@ class StreamViewController: UIViewController {
     }
     
     
-    func rotated() {
+    /// On device rotation, rotate the player view.
+    @objc private func deviceDidRotate() {
         Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "RotatedScreen")
         if navigationController?.visibleViewController == self {
+            // TODO: Explain
             switch UIDevice.current.orientation {
             case .landscapeLeft:
                 print("Landscape Left")
@@ -360,7 +422,11 @@ class StreamViewController: UIViewController {
         }
     }
     
+    /// Rotates the player view by the angle provided.
+    ///
+    /// - Parameter angle: The amount to rotate the player view by, in radians.
     private func rotatePlayerView(byAngle angle: CGFloat) {
+        // TODO: explain
         self.statusBarHidden = true
         NSLayoutConstraint.deactivate(originalPlayerViewConstraints)
         self.navigationController?.navigationBar.isHidden = true
@@ -372,6 +438,7 @@ class StreamViewController: UIViewController {
         }
     }
     
+    /// Returns the player view to the portrait orientation.
     private func returnPlayerViewToPortrait() {
         self.statusBarHidden = false
         NSLayoutConstraint.deactivate(rotatedPlayerViewConstraints)
@@ -385,13 +452,15 @@ class StreamViewController: UIViewController {
         }
     }
     
-    //header tapped, so show or hide queue if host
+    /// On header tapped, show or hide queue.
+    ///
+    /// - Parameter sender: The button tapped.
     @IBAction func headerTapped(_ sender: Any) {
         UIView.setAnimationsEnabled(true) //fix for animations breaking
         
         if queueView.isHidden {
             Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "PressedHeader", label: "ExpandedQueue")
-            headerViewHeightConstraint.constant = originalHeaderViewHeightConstraint + queueView.frame.height
+            headerViewHeightConstraint.constant = originalHeaderViewHeight + queueView.frame.height
             UIView.animate(withDuration: headerViewAnimationDuration, delay: 0, options: .curveEaseOut, animations: { _ in
                 self.view.layoutIfNeeded()
                 //rotate arrow
@@ -407,7 +476,7 @@ class StreamViewController: UIViewController {
         else {
             Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "PressedHeader", label: "CollapsedQueue")
             self.queueView.isHidden = true
-            headerViewHeightConstraint.constant = originalHeaderViewHeightConstraint
+            headerViewHeightConstraint.constant = originalHeaderViewHeight
             UIView.animate(withDuration: headerViewAnimationDuration, delay: 0, options: .curveEaseOut, animations: { _ in
                 self.view.layoutIfNeeded()
                 //rotate arrow
@@ -418,7 +487,8 @@ class StreamViewController: UIViewController {
     }
     
     
-    func inviteTapped() {
+    /// On invite tapped, present the "Invite" screen.
+    @objc private func inviteTapped() {
         Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "SelectedInvite")
         guard let inviteVC = Utils.vcWithNameFromStoryboardWithName("inviteStream", storyboardName: "InviteStream") as? InviteStreamViewController else {
             return
@@ -430,10 +500,14 @@ class StreamViewController: UIViewController {
         navigationController?.pushViewController(inviteVC, animated: true)
     }
     
-    func closeTapped() {
+    /// On close stream tapped, present option for host to end their stream.
+    @objc private func closeTapped() {
         leaveStream()
     }
 
+    /// Leave stream if participant, present option to end stream if host.
+    ///
+    /// - Parameter hostDidConfirm: Callback executed if host confirms to end stream.
     func leaveStream(hostDidConfirm: ((Void) -> Void)? = nil) {
         if viewModel.isHost {
             Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "LeftStream", label: "host")
@@ -640,10 +714,10 @@ extension StreamViewController: StreamViewModelDelegate {
             updateView(forVideoWithID: currentVideoID)
 			DispatchQueue.main.async {
                 if self.viewModel.isHost {
-                    self.playerView.load(withVideoId: currentVideoID, playerVars: self.hostPlayerVars)
+                    self.playerView.load(withVideoId: currentVideoID, playerVars: self.hostPlayerVariables)
                 }
                 else {
-                    self.playerView.load(withVideoId: currentVideoID, playerVars: self.participantPlayerVars)
+                    self.playerView.load(withVideoId: currentVideoID, playerVars: self.participantPlayerVariables)
                 }
 				
 			}
