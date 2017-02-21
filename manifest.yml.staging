@@ -7,6 +7,5 @@ applications:
   instances: 3
   services:
    - Compose for PostgreSQL-7a
-   - New Relic-ra
    - Auto-Scaling-0n
    - availability-monitoring-auto
