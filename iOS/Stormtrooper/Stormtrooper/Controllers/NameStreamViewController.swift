@@ -8,7 +8,7 @@
 
 import UIKit
 
-/// View controller for the "Naming Stream" screen
+/// View controller for the "Name Stream" screen
 class NameStreamViewController: UIViewController {
 
 	@IBOutlet weak var nameTextField: UITextField!

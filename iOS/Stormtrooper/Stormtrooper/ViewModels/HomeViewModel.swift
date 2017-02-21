@@ -9,23 +9,26 @@
 import UIKit
 import Foundation
 
+/// View model for the "Home/Stream Invites" screen.
 class HomeViewModel {
+	/// The streams that the user has been invited to.
 	var streams: [Stream] = []
     
+    /// The number of rows that should be displayed.
     var numberOfRows: Int {
         return streams.count + 1
     }
 	
+	/// Shorthand for the shared AccountDataManager.
 	private let accountDataManager = AccountDataManager.sharedInstance
+	/// Shorthand for the shared YouTubeDataManager.
 	private let youtubeDataManager = YouTubeDataManager.sharedInstance
 	
+	/// Fetches all stream invites for the current user and updates the model.
+	///
+    /// - Parameter callback: The callback called on completion. Will return an error
+    /// or the streams.
 	func refreshStreams(callback: @escaping (Error?, [Stream]?) -> Void) {
-        // uncomment to test invites
-//        let stream = Stream(jsonDictionary: ["user_id" : "pyVUdZ9nFZ", "csync_path": "streams.10153854936447000", "stream_name": "Super Testvsfdsfdsfadsfdsaffdsafsf", "description": "Blah fdksalhfdsakl fadskjfh sdak fsdkalfh dsaklf dskjlfhsdakhfsdakl fdaskl fdaskhl fh d", "external_accounts": ["facebook-token": "10153854936447000"]])
-//        let stream2 = Stream(jsonDictionary: ["user_id" : "pyVUdZ9nFZ", "csync_path": "streams.10153854936447000", "stream_name": "Test", "description": "Blub", "external_accounts": ["facebook-token": "10153854936447000"]])
-//        streams = [stream!, stream2!]
-//        callback(nil, streams)
-//        return
 		accountDataManager.retrieveInvites {[weak self] error, streams in
 			if let error = error {
 				callback(error, nil)
@@ -37,20 +40,33 @@ class HomeViewModel {
 		}
 	}
     
+    /// Returns whether the cell at the given index path should
+    /// be selectable.
+    ///
+    /// - Parameter indexPath: The index path that was selected.
+    /// - Returns: Whether the given index path should be selectable.
     func shouldSelectCell(at indexPath: IndexPath) -> Bool {
         return indexPath.row < streams.count
     }
 	
+	/// Stops all streams from listening to current video changes.
 	func stopStreamsListening() {
 		for stream in streams {
 			stream.stopListeningForCurrentVideo()
 		}
 	}
 	
+    /// Fetches the video for the given id.
+    ///
+    /// - Parameters:
+    ///   - id: The id of the video.
+    ///   - callback: The callback called on completion. Will return an error
+    /// or the video.
 	func fetchVideo(withID id: String, callback: @escaping (Error?, Video?) -> Void) {
 		youtubeDataManager.fetchVideo(withID: id, callback: callback)
 	}
 	
+	/// Clears the current user's stream and resets it to an inactive state.
 	func resetCurrentUserStream() {
 		if let username = FacebookDataManager.sharedInstance.profile?.userID {
             // Reset stream
