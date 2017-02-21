@@ -2,4 +2,11 @@
 applications:
 - name: Together-Stream
   timeout: 60
+  memory: 384M
   path: backend
+  instances: 3
+  services:
+   - Compose for PostgreSQL-hf
+   - New Relic-ra
+   - Auto-Scaling-wg
+   - availability-monitoring-auto
