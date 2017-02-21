@@ -96,7 +96,9 @@ class PopupViewController: UIViewController {
     }
     
     @IBAction private func handleTapOverlay(recognizer: UITapGestureRecognizer) {
-        dismiss(animated: true)
+        if secondaryButtonText != nil {
+            dismiss(animated: true)
+        }
     }
     
     @IBAction private func handleTapPrimaryButton() {
