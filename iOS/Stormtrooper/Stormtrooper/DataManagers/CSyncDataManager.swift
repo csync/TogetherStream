@@ -19,7 +19,7 @@ class CSyncDataManager {
 	private let csyncPort = 6005
 	/// The CSync application
 	private lazy var app: App = { [unowned self] in
-		return App(host: self.csyncURL, port: self.csyncPort, options: ["useSSL":"YES" as AnyObject, "dbInMemory":"YES" as AnyObject])
+		return App(host: self.csyncURL, port: self.csyncPort, options: ["useSSL":"NO" as AnyObject, "dbInMemory":"YES" as AnyObject])
 	}()
 	
     /// Authenticates to the CSync server by using a facebook access token.
