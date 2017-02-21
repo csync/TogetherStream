@@ -27,6 +27,7 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         trackScreenView()
         setupTableView()
+        // Reset current user's stream in case the app was exited ungracefully while streaming.
 		viewModel.resetCurrentUserStream()
     }
     
@@ -211,6 +212,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     /// - Returns: The cell to display.
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == viewModel.numberOfRows - 1 {
+            // Configure "No More Streams" cell
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "noStreamsCell") as? NoStreamsTableViewCell else {
                 return UITableViewCell()
             }
@@ -219,14 +221,18 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             return cell
         }
         
+        // Configure "Stream" cell
 		guard let cell = tableView.dequeueReusableCell(withIdentifier: "streamCell") as? StreamTableViewCell else {
 			return UITableViewCell()
 		}
 		let stream = viewModel.streams[indexPath.row]
 		cell.streamNameLabel.text = stream.name
         cell.descriptionLabel.text = stream.description
+        
+        // Update video info when current video changes
 		stream.listenForCurrentVideo {[unowned self] error, videoID in
             guard let videoID = videoID else { return }
+            // Fetch video info
             self.viewModel.fetchVideo(withID: videoID) {error, video in
                 guard let video = video else { return }
                 DispatchQueue.main.async {
@@ -241,6 +247,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 			}
 		}
 		
+        // Fetch stream host info
         FacebookDataManager.sharedInstance.fetchInfoForUser(withID: stream.hostFacebookID) {error, user in
             DispatchQueue.main.async {
                 cell.hostNameLabel.text = user?.name
@@ -251,22 +258,46 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                 }
             }
         }
+        
 		cell.selectionStyle = .none
 		return cell
 	}
     
+    /// Sets the height to be automatic based on constraints.
+    ///
+    /// - Parameters:
+    ///   - tableView: The table requesting the height.
+    ///   - indexPath: The index path of the row the request is for.
+    /// - Returns: The height of the cell.
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
     
+    /// Sets the height to be automatic based on constraints.
+    ///
+    /// - Parameters:
+    ///   - tableView: The table requesting the height.
+    ///   - indexPath: The index path of the row being requested for.
+    /// - Returns: The height of the cell.
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
     
+    /// Determine which cells can be selected.
+    ///
+    /// - Parameters:
+    ///   - tableView: The table being selected.
+    ///   - indexPath: The index path of the cell that is being selected.
+    /// - Returns: The index path that should be selected or nil if none should be.
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         return viewModel.shouldSelectCell(at: indexPath) ? indexPath : nil
     }
 	
+	/// Navigates to the stream associated with the selected cell.
+	///
+	/// - Parameters:
+	///   - tableView: The table that was selected.
+	///   - indexPath: The index path of the selected cell.
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         Utils.sendGoogleAnalyticsEvent(withCategory: "Home", action: "SelectedStreamInvite")
 		let stream = viewModel.streams[indexPath.row]
