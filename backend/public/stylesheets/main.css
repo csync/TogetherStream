@@ -4,8 +4,8 @@ section {
   align-items: center;
   text-align: center;
   justify-content: space-around;
-  padding-top: 100px;
-  padding-bottom: 100px;
+  padding-top: 75px;
+  padding-bottom: 75px;
   padding-left: 3%;
   padding-right: 3%;
   flex-wrap: wrap;
@@ -22,15 +22,22 @@ section {
 .splash {
   padding: 0;
   display: flex;
-  min-height: 885px;
+  min-height: 730px;
   background-repeat: no-repeat;
   background-size: cover;
   color: white;
   justify-content: flex-start;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
+.splash.main {
+  background: 
+    /* bottom, image */
+    url(../assets/headerBackground@2x.png);
+  background-size: cover;
+}
 .splash .icon {
   margin-top: 200px;
 }
@@ -52,16 +59,20 @@ section {
   margin-bottom: 23px;
   max-width: 690px;
   font-weight: 300;
-  font-size: 20px;
 }
-.splash .text-seperator {
+.text-seperator {
   font-weight: 500;
-  font-size: -webkit-xxx-large
+  font-size: -webkit-xxx-large !important;
+  font-size: xx-large;
 }
 
 .splash .left-container {
   text-align: left;
   width: 475px;
+}
+.splash.main .right-container {
+  position: relative;
+  top: 75px;
 }
 .splash .right-container {
   overflow: hidden;
@@ -69,21 +80,18 @@ section {
 
 .splash .appstore-icon {
   float:left;
-  height: 42px;
-  width: 143px;
+  width: 150px;
+}
+.tile-icon {
+  margin-bottom: 50px;
 }
 .splash .iphone-pic {
-  height: 632px;
-  width: 450px;
-  margin-left: 120px;
   position: relative;
-  top: 80px;
+  width: 87%;
+  max-width: 384px;
+  margin-left: 60px;
 }
 .splash .iphone-pic-2 {
-  height: 392px;
-  width: 570px;
-  margin-left: -180px;
-  margin-top: 184px;
   overflow: hidden;
 }
 .splash .button {
@@ -108,6 +116,21 @@ section {
   cursor: pointer;
 }
 
+.splash2 {
+  align-items: flex-start;
+  padding-top: 50px;
+  min-height: 500px;
+}
+.splash2 .iphone-pic {
+  min-width: 420px;
+  margin-left: -60px;
+  position: relative;
+  top: 50px;
+}
+.splash2 .right-container {
+  overflow: visible;
+}
+
 .tuning-in {
   background-color: rgb(235, 235, 235);
   padding: 0;
@@ -116,26 +139,16 @@ section {
 
 .tuning-in .left-div {
   background: 
-    /* top, transparent red */ 
-    linear-gradient(
-      rgba(55, 55, 52, 0.8), 
-      rgba(55, 55, 52, 0.8)
-    ),
     /* bottom, image */
-    url(http://ipadflava.com/wp-content/uploads/storm-trooper.jpg);
-    background-size: 100%;
+    url(../assets/hostAStreamBackground.png);
+    background-size: cover;
 }
 
 .tuning-in .right-div {
   background: 
-    /* top, transparent red */ 
-    linear-gradient(
-      rgba(216,65,6,0.8),
-      rgba(216,65,6,0.8)
-    ),
     /* bottom, image */
-    url(http://ipadflava.com/wp-content/uploads/storm-trooper.jpg);
-    background-size: 100%;
+    url(../assets/joinAStreamBackground.png);
+    background-size: cover;
 
 }
 .tuning-in div {
@@ -147,6 +160,7 @@ section {
   align-content: center;
   align-items: center;
   padding: 20px 0;
+  background-position: center;
 }
 .tuning-in .circle {
   width: 75px;
@@ -162,12 +176,13 @@ section {
   margin: 0;
   color: white;
   font-size: 42px;
+  font-weight: 500;
 }
 
 .tuning-in p {
-  margin-top: 10px;
+  margin-top: -20px;
   margin-bottom: 20px;
-  padding: 30px 70px 0px 70px;
+  padding: 30px 15% 0px 15%;
 }
 
 .integrate {
@@ -183,12 +198,9 @@ section {
 
 .integrate .text {
   max-width: 700px;
-  font-weight: 500;
 }
 
 .integrate .image {
-  height: 600px;
-  width: 100%;
   flex: 1 1 auto;
   min-width: 0;
   background-image: url("../assets/integrate@2x.png");
@@ -198,9 +210,10 @@ section {
 }
 
 .integrate .iphone-pic {
-  max-width: 100%;
-  width: 800px;
   overflow: hidden;
+  max-width: 800px;
+  width: 90%;
+  margin-top: 25px;
 }
 
 .manage .screenshot {
@@ -450,16 +463,14 @@ section {
   color: red;
 }
 
+.csync-container {
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+}
 
-@media (max-width: 735px) {
+@media (max-width: 963px) {
   
-  .splash .iphone-pic {
-    width: 100%;
-    margin: initial;
-  }
-  .splash .left-container {
-    text-align: center;
-  }
   .splash .left-container h1, .splash .left-container p {
     padding: 0px 50px 0px 50px;
   }
@@ -474,17 +485,48 @@ section {
   .centered-container .text {
     width: 90% !important;
   }
-}
-
-@media (max-width: 1067px) {
-  .splash.main {
+  .splash {
     flex-direction: column;
+    align-items: center;
+  }
+  .tuning-in {
+    flex-direction: column;
+  }
+  .splash p, .splash h3, .splash span, .splash .left-container {
+    text-align: center !important;
+  }
+  .splash.main .right-container {
+    top: 74px;
   }
   .splash .iphone-pic {
     margin: auto;
   }
-  .splash .left-container {
+  .splash .appstore-icon {
+    float: none;
+  }
+  .splash.main .left-container {
     margin-top: 70px;
+  }
+  .splash2 .right-container {
+    margin-bottom: 70px;
+  }
+
+  .tuning-in div {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+  .tuning-in {
+    height: 1062px;
   }
 }
 
+@media (max-width: 470px) {
+  .csync-container {
+    flex-direction:column;
+  }
+  .powered-by {
+    margin-right: 0px !important;
+    margin-bottom: 20px;
+  }
+}

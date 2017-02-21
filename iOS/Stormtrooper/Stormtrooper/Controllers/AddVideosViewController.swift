@@ -35,6 +35,9 @@ class AddVideosViewController: UIViewController {
 	/// The model for the objects in this view.
 	fileprivate let viewModel = AddVideosViewModel()
     
+    /// Loading indicator for fetching videos.
+    fileprivate let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .white)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         trackScreenView()
@@ -42,6 +45,7 @@ class AddVideosViewController: UIViewController {
         setupSearchBar()
         setupTableView()
         setupNavigationItems()
+        setupActivityIndicator()
         
         streamNameLabel.text = "\"\(stream?.name ?? "")\" Queue".localizedUppercase
         
@@ -91,8 +95,15 @@ class AddVideosViewController: UIViewController {
     
     /// Fetches the current trending videos and updates the view, displaying an error if necessary.
     fileprivate func fetchTrendingVideos() {
+        // Clear table
+        viewModel.listedVideos = []
+        searchTableView.reloadData()
+        // Display loading indicator
+        activityIndicator.startAnimating()
         viewModel.fetchTrendingVideos() {[weak self] error, videos in
             DispatchQueue.main.async {
+                // Hide loading indicator
+                self?.activityIndicator.stopAnimating()
                 if let error = error {
                     self?.showVideoAlert(with: error)
                 }
@@ -129,6 +140,12 @@ class AddVideosViewController: UIViewController {
     private func setupNavigationItems() {
         navigationItem.titleView = UIImageView(image: #imageLiteral(resourceName: "youTube"))
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+    }
+    
+    /// Sets up the activity indicator.
+    private func setupActivityIndicator() {
+        activityIndicator.frame = view.frame
+        view.addSubview(activityIndicator)
     }
 	
     /// When the done button is tapped, sends added videos to the appropriate receivers
@@ -190,8 +207,15 @@ extension AddVideosViewController: UITextFieldDelegate {
         let query = textField.text ?? ""
         if query.characters.count > 0 {
             Utils.sendGoogleAnalyticsEvent(withCategory: "AddVideos", action: "PerformedSearch")
+            // Clear table
+            viewModel.listedVideos = []
+            searchTableView.reloadData()
+            // Display loading indicator
+            activityIndicator.startAnimating()
             viewModel.searchForVideos(withQuery: query) {[weak self] error, videos in
                 DispatchQueue.main.async {
+                    // Hide loading indiciator
+                    self?.activityIndicator.stopAnimating()
                     if let error = error {
                         self?.showVideoAlert(with: error)
                     }

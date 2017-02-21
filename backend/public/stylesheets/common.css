@@ -58,6 +58,7 @@ a div.button:hover {
   text-transform: uppercase;
   font-weight: 700;
   font-size: 13px;
+  letter-spacing: 1.5px;
 }
 .hidden {
   display: none;
@@ -109,7 +110,7 @@ span.store-button {
   height: 100%;
 }
 .sticky-header nav li+li {
-  margin-right: 30px;
+  margin-right: 95px;
 }
 .sticky-header .logo {
   display: flex;
@@ -131,7 +132,7 @@ span.store-button {
 }
 
 .sticky-header .logo img {
-  margin-right: 5px;
+  width: 200px;
 }
 
 .sticky-header .logo .super-script {
@@ -210,6 +211,17 @@ footer .links li {
   flex: 1 1 auto;
 }
 
+footer .csync-icon {
+  max-width: 300px;
+}
+
+footer .powered-by {
+  margin-right: 25px;
+  color: rgb(148, 147, 148);
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
 .more-links {
   display: flex;
   list-style: none;
@@ -233,12 +245,12 @@ footer .more-links li {
   border-right: solid 1px white;
 }
 
-.more-links li:nth-of-type(3) {
+/*.more-links li:nth-of-type(3) {
   border-right: solid 1px white;
   padding-right: 30px;
-}
+}*/
 
-@media (max-width: 735px) {
+@media (max-width: 963px) {
   p {
     margin-left: 5%;
     margin-right: 5%;
@@ -286,10 +298,10 @@ footer .more-links li {
   }
   .sticky-header nav ul .logo{
     position:relative;
-    left: -33px;
   }
   .sticky-header nav ul li+li {
     border-top: solid 1px rgba(151, 151, 151, 0.3);
+    margin-right: 0px;
   }
   footer .links {
     flex-direction: column;
@@ -298,6 +310,9 @@ footer .more-links li {
     padding-top: 10px;
     padding-bottom: 10px;
     text-align: center;
+  }
+  footer .csync-icon {
+    max-width: 220px;
   }
 }
 
@@ -331,7 +346,7 @@ footer .centered-container {
   align-items: center;
   align-content: center;
   justify-content: center;
-  margin-bottom: 100px;
+  margin-bottom: 60px;
 
 }
 

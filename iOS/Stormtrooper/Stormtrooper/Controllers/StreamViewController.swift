@@ -194,6 +194,11 @@ class StreamViewController: UIViewController {
             
             navigationItem.setLeftBarButtonItems([item1], animated: false)
             navigationItem.setRightBarButtonItems([item2], animated: false)
+            
+            // Set inital video
+            if videoQueue?.count ?? 0 > 0, let firstVideo = videoQueue?[0] {
+                viewModel.send(currentVideoID: firstVideo.id)
+            }
         }
         else { //participant-- cannot view queue, can't end stream, can't invite people
             headerArrowImageView.isHidden = true
@@ -203,7 +208,7 @@ class StreamViewController: UIViewController {
             let closeButton = UIButton(type: .custom)
             closeButton.setImage(UIImage(named: "back_stream"), for: .normal)
             closeButton.frame = closeButtonFrame
-            closeButton.addTarget(self, action: #selector(StreamViewController.closeTapped), for: .touchUpInside) //TODO: Change this to not end stream
+            closeButton.addTarget(self, action: #selector(StreamViewController.leaveStream), for: .touchUpInside) //TODO: Change this to not end stream
             let item1 = UIBarButtonItem(customView: closeButton)
             
             navigationItem.setLeftBarButtonItems([item1], animated: false)
@@ -421,24 +426,30 @@ class StreamViewController: UIViewController {
         inviteVC.navigationItem.title = "Invite to Stream"
         inviteVC.canInviteToStream = true
         inviteVC.isCreatingStream = false
+        inviteVC.stream = stream
         navigationController?.pushViewController(inviteVC, animated: true)
     }
-
+    
     func closeTapped() {
+        leaveStream()
+    }
+
+    func leaveStream(hostDidConfirm: ((Void) -> Void)? = nil) {
         if viewModel.isHost {
             Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "LeftStream", label: "host")
-            closeTappedAsHost()
+            leaveStreamAsHost(hostDidConfirm: hostDidConfirm)
         } else {
             Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "LeftStream", label: "participant")
-            closeTappedAsParticipant()
+            leaveStreamAsParticipant()
         }
     }
     
-    private func closeTappedAsHost() {
+    private func leaveStreamAsHost(hostDidConfirm: ((Void) -> Void)? = nil) {
         // define callback to end the stream
         let endStream = {
             self.viewModel.endStream()
             let _ = self.navigationController?.popToRootViewController(animated: true)
+            hostDidConfirm?()
         }
         
         // present popup with default user profile picture
@@ -463,7 +474,7 @@ class StreamViewController: UIViewController {
         }
     }
     
-    private func closeTappedAsParticipant() {
+    private func leaveStreamAsParticipant() {
         let _ = navigationController?.popToRootViewController(animated: true)
     }
 
@@ -480,7 +491,6 @@ class StreamViewController: UIViewController {
     
     
     func chatInputActionTriggered() {
-        Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "SelectedSendText")
         var textToSend = ""
 		if let text = chatInputTextField.text {
 			textToSend = text
@@ -488,25 +498,30 @@ class StreamViewController: UIViewController {
         else if let text = accessoryView.textField.text {
             textToSend = text
         }
-        
-        //send chat
-        viewModel.send(chatMessage: textToSend)
-        
-        //reset textfields
-        accessoryView.textField.text = nil
-        chatInputTextField.text = nil
-        
-        //dismiss keyboard
-        accessoryView.textField.resignFirstResponder()
-        chatInputTextField.resignFirstResponder()
-        
-        //hide keyboard views
-        updateView(forIsKeyboardShowing: false)
 
-        //scroll table view down
-        if viewModel.messages.count > 0 {
-            let indexPath = IndexPath(item: viewModel.messages.count - 1, section: 0)
-            chatTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+        if textToSend.characters.count > 0 {
+
+            Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "SelectedSendText")
+
+            //send chat
+            viewModel.send(chatMessage: textToSend)
+
+            //reset textfields
+            accessoryView.textField.text = nil
+            chatInputTextField.text = nil
+
+            //dismiss keyboard
+            accessoryView.textField.resignFirstResponder()
+            chatInputTextField.resignFirstResponder()
+
+            //hide keyboard views
+            updateView(forIsKeyboardShowing: false)
+
+            //scroll table view down
+            if viewModel.messages.count > 0 {
+                let indexPath = IndexPath(item: viewModel.messages.count - 1, section: 0)
+                chatTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+            }
         }
         
 	}
