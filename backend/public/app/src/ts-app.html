@@ -1,6 +1,7 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="./ts-header.html">
 <link rel="import" href="./behaviors/facebook-behavior.html">
+<link rel="import" href="./behaviors/server-behavior.html">
 
 <dom-module id="ts-app">
   <template>
@@ -25,39 +26,8 @@
   <script>
     Polymer({
       is: 'ts-app',
-      behaviors: [FacebookBehavior],
+      behaviors: [FacebookBehavior, ServerBehavior],
       properties: {
-        /**
-        * Stores the server's access token.
-        */
-        serverAccessToken: {
-          type: String,
-          value: ""
-        }
-      },
-      /**
-      * Sends Facebook's access token to the server to get the server's access token.
-      */
-      getServerAccessToken: function () {
-        var xhr = new XMLHttpRequest();
-
-        xhr.open('GET', '/auth/facebook/token/login', true);
-        xhr.setRequestHeader('access_token', this.facebookAccessToken)
-        xhr.onload = function () {
-          let responseUrl = xhr.responseURL
-
-          // verifying responseUrl is valid
-          if (responseUrl && responseUrl.indexOf("?") > 0 && responseUrl.indexOf("=" > 0) && responseUrl.indexOf("access_token" > 0)) {
-            let queryParams = responseUrl.split("?")[1].split("=")
-            let accessTokenIndex = queryParams.indexOf("access_token")
-            let accessToken = queryParams[accessTokenIndex + 1]
-            
-            this.set("serverAccessToken", accessToken)
-          } else {
-            console.error("Invalid responeUrl returned: " + responseUrl)
-          }
-        }.bind(this)
-        xhr.send(null);
       }
     });
   </script>
