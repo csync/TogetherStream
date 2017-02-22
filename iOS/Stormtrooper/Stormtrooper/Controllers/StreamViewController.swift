@@ -86,18 +86,21 @@ class StreamViewController: UIViewController {
         "playsinline" : 1,
         "modestbranding" : 1,
         "showinfo" : 0,
-        "controls" : 1
-				]
+        "controls" : 1,
+        "origin" : "http://www.youtube.com"
+        ] as [String : Any]
     /// The variables for the participant player view.
     fileprivate let participantPlayerVariables = [
         "playsinline" : 1,
         "modestbranding" : 1,
         "showinfo" : 0,
-        "controls" : 0
-				]
+        "controls" : 0,
+        "origin" : "http://www.youtube.com"
+        ] as [String : Any]
     /// TODO: THIS IS USED FOR CHAT AND QUEUE
     /// The estimated height of a chat cell.
     fileprivate let estimatedChatCellHeight: CGFloat = 56
+	
     
     // MARK: - Private Properties
     
