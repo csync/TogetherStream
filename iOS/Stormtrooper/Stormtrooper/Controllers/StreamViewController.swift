@@ -95,6 +95,7 @@ class StreamViewController: UIViewController {
         "showinfo" : 0,
         "controls" : 0
 				]
+    /// TODO: THIS IS USED FOR CHAT AND QUEUE
     /// The estimated height of a chat cell.
     fileprivate let estimatedChatCellHeight: CGFloat = 56
     
@@ -501,6 +502,8 @@ class StreamViewController: UIViewController {
     }
     
     /// On close stream tapped, present option for host to end their stream.
+    /// - Note: `leaveStream()` is not called directly since the callback
+    /// would be set to be the button due to Obj-C bridging.
     @objc private func closeTapped() {
         leaveStream()
     }
@@ -518,6 +521,9 @@ class StreamViewController: UIViewController {
         }
     }
     
+    /// Presents option to end stream and pops to root screen if confirmed.
+    ///
+    /// - Parameter hostDidConfirm: Callback executed if host confirms to end stream.
     private func leaveStreamAsHost(hostDidConfirm: ((Void) -> Void)? = nil) {
         // define callback to end the stream
         let endStream = {
@@ -548,10 +554,14 @@ class StreamViewController: UIViewController {
         }
     }
     
+    /// Pops to root screen.
     private func leaveStreamAsParticipant() {
         let _ = navigationController?.popToRootViewController(animated: true)
     }
 
+    /// On "Add Videos" tapped, present the "Add Videos" screen.
+    ///
+    /// - Parameter sender: The button tapped.
     @IBAction func addToStreamTapped(_ sender: Any) {
         Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "SelectedAddVideos")
         guard let addVideosVC = Utils.vcWithNameFromStoryboardWithName("addVideos", storyboardName: "AddVideos") as? AddVideosViewController else {
@@ -563,42 +573,37 @@ class StreamViewController: UIViewController {
         navigationController?.pushViewController(addVideosVC, animated: true)
     }
     
-    
-    func chatInputActionTriggered() {
-        var textToSend = ""
-		if let text = chatInputTextField.text {
-			textToSend = text
-		}
-        else if let text = accessoryView.textField.text {
-            textToSend = text
+    /// On triggering send chat message, send the message and reset the input fields.
+    @objc fileprivate func chatInputActionTriggered() {
+        let textToSend = chatInputTextField.text ?? accessoryView.textField.text ?? ""
+        guard textToSend.characters.count > 0 else { return }
+
+        Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "SelectedSendText")
+
+        // Send chat
+        viewModel.send(chatMessage: textToSend)
+
+        // Reset textfields
+        accessoryView.textField.text = nil
+        chatInputTextField.text = nil
+
+        // Dismiss keyboard
+        accessoryView.textField.resignFirstResponder()
+        chatInputTextField.resignFirstResponder()
+
+        // Hide keyboard views
+        updateView(forIsKeyboardShowing: false)
+
+        // Scroll table view down
+        if viewModel.messages.count > 0 {
+            let indexPath = IndexPath(item: viewModel.messages.count - 1, section: 0)
+            chatTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
         }
-
-        if textToSend.characters.count > 0 {
-
-            Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "SelectedSendText")
-
-            //send chat
-            viewModel.send(chatMessage: textToSend)
-
-            //reset textfields
-            accessoryView.textField.text = nil
-            chatInputTextField.text = nil
-
-            //dismiss keyboard
-            accessoryView.textField.resignFirstResponder()
-            chatInputTextField.resignFirstResponder()
-
-            //hide keyboard views
-            updateView(forIsKeyboardShowing: false)
-
-            //scroll table view down
-            if viewModel.messages.count > 0 {
-                let indexPath = IndexPath(item: viewModel.messages.count - 1, section: 0)
-                chatTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
-            }
-        }
-        
 	}
+    
+    /// On pressing the edit button, toggle edit mode on the queue.
+    ///
+    /// - Parameter sender: The buton pressed.
     @IBAction func didToggleQueueEdit(_ sender: UIButton) {
         if queueTableView.isEditing {
             Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "ToggleQueueEdit", label: "Finished")
@@ -612,7 +617,12 @@ class StreamViewController: UIViewController {
         }
     }
 	
-	fileprivate func fetchVideoID(from url: URL) -> String? {
+	/// Parses the given URL to extract the video ID.
+	///
+	/// - Parameter url: The URL to parse.
+	/// - Returns: The video ID if found, nil otherwise.
+    /// - Note: Expects ID to be found in the query parameter "v".
+	fileprivate func extractVideoID(from url: URL) -> String? {
 		guard let queries = url.query?.components(separatedBy: "&") else {
 			return nil
 		}
@@ -625,10 +635,15 @@ class StreamViewController: UIViewController {
 		return nil
 	}
     
+    /// Updates the displayed video info to the video with the given ID.
+    ///
+    /// - Parameter id: The ID of the video to be displayed.
     fileprivate func updateView(forVideoWithID id: String) {
+        // Fetch video info
         viewModel.fetchVideo(withID: id) {[weak self] error, video in
             DispatchQueue.main.async {
                 if let video = video {
+                    // Set title, channel title and view count
                     self?.videoTitleLabel.text = video.title
                     var subtitle = video.channelTitle
                     if let viewCount = video.viewCount {
@@ -637,6 +652,7 @@ class StreamViewController: UIViewController {
                     self?.videoSubtitleLabel.text = subtitle
                 }
                 else {
+                    // Just display default text
                     self?.videoTitleLabel.text = "-"
                     self?.videoSubtitleLabel.text = "-"
                 }
@@ -644,6 +660,11 @@ class StreamViewController: UIViewController {
         }
     }
     
+    /// Configures the highlight of the given row.
+    ///
+    /// - Parameters:
+    ///   - row: The row that should be configured.
+    ///   - highlighted: Whether to set or remove the highlight.
     fileprivate func setHighlightForVideo(at row: Int, highlighted: Bool) {
         // update the previous video (i.e. whether to hide its separator)
         let previousIndexPath = IndexPath(row: row-1, section: 0)
@@ -656,19 +677,23 @@ class StreamViewController: UIViewController {
         videoCell?.isCurrentVideo = highlighted
     }
     
+    /// Deletes the video at the given index path and updates the stream state.
+    ///
+    /// - Parameter indexPath: The index path of the video to delete.
     fileprivate func deleteVideo(at indexPath: IndexPath) {
+        // Get the indexes of the effected videos
         guard let currentVideoIndex = viewModel.currentVideoIndex else { return }
         let previousIndexPath = IndexPath(row: indexPath.row - 1, section: 0)
         let nextIndexPath = IndexPath(row: indexPath.row + 1, section: 0)
         
-        // deleted the previous video
+        // Deleted the previous video
         if indexPath.row == currentVideoIndex - 1 {
             let previousCell = queueTableView.cellForRow(at: previousIndexPath)
             let previousVideoCell = previousCell as? VideoQueueTableViewCell
             previousVideoCell?.isPreviousVideo = true
         }
         
-        // deleted the current video
+        // Deleted the current video
         if indexPath.row == currentVideoIndex {
             guard let videoQueue = viewModel.videoQueue else { return }
             setHighlightForVideo(at: nextIndexPath.row, highlighted: true)
@@ -678,52 +703,80 @@ class StreamViewController: UIViewController {
             playerView.playVideo()
         }
         
-        // remove deleted video from queue and view model
+        // Remove deleted video from queue and view model
         queueTableView.beginUpdates()
         queueTableView.deleteRows(at: [indexPath], with: .automatic)
         viewModel.videoQueue?.remove(at: indexPath.row)
+        // Update the current video index if needed
         if currentVideoIndex > indexPath.row {
             viewModel.currentVideoIndex = currentVideoIndex - 1
         }
         queueTableView.endUpdates()
     }
+    
+    /// Update view depending on whether the keyboard is visible.
+    ///
+    /// - Parameter isKeyboardShowing: Whether the keyboard is visible.
+    fileprivate func updateView(forIsKeyboardShowing isKeyboardShowing: Bool) {
+        if isKeyboardShowing {
+            visualEffectView.isHidden = false
+            dismissView.isHidden = false
+        } else {
+            visualEffectView.isHidden = true
+            dismissView.isHidden = true
+        }
+    }
 }
 
+// MARK: - StreamViewModelDelegate
 extension StreamViewController: StreamViewModelDelegate {
+	/// On user count changing, update the displayed count.
+	///
+	/// - Parameter count: The new user count.
 	func userCountChanged(toCount count: Int) {
 		userCountLabel.text = "\(count)"
 	}
 	
+	/// On receiving a message, add it to the chat table and scroll
+    /// to the bottom.
+	///
+	/// - Parameters:
+	///   - message: The message received.
+	///   - position: The position the message should be in.
 	func received(message: Message, for position: Int) {
-            self.chatTableView.beginUpdates()
-            self.chatTableView.insertRows(at: [IndexPath(row: position, section: 0)], with: .automatic)
-            self.chatTableView.scrollTableViewToBottom(animated: false)
-            self.chatTableView.endUpdates()
+        chatTableView.beginUpdates()
+        chatTableView.insertRows(at: [IndexPath(row: position, section: 0)], with: .automatic)
+        chatTableView.scrollTableViewToBottom(animated: false)
+        chatTableView.endUpdates()
 	}
     
+    /// When the oldest message is removed from the model, remove it from the view.
     func removedOldestMessage() {
         chatTableView.deleteRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
     }
 	
+	/// On current video changing, load new video and update view.
+	///
+	/// - Parameter currentVideoID: The ID of the new current video.
 	func receivedUpdate(forCurrentVideoID currentVideoID: String) {
+        // Get the player's video ID
 		var playerID: String?
 		if let playerURL = playerView.videoUrl() {
-			playerID = fetchVideoID(from: playerURL)
+			playerID = extractVideoID(from: playerURL)
 		}
+        // Change to new video if no player video or if player video is different
 		if playerView.videoUrl() == nil || currentVideoID != playerID {
             updateView(forVideoWithID: currentVideoID)
 			DispatchQueue.main.async {
-                if self.viewModel.isHost {
-                    self.playerView.load(withVideoId: currentVideoID, playerVars: self.hostPlayerVariables)
-                }
-                else {
-                    self.playerView.load(withVideoId: currentVideoID, playerVars: self.participantPlayerVariables)
-                }
-				
+                // Only participants will receive updates
+                self.playerView.load(withVideoId: currentVideoID, playerVars: self.participantPlayerVariables)
 			}
 		}
 	}
 	
+	/// On play state change, pause or play the video.
+	///
+	/// - Parameter isPlaying: Whether the video is playing or paused.
 	func receivedUpdate(forIsPlaying isPlaying: Bool) {
 		if isPlaying && playerView.playerState() != .playing {
             DispatchQueue.main.async {
@@ -737,6 +790,9 @@ extension StreamViewController: StreamViewModelDelegate {
 		}
 	}
 	
+	/// If host is buffering, pause the video.
+	///
+	/// - Parameter isBuffering: Whether the host is buffering.
 	func receivedUpdate(forIsBuffering isBuffering: Bool) {
 		if isBuffering && playerView.playerState() == .playing {
             DispatchQueue.main.async {
@@ -745,6 +801,9 @@ extension StreamViewController: StreamViewModelDelegate {
 		}
 	}
 	
+	/// If the playtime is out of sync, jump to the host's playtime.
+	///
+	/// - Parameter playtime: The host playtime in seconds.
 	func receivedUpdate(forPlaytime playtime: Float) {
 		if abs(playtime - playerView.currentTime()) > viewModel.maximumDesyncTime {
             DispatchQueue.main.async {
@@ -753,11 +812,13 @@ extension StreamViewController: StreamViewModelDelegate {
 		}
 	}
 	
+	/// On stream ending, present notification and pop to root screen.
 	func streamEnded() {
         Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "ReceivedStreamEnded")
+        // Make sure player doesn't keep playing
         playerView.pauseVideo()
         
-        // present popup with default user profile picture
+        // Present popup with default user profile picture
 		let popup = PopupViewController.instantiate(
             titleText: stream?.name.uppercased() ?? "",
             image: #imageLiteral(resourceName: "profile_85"),
@@ -768,7 +829,7 @@ extension StreamViewController: StreamViewModelDelegate {
         )
         present(popup, animated: true)
         
-        // update popup with user profile picture from Facebook
+        // Update popup with host profile picture from Facebook
         if let hostFacebookID = stream?.hostFacebookID {
             FacebookDataManager.sharedInstance.fetchInfoForUser(withID: hostFacebookID) { error, user in
                 guard error == nil else { return }
@@ -783,7 +844,14 @@ extension StreamViewController: StreamViewModelDelegate {
 	}
 }
 
+// MARK: - UITableViewDelegate, UITableViewDataSource
 extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
+    /// Dequeues and configures the cell for the given path.
+    ///
+    /// - Parameters:
+    ///   - tableView: The table requesting the cell.
+    ///   - indexPath: The path of the cell.
+    /// - Returns: The cell to display.
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch tableView.tag {
         case chatTableTag: return cellFor(chatTableView: tableView, at: indexPath)
@@ -792,24 +860,32 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
         }
 	}
     
+    /// Sets the height to be automatic based on constraints.
+    ///
+    /// - Parameters:
+    ///   - tableView: The table requesting the height.
+    ///   - indexPath: The index path of the row the request is for.
+    /// - Returns: The height of the cell.
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
     
+    /// Sets the height to be based off the cell constant.
+    ///
+    /// - Parameters:
+    ///   - tableView: The table requesting the height.
+    ///   - indexPath: The index path of the row the request is for.
+    /// - Returns: The height of the cell.
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return estimatedChatCellHeight
     }
     
-    func updateView(forIsKeyboardShowing isKeyboardShowing: Bool) {
-        if isKeyboardShowing {
-            visualEffectView.isHidden = false
-            dismissView.isHidden = false
-        } else {
-            visualEffectView.isHidden = true
-            dismissView.isHidden = true
-        }
-    }
-    
+    /// Determines if the selected row can be edited.
+    ///
+    /// - Parameters:
+    ///   - tableView: The table view selected.
+    ///   - indexPath: The index path of the selected row.
+    /// - Returns: Whether the row can be edited.
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         switch tableView.tag {
         case chatTableTag: return false
@@ -818,6 +894,12 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
+    /// Commits the deletion of a cell by performing the delete.
+    ///
+    /// - Parameters:
+    ///   - tableView: The table view edited.
+    ///   - editingStyle: The style of editing.
+    ///   - indexPath: The index path of the cell edited.
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         switch editingStyle {
         case .delete:
@@ -827,6 +909,12 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
 	
+    /// Returns the number of rows for the section.
+    ///
+    /// - Parameters:
+    ///   - tableView: The tableview requesting the number.
+    ///   - section: The section the request is for.
+    /// - Returns: The number of rows for the section.
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch tableView.tag {
         case chatTableTag: return viewModel.messages.count
@@ -835,6 +923,12 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
         }
 	}
     
+    /// Allows the queue table cells to be moved.
+    ///
+    /// - Parameters:
+    ///   - tableView: The table view asking if a row can be moved.
+    ///   - indexPath: The index path of the requested row.
+    /// - Returns: Whether the row can be moved.
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         switch tableView.tag {
         case chatTableTag: return false
@@ -843,6 +937,13 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
+    /// Moves the row from source index path to destination index path and updates
+    /// the state of the stream.
+    ///
+    /// - Parameters:
+    ///   - tableView: The table of the moving rows.
+    ///   - sourceIndexPath: The index path of the row being moved.
+    ///   - destinationIndexPath: The index path that the row is being moved to.
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "ReorderedVideo")
         guard let currentVideoIndex = viewModel.currentVideoIndex,
@@ -867,10 +968,22 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
+    /// Confirms move to proposed index path.
+    ///
+    /// - Parameters:
+    ///   - tableView: The table of the moving rows.
+    ///   - sourceIndexPath: The index path of the row being moved.
+    ///   - proposedDestinationIndexPath: The proposed destination to move the row.
+    /// - Returns: The destination of the moving row.
     func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {
         return proposedDestinationIndexPath
     }
     
+    /// Switches the current video to the one selected.
+    ///
+    /// - Parameters:
+    ///   - tableView: The table view being selected.
+    ///   - indexPath: The index path of the row that was selected.
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard viewModel.currentVideoIndex != indexPath.row,
             let currentVideoIndex = viewModel.currentVideoIndex else {
@@ -884,13 +997,21 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
         playerView.playVideo()
     }
 	
+    /// Dequeues and configures the cell for the given path for the chat table.
+    ///
+    /// - Parameters:
+    ///   - tableView: The table requesting the cell.
+    ///   - indexPath: The path of the cell.
+    /// - Returns: The cell to display.
     private func cellFor(chatTableView tableView: UITableView, at indexPath: IndexPath) -> UITableViewCell {
         let messageCell = tableView.dequeueReusableCell(withIdentifier: "chatMessage") as? ChatMessageTableViewCell
         let eventCell = tableView.dequeueReusableCell(withIdentifier: "chatEvent") as? ChatEventTableViewCell
         
         let message = viewModel.messages[indexPath.row]
         
+        // Fetch the info of the message author
         FacebookDataManager.sharedInstance.fetchInfoForUser(withID: message.subjectID) { error, user in
+            // Configure cell based on type of message
             if let message = message as? ChatMessage {
                 DispatchQueue.main.async {
                     messageCell?.messageLabel.text = message.content
@@ -903,6 +1024,7 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
                     eventCell?.nameLabel.text = user?.name
                 }
             }
+            // Fetch the profile image of the message author
             user?.fetchProfileImage { error, image in
                 DispatchQueue.main.async {
                     messageCell?.profileImageView.image = image
@@ -911,7 +1033,7 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
             }
         }
         
-        //return messageCell ?? eventCell ?? UITableViewCell()
+        // Returns messageCell ?? eventCell ?? UITableViewCell()
         if message is ChatMessage, let messageCell = messageCell {
             return messageCell
         }
@@ -923,6 +1045,12 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
+    /// Dequeues and configures the cell for the given path for the queue table.
+    ///
+    /// - Parameters:
+    ///   - tableView: The table requesting the cell.
+    ///   - indexPath: The path of the cell.
+    /// - Returns: The cell to display.
 	private func cellFor(queueTableView tableView: UITableView, at indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "queueCell") as? VideoQueueTableViewCell,
             let video = viewModel.videoQueue?[indexPath.row],
@@ -930,32 +1058,45 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
                 return UITableViewCell()
         }
         
-        if cell.videoID != video.id {
-            cell.videoID = video.id
-            cell.thumbnail = nil
-            cell.title = video.title
-            cell.channel = video.channelTitle
-            cell.isPreviousVideo = (currentVideoIndex-1 == indexPath.row)
-            cell.isCurrentVideo = (currentVideoIndex == indexPath.row)
-            
-            video.getMediumThumbnail {error, image in
-                guard let image = image else { return }
-                cell.thumbnail = image
-            }
+        // Don't reconfigure cell if it's already configured to the proper video
+        guard cell.videoID != video.id else {
+            return cell
+        }
+        
+        cell.videoID = video.id
+        cell.thumbnail = nil
+        cell.title = video.title
+        cell.channel = video.channelTitle
+        cell.isPreviousVideo = (currentVideoIndex-1 == indexPath.row)
+        cell.isCurrentVideo = (currentVideoIndex == indexPath.row)
+        
+        video.getMediumThumbnail {error, image in
+            guard let image = image else { return }
+            cell.thumbnail = image
         }
         
         return cell
     }
 }
 
+// MARK: - YTPlayerViewDelegate
 extension StreamViewController: YTPlayerViewDelegate {
+    /// On receiving a playtime update, send the current playtime if the host.
+    ///
+    /// - Parameters:
+    ///   - playerView: The player sending the update.
+    ///   - playTime: The sent play time of the playing video.
     func playerView(_ playerView: YTPlayerView, didPlayTime playTime: Float) {
 		if viewModel.isHost {
 			viewModel.send(currentPlayTime: playerView.currentTime())
 		}
-        print("Current Time: \(playerView.currentTime()) out of \(playerView.duration()) - Video Loaded \(playerView.videoLoadedFraction() * 100)%")
     }
     
+    /// On receiving an error, display the error.
+    ///
+    /// - Parameters:
+    ///   - playerView: The player sending the error.
+    ///   - error: The error that occured.
     func playerView(_ playerView: YTPlayerView, receivedError error: YTPlayerError) {
         Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "ReceivedPlayerError", label: "\(error)")
         let alert = UIAlertController(title: "Received Error from Player", message: "\(error)", preferredStyle: .alert)
@@ -963,31 +1104,21 @@ extension StreamViewController: YTPlayerViewDelegate {
         present(alert, animated: true)
     }
     
-    func playerView(_ playerView: YTPlayerView, didChangeTo quality: YTPlaybackQuality) {
-        //quality changed
-    }
-    
+    /// Once the player is ready, play the video if the participant.
+    ///
+    /// - Parameter playerView: The player that became ready.
     func playerViewDidBecomeReady(_ playerView: YTPlayerView) {
-        // player ready --
-        // could show loading before this is called, and hide loading when this is called
-        print("player ready!")
 		if !viewModel.isHost {
 			playerView.playVideo()
 		}
     }
     
-//    func playerViewPreferredInitialLoading(_ playerView: YTPlayerView) -> UIView? {
-//        //return loading view to be shown before player becomes ready
-//        let loadingView = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
-//        loadingView.backgroundColor = UIColor.red
-//        return loadingView
-//    }
-    
-//    func playerViewPreferredWebViewBackgroundColor(_ playerView: YTPlayerView) -> UIColor {
-//        return UIColor.clear
-//    }
-    
-    
+    /// On receiving a state update, update the view or send a message depending on the state
+    /// and if the user is the host.
+    ///
+    /// - Parameters:
+    ///   - playerView: The player sending the state update.
+    ///   - state: The state of the player.
     func playerView(_ playerView: YTPlayerView, didChangeTo state: YTPlayerState) {
         switch (state) {
         case .paused:
@@ -995,9 +1126,9 @@ extension StreamViewController: YTPlayerViewDelegate {
 			if viewModel.isHost {
 				viewModel.send(playState: false)
 			}
-            break
         case .buffering:
-			if viewModel.isHost, let url = playerView.videoUrl(), let id = fetchVideoID(from: url) {
+            // The buffering state is the only signal that the currently playing video changed
+			if viewModel.isHost, let url = playerView.videoUrl(), let id = extractVideoID(from: url) {
                 updateView(forVideoWithID: id)
 				viewModel.send(currentVideoID: id)
 				viewModel.send(isBuffering: true)
@@ -1011,62 +1142,71 @@ extension StreamViewController: YTPlayerViewDelegate {
 			else if !viewModel.hostPlaying {
 				playerView.pauseVideo()
 			}
-            break
         case .ended:
             if viewModel.isHost {
                 playNextVideo()
             }
-            break
-        case .queued:
-            break
-        case .unknown:
-            break
-        case .unstarted:
+        case .queued, .unknown, .unstarted:
             break
         }
     }
     
+    /// Update the player to play the next video in the video queue.
     private func playNextVideo() {
-         Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "NextVideoPlayed")
-        guard let videoQueue = viewModel.videoQueue else { return }
-        guard let currentVideoIndex = viewModel.currentVideoIndex else { return }
-        let nextVideoIndex = currentVideoIndex < videoQueue.count-1 ? currentVideoIndex+1 : 0
+        Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "NextVideoPlayed")
+        // Make sure there's a queue and a current video
+        guard let videoQueue = viewModel.videoQueue,
+            let currentVideoIndex = viewModel.currentVideoIndex else { return }
+        
+        // Determine the next video
+        let nextVideoIndex = currentVideoIndex < videoQueue.count - 1 ? currentVideoIndex + 1 : 0
+        
+        // Update video queue
         setHighlightForVideo(at: currentVideoIndex, highlighted: false)
         setHighlightForVideo(at: nextVideoIndex, highlighted: true)
+        
+        // Update the model
         viewModel.currentVideoIndex = nextVideoIndex
-        let nextVideoId = videoQueue[nextVideoIndex].id
-        playerView.cueVideo(byId: nextVideoId, startSeconds: 0, suggestedQuality: .default)
+        
+        // Play the next video
+        let nextVideoID = videoQueue[nextVideoIndex].id
+        playerView.cueVideo(byId: nextVideoID, startSeconds: 0, suggestedQuality: .default)
         playerView.playVideo()
     }
 }
 
+// MARK: - UITextFieldDelegate
 extension StreamViewController: UITextFieldDelegate {
+    /// On a text field returning, confirm return and send the chat message.
+    ///
+    /// - Parameter textField: The text field returning.
+    /// - Returns: Whether the text field should return.
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         chatInputActionTriggered() //send the chat
         return true
     }
     
-    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        return true
-    }
-    
+    /// On a text field beginning to edit, update the view for the keyboard showing.
+    ///
+    /// - Parameter textField: The text field that's beginning to edit.
     func textFieldDidBeginEditing(_ textField: UITextField) {
         UIView.setAnimationsEnabled(true) //fix for animations breaking
         updateView(forIsKeyboardShowing: true)
     }
     
+    /// On a text field finishing editing, update the view for the keyboard hiding.
+    ///
+    /// - Parameter textField: The text field that's finishing editing.
     func textFieldDidEndEditing(_ textField: UITextField) {
         updateView(forIsKeyboardShowing: false)
     }
-    
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-
-        
-        return true
-    }
 }
 
+// MARK: - AddVideosDelegate
 extension StreamViewController: AddVideosDelegate {
+    /// Append the selected videos to the queue and update the view.
+    ///
+    /// - Parameter selectedVideos: The videos selected.
     func didAddVideos(selectedVideos: [Video]) {
         let videoQueue = viewModel.videoQueue ?? [Video]()
         viewModel.videoQueue = videoQueue + selectedVideos
