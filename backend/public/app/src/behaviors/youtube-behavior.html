@@ -1,6 +1,20 @@
 <script>
     YoutubeBehavior = {
       properties: {
+        /**
+        * The Youtube video id that is currently being streamed.
+        */
+        currentlyStreamingVideoId: {
+          type: String,
+          value: "A1DbRhdyfJY"
+        }
+      },
+      /**
+      * Changes the currently watched video id to thew newVideoId
+      * @param {function} callback - called when getLoginStatus returns a response
+      */
+      changeVideo: function (newVideoId) {
+        this.set("currentlyStreamingVideoId", newVideoId)
       }
     };
 </script>

@@ -10,36 +10,56 @@
     <style>
       :host {
         display: flex;
+        position: relative;
         min-height: 730px;
         padding-top: 60px;
       }
+      #videoLayer {
+        position:absolute;
+        left:30%;
+        width:70%;
+        height: 92.4%;
+        background-color:transparent;
+      }
     </style>
     <ts-header logged-in-user={{userFacebookData}}></ts-header>
-    <template is="dom-if" if="{{!loggedIn}}">
-      <button style="height:50px;" on-tap="fbLogin">Log In with FB</button>
-    </template>
+    <div style="width:30%;">
+      <a on-tap="changeVideo">CHAT GOES HERE</a>
+    </div>
 
-    <template is="dom-if" if="{{loggedIn}}">
-      <div style="width:30%;">
-        CHAT GOES HERE
-      </div>
-      <google-youtube
-        style="width:70%;"
-        video-id="A1DbRhdyfJY"
-        height="100%"
-        width="100%"
-        rel="0"
-        start="20"
-        autoplay="0">
-      </google-youtube>
-    </template>
+    <!-- Video layer over youtube component to disable clicking -->
+    <div id="videoLayer"></div>
+    <google-youtube
+      id="googleYouTube"
+      style="width:70%;"
+      video-id={{currentlyStreamingVideoId}}
+      height="100%"
+      width="100%"
+      start="20"
+      autoplay="1"
+      disablekb="1"
+      chromeless="1"
+      autohide="0">
+    </google-youtube>
   </template>
 
   <script>
     Polymer({
       is: 'ts-app',
       behaviors: [FacebookBehavior, ServerBehavior, YoutubeBehavior],
+      observers: [
+        "loginChanged(isLoggedIn)"
+      ],
       properties: {
+      },
+      /**
+      * Called when isLoggedIn changes
+      * @param {boolean} isLoggedIn - The value it changed to.
+      */
+      loginChanged: function(isLoggedIn) {
+        if (isLoggedIn) {
+          this.$.googleYouTube.mute()
+        }
       }
     });
   </script>

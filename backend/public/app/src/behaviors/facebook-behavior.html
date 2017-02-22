@@ -4,7 +4,7 @@
         /**
         * Stores whether user is authenticated through Facebook.
         */
-        loggedIn: {
+        isLoggedIn: {
           type: Boolean,
           value: false,
         },
@@ -51,7 +51,6 @@
           setTimeout(function() {this.getFBLoginStatus(callback)}.bind(this), 200)
         } else {
           window.FB.getLoginStatus(function(response) {
-            console.log(response)
             callback(response)
           }.bind(this));
         }
@@ -76,8 +75,9 @@
       * @param {boolean} forceLogin - If set to true, runs Facebook's login process.
       */
       handleGetLoginStatus: function (response, forceLogin) {
+        console.log(response)
         if (response.status === 'connected') {
-            this.set("loggedIn", true)
+            this.set("isLoggedIn", true)
             this.set("facebookAccessToken", response.authResponse.accessToken)
             this.set("userFacebookId", response.authResponse.userID)
             this.getServerAccessToken()
