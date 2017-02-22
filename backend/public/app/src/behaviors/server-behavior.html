@@ -13,7 +13,7 @@
       * Sends Facebook's access token to the server to get the server's access token.
       */
       getServerAccessToken: function () {
-        var xhr = new XMLHttpRequest();
+        let xhr = new XMLHttpRequest();
 
         xhr.open('GET', '/auth/facebook/token/login', true);
         xhr.setRequestHeader('access_token', this.facebookAccessToken)
