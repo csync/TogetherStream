@@ -1,0 +1,81 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/google-youtube/google-youtube.html">
+
+<dom-module id="ts-video">
+  <template>
+    <style>
+      :host {
+        width: 70%;
+      }
+      #videoLayer {
+        position:absolute;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        color: white;
+        text-shadow: black 0px 0px 10px;
+        background-color:transparent;
+        width:70%;
+        height: 92.4%;
+      }
+      #videoLayer .left-container {
+        font-size: small;
+        margin-bottom: 10px;
+        margin-left: 20px;
+      }
+      #videoLayer .right-container {
+        margin-bottom: 30px;
+        margin-right: 10px;
+      }
+      .bold {
+        font-weight: bold;
+      }
+    </style>
+    <!-- Video layer over youtube component to disable clicking -->
+    <div id="videoLayer">
+      <div class="left-container">
+        <p class="bold">CURRENTLY STREAMING</p>
+        <p>{{videoData.title}}</p>
+        <p>{{videoData.channelName}} - {{videoData.views}} views</p>
+      </div>
+      <div class="right-container">
+        <img height=30 src="/assets/youTubeLogoLight@2x.png"></img>
+      </div>
+    </div>
+    <google-youtube
+      id="googleYouTube"
+      video-id={{videoId}}
+      height="100%"
+      width="100%"
+      start="20"
+      autoplay="1"
+      disablekb="1"
+      controls="0"
+      autohide="0">
+    </google-youtube>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'ts-video',
+      properties: {
+        /**
+        * Video id of currently playing video
+        */
+        videoId: {
+          type: "String",
+          value: ""
+        },
+        /**
+        * Video data of currently playing video
+        */
+        videoData: {
+          type: "Object",
+          value: function () {
+            return {}
+          }
+        }
+      },
+    });
+  </script>
+</dom-module>
