@@ -16,10 +16,27 @@
       }
       #videoLayer {
         position:absolute;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        color: white;
+        text-shadow: black 0px 0px 10px;
+        background-color:transparent;
         left:30%;
         width:70%;
         height: 92.4%;
-        background-color:transparent;
+      }
+      #videoLayer .left-container {
+        font-size: small;
+        margin-bottom: 10px;
+        margin-left: 20px;
+      }
+      #videoLayer .right-container {
+        margin-bottom: 30px;
+        margin-right: 10px;
+      }
+      .bold {
+        font-weight: bold;
       }
     </style>
     <ts-header logged-in-user={{userFacebookData}}></ts-header>
@@ -28,7 +45,16 @@
     </div>
 
     <!-- Video layer over youtube component to disable clicking -->
-    <div id="videoLayer"></div>
+    <div id="videoLayer">
+      <div class="left-container">
+        <p class="bold">CURRENTLY STREAMING</p>
+        <p>{{currentlyStreamingVideoData.title}}</p>
+        <p>{{currentlyStreamingVideoData.channelName}} - {{currentlyStreamingVideoData.views}} views</p>
+      </div>
+      <div class="right-container">
+        <img height=30 src="/assets/youTubeLogoLight@2x.png"></img>
+      </div>
+    </div>
     <google-youtube
       id="googleYouTube"
       style="width:70%;"
@@ -38,7 +64,7 @@
       start="20"
       autoplay="1"
       disablekb="1"
-      chromeless="1"
+      controls="0"
       autohide="0">
     </google-youtube>
   </template>

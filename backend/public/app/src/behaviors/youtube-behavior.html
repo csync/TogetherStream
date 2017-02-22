@@ -66,6 +66,7 @@
               newVideoDataObj.title = responseItem.snippet.title
               newVideoDataObj.channelName = responseItem.snippet.channelTitle
               newVideoDataObj.views = responseItem.statistics.viewCount.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+              this.set("currentlyStreamingVideoData", newVideoDataObj)
             }
           }
         }.bind(this)
