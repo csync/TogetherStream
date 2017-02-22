@@ -125,13 +125,12 @@ userController.getUserAccountByExternalAccount = function (externalAccount) {
                           function (err, result) {
                               done(err);
                               if (err) {
-                                  done(err);
                                   reject(err);
                                   return
                               }
                               if (result.rowCount < 1) {
                                   resolve(null);
-                                  client.end();
+                                  return
                               }
                               resolve({id: result.rows[0].id, deviceToken: result.rows[0].device_token});
                           });
