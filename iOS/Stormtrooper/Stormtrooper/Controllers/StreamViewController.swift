@@ -53,14 +53,16 @@ class StreamViewController: UIViewController {
         "playsinline" : 1,
         "modestbranding" : 1,
         "showinfo" : 0,
-        "controls" : 1
-				]
+        "controls" : 1,
+        "origin" : "http://www.youtube.com"
+				] as [String : Any]
     fileprivate let participantPlayerVars = [ //hide controls
         "playsinline" : 1,
         "modestbranding" : 1,
         "showinfo" : 0,
-        "controls" : 0
-				]
+        "controls" : 0,
+        "origin" : "http://www.youtube.com"
+				] as [String : Any]
 	
     var stream: Stream? {
         get {
