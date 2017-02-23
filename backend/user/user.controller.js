@@ -79,7 +79,10 @@ userController.getUserByID = function (id) {
           // Get user info
           client.query("SELECT id, device_token FROM users WHERE id=$1", [id],
               function (err, result) {
-                  if (err) reject(err);
+                  if (err) {
+                      done(err);
+                      reject(err);
+                  }
                   if (result.rowCount < 1) {
                       done(err);
                       resolve(null);
@@ -228,6 +231,7 @@ userController.getOrCreateStream = function (req) {
                                 }
                                 if (result.rowCount < 1) {
                                     reject(null);
+                                    return;
                                 }
                                 resolve({
                                     id: result.rows[0].id,
