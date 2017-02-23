@@ -1,0 +1,77 @@
+<script>
+    YoutubeBehavior = {
+      properties: {
+        /**
+        * Youtube API key
+        */
+        youtubeApiKey: {
+          type: String,
+          value: "AIzaSyBtZHBo_puHlrTw2cgqz-q5fYlK4XBuHNA"
+        },
+        /**
+        * The Youtube video id that is currently being streamed.
+        */
+        currentlyStreamingVideoId: {
+          type: String,
+          value: ""
+        },
+        /**
+        * Data for currently streaming youtube video.
+        */
+        currentlyStreamingVideoData: {
+          type: String,
+          value: function () {
+            return {}
+          }
+        }
+      },
+      /**
+      * Changes the currently watched video id to thew newVideoId
+      * @param {string} newVideoId - new video to show and get data for.
+      */
+      changeVideo: function (newVideoId) {
+        if (!newVideoId || (!typeof newVideoId === "string")) {
+          console.log("Please provide a valid video id.")
+          return
+        }
+        this.set("currentlyStreamingVideoId", newVideoId)
+        this.getVideoData(newVideoId)
+      },
+      /**
+      * Changes the currently watched video id to thew newVideoId
+      * @param {string} videoId - Video id to get data for.
+      */
+      getVideoData: function (videoId) {
+        if (!videoId || (!typeof videoId === "string")) {
+          console.log("Please provide a valid video id.")
+          return
+        }
+        let baseUrl = "https://www.googleapis.com/youtube/v3/videos"
+        let videoParam = "?id=" + videoId
+        let keyParam = "&key=" + this.youtubeApiKey
+        let queryParams = "&part=snippet,statistics"
+        let compiledUrl = baseUrl + videoParam + keyParam + queryParams
+        let xhr = new XMLHttpRequest();
+
+        xhr.open('GET', compiledUrl, true);
+        xhr.onload = function () {
+          let responseUrl = xhr.responseURL
+
+          if (xhr.response) {
+            let newVideoDataObj = {}
+            let responseJson = JSON.parse(xhr.response)
+
+            if (responseJson.items && responseJson.items.length > 0) {
+              let responseItem = responseJson.items[0]
+              newVideoDataObj.title = responseItem.snippet.title
+              newVideoDataObj.channelName = responseItem.snippet.channelTitle
+              newVideoDataObj.views = responseItem.statistics.viewCount.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+              newVideoDataObj.url = "https://www.youtube.com/watch?v=" + videoId
+              this.set("currentlyStreamingVideoData", newVideoDataObj)
+            }
+          }
+        }.bind(this)
+        xhr.send(null);
+      }
+    };
+</script>
