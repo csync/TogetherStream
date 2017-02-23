@@ -209,7 +209,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     private func presentConfirmation(viewController: UIViewController, callback: @escaping (Void) -> Void) {
         guard let streamViewController = viewController as? StreamViewController,
             let stream = streamViewController.stream,
-            streamViewController.viewModel.isHost
+            streamViewController.isHost
         else {
             callback()
             return
