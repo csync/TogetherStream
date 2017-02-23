@@ -83,7 +83,7 @@ userController.getUserByID = function (id) {
                         done(err);
                         reject(err);
                     }
-                    if (result.rowCount < 1) {
+                    else if (result.rowCount < 1) {
                         done(err);
                         resolve(null);
                     }
@@ -117,9 +117,8 @@ userController.getUserAccountByExternalAccount = function (externalAccount) {
                     if (err) {
                         done(err);
                         reject(err);
-                        return
                     }
-                    if (result.rowCount < 1) {
+                    else if (result.rowCount < 1) {
                         done(err);
                         resolve(null);
                     }
