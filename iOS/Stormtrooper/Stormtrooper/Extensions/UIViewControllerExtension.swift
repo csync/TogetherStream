@@ -11,28 +11,6 @@ import UIKit
 import Google
 
 extension UIViewController {
-
-
-    /**
-     Method returns whether the view controller is visible or not
-
-     - parameter viewController: UIViewController
-
-     - returns: Bool
-     */
-    func isVisible() -> Bool {
-
-        if let navigationController = self.navigationController, let visibleViewController = navigationController.visibleViewController {
-            if self == visibleViewController {
-                return true
-            } else {
-                return false
-            }
-        } else {
-            return false
-        }
-
-    }
     
     /// The view controller that the user is most likely interacting with.
     var mostActiveViewController: UIViewController {
@@ -68,7 +46,9 @@ extension UIViewController {
         return self
     }
     
+    /// Sends a screen view track of the current the view controller.
     func trackScreenView() {
+        // Only send during production
         #if !DEBUG
         let tracker = GAI.sharedInstance().defaultTracker
         tracker?.set(kGAIScreenName, value: String(describing: type(of: self)))
