@@ -60,14 +60,14 @@ class StreamViewController: UIViewController {
     
     // MARK: - Contraints
 
-    /// The original height of the header view.
-    private var originalHeaderViewHeight: CGFloat = 0
-    /// The original frame of the player view.
-    private var originalPlayerViewFrame: CGRect = CGRect.zero
-    /// The original constraints of the player view.
-    private var originalPlayerViewConstraints: [NSLayoutConstraint] = []
+    /// The height of the header view when it is collapsed.
+    private var collapsedHeaderViewHeight: CGFloat = 0
+    /// The frame of the player view for portrait orientation.
+    private var portraitPlayerViewFrame: CGRect = CGRect.zero
+    /// The constraints of the player view for portrait orientation.
+    private var portraitPlayerViewConstraints: [NSLayoutConstraint] = []
     /// The contraints of the player view when it is in landscape.
-    private var rotatedPlayerViewConstraints: [NSLayoutConstraint] = []
+    private var landscapePlayerViewConstraints: [NSLayoutConstraint] = []
     
     // MARK: - Constants
     
@@ -103,9 +103,6 @@ class StreamViewController: UIViewController {
 	
     
     // MARK: - Private Properties
-    
-    // TODO: Remove or move to viewModel
-    fileprivate var isPlaying = false
     
     /// The model for the objects in this view.
     fileprivate let viewModel = StreamViewModel()
@@ -178,7 +175,7 @@ class StreamViewController: UIViewController {
 		}
 	}
     
-    // MARK: - Helper methods
+    // MARK: - Setup methods
     
     /// Set the navigation items for this view controller.
     private func setupNavigationItems() {
@@ -188,38 +185,11 @@ class StreamViewController: UIViewController {
     /// Sets up the frame of the player view.
     private func setupPlayerViewFrame() {
         if !didPreviouslySetupPlayerView {
-            originalPlayerViewFrame = playerContainerView.frame
-            saveOriginalPlayerViewFrame()
+            portraitPlayerViewFrame = playerContainerView.frame
+            resetToPortaitPlayerViewFrame()
             didPreviouslySetupPlayerView = true
         }
     }
-    
-    /// TODO: ?
-    private func saveOriginalPlayerViewFrame() {
-        NSLayoutConstraint.deactivate(rotatedPlayerViewConstraints)
-        let constraint1 = NSLayoutConstraint(item: self.playerContainerView, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.top, multiplier: 1.0, constant: 0.0)
-        let constraint2 = NSLayoutConstraint(item: self.playerContainerView, attribute: NSLayoutAttribute.bottom, relatedBy: NSLayoutRelation.equal, toItem: self.headerView, attribute: NSLayoutAttribute.top, multiplier: 1.0, constant: 0.0)
-        let constraint3 = NSLayoutConstraint(item: self.playerContainerView, attribute: NSLayoutAttribute.leading, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.leading, multiplier: 1.0, constant: 0.0)
-        let constraint4 = NSLayoutConstraint(item: self.playerContainerView, attribute: NSLayoutAttribute.trailing, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.trailing, multiplier: 1.0, constant: 0.0)
-        let constraint5 = NSLayoutConstraint(item: self.playerContainerView, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1.0, constant: 211)
-        let constraintArray = [constraint1, constraint2, constraint3, constraint4, constraint5]
-        originalPlayerViewConstraints = constraintArray
-        NSLayoutConstraint.activate(originalPlayerViewConstraints)
-    }
-    
-    /// TODO: ?
-    private func addRotatingConstraints() {
-        NSLayoutConstraint.deactivate(originalPlayerViewConstraints)
-        let screenFrame = UIScreen.main.bounds
-        let constraint1 = NSLayoutConstraint(item: self.playerContainerView, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1.0, constant: screenFrame.height)
-        let constraint2 = NSLayoutConstraint(item: self.playerContainerView, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1.0, constant: screenFrame.width)
-        let constraint3 = NSLayoutConstraint(item: self.playerContainerView, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.centerX, multiplier: 1.0, constant: 0.0)
-        let constraint4 = NSLayoutConstraint(item: self.playerContainerView, attribute: NSLayoutAttribute.centerY, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.centerY, multiplier: 1.0, constant: 0.0)
-        let constraintArray = [constraint1, constraint2, constraint3, constraint4]
-        rotatedPlayerViewConstraints = constraintArray
-        NSLayoutConstraint.activate(rotatedPlayerViewConstraints)
-    }
-    
 
     /// Sets up the view depending on whether the user is the host or participant of the stream.
     private func setupViewForHostOrParticipant() {
@@ -284,8 +254,6 @@ class StreamViewController: UIViewController {
         
         // Actually set accessory view
         chatInputTextField.inputAccessoryView = accessoryView
-        
-        
     }
     
     /// Show current user's profile picture.
@@ -312,30 +280,170 @@ class StreamViewController: UIViewController {
         queueTableView.register(UINib(nibName: "VideoQueueTableViewCell", bundle: nil), forCellReuseIdentifier: "queueCell")
     }
     
-    /// Saves the needed constraints.
-    private func saveConstraints() {
-        originalHeaderViewHeight = headerViewHeightConstraint.constant
-    }
-    
     /// Sets up the player view.
     private func setupPlayerView() {
         playerView.backgroundColor = UIColor.white
         playerView.delegate = self
         // Load the inital video.
 		if viewModel.isHost, let queue = viewModel.videoQueue, queue.count > 0 {
-            // TODO: ?
+            // Allow user to play/pause video by tapping on player view
             blockClicksButton.isHidden = true
             updateView(forVideoWithID: queue[0].id)
 			playerView.load(withVideoId: queue[0].id, playerVars: hostPlayerVariables)
             viewModel.currentVideoIndex = 0
 		}
         else if !viewModel.isHost, let queue = viewModel.videoQueue, queue.count > 0{
-            blockClicksButton.isHidden = false //prevent user from playing/pausing video as participant
+            // Allow user to play/pause video by tapping on player view
+            blockClicksButton.isHidden = false
             updateView(forVideoWithID: queue[0].id)
             playerView.load(withVideoId: queue[0].id, playerVars: participantPlayerVariables)
             viewModel.currentVideoIndex = 0
         }
-		
+    }
+    
+    /// Saves the needed constraints.
+    private func saveConstraints() {
+        collapsedHeaderViewHeight = headerViewHeightConstraint.constant
+    }
+    
+    // MARK: - Player view rotation methods
+    
+    /// On device rotation, rotate the player view.
+    @objc private func deviceDidRotate() {
+        Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "RotatedScreen")
+        // Make sure that the "Stream" screen is visible
+        guard navigationController?.visibleViewController == self else { return }
+        switch UIDevice.current.orientation {
+        case .landscapeLeft:
+            // Rotate from portrait to landscape left
+            if !statusBarHidden {
+                playerDirection = .left
+                rotatePlayerView(byAngle: CGFloat(M_PI_2))
+            }
+            // Rotate from landscape right to landscape left
+            if playerDirection == .right {
+                returnPlayerViewToPortrait()
+                playerDirection = .left
+                rotatePlayerView(byAngle: CGFloat(M_PI_2))
+            }
+        case .landscapeRight:
+            // Rotate from portrait to landscape right
+            if !statusBarHidden {
+                playerDirection = .right
+                rotatePlayerView(byAngle: CGFloat(-M_PI_2))
+            }
+            // Rotate from landscape left to landscape right
+            if playerDirection == .left {
+                returnPlayerViewToPortrait()
+                playerDirection = .right
+                rotatePlayerView(byAngle: CGFloat(-M_PI_2))
+            }
+        case .portrait:
+            if statusBarHidden {
+                playerDirection = .portrait
+                returnPlayerViewToPortrait()
+            }
+        default:
+            break
+        }
+    }
+    
+    /// Rotates the player view by the angle provided.
+    ///
+    /// - Parameter angle: The amount to rotate the player view by, in radians.
+    private func rotatePlayerView(byAngle angle: CGFloat) {
+        self.statusBarHidden = true
+        NSLayoutConstraint.deactivate(portraitPlayerViewConstraints)
+        self.navigationController?.navigationBar.isHidden = true
+        DispatchQueue.main.async {
+            self.playerContainerView.transform = CGAffineTransform(rotationAngle: angle)
+            self.setNeedsStatusBarAppearanceUpdate()
+            self.resetToLandscapePlayerViewFrame()
+            self.view.updateConstraintsIfNeeded()
+        }
+    }
+    
+    /// Returns the player view to the portrait orientation.
+    private func returnPlayerViewToPortrait() {
+        self.statusBarHidden = false
+        NSLayoutConstraint.deactivate(landscapePlayerViewConstraints)
+        self.navigationController?.navigationBar.isHidden = false
+        DispatchQueue.main.async {
+            self.playerContainerView.transform = CGAffineTransform.identity
+            self.setNeedsStatusBarAppearanceUpdate()
+            self.resetToPortaitPlayerViewFrame()
+            self.playerContainerView.frame = self.portraitPlayerViewFrame //reset playerview if portrait
+            self.view.updateConstraintsIfNeeded()
+        }
+    }
+    
+    /// Sets the player view to be displayed in portait orientation.
+    private func resetToPortaitPlayerViewFrame() {
+        NSLayoutConstraint.deactivate(landscapePlayerViewConstraints)
+        let topConstraint = NSLayoutConstraint(item: self.playerContainerView, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.top, multiplier: 1.0, constant: 0.0)
+        let bottomConstraint = NSLayoutConstraint(item: self.playerContainerView, attribute: NSLayoutAttribute.bottom, relatedBy: NSLayoutRelation.equal, toItem: self.headerView, attribute: NSLayoutAttribute.top, multiplier: 1.0, constant: 0.0)
+        let leadingConstraint = NSLayoutConstraint(item: self.playerContainerView, attribute: NSLayoutAttribute.leading, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.leading, multiplier: 1.0, constant: 0.0)
+        let trailingConstraint = NSLayoutConstraint(item: self.playerContainerView, attribute: NSLayoutAttribute.trailing, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.trailing, multiplier: 1.0, constant: 0.0)
+        let heightConstraint = NSLayoutConstraint(item: self.playerContainerView, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1.0, constant: 211)
+        let constraintArray = [topConstraint, bottomConstraint, leadingConstraint, trailingConstraint, heightConstraint]
+        portraitPlayerViewConstraints = constraintArray
+        NSLayoutConstraint.activate(portraitPlayerViewConstraints)
+    }
+    
+    /// Set the player view to be displayed in landscape orientation.
+    private func resetToLandscapePlayerViewFrame() {
+        NSLayoutConstraint.deactivate(portraitPlayerViewConstraints)
+        let screenFrame = UIScreen.main.bounds
+        let widthConstraint = NSLayoutConstraint(item: self.playerContainerView, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1.0, constant: screenFrame.height)
+        let heightConstraint = NSLayoutConstraint(item: self.playerContainerView, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1.0, constant: screenFrame.width)
+        let centerXConstraint = NSLayoutConstraint(item: self.playerContainerView, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.centerX, multiplier: 1.0, constant: 0.0)
+        let centerYConstraint = NSLayoutConstraint(item: self.playerContainerView, attribute: NSLayoutAttribute.centerY, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.centerY, multiplier: 1.0, constant: 0.0)
+        let constraintArray = [widthConstraint, heightConstraint, centerXConstraint, centerYConstraint]
+        landscapePlayerViewConstraints = constraintArray
+        NSLayoutConstraint.activate(landscapePlayerViewConstraints)
+    }
+    
+    /// On tapping rotate player, rotate to either expanded or portait view.
+    ///
+    /// - Parameter sender: The button tapped.
+    @IBAction func expandButtonTapped(_ sender: Any) {
+        Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "SelectedExpandVideo")
+        if statusBarHidden {
+            returnPlayerViewToPortrait()
+        }
+        else {
+            rotatePlayerView(byAngle: CGFloat(M_PI_2))
+        }
+    }
+    
+    // MARK: - Chat methods
+    
+    /// On triggering send chat message, send the message and reset the input fields.
+    @objc fileprivate func chatInputActionTriggered() {
+        let textToSend = chatInputTextField.text ?? accessoryView.textField.text ?? ""
+        guard textToSend.characters.count > 0 else { return }
+        
+        Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "SelectedSendText")
+        
+        // Send chat
+        viewModel.send(chatMessage: textToSend)
+        
+        // Reset textfields
+        accessoryView.textField.text = nil
+        chatInputTextField.text = nil
+        
+        // Dismiss keyboard
+        accessoryView.textField.resignFirstResponder()
+        chatInputTextField.resignFirstResponder()
+        
+        // Hide keyboard views
+        updateView(forIsKeyboardShowing: false)
+        
+        // Scroll table view down
+        if viewModel.messages.count > 0 {
+            let indexPath = IndexPath(item: viewModel.messages.count - 1, section: 0)
+            chatTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+        }
     }
     
     
@@ -372,89 +480,20 @@ class StreamViewController: UIViewController {
         cancelChatTapped()
     }
     
-    /// On tapping rotate player, rotate to either expanded or portait view.
+    /// Update view depending on whether the keyboard is visible.
     ///
-    /// - Parameter sender: The button tapped.
-    @IBAction func expandButtonTapped(_ sender: Any) {
-        Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "SelectedExpandVideo")
-        if statusBarHidden {
-            returnPlayerViewToPortrait()
-        }
-        else {
-            rotatePlayerView(byAngle: CGFloat(M_PI_2))
-        }
-    }
-    
-    
-    /// On device rotation, rotate the player view.
-    @objc private func deviceDidRotate() {
-        Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "RotatedScreen")
-        if navigationController?.visibleViewController == self {
-            // TODO: Explain
-            switch UIDevice.current.orientation {
-            case .landscapeLeft:
-                print("Landscape Left")
-                if !statusBarHidden {
-                    playerDirection = .left
-                    rotatePlayerView(byAngle: CGFloat(M_PI_2))
-                }
-                if playerDirection == .right {
-                    returnPlayerViewToPortrait()
-                    playerDirection = .left
-                    rotatePlayerView(byAngle: CGFloat(M_PI_2))
-                }
-            case .landscapeRight:
-                if !statusBarHidden {
-                    print("Landscape Right")
-                    playerDirection = .right
-                    rotatePlayerView(byAngle: CGFloat(-M_PI_2))
-                }
-                if playerDirection == .left {
-                    returnPlayerViewToPortrait()
-                    playerDirection = .right
-                    rotatePlayerView(byAngle: CGFloat(-M_PI_2))
-                }
-            case .portrait:
-                print("Portrait")
-                if statusBarHidden {
-                    playerDirection = .portrait
-                    returnPlayerViewToPortrait()
-                }
-            default:
-                break
-            }
+    /// - Parameter isKeyboardShowing: Whether the keyboard is visible.
+    fileprivate func updateView(forIsKeyboardShowing isKeyboardShowing: Bool) {
+        if isKeyboardShowing {
+            visualEffectView.isHidden = false
+            dismissView.isHidden = false
+        } else {
+            visualEffectView.isHidden = true
+            dismissView.isHidden = true
         }
     }
     
-    /// Rotates the player view by the angle provided.
-    ///
-    /// - Parameter angle: The amount to rotate the player view by, in radians.
-    private func rotatePlayerView(byAngle angle: CGFloat) {
-        // TODO: explain
-        self.statusBarHidden = true
-        NSLayoutConstraint.deactivate(originalPlayerViewConstraints)
-        self.navigationController?.navigationBar.isHidden = true
-        DispatchQueue.main.async {
-            self.playerContainerView.transform = CGAffineTransform(rotationAngle: angle)
-            self.setNeedsStatusBarAppearanceUpdate()
-            self.addRotatingConstraints()
-            self.view.updateConstraintsIfNeeded()
-        }
-    }
-    
-    /// Returns the player view to the portrait orientation.
-    private func returnPlayerViewToPortrait() {
-        self.statusBarHidden = false
-        NSLayoutConstraint.deactivate(rotatedPlayerViewConstraints)
-        self.navigationController?.navigationBar.isHidden = false
-        DispatchQueue.main.async {
-            self.playerContainerView.transform = CGAffineTransform.identity
-            self.setNeedsStatusBarAppearanceUpdate()
-            self.saveOriginalPlayerViewFrame()
-            self.playerContainerView.frame = self.originalPlayerViewFrame //reset playerview if portrait
-            self.view.updateConstraintsIfNeeded()
-        }
-    }
+    // MARK: - Queue methods
     
     /// On header tapped, show or hide queue.
     ///
@@ -464,7 +503,7 @@ class StreamViewController: UIViewController {
         
         if queueView.isHidden {
             Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "PressedHeader", label: "ExpandedQueue")
-            headerViewHeightConstraint.constant = originalHeaderViewHeight + queueView.frame.height
+            headerViewHeightConstraint.constant = collapsedHeaderViewHeight + queueView.frame.height
             UIView.animate(withDuration: headerViewAnimationDuration, delay: 0, options: .curveEaseOut, animations: { _ in
                 self.view.layoutIfNeeded()
                 //rotate arrow
@@ -480,7 +519,7 @@ class StreamViewController: UIViewController {
         else {
             Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "PressedHeader", label: "CollapsedQueue")
             self.queueView.isHidden = true
-            headerViewHeightConstraint.constant = originalHeaderViewHeight
+            headerViewHeightConstraint.constant = collapsedHeaderViewHeight
             UIView.animate(withDuration: headerViewAnimationDuration, delay: 0, options: .curveEaseOut, animations: { _ in
                 self.view.layoutIfNeeded()
                 //rotate arrow
@@ -489,6 +528,92 @@ class StreamViewController: UIViewController {
             })
         }
     }
+    
+    /// On "Add Videos" tapped, present the "Add Videos" screen.
+    ///
+    /// - Parameter sender: The button tapped.
+    @IBAction func addToStreamTapped(_ sender: Any) {
+        Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "SelectedAddVideos")
+        guard let addVideosVC = Utils.vcWithNameFromStoryboardWithName("addVideos", storyboardName: "AddVideos") as? AddVideosViewController else {
+            return
+        }
+        addVideosVC.stream = stream
+        addVideosVC.isCreatingStream = false
+        addVideosVC.delegate = self
+        navigationController?.pushViewController(addVideosVC, animated: true)
+    }
+    
+    /// On pressing the edit button, toggle edit mode on the queue.
+    ///
+    /// - Parameter sender: The buton pressed.
+    @IBAction func didToggleQueueEdit(_ sender: UIButton) {
+        if queueTableView.isEditing {
+            Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "ToggleQueueEdit", label: "Finished")
+            queueTableView.isEditing = false
+            sender.setTitle("Edit", for: .normal)
+        }
+        else {
+            Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "ToggleQueueEdit", label: "Started")
+            queueTableView.isEditing = true
+            sender.setTitle("Done", for: .normal)
+        }
+    }
+    
+    /// Configures the highlight of the given row.
+    ///
+    /// - Parameters:
+    ///   - row: The row that should be configured.
+    ///   - highlighted: Whether to set or remove the highlight.
+    fileprivate func setHighlightForVideo(at row: Int, highlighted: Bool) {
+        // update the previous video (i.e. whether to hide its separator)
+        let previousIndexPath = IndexPath(row: row-1, section: 0)
+        let previousVideoCell = queueTableView.cellForRow(at: previousIndexPath) as? VideoQueueTableViewCell
+        previousVideoCell?.isPreviousVideo = highlighted
+        
+        // update the current video (i.e. whether to highlight it)
+        let indexPath = IndexPath(row: row, section: 0)
+        let videoCell = queueTableView.cellForRow(at: indexPath) as? VideoQueueTableViewCell
+        videoCell?.isCurrentVideo = highlighted
+    }
+    
+    /// Deletes the video at the given index path and updates the stream state.
+    ///
+    /// - Parameter indexPath: The index path of the video to delete.
+    fileprivate func deleteVideo(at indexPath: IndexPath) {
+        // Get the indexes of the effected videos
+        guard let currentVideoIndex = viewModel.currentVideoIndex else { return }
+        let previousIndexPath = IndexPath(row: indexPath.row - 1, section: 0)
+        let nextIndexPath = IndexPath(row: indexPath.row + 1, section: 0)
+        
+        // Deleted the previous video
+        if indexPath.row == currentVideoIndex - 1 {
+            let previousCell = queueTableView.cellForRow(at: previousIndexPath)
+            let previousVideoCell = previousCell as? VideoQueueTableViewCell
+            previousVideoCell?.isPreviousVideo = true
+        }
+        
+        // Deleted the current video
+        if indexPath.row == currentVideoIndex {
+            guard let videoQueue = viewModel.videoQueue else { return }
+            setHighlightForVideo(at: nextIndexPath.row, highlighted: true)
+            viewModel.currentVideoIndex = nextIndexPath.row
+            let nextVideoId = videoQueue[nextIndexPath.row].id
+            playerView.cueVideo(byId: nextVideoId, startSeconds: 0, suggestedQuality: .default)
+            playerView.playVideo()
+        }
+        
+        // Remove deleted video from queue and view model
+        queueTableView.beginUpdates()
+        queueTableView.deleteRows(at: [indexPath], with: .automatic)
+        viewModel.videoQueue?.remove(at: indexPath.row)
+        // Update the current video index if needed
+        if currentVideoIndex > indexPath.row {
+            viewModel.currentVideoIndex = currentVideoIndex - 1
+        }
+        queueTableView.endUpdates()
+    }
+    
+    // MARK: - Navigation bar methods
     
     
     /// On invite tapped, present the "Invite" screen.
@@ -561,64 +686,8 @@ class StreamViewController: UIViewController {
     private func leaveStreamAsParticipant() {
         let _ = navigationController?.popToRootViewController(animated: true)
     }
-
-    /// On "Add Videos" tapped, present the "Add Videos" screen.
-    ///
-    /// - Parameter sender: The button tapped.
-    @IBAction func addToStreamTapped(_ sender: Any) {
-        Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "SelectedAddVideos")
-        guard let addVideosVC = Utils.vcWithNameFromStoryboardWithName("addVideos", storyboardName: "AddVideos") as? AddVideosViewController else {
-            return
-        }
-        addVideosVC.stream = stream
-        addVideosVC.isCreatingStream = false
-        addVideosVC.delegate = self
-        navigationController?.pushViewController(addVideosVC, animated: true)
-    }
     
-    /// On triggering send chat message, send the message and reset the input fields.
-    @objc fileprivate func chatInputActionTriggered() {
-        let textToSend = chatInputTextField.text ?? accessoryView.textField.text ?? ""
-        guard textToSend.characters.count > 0 else { return }
-
-        Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "SelectedSendText")
-
-        // Send chat
-        viewModel.send(chatMessage: textToSend)
-
-        // Reset textfields
-        accessoryView.textField.text = nil
-        chatInputTextField.text = nil
-
-        // Dismiss keyboard
-        accessoryView.textField.resignFirstResponder()
-        chatInputTextField.resignFirstResponder()
-
-        // Hide keyboard views
-        updateView(forIsKeyboardShowing: false)
-
-        // Scroll table view down
-        if viewModel.messages.count > 0 {
-            let indexPath = IndexPath(item: viewModel.messages.count - 1, section: 0)
-            chatTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
-        }
-	}
-    
-    /// On pressing the edit button, toggle edit mode on the queue.
-    ///
-    /// - Parameter sender: The buton pressed.
-    @IBAction func didToggleQueueEdit(_ sender: UIButton) {
-        if queueTableView.isEditing {
-            Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "ToggleQueueEdit", label: "Finished")
-            queueTableView.isEditing = false
-            sender.setTitle("Edit", for: .normal)
-        }
-        else {
-            Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "ToggleQueueEdit", label: "Started")
-            queueTableView.isEditing = true
-            sender.setTitle("Done", for: .normal)
-        }
-    }
+    // MARK: - Player helper methods
 	
 	/// Parses the given URL to extract the video ID.
 	///
@@ -660,73 +729,6 @@ class StreamViewController: UIViewController {
                     self?.videoSubtitleLabel.text = "-"
                 }
             }
-        }
-    }
-    
-    /// Configures the highlight of the given row.
-    ///
-    /// - Parameters:
-    ///   - row: The row that should be configured.
-    ///   - highlighted: Whether to set or remove the highlight.
-    fileprivate func setHighlightForVideo(at row: Int, highlighted: Bool) {
-        // update the previous video (i.e. whether to hide its separator)
-        let previousIndexPath = IndexPath(row: row-1, section: 0)
-        let previousVideoCell = queueTableView.cellForRow(at: previousIndexPath) as? VideoQueueTableViewCell
-        previousVideoCell?.isPreviousVideo = highlighted
-        
-        // update the current video (i.e. whether to highlight it)
-        let indexPath = IndexPath(row: row, section: 0)
-        let videoCell = queueTableView.cellForRow(at: indexPath) as? VideoQueueTableViewCell
-        videoCell?.isCurrentVideo = highlighted
-    }
-    
-    /// Deletes the video at the given index path and updates the stream state.
-    ///
-    /// - Parameter indexPath: The index path of the video to delete.
-    fileprivate func deleteVideo(at indexPath: IndexPath) {
-        // Get the indexes of the effected videos
-        guard let currentVideoIndex = viewModel.currentVideoIndex else { return }
-        let previousIndexPath = IndexPath(row: indexPath.row - 1, section: 0)
-        let nextIndexPath = IndexPath(row: indexPath.row + 1, section: 0)
-        
-        // Deleted the previous video
-        if indexPath.row == currentVideoIndex - 1 {
-            let previousCell = queueTableView.cellForRow(at: previousIndexPath)
-            let previousVideoCell = previousCell as? VideoQueueTableViewCell
-            previousVideoCell?.isPreviousVideo = true
-        }
-        
-        // Deleted the current video
-        if indexPath.row == currentVideoIndex {
-            guard let videoQueue = viewModel.videoQueue else { return }
-            setHighlightForVideo(at: nextIndexPath.row, highlighted: true)
-            viewModel.currentVideoIndex = nextIndexPath.row
-            let nextVideoId = videoQueue[nextIndexPath.row].id
-            playerView.cueVideo(byId: nextVideoId, startSeconds: 0, suggestedQuality: .default)
-            playerView.playVideo()
-        }
-        
-        // Remove deleted video from queue and view model
-        queueTableView.beginUpdates()
-        queueTableView.deleteRows(at: [indexPath], with: .automatic)
-        viewModel.videoQueue?.remove(at: indexPath.row)
-        // Update the current video index if needed
-        if currentVideoIndex > indexPath.row {
-            viewModel.currentVideoIndex = currentVideoIndex - 1
-        }
-        queueTableView.endUpdates()
-    }
-    
-    /// Update view depending on whether the keyboard is visible.
-    ///
-    /// - Parameter isKeyboardShowing: Whether the keyboard is visible.
-    fileprivate func updateView(forIsKeyboardShowing isKeyboardShowing: Bool) {
-        if isKeyboardShowing {
-            visualEffectView.isHidden = false
-            dismissView.isHidden = false
-        } else {
-            visualEffectView.isHidden = true
-            dismissView.isHidden = true
         }
     }
 }
@@ -1125,7 +1127,6 @@ extension StreamViewController: YTPlayerViewDelegate {
     func playerView(_ playerView: YTPlayerView, didChangeTo state: YTPlayerState) {
         switch (state) {
         case .paused:
-            isPlaying = false
 			if viewModel.isHost {
 				viewModel.send(playState: false)
 			}
@@ -1137,7 +1138,6 @@ extension StreamViewController: YTPlayerViewDelegate {
 				viewModel.send(isBuffering: true)
 			}
         case .playing:
-            isPlaying = true
 			if viewModel.isHost {
 				viewModel.send(isBuffering: false)
 				viewModel.send(playState: true)
