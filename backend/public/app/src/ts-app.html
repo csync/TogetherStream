@@ -4,6 +4,7 @@
 <link rel="import" href="./behaviors/facebook-behavior.html">
 <link rel="import" href="./behaviors/server-behavior.html">
 <link rel="import" href="./behaviors/youtube-behavior.html">
+<link rel="import" href="./behaviors/csync-behavior.html">
 
 <dom-module id="ts-app">
   <template>
@@ -26,7 +27,7 @@
   <script>
     Polymer({
       is: 'ts-app',
-      behaviors: [FacebookBehavior, ServerBehavior, YoutubeBehavior],
+      behaviors: [FacebookBehavior, ServerBehavior, YoutubeBehavior, CsyncBehavior],
       observers: [
         "loginChanged(isLoggedIn)"
       ],

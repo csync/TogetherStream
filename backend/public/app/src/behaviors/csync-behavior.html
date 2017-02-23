@@ -1,0 +1,37 @@
+<script>
+    CsyncBehavior = {
+      properties: {
+        /**
+        * Stores the ip address for the csync server
+        */
+        csyncServerIpAddress: {
+          type: String,
+          value: "169.46.157.54"
+        },
+        /**
+        * Stores the port for the csync server
+        */
+        csyncServerPort: {
+          type: String,
+          value: "6005"
+        }
+      },
+      /**
+      * On view attached to DOM, initialize csync connection.
+      */
+      attached: function () {
+        if (!window.csync) {
+          setTimeout(this.initializeCsyncConnection, 200)
+        } else {
+          this.initializeCsyncConnection()
+        }
+      },
+      /**
+      * Initializes csync connection.
+      */
+      initializeCsyncConnection: function () {
+        var app = window.csync({host: this.csyncServerIpAddress, port: this.csyncServerPort, useSSL: false});
+        console.log(app)
+      }
+    };
+</script>
