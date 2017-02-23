@@ -66,6 +66,7 @@
               newVideoDataObj.title = responseItem.snippet.title
               newVideoDataObj.channelName = responseItem.snippet.channelTitle
               newVideoDataObj.views = responseItem.statistics.viewCount.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+              newVideoDataObj.url = "https://www.youtube.com/watch?v=" + videoId
               this.set("currentlyStreamingVideoData", newVideoDataObj)
             }
           }
