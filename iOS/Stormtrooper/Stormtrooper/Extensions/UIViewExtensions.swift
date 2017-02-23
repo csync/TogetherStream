@@ -18,53 +18,6 @@ import CoreFoundation
 import Foundation
 import UIKit
 
-extension UIView {
-
-    /**
-     Method starts rotating a uiview 360 degrees until it is told to stop
-
-     - parameter duration: Double
-     */
-    func startRotating(_ duration: Double = 1) {
-        let kAnimationKey = "rotation"
-        self.layer.removeAnimation(forKey: kAnimationKey)
-        if self.layer.animation(forKey: kAnimationKey) == nil {
-            let animate = CABasicAnimation(keyPath: "transform.rotation")
-            animate.duration = duration
-            animate.repeatCount = Float.infinity
-            animate.fromValue = 0.0
-            animate.toValue = Float(M_PI * 2.0)
-            self.layer.add(animate, forKey: kAnimationKey)
-
-        }
-    }
-
-    /**
-     Method stops rotating a uiview 360 degrees
-     */
-    func stopRotating() {
-        let kAnimationKey = "rotation"
-
-        if self.layer.animation(forKey: kAnimationKey) != nil {
-            self.layer.removeAnimation(forKey: kAnimationKey)
-        }
-    }
-
-    /**
-     Method to simply shake a view back and forth. Most useful on textField to show invalid input
-     */
-    func shakeView() {
-        let animation = CABasicAnimation(keyPath: "position")
-        animation.duration = 0.06
-        animation.repeatCount = 3
-        animation.autoreverses = true
-        animation.fromValue = NSValue(cgPoint: CGPoint(x: self.center.x - 10, y: self.center.y))
-        animation.toValue = NSValue(cgPoint: CGPoint(x: self.center.x + 10, y: self.center.y))
-        self.layer.add(animation, forKey: "position")
-    }
-
-}
-
 /**
 
  MARK: IBInspectable
@@ -81,21 +34,4 @@ extension UIView {
         }
     }
 
-}
-
-
-@IBDesignable class GradientView: UIView {
-    @IBInspectable var topColor: UIColor = UIColor.white
-    @IBInspectable var bottomColor: UIColor = UIColor.black
-    
-    override class var layerClass: AnyClass {
-        return CAGradientLayer.self
-    }
-    
-    override func layoutSubviews() {
-        guard let thisLayer = layer as? CAGradientLayer else {
-            return
-        }
-        thisLayer.colors = [topColor.cgColor, bottomColor.cgColor]
-    }
 }
