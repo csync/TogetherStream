@@ -22,8 +22,6 @@ class FacebookDataManager {
     var accessToken: String? {
         return FBSDKAccessToken.current()?.tokenString
     }
-    /// In-memory cached list of the previously fetched friends' id.
-    var cachedFriendIDs: [String] = []
     /// In-memory cached collection of retrieved users.
     /// Maps ids to User objects.
     var userCache: [String: User] = [:]
@@ -53,7 +51,6 @@ class FacebookDataManager {
     func logOut() {
         let loginManager = FBSDKLoginManager()
         loginManager.logOut()
-        cachedFriendIDs = []
     }
 	
 	/// Fetches all friends of the logged in user who are also
@@ -208,8 +205,6 @@ class FacebookDataManager {
             else {
                 // Sort friends alphabetically
                 let sortedFriends = friends.sorted(by: {return $0.name < $1.name})
-                // Cache friends list
-                self.cachedFriendIDs = sortedFriends.map({return $0.id})
                 callback(nil, sortedFriends)
             }
 		}
