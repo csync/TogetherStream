@@ -5,6 +5,7 @@
     <title>Together Stream</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Load Facebook API -->
     <script>
       window.fbAsyncInit = function() {
         FB.init({
@@ -25,24 +26,13 @@
     </script>
     <link rel="manifest" href="./manifest.json">
     <script src="./bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-    <link rel="import" href="./src/ts-app/ts-app.html">
+    <link rel="import" href="./src/ts-app.html">
     <link rel="stylesheet" href="/stylesheets/common.css">
 	  <link rel="stylesheet" href="/stylesheets/main.css">  
   </head>
   <body>
     <ts-app></ts-app>
 		<footer>
-			<div class="centered-container">
-				<div class="csync-container"> 
-					<span class="powered-by">Powered By</span>
-					<a target="_blank" href="http://ibm.biz/together-stream-csync-logo">
-						<img class="csync-icon" src="/assets/cSyncReversedHorizontal@2x.png"/>
-					</a>
-				</div>
-				<p class="text" style="width:600px; text-align: center;">
-					An open source, real-time, continuous data sync service for web, IoT, and mobile. <a target="_blank" href="http://ibm.biz/together-stream-csync-logo" onclick="ga('send', 'event', 'link', 'click', 'learn-more');" style="cursor: pointer; text-decoration: underline; color: white;">Learn More.</a>
-				</p>
-			</div>
 			<nav class="nav-footer">
 				<ul class="links">
 					<li>© Copyright IBM Corporation 2017. All Rights Reserved.</li>
