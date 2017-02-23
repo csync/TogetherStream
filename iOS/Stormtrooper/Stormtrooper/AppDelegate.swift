@@ -162,7 +162,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         
         // define callback to present the stream
         let presentStream = {
-            guard let streamVC = Utils.vcWithNameFromStoryboardWithName("stream", storyboardName: "Stream") as? StreamViewController else {
+            guard let streamVC = Utils.instantiateViewController(withIdentifier: "stream", fromStoryboardNamed: "Stream") as? StreamViewController else {
                 return
             }
             streamVC.stream = stream

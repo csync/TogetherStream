@@ -85,7 +85,7 @@ class InviteStreamViewController: UIViewController {
         viewModel.sendInvitesToSelectedFriends()
         if isCreatingStream {
             // Transition to the "Stream" screen
-            guard let streamVC = Utils.vcWithNameFromStoryboardWithName("stream", storyboardName: "Stream") as? StreamViewController else {
+            guard let streamVC = Utils.instantiateViewController(withIdentifier: "stream", fromStoryboardNamed: "Stream") as? StreamViewController else {
                 return
             }
             // Configure stream view controller

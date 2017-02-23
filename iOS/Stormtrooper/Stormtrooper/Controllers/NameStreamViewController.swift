@@ -102,7 +102,7 @@ class NameStreamViewController: UIViewController {
         Utils.sendGoogleAnalyticsEvent(withCategory: "Name", action: "DidAddDescription", value:
             isDescriptionPlaceholder ? 0 : 1)
         
-        guard let addVideosVC = Utils.vcWithNameFromStoryboardWithName("addVideos", storyboardName: "AddVideos") as? AddVideosViewController else {
+        guard let addVideosVC = Utils.instantiateViewController(withIdentifier: "addVideos", fromStoryboardNamed: "AddVideos") as? AddVideosViewController else {
             return
         }
         // Create stream object
