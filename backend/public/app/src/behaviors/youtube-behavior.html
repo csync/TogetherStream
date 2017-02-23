@@ -27,7 +27,7 @@
       },
       /**
       * Changes the currently watched video id to thew newVideoId
-      * @param {function} callback - called when getLoginStatus returns a response
+      * @param {string} newVideoId - new video to show and get data for.
       */
       changeVideo: function (newVideoId) {
         if (!newVideoId || (!typeof newVideoId === "string")) {
@@ -39,7 +39,7 @@
       },
       /**
       * Changes the currently watched video id to thew newVideoId
-      * @param {function} callback - called when getLoginStatus returns a response
+      * @param {string} videoId - Video id to get data for.
       */
       getVideoData: function (videoId) {
         if (!videoId || (!typeof videoId === "string")) {
