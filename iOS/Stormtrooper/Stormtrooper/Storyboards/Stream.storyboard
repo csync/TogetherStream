@@ -38,6 +38,10 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="56" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="u6G-sD-SZi">
                                 <rect key="frame" x="0.0" y="318" width="375" height="290"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="f1E-k0-in1"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="8yJ-mb-lIr"/>
+                                </connections>
                             </tableView>
                             <visualEffectView hidden="YES" opaque="NO" alpha="0.84999999999999998" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1FR-Ex-Q2W">
                                 <rect key="frame" x="0.0" y="231" width="375" height="436"/>
