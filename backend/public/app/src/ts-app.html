@@ -70,11 +70,13 @@
           this.isValidStreamId(streamId, function callback(isValid) {
             if (isValid) {
                this.set("showingPortalPage", false)
+               this.authenticateWithFacebookAccessToken(this.facebookAccessToken, this.setupCsyncListeners)
             } else {
               alert("Please input a valid stream id.")
             }
           }.bind(this))
         }.bind(this)
+
         if (!this.isLoggedIn) {
           this.fbLogin(function callback () {
             showPortalPage()
@@ -82,6 +84,17 @@
         } else {
           showPortalPage()
         }
+      },
+      setupCsyncListeners: function() {
+        let key = this.csyncApp.key("streams." + this.streamId + ".*")
+
+        key.listen(function(error, value) {
+          if (error) {
+            console.error(error)
+          } else {
+            console.log(value)
+          }
+        })
       }
     });
   </script>

@@ -48,11 +48,10 @@
           let invitesArr = JSON.parse(xhr.response)
           var streamIdIsValid = false
 
-          console.log(invitesArr)
           if (invitesArr) {
             invitesArr.forEach(function(invite) {
               let splitStr = invite.csync_path.split('.')
-              console.log(splitStr[1])
+
               if (splitStr[1] === streamId) {
                 streamIdIsValid = true
               }

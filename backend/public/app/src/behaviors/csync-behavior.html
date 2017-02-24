@@ -2,18 +2,27 @@
     CsyncBehavior = {
       properties: {
         /**
-        * Stores the ip address for the csync server
+        * Stores the ip address for the csync server.
         */
         csyncServerIpAddress: {
           type: String,
           value: "169.46.157.54"
         },
         /**
-        * Stores the port for the csync server
+        * Stores the port for the csync server.
         */
         csyncServerPort: {
           type: String,
           value: "6005"
+        },
+        /**
+        * Stores the csync app to interact with the service.
+        */
+        csyncApp: {
+          type: Object,
+          value: function () {
+            return {}
+          }
         }
       },
       /**
@@ -30,8 +39,20 @@
       * Initializes csync connection.
       */
       initializeCsyncConnection: function () {
-        var app = window.csync({host: this.csyncServerIpAddress, port: this.csyncServerPort, useSSL: false});
-        console.log(app)
+        var csyncApp = window.csync({host: this.csyncServerIpAddress, port: this.csyncServerPort, useSSL: false});
+        this.set("csyncApp", csyncApp)
+      },
+      /**
+      * Authenticates with csync server using user's facebook access token.
+      * @param {string} facebookAccessToken - User's facebook access token.
+      * @param {function} successCallback - Function called on success.
+      */
+      authenticateWithFacebookAccessToken: function (facebookAccessToken, successCallback) {
+        let errorCallback = function (err) {
+          console.error(err)
+        }
+
+        this.csyncApp.authenticate("facebook", facebookAccessToken).then(successCallback, errorCallback)
       }
     };
 </script>
