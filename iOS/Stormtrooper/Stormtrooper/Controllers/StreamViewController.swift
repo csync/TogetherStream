@@ -534,7 +534,7 @@ class StreamViewController: UIViewController {
     /// - Parameter sender: The button tapped.
     @IBAction func addToStreamTapped(_ sender: Any) {
         Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "SelectedAddVideos")
-        guard let addVideosVC = Utils.vcWithNameFromStoryboardWithName("addVideos", storyboardName: "AddVideos") as? AddVideosViewController else {
+        guard let addVideosVC = Utils.instantiateViewController(withIdentifier: "addVideos", fromStoryboardNamed: "AddVideos") as? AddVideosViewController else {
             return
         }
         addVideosVC.stream = stream
@@ -619,7 +619,7 @@ class StreamViewController: UIViewController {
     /// On invite tapped, present the "Invite" screen.
     @objc private func inviteTapped() {
         Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "SelectedInvite")
-        guard let inviteVC = Utils.vcWithNameFromStoryboardWithName("inviteStream", storyboardName: "InviteStream") as? InviteStreamViewController else {
+        guard let inviteVC = Utils.instantiateViewController(withIdentifier: "inviteStream", fromStoryboardNamed: "InviteStream") as? InviteStreamViewController else {
             return
         }
         inviteVC.navigationItem.title = "Invite to Stream"
