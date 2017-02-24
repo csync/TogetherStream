@@ -1,6 +1,7 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="./ts-header.html">
 <link rel="import" href="./ts-video.html">
+<link rel="import" href="./ts-portal.html">
 <link rel="import" href="./behaviors/facebook-behavior.html">
 <link rel="import" href="./behaviors/server-behavior.html">
 <link rel="import" href="./behaviors/youtube-behavior.html">
@@ -16,12 +17,17 @@
         padding-top: 60px;
       }
     </style>
-    <ts-header logged-in-user={{userFacebookData}}></ts-header>
-    <div style="width:30%;">
-      <a on-tap="changeVideo">CHAT GOES HERE</a>
-    </div>
+    <ts-header showing-portal-page={{showingPortalPage}}></ts-header>
+    <template is="dom-if" if="{{!showingPortalPage}}">
+      <div style="width:30%;">
+        <a on-tap="changeVideo">CHAT GOES HERE</a>
+      </div>
 
-    <ts-video video-id={{currentlyStreamingVideoId}} video-data={{currentlyStreamingVideoData}}></ts-video>
+      <ts-video video-id={{currentlyStreamingVideoId}} video-data={{currentlyStreamingVideoData}}></ts-video>
+    </template>
+    <template is="dom-if" if="{{showingPortalPage}}">
+     <ts-portal></ts-portal>
+    </template>
   </template>
 
   <script>
@@ -32,6 +38,10 @@
         "loginChanged(isLoggedIn)"
       ],
       properties: {
+        showingPortalPage: {
+          type: Boolean,
+          value: true
+        }
       },
       /**
       * Called when isLoggedIn changes
