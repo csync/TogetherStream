@@ -105,7 +105,7 @@ class HomeViewController: UIViewController {
     /// Shows the "Login" screen if not logged in.
     private func displayLoginIfNeeded() {
         if FacebookDataManager.sharedInstance.profile == nil {
-            guard let loginVC = Utils.vcWithNameFromStoryboardWithName("login", storyboardName: "Login") as? LoginViewController else {
+            guard let loginVC = Utils.instantiateViewController(withIdentifier: "login", fromStoryboardNamed: "Login") as? LoginViewController else {
                 return
             }
             present(loginVC, animated: true)
@@ -157,7 +157,7 @@ class HomeViewController: UIViewController {
     /// On profile button tapped, show the "Profile" screen.
     @objc private func profileTapped() {
         Utils.sendGoogleAnalyticsEvent(withCategory: "Home", action: "ProfileTapped")
-        guard let profileVC = Utils.vcWithNameFromStoryboardWithName("profile", storyboardName: "Profile") as? ProfileViewController else {
+        guard let profileVC = Utils.instantiateViewController(withIdentifier: "profile", fromStoryboardNamed: "Profile") as? ProfileViewController else {
             return
         }
         DispatchQueue.main.async {
@@ -168,7 +168,7 @@ class HomeViewController: UIViewController {
     /// On the invite friends button tapped, show the "Invite Friends" screen.
     fileprivate func didSelectInviteFriends() {
         Utils.sendGoogleAnalyticsEvent(withCategory: "Home", action: "PressedInviteFriends")
-        guard let inviteVC = Utils.vcWithNameFromStoryboardWithName("inviteStream", storyboardName: "InviteStream") as? InviteStreamViewController else {
+        guard let inviteVC = Utils.instantiateViewController(withIdentifier: "inviteStream", fromStoryboardNamed: "InviteStream") as? InviteStreamViewController else {
             return
         }
         // Configure InviteStreamVC
@@ -184,7 +184,7 @@ class HomeViewController: UIViewController {
     /// - Parameter sender: The button that was tapped.
     @IBAction func startStreamTapped(_ sender: Any) {
         Utils.sendGoogleAnalyticsEvent(withCategory: "Home", action: "PressedStartStream")
-        guard let nameStreamVC = Utils.vcWithNameFromStoryboardWithName("nameStream", storyboardName: "NameStream") as? NameStreamViewController else {
+        guard let nameStreamVC = Utils.instantiateViewController(withIdentifier: "nameStream", fromStoryboardNamed: "NameStream") as? NameStreamViewController else {
             return
         }
         nameStreamVC.navigationItem.title = "New Stream"
@@ -301,7 +301,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         Utils.sendGoogleAnalyticsEvent(withCategory: "Home", action: "SelectedStreamInvite")
 		let stream = viewModel.streams[indexPath.row]
-        guard let streamVC = Utils.vcWithNameFromStoryboardWithName("stream", storyboardName: "Stream") as? StreamViewController else {
+        guard let streamVC = Utils.instantiateViewController(withIdentifier: "stream", fromStoryboardNamed: "Stream") as? StreamViewController else {
             return
         }
         streamVC.stream = stream
