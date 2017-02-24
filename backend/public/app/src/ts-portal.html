@@ -1,6 +1,5 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/iron-input/iron-input.html">
-<link rel="import" href="./shared-styles.html">
 
 <dom-module id="ts-portal">
   <template>
@@ -80,6 +79,12 @@
         height: 30px;
         width: 200px;
       }
+      .join-stream-button:focus {
+        outline: none;
+      }
+      .join-stream-button:hover {
+        cursor: pointer;
+      }
     </style>
 		<section class="splash">
 			<div class="left-container">
@@ -88,8 +93,8 @@
 			<div class="right-container">
         <div>YOU'VE BEEN INVITED</div>
         <p>Join the stream by entering the code provided to you by the host. You will then need to log in with Facebook.</p>
-        <input value={{streamId}}> </input>
-        <button class="join-stream-button"> Join Stream </button>
+        <input value={{localStreamId::input}}> </input>
+        <button class="join-stream-button" on-tap="joinStream"> Join Stream </button>
 			</div>
       <div class="bottom-container">
         <p> Create your own stream or join in on mobile by downloading the app.</p>
@@ -106,12 +111,18 @@
 
       properties: {
         /**
-        * Stream id to connect to.
+        * Stream id to connect to which is passed in by parent.
         */
         streamId: {
           type: String,
-          notify: true,
-          value: "asdf"
+          notify: true
+        },
+        /**
+        * Local stream id attached to text field.
+        */
+        localStreamId: {
+          type: String,
+          notify: true
         }
       },
       attached: function () {
@@ -121,8 +132,11 @@
           let queryParamSplit = queryParam.substring(1).split("=")
           let streamId = queryParamSplit[queryParamSplit.indexOf("stream_id") + 1]
           
-          this.set("streamId", streamId)
+          this.set("localStreamId", streamId)
         }
+      },
+      joinStream: function () {
+        this.set("streamId", this.localStreamId)
       }
     })
   </script>

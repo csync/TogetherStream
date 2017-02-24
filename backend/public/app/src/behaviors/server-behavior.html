@@ -11,8 +11,9 @@
       },
       /**
       * Sends Facebook's access token to the server to get the server's access token.
+      * @param {function} callback - Function called on success
       */
-      getServerAccessToken: function () {
+      getServerAccessToken: function (callback) {
         let xhr = new XMLHttpRequest();
 
         xhr.open('GET', '/auth/facebook/token/login', true);
@@ -27,9 +28,37 @@
             let accessToken = queryParams[accessTokenIndex + 1]
             
             this.set("serverAccessToken", accessToken)
+            callback && callback()
           } else {
             console.error("Invalid responeUrl returned: " + responseUrl)
           }
+        }.bind(this)
+        xhr.send(null);
+      },
+      /**
+      * Validates with the server whether this stream id is valid.
+      * @param {string} streamId - Stream id input by the user on portal page.
+      */
+      isValidStreamId: function(streamId, callback) {
+        let xhr = new XMLHttpRequest();
+
+        xhr.open('GET', '/invites', true);
+        xhr.setRequestHeader('Authorization', this.serverAccessToken)
+        xhr.onload = function () {
+          let invitesArr = JSON.parse(xhr.response)
+          var streamIdIsValid = false
+
+          console.log(invitesArr)
+          if (invitesArr) {
+            invitesArr.forEach(function(invite) {
+              let splitStr = invite.csync_path.split('.')
+              console.log(splitStr[1])
+              if (splitStr[1] === streamId) {
+                streamIdIsValid = true
+              }
+            })
+          }
+          callback(streamIdIsValid)
         }.bind(this)
         xhr.send(null);
       }

@@ -26,7 +26,7 @@
       <ts-video video-id={{currentlyStreamingVideoId}} video-data={{currentlyStreamingVideoData}}></ts-video>
     </template>
     <template is="dom-if" if="{{showingPortalPage}}">
-     <ts-portal></ts-portal>
+     <ts-portal stream-id={{streamId}}></ts-portal>
     </template>
   </template>
 
@@ -35,12 +35,17 @@
       is: 'ts-app',
       behaviors: [FacebookBehavior, ServerBehavior, YoutubeBehavior, CsyncBehavior],
       observers: [
-        "loginChanged(isLoggedIn)"
+        "loginChanged(isLoggedIn)",
+        "streamIdChanged(streamId)"
       ],
       properties: {
         showingPortalPage: {
           type: Boolean,
           value: true
+        },
+        streamId: {
+          type: String,
+          value: ""
         }
       },
       /**
@@ -50,6 +55,32 @@
       loginChanged: function(isLoggedIn) {
         if (isLoggedIn) {
           this.changeVideo("sBzrzS1Ag_g")
+        }
+      },
+      /**
+      * Called when streamId is set on the portal page.
+      * @param {string} streamId - New stream id.
+      */
+      streamIdChanged: function(streamId) {
+        if (!streamId) {
+          return
+        }
+
+        let showPortalPage = function () {
+          this.isValidStreamId(streamId, function callback(isValid) {
+            if (isValid) {
+               this.set("showingPortalPage", false)
+            } else {
+              alert("Please input a valid stream id.")
+            }
+          }.bind(this))
+        }.bind(this)
+        if (!this.isLoggedIn) {
+          this.fbLogin(function callback () {
+            showPortalPage()
+          }.bind(this))
+        } else {
+          showPortalPage()
         }
       }
     });
