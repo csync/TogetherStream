@@ -157,7 +157,7 @@ class AddVideosViewController: UIViewController {
         if isCreatingStream {
             // Move to next screen in flow
             delegate?.didAddVideos(selectedVideos: viewModel.selectedVideos)
-            guard let inviteVC = Utils.vcWithNameFromStoryboardWithName("inviteStream", storyboardName: "InviteStream") as? InviteStreamViewController else {
+            guard let inviteVC = Utils.instantiateViewController(withIdentifier: "inviteStream", fromStoryboardNamed: "InviteStream") as? InviteStreamViewController else {
                 return
             }
             inviteVC.stream = stream
