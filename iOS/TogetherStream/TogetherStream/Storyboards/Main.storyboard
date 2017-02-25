@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="3ka-qo-nCZ">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="WorkSans-SemiBold.ttf">
+            <string>WorkSans-SemiBold</string>
+        </array>
+    </customFonts>
+    <scenes>
+        <!--Together Stream-->
+        <scene sceneID="RTf-KL-dA1">
+            <objects>
+                <viewController storyboardIdentifier="home" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Moa-Ve-qFV" customClass="HomeViewController" customModule="Stormtrooper" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="bmR-g5-YRa"/>
+                        <viewControllerLayoutGuide type="bottom" id="uRe-g4-D1k"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="fl9-V7-LBY">
+                        <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uLS-1R-2D0">
+                                <rect key="frame" x="0.0" y="538" width="375" height="65"/>
+                                <color key="backgroundColor" red="0.84705882352941175" green="0.25490196078431371" blue="0.023529411764705882" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="65" id="wdY-PZ-ACp"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="WorkSans-SemiBold" family="Work Sans" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="START STREAM">
+                                    <color key="titleColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </state>
+                                <connections>
+                                    <action selector="startStreamTapped:" destination="Moa-Ve-qFV" eventType="touchUpInside" id="etU-0O-hKI"/>
+                                </connections>
+                            </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="300" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ozw-Vf-J5s">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="538"/>
+                                <color key="backgroundColor" red="0.96470588235294119" green="0.96470588235294119" blue="0.96470588235294119" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="sectionIndexBackgroundColor" red="0.96470588235294119" green="0.96470588235294119" blue="0.96470588235294119" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="Moa-Ve-qFV" id="D8t-li-RJF"/>
+                                    <outlet property="delegate" destination="Moa-Ve-qFV" id="m9b-ie-uYf"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.96470588235294119" green="0.96470588235294119" blue="0.96470588235294119" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="uLS-1R-2D0" firstAttribute="centerX" secondItem="fl9-V7-LBY" secondAttribute="centerX" id="8Th-9h-wOS"/>
+                            <constraint firstItem="ozw-Vf-J5s" firstAttribute="top" secondItem="bmR-g5-YRa" secondAttribute="bottom" id="D6q-ya-6b7"/>
+                            <constraint firstItem="uLS-1R-2D0" firstAttribute="top" secondItem="ozw-Vf-J5s" secondAttribute="bottom" id="Jvq-dV-E7m"/>
+                            <constraint firstAttribute="trailing" secondItem="ozw-Vf-J5s" secondAttribute="trailing" id="eQK-rD-xUL"/>
+                            <constraint firstItem="ozw-Vf-J5s" firstAttribute="leading" secondItem="fl9-V7-LBY" secondAttribute="leading" id="f1T-hu-gnk"/>
+                            <constraint firstItem="uLS-1R-2D0" firstAttribute="width" secondItem="fl9-V7-LBY" secondAttribute="width" id="kMS-ul-ZIR"/>
+                            <constraint firstItem="uRe-g4-D1k" firstAttribute="top" secondItem="uLS-1R-2D0" secondAttribute="bottom" id="ohc-Ng-maE"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Together Stream" id="Mdo-gI-S31"/>
+                    <connections>
+                        <outlet property="streamsTableView" destination="ozw-Vf-J5s" id="LkL-og-PmG"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="d4f-rg-AST" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1540" y="31.03448275862069"/>
+        </scene>
+        <!--Main Navigation Controller-->
+        <scene sceneID="gWR-xo-do2">
+            <objects>
+                <navigationController storyboardIdentifier="mainNavigation" id="3ka-qo-nCZ" customClass="MainNavigationController" customModule="Stormtrooper" customModuleProvider="target" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" translucent="NO" id="HIf-u3-Kgu">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.15686274509803921" green="0.14117647058823529" blue="0.14117647058823529" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </textAttributes>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="Moa-Ve-qFV" kind="relationship" relationship="rootViewController" id="2o2-H5-aTD"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HM8-ZR-E87" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="803" y="32"/>
+        </scene>
+    </scenes>
+</document>
