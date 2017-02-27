@@ -44,7 +44,7 @@
 		34AD4C0D1E20400E00210F61 /* WorkSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 34AD4BF81E20400E00210F61 /* WorkSans-Regular.ttf */; };
 		34AD4C0E1E20400E00210F61 /* WorkSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 34AD4BF91E20400E00210F61 /* WorkSans-SemiBold.ttf */; };
 		34AD4C0F1E20400E00210F61 /* WorkSans-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 34AD4BFA1E20400E00210F61 /* WorkSans-Thin.ttf */; };
-		34C6E5311DF21BAD00EB4972 /* keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 34C6E5301DF21BAD00EB4972 /* keys.plist */; };
+		34C6E5311DF21BAD00EB4972 /* private.plist in Resources */ = {isa = PBXBuildFile; fileRef = 34C6E5301DF21BAD00EB4972 /* private.plist */; };
 		34C6E5331DF23D4600EB4972 /* StreamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C6E5321DF23D4600EB4972 /* StreamViewController.swift */; };
 		34C6E5371DF23DBC00EB4972 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C6E5341DF23DBC00EB4972 /* HomeViewController.swift */; };
 		34C6E5381DF23DBC00EB4972 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C6E5351DF23DBC00EB4972 /* LoginViewController.swift */; };
@@ -170,7 +170,7 @@
 		34AD4BF91E20400E00210F61 /* WorkSans-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-SemiBold.ttf"; sourceTree = "<group>"; };
 		34AD4BFA1E20400E00210F61 /* WorkSans-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-Thin.ttf"; sourceTree = "<group>"; };
 		34C6E52E1DF21B8600EB4972 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		34C6E5301DF21BAD00EB4972 /* keys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = keys.plist; sourceTree = "<group>"; };
+		34C6E5301DF21BAD00EB4972 /* private.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = private.plist; sourceTree = "<group>"; };
 		34C6E5321DF23D4600EB4972 /* StreamViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = StreamViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		34C6E5341DF23DBC00EB4972 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		34C6E5351DF23DBC00EB4972 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -360,7 +360,7 @@
 			children = (
 				68D1A7C31E4113E50073E571 /* GoogleService-Info.plist */,
 				34C6E52E1DF21B8600EB4972 /* Info.plist */,
-				34C6E5301DF21BAD00EB4972 /* keys.plist */,
+				34C6E5301DF21BAD00EB4972 /* private.plist */,
 			);
 			path = Configuration;
 			sourceTree = "<group>";
@@ -735,7 +735,7 @@
 				A2D44DCA1E36ACEE00053099 /* NextBannerView.xib in Resources */,
 				34AD4C0C1E20400E00210F61 /* WorkSans-Medium.ttf in Resources */,
 				34AD4C011E20400E00210F61 /* OpenSans-Light.ttf in Resources */,
-				34C6E5311DF21BAD00EB4972 /* keys.plist in Resources */,
+				34C6E5311DF21BAD00EB4972 /* private.plist in Resources */,
 				34AB45881E259A63000730DC /* Login.storyboard in Resources */,
 				4A240FBD1E2D8CF600DCD418 /* FriendTableViewCell.xib in Resources */,
 				3401B4341E2EDDCF005ACB96 /* ChatTextFieldAccessoryView.xib in Resources */,

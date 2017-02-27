@@ -97,9 +97,8 @@ class StreamViewController: UIViewController {
         "controls" : 0,
         "origin" : "http://www.youtube.com"
         ] as [String : Any]
-    /// TODO: THIS IS USED FOR CHAT AND QUEUE
-    /// The estimated height of a chat cell.
-    fileprivate let estimatedChatCellHeight: CGFloat = 56
+    /// The estimated height of a chat and queue cell.
+    fileprivate let estimatedCellHeight: CGFloat = 56
 	
     
     // MARK: - Private Properties
@@ -882,7 +881,7 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
     ///   - indexPath: The index path of the row the request is for.
     /// - Returns: The height of the cell.
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return estimatedChatCellHeight
+        return estimatedCellHeight
     }
     
     /// Determines if the selected row can be edited.
