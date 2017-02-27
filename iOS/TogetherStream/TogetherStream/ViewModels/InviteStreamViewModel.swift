@@ -15,11 +15,12 @@ class InviteStreamViewModel {
     /// The stream the invites are for.
     var stream: Stream?
 
-    /// The number of cells before friends are listed
+    /// The number of cells before friends are listed.
     let numberOfStaticCellsBeforeFriends = 2
-    
-    /// The number of cells to display if iniviting to the app.
-    let numberOfAppInviteCells = 2
+    /// Calculates the number of rows in the invite table.
+    var numberOfRows: Int {
+        return numberOfStaticCellsBeforeFriends + facebookFriends.count
+    }
 
     /// The friends that are selected, mapped user ID to user.
     var selectedFriends: [String: User] = [:]
@@ -30,16 +31,6 @@ class InviteStreamViewModel {
     private let accountDataManager = AccountDataManager.sharedInstance
     /// Shorthand for the shared FacebookDataManager.
     private let facebookDataManager = FacebookDataManager.sharedInstance
-    
-    /// Calculates the number of rows in the invite table depending
-    /// if users can be invited to the stream.
-    ///
-    /// - Parameter canInviteToStream: Whether users can be invited to the stream.
-    /// - Returns: The number of rows that should be in the invite table.
-    func numberOfRows(ifCanInviteToStream canInviteToStream: Bool) -> Int {
-        return canInviteToStream ? numberOfStaticCellsBeforeFriends + facebookFriends.count
-            : numberOfAppInviteCells
-    }
     
     /// Returns the collection index for the user listed by the row
     /// at the given index path.
