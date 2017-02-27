@@ -97,6 +97,9 @@
             return
           } 
           
+          if (!value) {
+            return
+          }
           if (value.key.indexOf("currentVideoID") >= 0 && this.currentlyStreamingVideoData.id != value.data) {
             this.changeVideo(value.data)
           } else if (value.key.indexOf("playTime") >= 0 && Math.abs(this.currentlyStreamingVideoData.time - value.data) >= 2) {
