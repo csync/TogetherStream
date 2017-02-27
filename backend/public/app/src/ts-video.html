@@ -59,10 +59,10 @@
     </div>
     <google-youtube
       id="googleYouTube"
-      video-id={{videoId}}
+      video-id={{videoData.id}}
+      currenttime={{currentTime}}
       height="100%"
       width="100%"
-      start="75"
       autoplay="0"
       disablekb="1"
       controls="0"
@@ -75,24 +75,49 @@
   <script>
     Polymer({
       is: 'ts-video',
+      observers: [
+        "observeIsPlaying(videoData.isPlaying)",
+        "observeTime(videoData.time)"
+      ],
       properties: {
         /**
-        * Video id of currently playing video
-        */
-        videoId: {
-          type: "String",
-          value: ""
-        },
-        /**
         * Video data of currently playing video
+        * properties: id, title, channelName, views, url, time.
         */
         videoData: {
-          type: "Object",
+          type: Object,
           value: function () {
             return {}
           }
+        },
+        /**
+        * Current video time in seconds.
+        */
+        currentTime: {
+          type: Number,
+          value: 0
         }
       },
+      /**
+      * Observing as isPlaying changes to play/pause video.
+      */
+      observeIsPlaying: function(isPlaying) {
+        console.log(this.currentTime)
+        if (isPlaying) {
+          this.$.googleYouTube.play()
+        } else {
+          this.$.googleYouTube.pause()
+        }
+      },
+      /**
+      * Observing as videoTime changes to compare ito the player's and update
+      * once the difference is >= 1 second.
+      */
+      observeTime: function (videoTime) {
+        if (Math.abs(this.currentTime - videoTime) >= 1) {
+          this.$.googleYouTube.seekTo(videoTime)
+        }
+      }
     });
   </script>
 </dom-module>

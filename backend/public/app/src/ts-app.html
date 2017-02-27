@@ -23,7 +23,7 @@
         <a on-tap="changeVideo">CHAT GOES HERE</a>
       </div>
 
-      <ts-video video-id={{currentlyStreamingVideoId}} video-data={{currentlyStreamingVideoData}}></ts-video>
+      <ts-video video-data={{currentlyStreamingVideoData}}></ts-video>
     </template>
     <template is="dom-if" if="{{showingPortalPage}}">
      <ts-portal stream-id={{streamId}}></ts-portal>
@@ -54,7 +54,7 @@
       */
       loginChanged: function(isLoggedIn) {
         if (isLoggedIn) {
-          this.changeVideo("sBzrzS1Ag_g")
+          
         }
       },
       /**
@@ -85,17 +85,28 @@
           showPortalPage()
         }
       },
+      /**
+      * Setting up the csync listeners that change as properties are updated from ios app.
+      */
       setupCsyncListeners: function() {
-        console.log(this.csyncApp)
-        let key = this.csyncApp.key("streams." + this.streamId + ".*")
-        console.log(key)
-        key.listen(function(error, value) {
+        let currentVideoKey = this.csyncApp.key("streams." + this.streamId + ".*")
+        let playTimeKey = this.csyncApp.key("streams." + this.streamId + ".playTime")
+        let callback = function (error, value) {
           if (error) {
             console.error(error)
-          } else {
-            console.log(value)
+            return
+          } 
+          
+          if (value.key.indexOf("currentVideoID") >= 0 && this.currentlyStreamingVideoData.id != value.data) {
+            this.changeVideo(value.data)
+          } else if (value.key.indexOf("playTime") >= 0 && Math.abs(this.currentlyStreamingVideoData.time - value.data) >= 2) {
+            this.set("currentlyStreamingVideoData.time", value.data)
+          } else if (value.key.indexOf("isPlaying") >= 0) {
+            this.set("currentlyStreamingVideoData.isPlaying", value.data)
           }
-        })
+        }.bind(this)
+
+        currentVideoKey.listen(callback)
       }
     });
   </script>
