@@ -8,3 +8,8 @@ applications:
   services:
    - Compose for PostgreSQL-7a
    - Auto-Scaling-0n
+  env:
+   env_type: production
+   NEW_RELIC_APP_NAME: Together Stream Staging
+   NEW_RELIC_LICENSE_KEY: d44d3abb5fa1b6890a46e8803736bc76eb772688
+   NEW_RELIC_NO_CONFIG_FILE: true
