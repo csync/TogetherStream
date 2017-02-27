@@ -14,8 +14,8 @@ class AccountDataManager {
 	/// Singleton object
 	static let sharedInstance = AccountDataManager()
 	
-	// TODO: move to plist
-    var serverAddress = "https://together-stream.mybluemix.net"
+	/// The address of the server.
+    let serverAddress = Utils.getStringValueWithKeyFromPlist("private", key: "server_address") ?? ""
 	/// Shorthand for shared URLSession
 	private var urlSession = URLSession.shared
 	/// Token that is used to authenticate requests to server

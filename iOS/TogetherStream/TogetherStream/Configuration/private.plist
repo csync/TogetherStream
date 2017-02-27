@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>csync_url</key>
+	<string>169.46.157.54</string>
+	<key>server_address</key>
+	<string>https://together-stream.mybluemix.net</string>
 	<key>youtube_api_key</key>
 	<string>AIzaSyAZHpe0T7UbmWWQOUyFChkV7vvTKzQKL5k</string>
 </dict>
