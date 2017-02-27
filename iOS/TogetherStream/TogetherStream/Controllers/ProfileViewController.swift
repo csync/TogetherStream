@@ -72,7 +72,6 @@ class ProfileViewController: UIViewController {
                 // Delete server cookie
                 if let cookies = HTTPCookieStorage.shared.cookies {
                     for cookie in cookies {
-                        print(cookie.domain)
                         if AccountDataManager.sharedInstance.serverAddress.contains(cookie.domain) {
                             HTTPCookieStorage.shared.deleteCookie(cookie)
                             break
