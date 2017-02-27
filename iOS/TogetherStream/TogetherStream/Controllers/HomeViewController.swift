@@ -168,15 +168,10 @@ class HomeViewController: UIViewController {
     /// On the invite friends button tapped, show the "Invite Friends" screen.
     fileprivate func didSelectInviteFriends() {
         Utils.sendGoogleAnalyticsEvent(withCategory: "Home", action: "PressedInviteFriends")
-        guard let inviteVC = Utils.instantiateViewController(withIdentifier: "inviteStream", fromStoryboardNamed: "InviteStream") as? InviteStreamViewController else {
-            return
+        let activityViewController = UIActivityViewController(activityItems: [Utils.inviteMessage], applicationActivities: nil)
+        DispatchQueue.main.async {
+            self.present(activityViewController, animated: true)
         }
-        // Configure InviteStreamVC
-        inviteVC.navigationItem.title = "Invite to App"
-        inviteVC.isCreatingStream = false
-        inviteVC.canInviteToStream = false
-        
-        navigationController?.pushViewController(inviteVC, animated: true)
     }
 
     /// On start stream tapped, show the "Name Stream" screen.

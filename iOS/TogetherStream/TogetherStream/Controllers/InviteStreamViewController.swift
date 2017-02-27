@@ -20,6 +20,8 @@ class InviteStreamViewController: UIViewController {
     fileprivate let viewModel = InviteStreamViewModel()
     /// The frame of the skip invite button.
     private let skipButtonFrame = CGRect(x: 0, y: 0, width: 35, height: 17)
+    /// The default message for sharing the stream code.
+    private let shareCodeMessage = "TODO: ADD COPY"
     /// The default message for the text message invitation.
     private let textInviteMessage = "Download Together Stream for iOS - A collaborative and synchronized streaming experience.\nhttp://ibm.biz/together-stream-invite-friends"
     /// The default subject for the email invitation.
@@ -97,15 +99,18 @@ class InviteStreamViewController: UIViewController {
         }
     }
     
-    /// TODO: ADD
+    /// On tapping share code, present an activity view to share the code.
    fileprivate func didSelectShareCode() {
-        let activityViewController = UIActivityViewController(activityItems: ["Hello"], applicationActivities: nil)
+        Utils.sendGoogleAnalyticsEvent(withCategory: "InviteStream", action: "PressedShareCode")
+        let activityViewController = UIActivityViewController(activityItems: [shareCodeMessage], applicationActivities: nil)
         DispatchQueue.main.async {
           self.present(activityViewController, animated: true)
         }
     }
     
+    /// On tapping the code text field, present an action sheet to copy the code.
     fileprivate func didSelectCodeTextField() {
+        Utils.sendGoogleAnalyticsEvent(withCategory: "InviteStream", action: "PressedCodeField")
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let copyAction = UIAlertAction(title: "Copy", style: .default) {[weak self] _ in
             UIPasteboard.general.string = self?.viewModel.stream?.hostFacebookID
