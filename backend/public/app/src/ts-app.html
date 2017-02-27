@@ -97,7 +97,7 @@
             return
           } 
           
-          if (!value) {
+          if (!value.exists) {
             return
           }
           if (value.key.indexOf("currentVideoID") >= 0 && this.currentlyStreamingVideoData.id != value.data) {
