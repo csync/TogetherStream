@@ -69,6 +69,16 @@ class ProfileViewController: UIViewController {
             action: {[unowned self] in
                 Utils.sendGoogleAnalyticsEvent(withCategory: "Profile", action: "SelectedSignOut")
                 self.facebookDataManager.logOut()
+                // Delete server cookie
+                if let cookies = HTTPCookieStorage.shared.cookies {
+                    for cookie in cookies {
+                        print(cookie.domain)
+                        if AccountDataManager.sharedInstance.serverAddress.contains(cookie.domain) {
+                            HTTPCookieStorage.shared.deleteCookie(cookie)
+                            break
+                        }
+                    }
+                }
                 // Unauthenticates from CSync
                 CSyncDataManager.sharedInstance.unauthenticate {error in
                     DispatchQueue.main.async {
