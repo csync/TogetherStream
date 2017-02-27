@@ -12,9 +12,16 @@
 			<nav>
 				<ul>
 					<li class="logo">
-						<a href="/">
-							<img src="/assets/stormtrooperLogoFinalfinal@2x.png"/>
+            <template is="dom-if" if="{{showingPortalPage}}">
+              <a href="/">
+                <img src="/assets/stormtrooperLogoFinalfinal@2x.png"/>
 						</a>
+            </template>
+            <template is="dom-if" if="{{!showingPortalPage}}">
+              <a>
+                <img src="/assets/stormtrooperLogoFinalfinal@2x.png"/>
+						</a>
+            </template>
 					</li>
 					<li class="link"><a target="_blank" href="http://ibm.biz/together-stream-feedback" >Feedback</a></li>
           <template is="dom-if" if="{{showingPortalPage}}">
@@ -25,7 +32,7 @@
 
           <template is="dom-if" if="{{!showingPortalPage}}">
             <li class="link" style="margin-right:95px; cursor:pointer;">
-              <a>Exit</a>
+              <a href="/">Exit</a>
             </li>
           </template>
           

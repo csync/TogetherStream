@@ -70,7 +70,7 @@
           this.isValidStreamId(streamId, function callback(isValid) {
             if (isValid) {
                this.set("showingPortalPage", false)
-               this.authenticateWithFacebookAccessToken(this.facebookAccessToken, this.setupCsyncListeners)
+               this.authenticateWithFacebookAccessToken(this.facebookAccessToken, this.setupCsyncListeners.bind(this))
             } else {
               alert("Please input a valid stream id.")
             }
@@ -86,8 +86,9 @@
         }
       },
       setupCsyncListeners: function() {
+        console.log(this.csyncApp)
         let key = this.csyncApp.key("streams." + this.streamId + ".*")
-
+        console.log(key)
         key.listen(function(error, value) {
           if (error) {
             console.error(error)
