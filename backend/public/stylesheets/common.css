@@ -109,9 +109,7 @@ span.store-button {
   width: 100%;
   height: 100%;
 }
-.sticky-header nav li+li {
-  margin-right: 95px;
-}
+
 .sticky-header .logo {
   display: flex;
   align-items: center;

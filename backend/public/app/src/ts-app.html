@@ -1,9 +1,11 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="./ts-header.html">
 <link rel="import" href="./ts-video.html">
+<link rel="import" href="./ts-portal.html">
 <link rel="import" href="./behaviors/facebook-behavior.html">
 <link rel="import" href="./behaviors/server-behavior.html">
 <link rel="import" href="./behaviors/youtube-behavior.html">
+<link rel="import" href="./behaviors/csync-behavior.html">
 
 <dom-module id="ts-app">
   <template>
@@ -15,22 +17,36 @@
         padding-top: 60px;
       }
     </style>
-    <ts-header logged-in-user={{userFacebookData}}></ts-header>
-    <div style="width:30%;">
-      <a on-tap="changeVideo">CHAT GOES HERE</a>
-    </div>
+    <ts-header showing-portal-page={{showingPortalPage}}></ts-header>
+    <template is="dom-if" if="{{!showingPortalPage}}">
+      <div style="width:30%;">
+        <a on-tap="changeVideo">CHAT GOES HERE</a>
+      </div>
 
-    <ts-video video-id={{currentlyStreamingVideoId}} video-data={{currentlyStreamingVideoData}}></ts-video>
+      <ts-video video-data={{currentlyStreamingVideoData}}></ts-video>
+    </template>
+    <template is="dom-if" if="{{showingPortalPage}}">
+     <ts-portal stream-id={{streamId}}></ts-portal>
+    </template>
   </template>
 
   <script>
     Polymer({
       is: 'ts-app',
-      behaviors: [FacebookBehavior, ServerBehavior, YoutubeBehavior],
+      behaviors: [FacebookBehavior, ServerBehavior, YoutubeBehavior, CsyncBehavior],
       observers: [
-        "loginChanged(isLoggedIn)"
+        "loginChanged(isLoggedIn)",
+        "streamIdChanged(streamId)"
       ],
       properties: {
+        showingPortalPage: {
+          type: Boolean,
+          value: true
+        },
+        streamId: {
+          type: String,
+          value: ""
+        }
       },
       /**
       * Called when isLoggedIn changes
@@ -38,8 +54,62 @@
       */
       loginChanged: function(isLoggedIn) {
         if (isLoggedIn) {
-          this.changeVideo("sBzrzS1Ag_g")
+          
         }
+      },
+      /**
+      * Called when streamId is set on the portal page.
+      * @param {string} streamId - New stream id.
+      */
+      streamIdChanged: function(streamId) {
+        if (!streamId) {
+          return
+        }
+
+        let showPortalPage = function () {
+          this.isValidStreamId(streamId, function callback(isValid) {
+            if (isValid) {
+               this.set("showingPortalPage", false)
+               this.authenticateWithFacebookAccessToken(this.facebookAccessToken, this.setupCsyncListeners.bind(this))
+            } else {
+              alert("Please input a valid stream id.")
+            }
+          }.bind(this))
+        }.bind(this)
+
+        if (!this.isLoggedIn) {
+          this.fbLogin(function callback () {
+            showPortalPage()
+          }.bind(this))
+        } else {
+          showPortalPage()
+        }
+      },
+      /**
+      * Setting up the csync listeners that change as properties are updated from ios app.
+      */
+      setupCsyncListeners: function() {
+        let currentVideoKey = this.csyncApp.key("streams." + this.streamId + ".*")
+        let playTimeKey = this.csyncApp.key("streams." + this.streamId + ".playTime")
+        let callback = function (error, value) {
+          if (error) {
+            console.error(error)
+            return
+          } 
+          
+          if (!value.exists) {
+            return
+          }
+          if (value.key.indexOf("currentVideoID") >= 0 && this.currentlyStreamingVideoData.id != value.data) {
+            this.changeVideo(value.data)
+          } else if (value.key.indexOf("playTime") >= 0 && Math.abs(this.currentlyStreamingVideoData.time - value.data) >= 2) {
+            this.set("currentlyStreamingVideoData.time", value.data)
+          } else if (value.key.indexOf("isPlaying") >= 0) {
+            this.set("currentlyStreamingVideoData.isPlaying", value.data)
+          }
+        }.bind(this)
+
+        currentVideoKey.listen(callback)
       }
     });
   </script>

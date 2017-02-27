@@ -32,8 +32,6 @@
           }
         }
       },
-
-      
       /**
       * On view attached to DOM, checking login status.
       */
@@ -57,10 +55,11 @@
       },
       /**
       * On Facebook's login button press, checking login status.
+      * @param {function} callback - Function called on success
       */
-      fbLogin: function () {
-        this.getFBLoginStatus(function callback(response) {
-          this.handleGetLoginStatus(response, true)
+      fbLogin: function (callback) {
+        this.getFBLoginStatus(function (response) {
+          this.handleGetLoginStatus(response, true, callback)
         }.bind(this))
       },
       /**
@@ -73,18 +72,19 @@
       * Handles Facebook's Authentication response
       * @param {object} response - Facebook's authentication response.
       * @param {boolean} forceLogin - If set to true, runs Facebook's login process.
+      * @param {function} callback - Function called on success
       */
-      handleGetLoginStatus: function (response, forceLogin) {
+      handleGetLoginStatus: function (response, forceLogin, callback) {
         console.log(response)
         if (response.status === 'connected') {
             this.set("isLoggedIn", true)
             this.set("facebookAccessToken", response.authResponse.accessToken)
             this.set("userFacebookId", response.authResponse.userID)
-            this.getServerAccessToken()
             this.getFBUserInfo(this.userFacebookId)
+            this.getServerAccessToken(callback)
           } else if (forceLogin){
             window.FB.login(function(response){
-              this.handleGetLoginStatus(response)
+              this.handleGetLoginStatus(response, false, callback)
             }.bind(this))
           }
       },
