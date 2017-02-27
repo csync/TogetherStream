@@ -9,14 +9,8 @@
           value: "AIzaSyBtZHBo_puHlrTw2cgqz-q5fYlK4XBuHNA"
         },
         /**
-        * The Youtube video id that is currently being streamed.
-        */
-        currentlyStreamingVideoId: {
-          type: String,
-          value: ""
-        },
-        /**
         * Data for currently streaming youtube video.
+        * properties: id, title, channelName, views, url, time.
         */
         currentlyStreamingVideoData: {
           type: String,
@@ -34,7 +28,7 @@
           console.log("Please provide a valid video id.")
           return
         }
-        this.set("currentlyStreamingVideoId", newVideoId)
+        this.set("currentlyStreamingVideoTime", 0)
         this.getVideoData(newVideoId)
       },
       /**
@@ -63,10 +57,12 @@
 
             if (responseJson.items && responseJson.items.length > 0) {
               let responseItem = responseJson.items[0]
+              newVideoDataObj.id = videoId
               newVideoDataObj.title = responseItem.snippet.title
               newVideoDataObj.channelName = responseItem.snippet.channelTitle
               newVideoDataObj.views = responseItem.statistics.viewCount.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
               newVideoDataObj.url = "https://www.youtube.com/watch?v=" + videoId
+              newVideoDataObj.time = 0
               this.set("currentlyStreamingVideoData", newVideoDataObj)
             }
           }
