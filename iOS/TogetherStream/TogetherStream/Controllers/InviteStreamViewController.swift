@@ -18,10 +18,6 @@ class InviteStreamViewController: UIViewController {
 
     /// The model for the objects in this view.
     fileprivate let viewModel = InviteStreamViewModel()
-    /// The default height of the invite cells.
-    fileprivate let defaultCellHeight = CGFloat(64.0)
-    /// The height of the header cell in the invite table.
-    fileprivate let headerCellHeight = CGFloat(47.0)
     /// The frame of the skip invite button.
     private let skipButtonFrame = CGRect(x: 0, y: 0, width: 35, height: 17)
     /// The default message for the text message invitation.
@@ -101,6 +97,24 @@ class InviteStreamViewController: UIViewController {
         }
     }
     
+    /// TODO: ADD
+   fileprivate func didSelectShareCode() {
+        let activityViewController = UIActivityViewController(activityItems: ["Hello"], applicationActivities: nil)
+        DispatchQueue.main.async {
+          self.present(activityViewController, animated: true)
+        }
+    }
+    
+    fileprivate func didSelectCodeTextField() {
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let copyAction = UIAlertAction(title: "Copy", style: .default) {[weak self] _ in
+            UIPasteboard.general.string = self?.viewModel.stream?.hostFacebookID
+        }
+        actionSheet.addAction(copyAction)
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        present(actionSheet, animated: true)
+    }
+    
     /// Opens the composer to send a text message invite.
     fileprivate func sendTextInvite() {
         guard MFMessageComposeViewController.canSendText() else {
@@ -112,7 +126,9 @@ class InviteStreamViewController: UIViewController {
         let messageVC = MFMessageComposeViewController()
         messageVC.messageComposeDelegate = self
         messageVC.body = textInviteMessage
-        present(messageVC, animated: true)
+        DispatchQueue.main.async {
+           self.present(messageVC, animated: true)
+        }
     }
     
     fileprivate func sendEmailInvite() {
@@ -144,6 +160,7 @@ class InviteStreamViewController: UIViewController {
         tableView.register(UINib(nibName: "TextEmailTableViewCell", bundle: nil), forCellReuseIdentifier: "textEmailCell")
         tableView.register(UINib(nibName: "FriendTableViewCell", bundle: nil), forCellReuseIdentifier: "friendCell")
         tableView.register(UINib(nibName: "InviteFriendsHeaderTableViewCell", bundle: nil), forCellReuseIdentifier: "friendsHeaderCell")
+        tableView.register(UINib(nibName: "InviteCodeTableViewCell", bundle: nil), forCellReuseIdentifier: "inviteCodeCell")
         
         // add a zero-height footer to hide trailing empty cells
         tableView.tableFooterView = UIView()
@@ -250,32 +267,41 @@ extension InviteStreamViewController: UITableViewDelegate, UITableViewDataSource
     ///   - indexPath: The index path of the selected row.
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let tableRowsNum = tableView.numberOfRows(inSection: 0)
-
-        switch indexPath.item {
-        case 0:
-            // Tapped send text
-            sendTextInvite()
-        case 1:
-            // Tapped send email
-            sendEmailInvite()
-        case viewModel.numberOfStaticCellsBeforeFriends...tableRowsNum:
-            // Tapped on friend
-            if let friendCell = tableView.cellForRow(at: indexPath) as? FriendTableViewCell {
-                friendCell.friendIsSelected = !friendCell.friendIsSelected
-                let index = viewModel.userCollectionIndexForCell(at: indexPath)
-                let friendData = viewModel.facebookFriends[index]
-                if friendCell.friendIsSelected {
-                    viewModel.selectedFriends[friendData.id] = friendData
-                } else {
-                    viewModel.selectedFriends[friendData.id] = nil
+        
+        if canInviteToStream {
+            switch indexPath.row {
+            case viewModel.numberOfStaticCellsBeforeFriends...tableRowsNum:
+                // Tapped on friend
+                if let friendCell = tableView.cellForRow(at: indexPath) as? FriendTableViewCell {
+                    friendCell.friendIsSelected = !friendCell.friendIsSelected
+                    let index = viewModel.userCollectionIndexForCell(at: indexPath)
+                    let friendData = viewModel.facebookFriends[index]
+                    if friendCell.friendIsSelected {
+                        viewModel.selectedFriends[friendData.id] = friendData
+                    } else {
+                        viewModel.selectedFriends[friendData.id] = nil
+                    }
+                    
+                    doneButton.isHidden = viewModel.selectedFriends.values.count == 0
+                    bottomLayoutConstraint.constant = doneButton.isHidden ? -doneButton.frame.height : 0
                 }
-
-                doneButton.isHidden = viewModel.selectedFriends.values.count == 0
-                bottomLayoutConstraint.constant = doneButton.isHidden ? -doneButton.frame.height : 0
+            default:
+                // Do nothing
+                break
             }
-        default:
-            // Do nothing
-            break
+        }
+        else {
+        switch indexPath.row {
+            case 0:
+                // Tapped send text
+                sendTextInvite()
+            case 1:
+                // Tapped send email
+                sendEmailInvite()
+            default:
+                // Do nothing
+                break
+            }
         }
     }
 
@@ -287,75 +313,95 @@ extension InviteStreamViewController: UITableViewDelegate, UITableViewDataSource
     /// - Returns: The cell to display.
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let numberOfRows = tableView.numberOfRows(inSection: 0)
-
-        switch indexPath.row {
-        case 0:
-            // Show text invite
-            guard let textCell = tableView.dequeueReusableCell(withIdentifier: "textEmailCell") as? TextEmailTableViewCell else {
-                return UITableViewCell()
-            }
-            textCell.selectionStyle = .none
-            textCell.textEmailLabel.text = "Invite via Text"
-            return textCell
-        case 1:
-            // Show email invite
-            guard let emailCell = tableView.dequeueReusableCell(withIdentifier: "textEmailCell") as? TextEmailTableViewCell else {
-                return UITableViewCell()
-            }
-            emailCell.selectionStyle = .none
-            emailCell.textEmailLabel.text = "Invite via Email"
-            return emailCell
-        case 2:
-            // Show friends header view
-            guard let friendsHeaderCell = tableView.dequeueReusableCell(withIdentifier: "friendsHeaderCell") as? InviteFriendsHeaderTableViewCell else {
-                return UITableViewCell()
-            }
-            friendsHeaderCell.selectionStyle = .none
-            // Move seperator out of the screen
-            friendsHeaderCell.separatorInset = UIEdgeInsetsMake(0, 1000, 0, 0)
-            friendsHeaderCell.isHidden = viewModel.facebookFriends.count == 0
-            return friendsHeaderCell
-        case viewModel.numberOfStaticCellsBeforeFriends...numberOfRows:
-            // Show Facebook friend
-            guard let friendCell = tableView.dequeueReusableCell(withIdentifier: "friendCell") as? FriendTableViewCell else {
-                return UITableViewCell()
-            }
-
-            let index = viewModel.userCollectionIndexForCell(at: indexPath)
-
-            let friendData = viewModel.facebookFriends[index]
-
-            friendCell.name.text = friendData.name
-            friendData.fetchProfileImage { error, image in
-                // Using main thread to set image properly
-                DispatchQueue.main.async {
-                    friendCell.profilePicture.image = image
+        
+        if canInviteToStream {
+            switch indexPath.row {
+            case 0: // Show text invite
+                guard let inviteCodeCell = tableView.dequeueReusableCell(withIdentifier: "inviteCodeCell") as? InviteCodeTableViewCell else {
+                    return UITableViewCell()
                 }
+                inviteCodeCell.selectionStyle = .none
+                inviteCodeCell.inviteCodeTextField.text = viewModel.stream?.hostFacebookID
+                inviteCodeCell.didSelectShareCode = {[unowned self] in self.didSelectShareCode()}
+                inviteCodeCell.didSelectCodeTextField = {[unowned self] in self.didSelectCodeTextField()}
+                return inviteCodeCell
+            case 1:
+                // Show friends header view
+                guard let friendsHeaderCell = tableView.dequeueReusableCell(withIdentifier: "friendsHeaderCell") as? InviteFriendsHeaderTableViewCell else {
+                    return UITableViewCell()
+                }
+                friendsHeaderCell.selectionStyle = .none
+                // Move seperator out of the screen
+                friendsHeaderCell.separatorInset = UIEdgeInsetsMake(0, 1000, 0, 0)
+                friendsHeaderCell.isHidden = viewModel.facebookFriends.count == 0
+                return friendsHeaderCell
+            case viewModel.numberOfStaticCellsBeforeFriends...numberOfRows:
+                // Show Facebook friend
+                guard let friendCell = tableView.dequeueReusableCell(withIdentifier: "friendCell") as? FriendTableViewCell else {
+                    return UITableViewCell()
+                }
+                
+                let index = viewModel.userCollectionIndexForCell(at: indexPath)
+                
+                let friendData = viewModel.facebookFriends[index]
+                
+                friendCell.name.text = friendData.name
+                friendData.fetchProfileImage { error, image in
+                    // Using main thread to set image properly
+                    DispatchQueue.main.async {
+                        friendCell.profilePicture.image = image
+                    }
+                }
+                friendCell.friendIsSelected = viewModel.selectedFriends[friendData.id] != nil
+                
+                friendCell.selectionStyle = .none
+                return friendCell
+            default:
+                return UITableViewCell()
             }
-            friendCell.friendIsSelected = viewModel.selectedFriends[friendData.id] != nil
-
-            friendCell.selectionStyle = .none
-            return friendCell
-        default:
-            return UITableViewCell()
+        }
+        else {
+            switch indexPath.row {
+            case 0:
+                // Show invite code
+                guard let textCell = tableView.dequeueReusableCell(withIdentifier: "textEmailCell") as? TextEmailTableViewCell else {
+                    return UITableViewCell()
+                }
+                textCell.selectionStyle = .none
+                textCell.textEmailLabel.text = "Invite via Text"
+                return textCell
+            case 1:
+                // Show email invite
+                guard let emailCell = tableView.dequeueReusableCell(withIdentifier: "textEmailCell") as? TextEmailTableViewCell else {
+                    return UITableViewCell()
+                }
+                emailCell.selectionStyle = .none
+                emailCell.textEmailLabel.text = "Invite via Email"
+                return emailCell
+            default:
+                return UITableViewCell()
+            }
         }
     }
 
-    /// Sets the row height based on constants.
+    /// Sets the height to be automatic based on constraints.
     ///
     /// - Parameters:
     ///   - tableView: The table requesting the height.
     ///   - indexPath: The index path of the row the request is for.
     /// - Returns: The height of the cell.
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-
-        switch indexPath.item {
-        case 2:
-            //show header view
-            return headerCellHeight
-        default:
-            return defaultCellHeight
-        }
+        return UITableViewAutomaticDimension
+    }
+    
+    /// Sets the height to be automatic based on constraints.
+    ///
+    /// - Parameters:
+    ///   - tableView: The table requesting the height.
+    ///   - indexPath: The index path of the row being requested for.
+    /// - Returns: The height of the cell.
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
     }
 
     /// Returns the number of rows for the section based on if user can

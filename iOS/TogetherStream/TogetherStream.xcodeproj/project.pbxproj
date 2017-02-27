@@ -91,6 +91,8 @@
 		A2A4360D1DFB2421008C2FB2 /* FacebookDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A4360C1DFB2421008C2FB2 /* FacebookDataManager.swift */; };
 		A2A4360F1DFB24CE008C2FB2 /* ServerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A4360E1DFB24CE008C2FB2 /* ServerError.swift */; };
 		A2A436111DFB3D7F008C2FB2 /* CSyncDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A436101DFB3D7F008C2FB2 /* CSyncDataManager.swift */; };
+		A2AF79F31E64AA0200796C9B /* InviteCodeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2AF79F11E64AA0200796C9B /* InviteCodeTableViewCell.swift */; };
+		A2AF79F41E64AA0200796C9B /* InviteCodeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2AF79F21E64AA0200796C9B /* InviteCodeTableViewCell.xib */; };
 		A2C1BD7D1E23EE6C00F515E7 /* ParticipantMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C1BD7C1E23EE6C00F515E7 /* ParticipantMessage.swift */; };
 		A2C1BD7F1E23FA9400F515E7 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C1BD7E1E23FA9400F515E7 /* Message.swift */; };
 		A2C1BD811E24024800F515E7 /* ParticipantsDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C1BD801E24024800F515E7 /* ParticipantsDataManager.swift */; };
@@ -228,6 +230,8 @@
 		A2A4360C1DFB2421008C2FB2 /* FacebookDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacebookDataManager.swift; sourceTree = "<group>"; };
 		A2A4360E1DFB24CE008C2FB2 /* ServerError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerError.swift; sourceTree = "<group>"; };
 		A2A436101DFB3D7F008C2FB2 /* CSyncDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSyncDataManager.swift; sourceTree = "<group>"; };
+		A2AF79F11E64AA0200796C9B /* InviteCodeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InviteCodeTableViewCell.swift; sourceTree = "<group>"; };
+		A2AF79F21E64AA0200796C9B /* InviteCodeTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InviteCodeTableViewCell.xib; sourceTree = "<group>"; };
 		A2C1BD7C1E23EE6C00F515E7 /* ParticipantMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticipantMessage.swift; sourceTree = "<group>"; };
 		A2C1BD7E1E23FA9400F515E7 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		A2C1BD801E24024800F515E7 /* ParticipantsDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ParticipantsDataManager.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -555,6 +559,8 @@
 				68991ECE1E411F7F00F5B4A0 /* ProfileTableViewCell.xib */,
 				A2483D431E3BB6AE007E92DD /* VideoQueueTableViewCell.swift */,
 				A2483D441E3BB6AE007E92DD /* VideoQueueTableViewCell.xib */,
+				A2AF79F11E64AA0200796C9B /* InviteCodeTableViewCell.swift */,
+				A2AF79F21E64AA0200796C9B /* InviteCodeTableViewCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -710,6 +716,7 @@
 			files = (
 				A2D44DC21E32B15900053099 /* SearchResultTableViewCell.xib in Resources */,
 				68991ED01E411F7F00F5B4A0 /* ProfileTableViewCell.xib in Resources */,
+				A2AF79F41E64AA0200796C9B /* InviteCodeTableViewCell.xib in Resources */,
 				68D1A7C41E4113E50073E571 /* GoogleService-Info.plist in Resources */,
 				A2D44DBE1E3024DC00053099 /* NoStreamsTableViewCell.xib in Resources */,
 				34AD4C0E1E20400E00210F61 /* WorkSans-SemiBold.ttf in Resources */,
@@ -1006,6 +1013,7 @@
 				A2A4360F1DFB24CE008C2FB2 /* ServerError.swift in Sources */,
 				A25D962C1E1D965A008FD996 /* HomeViewModel.swift in Sources */,
 				A25D96261E1D55E9008FD996 /* Stream.swift in Sources */,
+				A2AF79F31E64AA0200796C9B /* InviteCodeTableViewCell.swift in Sources */,
 				A2D44DC41E33E99900053099 /* SearchResultHeaderView.swift in Sources */,
 				A2C1BD811E24024800F515E7 /* ParticipantsDataManager.swift in Sources */,
 			);
