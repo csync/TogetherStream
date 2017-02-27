@@ -21,7 +21,7 @@ class InviteStreamViewController: UIViewController {
     /// The frame of the skip invite button.
     private let skipButtonFrame = CGRect(x: 0, y: 0, width: 35, height: 17)
     /// The default message for sharing the stream code.
-    private let shareCodeMessage = "TODO: ADD COPY"
+    private let shareCodeMessage = "Join my stream on Together Stream – A collaborative and synchronized streaming experience. Enter code: %@. http://together-stream/app?stream_id=%@"
 
     /// Exposed stream object to be set by other view controllers.
     var stream: Stream? {
@@ -92,6 +92,8 @@ class InviteStreamViewController: UIViewController {
     /// On tapping share code, present an activity view to share the code.
    fileprivate func didSelectShareCode() {
         Utils.sendGoogleAnalyticsEvent(withCategory: "InviteStream", action: "PressedShareCode")
+        let appID = viewModel.stream?.hostFacebookID ?? ""
+        let shareCodeMessage = String(format: self.shareCodeMessage, appID, appID)
         let activityViewController = UIActivityViewController(activityItems: [shareCodeMessage], applicationActivities: nil)
         DispatchQueue.main.async {
           self.present(activityViewController, animated: true)
