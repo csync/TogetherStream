@@ -1,18 +1,18 @@
 /* 
-  Copyright 2017 IBM Corporation
+ Copyright 2017 IBM Corporation
 
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
 
-      http://www.apache.org/licenses/LICENSE-2.0
+ http://www.apache.org/licenses/LICENSE-2.0
 
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
-*/
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ */
 
 var appVars = require('../config/appVars');
 
@@ -70,76 +70,77 @@ userController.saveExternalAccount = function(userId, externalAccount) {
 };
 
 userController.getUserByID = function (id) {
-  return new Promise(function (resolve, reject) {
-      var pool = appVars.pool;
-      pool.connect(function (err, client, done) {
-          if (err) {
-              return console.error('error fetching client from pool', err);
-          }
-          // Get user info
-          client.query("SELECT id, device_token FROM users WHERE id=$1", [id],
-              function (err, result) {
-                  if (err) reject(err);
-                  if (result.rowCount < 1) {
-                      done(err);
-                      resolve(null);
-                  }
-                  else {
-                      var user = {id: result.rows[0].id, deviceToken: result.rows[0].device_token};
-                      // Get external accounts
-                      client.query("SELECT id, provider, access_token, at_iv, at_tag FROM external_auth WHERE user_id=$1", [id],
-                          function (err, result) {
-                              done(err);
-                              if (err) reject(err);
-                              user.externalAccounts = result.rows;
-                              resolve(user);
-                          });
-                  }
-              }
-          );
-      });
-  })
+    return new Promise(function (resolve, reject) {
+        var pool = appVars.pool;
+        pool.connect(function (err, client, done) {
+            if (err) {
+                return console.error('error fetching client from pool', err);
+            }
+            // Get user info
+            client.query("SELECT id, device_token FROM users WHERE id=$1", [id],
+                function (err, result) {
+                    if (err) {
+                        done(err);
+                        reject(err);
+                    }
+                    else if (result.rowCount < 1) {
+                        done(err);
+                        resolve(null);
+                    }
+                    else {
+                        var user = {id: result.rows[0].id, deviceToken: result.rows[0].device_token};
+                        // Get external accounts
+                        client.query("SELECT id, provider, access_token, at_iv, at_tag FROM external_auth WHERE user_id=$1", [id],
+                            function (err, result) {
+                                done(err);
+                                if (err) reject(err);
+                                user.externalAccounts = result.rows;
+                                resolve(user);
+                            });
+                    }
+                }
+            );
+        });
+    })
 };
 
 userController.getUserAccountByExternalAccount = function (externalAccount) {
-  return new Promise(function (resolve, reject) {
-      var pool = appVars.pool;
-      pool.connect(function (err, client, done) {
-          if (err) {
-              return console.error('error fetching client from pool', err);
-          }
-          // Get user info
-          client.query("SELECT user_id FROM external_auth WHERE id=$1 AND provider=$2", [externalAccount.id, externalAccount.provider],
-              function (err, result) {
-                  if (err) {
-                      done(err);
-                      reject(err);
-                      return
-                  }
-                  if (result.rowCount < 1) {
-                      done(err);
-                      resolve(null);
-                  }
-                  else {
-                      client.query("SELECT id, device_token FROM users WHERE id=$1", [result.rows[0].user_id],
-                          function (err, result) {
-                              done(err);
-                              if (err) {
-                                  done(err);
-                                  reject(err);
-                                  return
-                              }
-                              if (result.rowCount < 1) {
-                                  resolve(null);
-                                  client.end();
-                              }
-                              resolve({id: result.rows[0].id, deviceToken: result.rows[0].device_token});
-                          });
-                  }
-              }
-          );
-      });
-  })
+    return new Promise(function (resolve, reject) {
+        var pool = appVars.pool;
+        pool.connect(function (err, client, done) {
+            if (err) {
+                return console.error('error fetching client from pool', err);
+            }
+            // Get user info
+            client.query("SELECT user_id FROM external_auth WHERE id=$1 AND provider=$2", [externalAccount.id, externalAccount.provider],
+                function (err, result) {
+                    if (err) {
+                        done(err);
+                        reject(err);
+                    }
+                    else if (result.rowCount < 1) {
+                        done(err);
+                        resolve(null);
+                    }
+                    else {
+                        client.query("SELECT id, device_token FROM users WHERE id=$1", [result.rows[0].user_id],
+                            function (err, result) {
+                                done(err);
+                                if (err) {
+                                    reject(err);
+                                    return
+                                }
+                                if (result.rowCount < 1) {
+                                    resolve(null);
+                                    return
+                                }
+                                resolve({id: result.rows[0].id, deviceToken: result.rows[0].device_token});
+                            });
+                    }
+                }
+            );
+        });
+    })
 };
 
 userController.processExternalAuthentication = function (req, externalAccount) {
@@ -229,6 +230,7 @@ userController.getOrCreateStream = function (req) {
                                 }
                                 if (result.rowCount < 1) {
                                     reject(null);
+                                    return;
                                 }
                                 resolve({
                                     id: result.rows[0].id,
