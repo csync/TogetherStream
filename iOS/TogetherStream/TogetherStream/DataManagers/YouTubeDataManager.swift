@@ -15,7 +15,7 @@ class YouTubeDataManager {
 	static let sharedInstance = YouTubeDataManager()
 	
 	/// Youtube API key for the project.
-	private let apiKey = Utils.getStringValueWithKeyFromPlist("keys", key: "youtube_api_key")
+	private let apiKey = Utils.getStringValueWithKeyFromPlist("private", key: "youtube_api_key")
 	/// The maximum amount of videos to fetch for searches and trending videos.
 	private let maxVideoResults = 25
 	

@@ -14,8 +14,9 @@ class CSyncDataManager {
 	/// Singleton object
 	static let sharedInstance = CSyncDataManager()
 	
-    // TODO: Move to plist
-	private let csyncURL = "169.46.157.54"
+    /// The url of the CSync server.
+	private let csyncURL = Utils.getStringValueWithKeyFromPlist("private", key: "server_address") ?? ""
+	/// The port of the CSync server.
 	private let csyncPort = 6005
 	/// The CSync application
 	private lazy var app: App = { [unowned self] in
