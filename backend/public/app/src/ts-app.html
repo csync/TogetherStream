@@ -13,7 +13,8 @@
       :host {
         display: flex;
         position: relative;
-        min-height: 730px;
+        height: 85%;
+        min-height: 300px;
         padding-top: 60px;
       }
     </style>
@@ -96,7 +97,7 @@
             console.error(error)
             return
           } 
-          
+          // If value doesn't exist and is outdated, don't process it.
           if (!value.exists) {
             return
           }
