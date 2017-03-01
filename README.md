@@ -64,6 +64,9 @@ Make sure that when you are creating your container, you add your Facebook crede
 "CSYNC_FACEBOOK_SECRET=asfdasdf"`
 2. Add the public IP of the container as `csync_url` to the `private.plist` located at `iOS/TogetherStream/TogetherStream/Configuration`
 
+### Google Analytics Configuration (Optional)
+If you wish to keep track of analytics, you can add a configuration file by following the instructions here: https://developers.google.com/analytics/devguides/collection/ios/v3/  
+**Note** You can skip adding Google Analytics to the project since it was installed above.
 
 ## Local Configuration (Optional)
 ### Requirements
