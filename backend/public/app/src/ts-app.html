@@ -21,8 +21,7 @@
     </style>
     <ts-header showing-portal-page={{showingPortalPage}}></ts-header>
     <template is="dom-if" if="{{!showingPortalPage}}">
-      <ts-chat logged-in-user={{userFacebookData}}></ts-chat>
-
+      <ts-chat logged-in-user={{userFacebookData}} current-viewer-count={{currentViewerCount}}></ts-chat>
       <ts-video video-data={{currentlyStreamingVideoData}}></ts-video>
     </template>
     <template is="dom-if" if="{{showingPortalPage}}">
@@ -35,17 +34,41 @@
       is: 'ts-app',
       behaviors: [FacebookBehavior, ServerBehavior, YoutubeBehavior, CsyncBehavior],
       observers: [
-        "loginChanged(isLoggedIn)",
-        "streamIdChanged(streamId)"
+        "loginChanged(isLoggedIn)"
       ],
+      ready: function() {
+        this.addEventListener('tryJoinStream', this.joinStream);
+      },
       properties: {
         showingPortalPage: {
           type: Boolean,
-          value: false
+          value: true
         },
         streamId: {
           type: String,
           value: ""
+        },
+        /**
+        * List of friend ids who are currently in stream with user.
+        */
+        currentViewerIds: {
+          type: Array,
+          value: []
+        },
+        /**
+        * Number of friends who are currently in stream with user.
+        */
+        currentViewerCount: {
+          type: Number,
+          value: 0,
+          notify: true
+        },
+        /**
+        * Timeout used to consider a friend disconnected.
+        */
+        viewerHeartbeatTimeoutSecs: {
+          type: Number,
+          value: 2000
         }
       },
       /**
@@ -58,16 +81,12 @@
         }
       },
       /**
-      * Called when streamId is set on the portal page.
+      * Called when portal button to join stream is pressed.
       * @param {string} streamId - New stream id.
       */
-      streamIdChanged: function(streamId) {
-        if (!streamId) {
-          return
-        }
-
+      joinStream: function() {
         let showPortalPage = function () {
-          this.isValidStreamId(streamId, function callback(isValid) {
+          this.isValidStreamId(this.streamId, function callback(isValid) {
             if (isValid) {
                this.set("showingPortalPage", false)
                this.authenticateWithFacebookAccessToken(this.facebookAccessToken, this.setupCsyncListeners.bind(this))
@@ -89,9 +108,17 @@
       * Setting up the csync listeners that change as properties are updated from ios app.
       */
       setupCsyncListeners: function() {
-        let currentVideoKey = this.csyncApp.key("streams." + this.streamId + ".*")
-        let playTimeKey = this.csyncApp.key("streams." + this.streamId + ".playTime")
-        let callback = function (error, value) {
+        this.setupVideoCsyncListener()
+        this.setupChatCsyncListener()
+        this.setupHeartbeatCsyncListener()
+      },
+      /**
+      * Listens to video key changes.
+      * isActive, currentVideoID, isBuffering, playTime, isPlaying
+      */
+      setupVideoCsyncListener: function () {
+        let listenerKey = this.csyncApp.key("streams." + this.streamId + ".*")
+        let listenerCallback = function (error, value) {
           if (error) {
             console.error(error)
             return
@@ -100,6 +127,7 @@
           if (!value.exists) {
             return
           }
+          
           if (value.key.indexOf("currentVideoID") >= 0 && this.currentlyStreamingVideoData.id != value.data) {
             this.changeVideo(value.data)
           } else if (value.key.indexOf("playTime") >= 0 && Math.abs(this.currentlyStreamingVideoData.time - value.data) >= 2) {
@@ -108,8 +136,59 @@
             this.set("currentlyStreamingVideoData.isPlaying", value.data)
           }
         }.bind(this)
+        listenerKey.listen(listenerCallback)
+      },
+      /**
+      * Listens to chat key changes.
+      * Chat messages added under streams.<STREAM_ID>.chat.*
+      */
+      setupChatCsyncListener: function () {
+        let listenerKey = this.csyncApp.key("streams." + this.streamId + ".chat.*")
+        let listenerCallback = function (error, value) {
+          if (error) {
+            console.error(error)
+            return
+          } 
+          // If value doesn't exist and is outdated, don't process it.
+          if (!value.exists) {
+            return
+          }
+          console.log(value)
+        }.bind(this)
 
-        currentVideoKey.listen(callback)
+        listenerKey.listen(listenerCallback)
+      },
+      /**
+      * Listens to heartbeat key changes to know how many users are currently watching.
+      * Number of heartbeats sent under streams.<STREAM_ID>.heartbeat.*
+      */
+      setupHeartbeatCsyncListener: function () {
+        let listenerKey = this.csyncApp.key("streams." + this.streamId + ".heartbeat.*")
+        let listenerCallback = function (error, value) {
+          if (error) {
+            console.error(error)
+            return
+          } 
+          // If value doesn't exist and is outdated, don't process it.
+          if (!value.exists) {
+            return
+          }
+          this.currentViewerIds[value.creator] = Date.now()
+          this.set("currentViewerCount", Object.keys(this.currentViewerIds).length)
+        }.bind(this)
+
+        listenerKey.listen(listenerCallback)
+
+        // Setup timer to delete keys that have not received a heartbeat in 2 seconds.
+        setInterval(function(){
+          Object.keys(this.currentViewerIds).forEach(function(key) {
+            if (Date.now() - this.currentViewerIds[key] >= this.viewerHeartbeatTimeoutSecs) {
+              delete this.currentViewerIds[key]
+            }
+          }.bind(this))
+          this.set("currentViewerCount", Object.keys(this.currentViewerIds).length)
+        }.bind(this), 1000)
+
       }
     });
   </script>
