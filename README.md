@@ -38,7 +38,7 @@ Together Stream uses Facebook to authenticate users and to retrieve user informa
 Together Stream uses push notifications to send stream invites to users with the iOS app.
 
 1. If not already, you will need to be enrolled in the [Apple Developer program](https://developer.apple.com/programs/)
-2. Generate a push notification certificate and download the p12 file.
+2. Generate a push notification certificate and download the `.p12` file.
 3. Go through these steps to generate a `cert.pem` and a `key.pem` https://github.com/node-apn/node-apn/wiki/Preparing-Certificates
 4. Add these certificates to `backend/config/private/`
 
