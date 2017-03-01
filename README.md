@@ -19,7 +19,8 @@ Together Stream is powered by Contextual Sync and IBM Bluemix.
 ## Setup
 ### Download third party libraries
 1. Clone the repo if you have not already done so.
-3. Navigate to `iOS/TogetherStream` run `pod install` and `carthage update --platform iOS`
+2. Navigate to `iOS/TogetherStream` run `pod install` and `carthage update --platform iOS`
+
 ### YouTube Configuration
 Together Stream uses YouTube videos as the source of content to be shared. To access the YouTube API you will need to generate and embed an API key.
 
