@@ -44,19 +44,19 @@ Together Stream uses Facebook to authenticate users and to retrieve user informa
 
 ### Contexual Sync Configuration
 1. Follow the instructions here to deploy a Contexual Sync container to blumix: https://github.com/csync/csync-server/wiki/Create-a-CSync-Instance-on-Bluemix  
-Make sure that when you are creating your container, you add your Facebook credentials in this format:
+Make sure that when you are creating your container, you add your Facebook credentials in this format:  
 `
 "CSYNC_FACEBOOK_ID=asfasfd",
 "CSYNC_FACEBOOK_SECRET=asfdasdf"`
 2. Add the public IP of the container as `csync_url` to the `private.plist` located at `iOS/TogetherStream/TogetherStream/Configuration`
 
 
-### Local Configuration
-## Requirements
+## Local Configuration
+### Requirements
 [npm](https://www.npmjs.com/) 4.1.2  
 [node](https://nodejs.org/en/) 7.5
 
-## Instructions
+### Instructions
 1. If the XCode command line developer tools are not installed, run `xcode-select --install`
 2. Navigate to your app on Bluemix and click on "Connections" in the left nav bar
 3. Click on "View credentials" on the Compose for PostgreSQL service and copy those credentials to `backend/config/private/VCAP_SERVICES.json`
