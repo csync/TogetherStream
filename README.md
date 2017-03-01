@@ -65,7 +65,7 @@ Make sure that when you are creating your container, you add your Facebook crede
 2. Add the public IP of the container as `csync_url` to the `private.plist` located at `iOS/TogetherStream/TogetherStream/Configuration`
 
 
-## Local Configuration
+## Local Configuration (Optional)
 ### Requirements
 [npm](https://www.npmjs.com/) 4.1.2  
 [node](https://nodejs.org/en/) 7.5
