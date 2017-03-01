@@ -35,6 +35,23 @@ class Utils: NSObject {
         }
         return nil
     }
+    
+    /**
+     Method gets a key from a plist, both specified in parameters
+     
+     - parameter plist: String
+     - parameter key:   String
+     
+     - returns: Int
+     */
+    class func getIntValueWithKeyFromPlist(_ plist: String, key: String) -> Int? {
+        if let path: String = Bundle.main.path(forResource: plist, ofType: "plist"),
+            let keyList = NSDictionary(contentsOfFile: path),
+            let key = keyList.object(forKey: key) as? Int {
+            return key
+        }
+        return nil
+    }
 
     /**
     Method returns an instance of the storyboard defined by the storyboardName String parameter
