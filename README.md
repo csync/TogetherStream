@@ -31,7 +31,7 @@ Together Stream uses YouTube videos as the source of content to be shared. To ac
 Together Stream uses Facebook to authenticate users and to retrieve user information. To access the Facebook API you will need to create an app and link to it in the iOS application.
 
 1. Follow steps to configure the Facebook App for iOS: https://developers.facebook.com/docs/ios/getting-started/
-   *Note* You can skip installing the SDK since it was already installed above.
+   **Note** You can skip installing the SDK since it was already installed above.
 
 ### Cloud Configuration
 1. Go to https://console.ng.bluemix.net and create an account if you do not already have one.
