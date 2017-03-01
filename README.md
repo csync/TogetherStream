@@ -12,7 +12,7 @@ Together Stream allows you to stream content with others in real time. The strea
 Together Stream is powered by Contextual Sync and IBM Bluemix.
 
 ## Mininum requirements to run
-[XCode](https://developer.apple.com/download/) 8.2  
+[Xcode](https://developer.apple.com/download/) 8.2  
 [CocoaPods](https://cocoapods.org/) 1.2.0  
 [Carthage](https://github.com/Carthage/Carthage) 0.18.1
 
@@ -74,7 +74,7 @@ If you wish to keep track of analytics, you can add a configuration file by foll
 [node](https://nodejs.org/en/) 7.5
 
 ### Instructions
-1. If the XCode command line developer tools are not installed, run `xcode-select --install`
+1. If the Xcode command line developer tools are not installed, run `xcode-select --install`
 2. Navigate to your app on Bluemix and click on "Connections" in the left nav bar
 3. Click on "View credentials" on the Compose for PostgreSQL service and copy those credentials to `backend/config/private/VCAP_SERVICES.json`
 4. Navigate to `backend` and run `npm install`
@@ -85,4 +85,7 @@ If you wish to keep track of analytics, you can add a configuration file by foll
 Make sure you change the `private.plist` in the iOS app to the local Contextual Sync server.
 
 ## Disclaimer
+Legal stuff
+
+## License
 Legal stuff
