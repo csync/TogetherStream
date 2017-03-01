@@ -1,4 +1,4 @@
-![TogetherStream](https://github.com/IBM-MIL/TogetherStream/blob/develop/iOS/TogetherStream/TogetherStream/Assets.xcassets/togetherstreamLogoStacked.imageset/togetherstreamLogoStacked.png?raw=true)
+![TogetherStream](https://github.com/IBM-MIL/TogetherStream/blob/develop/iOS/TogetherStream/TogetherStream/Assets.xcassets/togetherstreamLogoStacked.imageset/togetherstreamLogoStacked@2x.png?raw=true)
 
 ## Summary
 Together Stream allows you to stream content with others in real time. The stream host has full control to choose, pause, and skip any video in the queue — synchronizing playback immediately with participants’ devices.
@@ -12,8 +12,8 @@ Together Stream allows you to stream content with others in real time. The strea
 Together Stream is powered by Contextual Sync and IBM Bluemix.
 
 ## Mininum requirements to run
-[XCode](https://developer.apple.com/download/) 8.2
-[CocoaPods](https://cocoapods.org/) 1.2.0
+[XCode](https://developer.apple.com/download/) 8.2  
+[CocoaPods](https://cocoapods.org/) 1.2.0  
 [Carthage](https://github.com/Carthage/Carthage) 0.18.1
 
 ## Setup
@@ -43,18 +43,17 @@ Together Stream uses Facebook to authenticate users and to retrieve user informa
 8. Add the server URL as `server_address` to `private.plist` located at `iOS/TogetherStream/TogetherStream/Configuration`
 
 ### Contexual Sync Configuration
-1. Follow the instructions here to deploy a Contexual Sync container to blumix: https://github.com/csync/csync-server/wiki/Create-a-CSync-Instance-on-Bluemix
-a. Make sure that when you are creating your container, you add your Facebook credentials in this format:
-```
+1. Follow the instructions here to deploy a Contexual Sync container to blumix: https://github.com/csync/csync-server/wiki/Create-a-CSync-Instance-on-Bluemix  
+Make sure that when you are creating your container, you add your Facebook credentials in this format:
+`
 "CSYNC_FACEBOOK_ID=asfasfd",
-"CSYNC_FACEBOOK_SECRET=asfdasdf"
-```
+"CSYNC_FACEBOOK_SECRET=asfdasdf"`
 2. Add the public IP of the container as `csync_url` to the `private.plist` located at `iOS/TogetherStream/TogetherStream/Configuration`
 
 
 ### Local Configuration
 ## Requirements
-[npm](https://www.npmjs.com/) 4.1.2
+[npm](https://www.npmjs.com/) 4.1.2  
 [node](https://nodejs.org/en/) 7.5
 
 ## Instructions
