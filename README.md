@@ -32,6 +32,19 @@ Together Stream uses Facebook to authenticate users and to retrieve user informa
 
 1. Follow steps to configure the Facebook App for iOS: https://developers.facebook.com/docs/ios/getting-started/
    **Note** You can skip installing the SDK since it was already installed above.
+2. Add the Facebook app ID and secret to `backend/config/private/credentials.js`
+
+### Apple Push Notification Configuration
+Together Stream uses push notifications to send stream invites to users with the iOS app.
+
+1. If not already, you will need to be enrolled in the [Apple Developer program](https://developer.apple.com/programs/)
+2. Generate a push notification certificate and download the p12 file.
+3. Go through these steps to generate a `cert.pem` and a `key.pem` https://github.com/node-apn/node-apn/wiki/Preparing-Certificates
+4. Add these certificates to `backend/config/private/`
+
+### Backend Configuration
+1. In `backend/config/private/credentials.js` replace the `accessTokenKey` and `refreshTokenKey` with a unique string exactly **32 characters** long. This is used to encrypt the access tokens and refresh tokens in the database.
+2. Replace the `sessionSecret` with a unique string. This is used to encrypt the session tokens.
 
 ### Cloud Configuration
 1. Go to https://console.ng.bluemix.net and create an account if you do not already have one.
