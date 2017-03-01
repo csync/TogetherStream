@@ -78,7 +78,8 @@ Make sure that when you are creating your container, you add your Facebook crede
 5. Then run `npm start` to start the backend, take note of what port it is listening on
 6. In the `private.plist` channel, change your server address to `http://localhost:<port number>`
 7. Follow the instructions here to allow connections to a http address: http://stackoverflow.com/questions/31254725/transport-security-has-blocked-a-cleartext-http
-8. If you would like to run your Contexual Sync server locally as well, follow the instructions here: https://github.com/csync/csync-server#local-deployment. Make sure you change the `private.plist` to the local Contextual Sync server.
+8. If you would like to run your Contexual Sync server locally as well, follow the instructions here: https://github.com/csync/csync-server#local-deployment. 
+Make sure you change the `private.plist` in the iOS app to the local Contextual Sync server.
 
 ## Disclaimer
 Legal stuff
