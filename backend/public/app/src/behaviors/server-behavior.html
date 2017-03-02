@@ -66,8 +66,8 @@
           } else if (xhr.status === 401) {
             // Get new server token when needing authentication expires.
             this.getServerAccessToken(function() {
-              isValidStreamId(streamId, callback)
-            })
+              this.isValidStreamId(streamId, callback)
+            }.bind(this))
           } else {
             console.error("Couldn't reach server.", xhr)
           }

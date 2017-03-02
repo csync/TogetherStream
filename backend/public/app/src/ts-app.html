@@ -21,7 +21,7 @@
     </style>
     <ts-header showing-portal-page={{showingPortalPage}}></ts-header>
     <template is="dom-if" if="{{!showingPortalPage}}">
-      <ts-chat logged-in-user={{userFacebookData}} current-viewer-count={{currentViewerCount}}></ts-chat>
+      <ts-chat logged-in-user={{userFacebookData}} current-viewer-count={{currentViewerCount}} chat-messages={{chatMessages}}></ts-chat>
       <ts-video video-data={{currentlyStreamingVideoData}}></ts-video>
     </template>
     <template is="dom-if" if="{{showingPortalPage}}">
@@ -68,8 +68,15 @@
         */
         viewerHeartbeatTimeoutSecs: {
           type: Number,
-          value: 2000
-        }
+          value: 4000
+        },
+        /**
+        * List of chat messages including when user joins/leaves stream.
+        */
+        chatMessages: {
+          type: Array,
+          value: []
+        },
       },
       /**
       * Called when isLoggedIn changes
@@ -111,10 +118,11 @@
         this.setupVideoCsyncListener()
         this.setupChatCsyncListener()
         this.setupHeartbeatCsyncListener()
+        this.setupParticipantsCsyncListener()
       },
       /**
       * Listens to video key changes.
-      * isActive, currentVideoID, isBuffering, playTime, isPlaying
+      * data: {isActive, currentVideoID, isBuffering, playTime, isPlaying}
       */
       setupVideoCsyncListener: function () {
         let listenerKey = this.csyncApp.key("streams." + this.streamId + ".*")
@@ -141,6 +149,7 @@
       /**
       * Listens to chat key changes.
       * Chat messages added under streams.<STREAM_ID>.chat.*
+      * data: {content, timestamp}
       */
       setupChatCsyncListener: function () {
         let listenerKey = this.csyncApp.key("streams." + this.streamId + ".chat.*")
@@ -153,7 +162,7 @@
           if (!value.exists) {
             return
           }
-          console.log(value)
+          this.insertIntoMessageArray(value.data)
         }.bind(this)
 
         listenerKey.listen(listenerCallback)
@@ -161,6 +170,7 @@
       /**
       * Listens to heartbeat key changes to know how many users are currently watching.
       * Number of heartbeats sent under streams.<STREAM_ID>.heartbeat.*
+      * data is the heartbeat timestamp.
       */
       setupHeartbeatCsyncListener: function () {
         let listenerKey = this.csyncApp.key("streams." + this.streamId + ".heartbeat.*")
@@ -173,6 +183,7 @@
           if (!value.exists) {
             return
           }
+          
           this.currentViewerIds[value.creator] = Date.now()
           this.set("currentViewerCount", Object.keys(this.currentViewerIds).length)
         }.bind(this)
@@ -189,6 +200,42 @@
           this.set("currentViewerCount", Object.keys(this.currentViewerIds).length)
         }.bind(this), 1000)
 
+      },
+      /**
+      * Listens for when a participant enters/leaves a stream.
+      * data: {isJoining, timeStamp}
+      */
+      setupParticipantsCsyncListener: function () {
+        let listenerKey = this.csyncApp.key("streams." + this.streamId + ".participants.*")
+        let listenerCallback = function (error, value) {
+          if (error) {
+            console.error(error)
+            return
+          }
+          // If value doesn't exist and is outdated, don't process it.
+          if (!value.exists) {
+            return
+          }
+          this.insertIntoMessageArray(value.data)
+          
+        }.bind(this)
+        listenerKey.listen(listenerCallback)
+      },
+      /**
+      * Compiles messsages in a sorted chat array.
+      */
+      insertIntoMessageArray: function(item) {
+        var index = 0
+
+        while (index < this.chatMessages.length && this.chatMessages[index].timestamp <= item.timestamp) {
+          index++
+        }
+        if (index != this.chatMessages.length) {
+          this.chatMessages.splice(index, 0, item)
+          this.set("chatMessages", this.chatMessages)
+        } else {
+          this.push("chatMessages", item)
+        }
       }
     });
   </script>
