@@ -28,7 +28,17 @@ invitesService.processSendingInvites = function (req, res) {
                 userController.getUserAccountByExternalAccount({id: users[i], provider: 'facebook-token'})
                     .then(function (user) {
                         saveInvite(user, stream);
-                        sendNotification(user, req);
+
+                        if (user.deviceToken != undefined) {
+                            sendNotification(user, req);
+                        }
+                        else {
+                            userController.getUserByID(user.id)
+                                .then(function (fullUser) {
+                                    sendEmail(fullUser, req);
+                                });
+                        }
+
                     });
             }
         });
@@ -72,6 +82,29 @@ var sendNotification = function (user, req) {
     apnProvider.send(note, user.deviceToken).then(function (result) {
         console.log(result);
     })
+};
+
+var sendEmail = function (participant, req) {
+    var participantAccessToken = userController.getExternalAccountAccessToken(participant, 'facebook-token');
+    var request = require('request');
+    request('https://graph.facebook.com/v2.8/me' + '?fields=email&access_token=' + participantAccessToken, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            var jsonBody = JSON.parse(body);
+            var mailOptions = {
+                from: '"Together Stream" <TogetherStream' + '@' + appVars.mail.server + '>', // sender address
+                to: jsonBody.email, // list of receivers
+                subject: 'COPY', // Subject line
+                text: 'COPY COPY COPY' // plaintext body
+            };
+            appVars.mail.transporter.sendMail(mailOptions, function(error, info){
+                if(error){
+                    return console.log(error);
+                }
+                console.log('Message sent: ' + info.response);
+            });
+        }
+    });
+
 };
 
 var saveInvite = function (user, stream) {
