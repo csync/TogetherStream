@@ -38,6 +38,7 @@
       ],
       ready: function() {
         this.addEventListener('tryJoinStream', this.joinStream);
+        this.addEventListener('sendChatMessage', this.sendChatMessage);
       },
       properties: {
         showingPortalPage: {
@@ -220,6 +221,18 @@
           
         }.bind(this)
         listenerKey.listen(listenerCallback)
+      },
+      /**
+      * Uses Csync to send chat message
+      */
+      sendChatMessage: function (message) {
+        let writeKey = this.csyncApp.key("streams." + this.streamId + ".chat")
+
+        writeKey.write({
+          content: message.detail,
+          id: this.userFacebookId,
+          timestamp: Date.now()
+        }, {acl: csync.acl.PublicReadWrite})
       },
       /**
       * Compiles messsages in a sorted chat array.

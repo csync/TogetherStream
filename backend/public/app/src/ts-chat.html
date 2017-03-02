@@ -67,6 +67,7 @@
         align-self: center;
         justify-content: center;
         width: 12%;
+        margin-left: 5px;
       }
 
       .view-count {
@@ -87,15 +88,14 @@
     <div class="bottom-container">
       <div class="input-container">
         <img src="{{loggedInUser.picture.data.url}}"/>
-        <input placeholder="Start chatting... " value={{chatMessage::input}}></input>
+        <input placeholder="Start chatting... " value={{chatMessage::input}} on-keydown="onEnterPressed"></input>
       </div>
       <template is="dom-if" if="{{!chatMessage}}">
         <img class="view-image" src="/assets/viewers.png"/>
         <span class="view-count">{{currentViewerCount}}</span>
-        
       </template>
       <template is="dom-if" if="{{chatMessage}}">
-        <a class="send-button">Send</a>
+        <a class="send-button" on-tap=onClickSendButton>Send</a>
       </template>
     </div>
   </template>
@@ -124,6 +124,21 @@
         currentViewerCount: {
           type: Number,
           value: 0
+        }
+      },
+      /**
+      * Fire sendChatMessage even when clicking send button.
+      */
+      onClickSendButton: function() {
+        this.fire("sendChatMessage", this.chatMessage)
+        this.set("chatMessage", "")
+      },
+      /**
+      * Fired on any text input change. Checking for enter key.
+      */
+      onEnterPressed: function(e) {
+        if (e.keyCode === 13) {
+          this.onClickSendButton()
         }
       }
     })
