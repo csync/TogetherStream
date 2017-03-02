@@ -89,12 +89,15 @@ var sendEmail = function (participant, req) {
     var request = require('request');
     request('https://graph.facebook.com/v2.8/me' + '?fields=email&access_token=' + participantAccessToken, function (error, response, body) {
         if (!error && response.statusCode == 200) {
+            var streamId = req.body['streamPath'].split('.').pop();
             var jsonBody = JSON.parse(body);
             var mailOptions = {
                 from: '"Together Stream" <TogetherStream' + '@' + appVars.mail.server + '>', // sender address
                 to: jsonBody.email, // list of receivers
-                subject: 'COPY', // Subject line
-                text: 'COPY COPY COPY' // plaintext body
+                subject: 'New Stream Invite from ' +  req.body['host'], // Subject line
+                text:  req.body['host'] + ' has invited you to join their stream on Together Stream –' +
+                ' a collaborative and synchronized streaming experience. Enter code: ' + streamId +
+                    '. http://togetherstream.csync.io/app?stream_id=' + streamId
             };
             appVars.mail.transporter.sendMail(mailOptions, function(error, info){
                 if(error){
