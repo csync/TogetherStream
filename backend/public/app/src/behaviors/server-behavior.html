@@ -45,19 +45,28 @@
         xhr.open('GET', '/invites', true);
         xhr.setRequestHeader('Authorization', this.serverAccessToken)
         xhr.onload = function () {
-          let invitesArr = JSON.parse(xhr.response)
-          var streamIdIsValid = false
+          if (xhr.status === 200) {
+            let invitesArr = JSON.parse(xhr.response)
+            var streamIdIsValid = false
 
-          if (invitesArr) {
-            invitesArr.forEach(function(invite) {
-              let splitStr = invite.csync_path.split('.')
+            if (invitesArr) {
+              invitesArr.forEach(function(invite) {
+                let splitStr = invite.csync_path.split('.')
 
-              if (splitStr[1] === streamId) {
-                streamIdIsValid = true
-              }
+                if (splitStr[1] === streamId) {
+                  streamIdIsValid = true
+                }
+              })
+            }
+            callback(streamIdIsValid)
+          } else if (xhr.status === 401) {
+            // Get new server token when needing authentication expires.
+            this.getServerAccessToken(function() {
+              isValidStreamId(streamId, callback)
             })
+          } else {
+            console.error("Couldn't reach server.", xhr)
           }
-          callback(streamIdIsValid)
         }.bind(this)
         xhr.send(null);
       }
