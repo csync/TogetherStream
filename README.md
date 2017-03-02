@@ -83,9 +83,3 @@ If you wish to keep track of analytics, you can add a configuration file by foll
 7. Follow the instructions here to allow connections to a http address: http://stackoverflow.com/questions/31254725/transport-security-has-blocked-a-cleartext-http
 8. If you would like to run your Contexual Sync server locally as well, follow the instructions here: https://github.com/csync/csync-server#local-deployment.  
 Make sure you change the `private.plist` in the iOS app to the local Contextual Sync server.
-
-## Disclaimer
-Legal stuff
-
-## License
-Legal stuff
