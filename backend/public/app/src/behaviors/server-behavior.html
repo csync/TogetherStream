@@ -19,18 +19,22 @@
         xhr.open('GET', '/auth/facebook/token/login', true);
         xhr.setRequestHeader('access_token', this.facebookAccessToken)
         xhr.onload = function () {
-          let responseUrl = xhr.responseURL
+          if (xhr.status === 200) {
+            let responseUrl = xhr.responseURL
 
-          // verifying responseUrl is valid
-          if (responseUrl && responseUrl.indexOf("?") > 0 && responseUrl.indexOf("=" > 0) && responseUrl.indexOf("access_token" > 0)) {
-            let queryParams = responseUrl.split("?")[1].split("=")
-            let accessTokenIndex = queryParams.indexOf("access_token")
-            let accessToken = queryParams[accessTokenIndex + 1]
-            
-            this.set("serverAccessToken", accessToken)
-            callback && callback()
+            // verifying responseUrl is valid
+            if (responseUrl && responseUrl.indexOf("?") > 0 && responseUrl.indexOf("=" > 0) && responseUrl.indexOf("access_token" > 0)) {
+              let queryParams = responseUrl.split("?")[1].split("=")
+              let accessTokenIndex = queryParams.indexOf("access_token")
+              let accessToken = queryParams[accessTokenIndex + 1]
+              
+              this.set("serverAccessToken", accessToken)
+              callback && callback()
+            } else {
+              console.error("Invalid responeUrl returned: " + responseUrl)
+            }
           } else {
-            console.error("Invalid responeUrl returned: " + responseUrl)
+            console.error("Couldn't reach server.", xhr)
           }
         }.bind(this)
         xhr.send(null);
