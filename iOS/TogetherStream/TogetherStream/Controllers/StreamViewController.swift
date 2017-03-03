@@ -619,7 +619,7 @@ class StreamViewController: UIViewController {
         let alert = UIAlertController(title: "Report Comment", message: "Are you sure you wish to report this comment?", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "No", style: .cancel))
         alert.addAction(UIAlertAction(title: "Yes", style: .destructive) {_ in
-            print("reported")
+            self.viewModel.deleteComment(at: indexPath)
         })
         present(alert, animated: true)
     }
@@ -766,9 +766,9 @@ extension StreamViewController: StreamViewModelDelegate {
         chatTableView.endUpdates()
 	}
     
-    /// When the oldest message is removed from the model, remove it from the view.
-    func removedOldestMessage() {
-        chatTableView.deleteRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
+    /// When a message is removed from the model, remove it from the view.
+    func removedMessage(at position: Int) {
+        chatTableView.deleteRows(at: [IndexPath(row: position, section: 0)], with: .automatic)
     }
 	
 	/// On current video changing, load new video and update view.
