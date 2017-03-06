@@ -13,6 +13,8 @@ import CSyncSDK
 class ChatDataManager {
 	/// Closure called when a message is received.
 	var didReceiveMessage: ((ChatMessage) -> Void)?
+    /// Closure called when a deleted message is received.
+    var didReceiveDeletedMessageAtPath: ((String) -> Void)?
     
 	/// Shorthand for the CSyncDataManager
 	private let csyncDataManager = CSyncDataManager.sharedInstance
@@ -50,12 +52,20 @@ class ChatDataManager {
 		listenChatKey.listen {[weak self] value, error in
 			if let error = error {
 				print(error)
+                return
 			}
-            // Decodes valid messages
-            guard value?.exists == true,
-                let content = value?.data,
-                let message = ChatMessage(content: content) else {
+            guard let value = value else {
                     return
+            }
+            // Check if message is deleted
+            if !value.exists {
+                self?.didReceiveDeletedMessageAtPath?(value.key)
+                return
+            }
+            // Decodes valid messages
+            guard let content = value.data,
+                let message = ChatMessage(content: content, csyncPath: value.key) else {
+                        return
             }
             self?.didReceiveMessage?(message)
 		}

@@ -13,8 +13,10 @@ struct ChatMessage: Message {
 	let timestamp: TimeInterval
 	
 	let content: String
+    
+    let csyncPath: String
 	
-	init?(content: String) {
+    init?(content: String, csyncPath: String) {
 		guard let data = content.data(using: .utf8) else {
 			return nil
 		}
@@ -25,6 +27,7 @@ struct ChatMessage: Message {
 			self.subjectID = id
 			self.content = content
 			self.timestamp = timestamp
+            self.csyncPath = csyncPath
 		}
 		catch {
 			return nil

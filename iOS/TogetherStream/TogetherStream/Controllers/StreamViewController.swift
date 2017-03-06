@@ -612,6 +612,18 @@ class StreamViewController: UIViewController {
         queueTableView.endUpdates()
     }
     
+    /// Presents option to report comment and reports if user confirms.
+    ///
+    /// - Parameter indexPath: The index path of the comment to report.
+    fileprivate func reportComment(at indexPath: IndexPath) {
+        let alert = UIAlertController(title: "Report Comment", message: "Are you sure you wish to report this comment?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "No", style: .cancel))
+        alert.addAction(UIAlertAction(title: "Yes", style: .destructive) {_ in
+            self.viewModel.deleteComment(at: indexPath)
+        })
+        present(alert, animated: true)
+    }
+    
     // MARK: - Navigation bar methods
     
     
@@ -754,9 +766,9 @@ extension StreamViewController: StreamViewModelDelegate {
         chatTableView.endUpdates()
 	}
     
-    /// When the oldest message is removed from the model, remove it from the view.
-    func removedOldestMessage() {
-        chatTableView.deleteRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
+    /// When a message is removed from the model, remove it from the view.
+    func removedMessage(at position: Int) {
+        chatTableView.deleteRows(at: [IndexPath(row: position, section: 0)], with: .automatic)
     }
 	
 	/// On current video changing, load new video and update view.
@@ -892,24 +904,36 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
     /// - Returns: Whether the row can be edited.
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         switch tableView.tag {
-        case chatTableTag: return false
+        case chatTableTag:
+            if tableView.cellForRow(at: indexPath) is ChatMessageTableViewCell,
+                viewModel.messages[indexPath.row].subjectID != FacebookDataManager.sharedInstance.profile?.userID ?? "" {
+                return true
+            }
+            return false
         case queueTableTag: return indexPath.row != viewModel.currentVideoIndex
         default: return false
         }
     }
     
-    /// Commits the deletion of a cell by performing the delete.
+    /// Returns the edit actions for the given row of the given table.
     ///
     /// - Parameters:
-    ///   - tableView: The table view edited.
-    ///   - editingStyle: The style of editing.
-    ///   - indexPath: The index path of the cell edited.
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        switch editingStyle {
-        case .delete:
-            Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "DeletedVideo")
-            deleteVideo(at: indexPath)
-        default: break
+    ///   - tableView: The table that is request the edit actions.
+    ///   - indexPath: The index path of the row requesting the edit actions.
+    /// - Returns: The edit actions.
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        switch tableView.tag {
+        case chatTableTag:
+            return [UITableViewRowAction(style: .destructive, title: "Report") {[unowned self] action, row in
+                self.reportComment(at: indexPath)
+            }]
+        case queueTableTag:
+            return [UITableViewRowAction(style: .destructive, title: "Delete") {[unowned self] action, row in
+                Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "DeletedVideo")
+                self.deleteVideo(at: indexPath)
+            }]
+        default:
+            return nil
         }
     }
 	

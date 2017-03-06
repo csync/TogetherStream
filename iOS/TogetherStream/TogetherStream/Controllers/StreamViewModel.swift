@@ -13,7 +13,7 @@ import CSyncSDK
 protocol StreamViewModelDelegate: class {
 	func userCountChanged(toCount count: Int)
 	func received(message: Message, for position: Int) -> Void
-    func removedOldestMessage() -> Void
+    func removedMessage(at position: Int) -> Void
 	func receivedUpdate(forCurrentVideoID currentVideoID: String) -> Void
 	func receivedUpdate(forIsPlaying isPlaying: Bool) -> Void
 	func receivedUpdate(forIsBuffering isBuffering: Bool) -> Void
@@ -102,6 +102,16 @@ class StreamViewModel {
             NotificationCenter.default.removeObserver(self)
 		}
 	}
+    
+    /// Deletes the comment at the given index path.
+    ///
+    /// - Parameter indexPath: The index path of the comment to delete.
+    func deleteComment(at indexPath: IndexPath) {
+        guard let comment = messages[indexPath.row] as? ChatMessage else {
+            return
+        }
+        cSyncDataManager.deleteKey(atPath: comment.csyncPath)
+    }
     
     /// Fetches the video for the given id.
     ///
@@ -241,15 +251,29 @@ class StreamViewModel {
             DispatchQueue.main.async {
                 while self.messages.count >= self.maximumChatMessages {
                     self.messages.remove(at: 0)
-                    self.delegate?.removedOldestMessage()
+                    self.delegate?.removedMessage(at: 0)
                 }
                 let position = self.insertIntoMessages(message)
                 self.delegate?.received(message: message, for: position)
             }
         }
         
+        let deleteMessageCallback: (String) -> Void = {[unowned self] deletedPath in
+            for (index, message) in self.messages.enumerated() {
+                if let message = message as? ChatMessage, message.csyncPath == deletedPath {
+                    // delete on main queue to avoid table datasource corruption
+                    DispatchQueue.main.async {
+                        self.messages.remove(at: index)
+                        self.delegate?.removedMessage(at: index)
+                    }
+                    break
+                }
+            }
+        }
+        
         chatDataManager = ChatDataManager(streamPath: csyncPath, id: userID)
         chatDataManager?.didReceiveMessage = messageCallback
+        chatDataManager?.didReceiveDeletedMessageAtPath = deleteMessageCallback
         
         participantsDataManager = ParticipantsDataManager(streamPath: csyncPath)
         participantsDataManager?.didReceiveMessage = messageCallback
