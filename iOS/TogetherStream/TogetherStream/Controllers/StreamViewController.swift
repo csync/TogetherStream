@@ -905,7 +905,8 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         switch tableView.tag {
         case chatTableTag:
-            if tableView.cellForRow(at: indexPath) is ChatMessageTableViewCell {
+            if tableView.cellForRow(at: indexPath) is ChatMessageTableViewCell,
+                viewModel.messages[indexPath.row].subjectID != FacebookDataManager.sharedInstance.profile?.userID ?? "" {
                 return true
             }
             return false
