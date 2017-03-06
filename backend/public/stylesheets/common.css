@@ -299,7 +299,7 @@ footer .more-links li {
   }
   .sticky-header nav ul li+li {
     border-top: solid 1px rgba(151, 151, 151, 0.3);
-    margin-right: 0px;
+    margin-right: 0px !important;
   }
   footer .links {
     flex-direction: column;
