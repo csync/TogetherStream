@@ -1,0 +1,79 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<dom-module id="ts-chat-message">
+  <template>
+    <style>
+      :host {
+        display: flex;
+        margin-top: 15px;
+      }
+      .left-container img {
+        position: relative;
+        height: 20px;
+        width: 20px;
+        border-radius: 50%;
+        margin-right: 10px;
+      }
+      .right-container h4, .right-container p  {
+        font-size: small;
+        margin: 2px;
+      }
+      .inline {
+        display: flex;
+      }
+      .inline p {
+        font-style: italic;
+        color: rgb(148,147,148);
+        margin-left: 5px;
+      }
+    </style>
+    <template is="dom-if" if={{!message.isJoining}}>
+      <template is="dom-if" if={{!message.content}}>
+        <div class="left-container">
+          <img src="{{message.profilePicture}}"/>
+        </div>
+        <div class="right-container inline">
+          <h4>{{message.name}}</h4>
+          <p>left the stream.</p>
+        </div>
+      </template>
+      <template is="dom-if" if={{message.content}}>
+        <div class="left-container">
+          <img src="{{message.profilePicture}}"/>
+        </div>
+        <div class="right-container">
+          <h4>{{message.name}}</h4>
+          <p>{{message.content}}</p>
+        </div>
+      </template>
+    </template>
+
+    <template is="dom-if" if={{message.isJoining}}>
+      <div class="left-container">
+        <img src="{{message.profilePicture}}"/>
+      </div>
+      <div class="right-container inline">
+        <h4>{{message.name}}</h4>
+        <p>joined the stream.</p>
+      </div>
+    </template>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'ts-chat-message',
+      properties: {
+        /**
+        * Contains message data.
+        * Sender's name, profile picture url, message, isJoining.
+        */
+        message: {
+          type: Object,
+          value: function () {
+            return {}
+          }
+        }
+      }
+    });
+  </script>
+</dom-module>
