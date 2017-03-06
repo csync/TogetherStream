@@ -59,8 +59,9 @@
 
                 if (splitStr[1] === streamId) {
                   streamIdIsValid = true
+                  this.set("streamName", invite.stream_name)
                 }
-              })
+              }.bind(this))
             }
             callback(streamIdIsValid)
           } else if (xhr.status === 401) {
