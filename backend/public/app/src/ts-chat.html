@@ -92,7 +92,7 @@
     <div class="top-container">
       <div class="title">{{streamName}}</div>
     </div>
-    <div class="middle-container">
+    <div id="chatMessages" class="middle-container">
       <template is="dom-repeat" items="{{chatMessages}}">
           <ts-chat-message message={{item}}></ts-chat-message>
       </template>
@@ -115,6 +115,9 @@
   <script>
     Polymer({
       is: "ts-chat",
+      observers: [
+        "messagesChanged(chatMessages.length)"
+      ],
       properties: {
         /**
         * Stores what user is currently typing.
@@ -122,6 +125,15 @@
         chatMessage: {
           type: String,
           value: ""
+        },
+        /**
+        * Stores all messages stored on csync server.
+        */
+        chatMessages: {
+          type: Array,
+          value: function () {
+            return []
+          }
         },
         /**
         * Data for logged in user which is passed in.
@@ -137,6 +149,10 @@
           type: Number,
           value: 0
         }
+      },
+      messagesChanged: function () {
+        // TODO: Make this work properly.
+        this.$.chatMessages.scrollTop = this.$.chatMessages.scrollHeight;
       },
       /**
       * Fire sendChatMessage even when clicking send button.
