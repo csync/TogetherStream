@@ -243,13 +243,18 @@
       */
       processMessageAndInsertIntoArray: function (value) {
         if (!this.usersFacebookDataById[value.data.id]) {
+          this.usersFacebookDataById[value.data.id] = {isFetchingUser:true}
           this.getFBUserInfo(value.data.id, function (response) {
             this.usersFacebookDataById[value.data.id] = response
             value.data.name = response.name
             value.data.picture = response.picture.data.url
             this.insertIntoMessageArray(value.data)
           }.bind(this))
-        } else {
+        } else if (this.usersFacebookDataById[value.data.id].isFetchingUser) {
+          setTimeout(function(){
+            this.processMessageAndInsertIntoArray(value)
+          }.bind(this), 500)
+        }else {
           userData = this.usersFacebookDataById[value.data.id]
           value.data.name = userData.name
           value.data.picture = userData.picture.data.url
