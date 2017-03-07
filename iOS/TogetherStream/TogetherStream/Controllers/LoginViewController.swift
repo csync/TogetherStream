@@ -111,7 +111,6 @@ extension LoginViewController: FBSDKLoginButtonDelegate {
                             self.activityIndicator.stopAnimating()
                             loginButton.isEnabled = true
                             FacebookDataManager.sharedInstance.logOut()
-                            
                         }
                         return
                     }
