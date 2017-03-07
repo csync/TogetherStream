@@ -101,7 +101,7 @@ var sendEmail = function (participant, req) {
             };
             appVars.mail.transporter.sendMail(mailOptions, function(error, info){
                 if(error){
-                    return console.log(error);
+                    return console.error(error);
                 }
                 console.log('Message sent: ' + info.response);
             });
