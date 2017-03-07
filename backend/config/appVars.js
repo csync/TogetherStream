@@ -34,6 +34,7 @@ if (appEnv.isLocal) {
   });
   vcapServices = require('./private/VCAP_SERVICES.json');
 }
+var nodemailer = require('nodemailer');
 
 var vcapDbService = vcapServices[credentials.app.postgresServiceName] ? vcapServices[credentials.app.postgresServiceName][0] : null;
 var dbName =  vcapDbService ? vcapDbService.name : null;
@@ -65,7 +66,12 @@ var appVars = {
     apn: new apn.Provider({
         cert: __dirname + '/private/cert.pem',
         key: __dirname + '/private/key.pem'
-    })
+    }),
+    mail: {
+        server: credentials.email.server,
+        transporter: nodemailer.createTransport('smtps://' + credentials.email.userName + ':' +
+            credentials.email.password + '@' + credentials.email.server)
+    }
 };
 
 function parseDBURL(dbURL) {
