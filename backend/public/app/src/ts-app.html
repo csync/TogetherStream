@@ -21,7 +21,7 @@
     </style>
     <ts-header showing-portal-page={{showingPortalPage}}></ts-header>
     <template is="dom-if" if="{{!showingPortalPage}}">
-      <ts-chat stream-name={{streamName}} logged-in-user={{userFacebookData}} current-viewer-count={{currentViewerCount}} chat-messages={{chatMessages}}></ts-chat>
+      <ts-chat stream-name={{streamName}} logged-in-user={{loggedInUserFacebookData}} current-viewer-count={{currentViewerCount}} chat-messages={{chatMessages}}></ts-chat>
       <ts-video video-data={{currentlyStreamingVideoData}}></ts-video>
     </template>
     <template is="dom-if" if="{{showingPortalPage}}">
@@ -166,7 +166,7 @@
           if (!value.exists) {
             return
           }
-          this.insertIntoMessageArray(value.data)
+          this.processMessageAndInsertIntoArray(value)
         }.bind(this)
 
         listenerKey.listen(listenerCallback)
@@ -187,7 +187,6 @@
           if (!value.exists) {
             return
           }
-          
           this.currentViewerIds[value.creator] = Date.now()
           this.set("currentViewerCount", Object.keys(this.currentViewerIds).length)
         }.bind(this)
@@ -220,6 +219,7 @@
           if (!value.exists) {
             return
           }
+          this.processMessageAndInsertIntoArray(value)
           value.data.isJoining = value.data.isJoining === "true"
           this.insertIntoMessageArray(value.data)
           
@@ -234,9 +234,27 @@
 
         writeKey.write({
           content: message.detail,
-          id: this.userFacebookId,
+          id: this.loggedInUserFacebookId,
           timestamp: Date.now()
         }, {acl: csync.acl.PublicReadWrite})
+      },
+      /**
+      * Saving facebook user data on message before inserting it into messages array.
+      */
+      processMessageAndInsertIntoArray: function (value) {
+        if (!this.usersFacebookDataById[value.data.id]) {
+          this.getFBUserInfo(value.data.id, function (response) {
+            this.usersFacebookDataById[value.data.id] = response
+            value.data.name = response.name
+            value.data.picture = response.picture.data.url
+            this.insertIntoMessageArray(value.data)
+          }.bind(this))
+        } else {
+          userData = this.usersFacebookDataById[value.data.id]
+          value.data.name = userData.name
+          value.data.picture = userData.picture.data.url
+          this.insertIntoMessageArray(value.data)
+        }
       },
       /**
       * Compiles messsages in a sorted chat array.

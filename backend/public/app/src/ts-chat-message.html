@@ -30,7 +30,7 @@
     <template is="dom-if" if={{!message.isJoining}}>
       <template is="dom-if" if={{!message.content}}>
         <div class="left-container">
-          <img src="{{message.profilePicture}}"/>
+          <img src="{{message.picture}}"/>
         </div>
         <div class="right-container inline">
           <h4>{{message.name}}</h4>
@@ -39,7 +39,7 @@
       </template>
       <template is="dom-if" if={{message.content}}>
         <div class="left-container">
-          <img src="{{message.profilePicture}}"/>
+          <img src="{{message.picture}}"/>
         </div>
         <div class="right-container">
           <h4>{{message.name}}</h4>
@@ -50,7 +50,7 @@
 
     <template is="dom-if" if={{message.isJoining}}>
       <div class="left-container">
-        <img src="{{message.profilePicture}}"/>
+        <img src="{{message.picture}}"/>
       </div>
       <div class="right-container inline">
         <h4>{{message.name}}</h4>

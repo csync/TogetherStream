@@ -16,16 +16,25 @@
           value: ""
         },
         /**
-        * Facebook's user id for authenticated user.
+        * Facebook's user id for logged in user.
         */
-        userFacebookId: {
+        loggedInUserFacebookId: {
           type: String,
           value: ""
         },
         /**
-        * Facebook's user data for authenticated user.
+        * Facebook's user data for logged in user.
         */
-        userFacebookData: {
+        loggedInUserFacebookData: {
+          type: Object,
+          value: function () {
+            return {}
+          }
+        },
+        /**
+        * Object containing facebook id -> facebook data for all users.
+        */
+        usersFacebookDataById: {
           type: Object,
           value: function () {
             return {}
@@ -75,12 +84,13 @@
       * @param {function} callback - Function called on success
       */
       handleGetLoginStatus: function (response, forceLogin, callback) {
-        console.log(response)
         if (response.status === 'connected') {
             this.set("isLoggedIn", true)
             this.set("facebookAccessToken", response.authResponse.accessToken)
-            this.set("userFacebookId", response.authResponse.userID)
-            this.getFBUserInfo(this.userFacebookId)
+            this.set("loggedInUserFacebookId", response.authResponse.userID)
+            this.getFBUserInfo(this.loggedInUserFacebookId, function (response) {
+              this.set("loggedInUserFacebookData", response)
+            }.bind(this))
             this.getServerAccessToken(callback)
           } else if (forceLogin){
             window.FB.login(function(response){
@@ -91,9 +101,9 @@
       /**
       * Uses Facebook's Graph API to query name and picture by user id.
       * @param {string} userId - User's Facebook id
-      * @param {object} params - Optional parameters to override default ones
+      * @param {function} callback - Process response object.
       */
-      getFBUserInfo: function (userId, params) {
+      getFBUserInfo: function (userId, callback) {
         if (!this.facebookAccessToken) {
           console.log("User must be authenticated before using Facebook's Graph API")
           return
@@ -102,13 +112,14 @@
           console.log("Please provide a valid user id.")
           return
         }
-        let defaultParams = {
+        let params = {
           fields: "name, picture.width(500).height(500)"
         }
-        params = params || defaultParams
         params.access_token = this.facebookAccessToken
         FB.api(userId, params, function(response) {
-          this.set("userFacebookData", response)
+          console.log(response)
+          this.usersFacebookDataById[userId] = response
+          callback(response)
         }.bind(this));
       }
 
