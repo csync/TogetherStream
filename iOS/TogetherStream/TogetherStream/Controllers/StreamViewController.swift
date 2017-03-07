@@ -29,7 +29,7 @@ class StreamViewController: UIViewController {
     @IBOutlet weak var videoTitleLabel: UILabel!
     @IBOutlet weak var videoSubtitleLabel: UILabel!
     @IBOutlet weak var queueTableView: UITableView!
-    @IBOutlet weak var blockClicksButton: UIButton!
+    @IBOutlet weak var reportVideoButton: UIButton!
     
     // MARK: - Exposed Properties
     
@@ -176,6 +176,24 @@ class StreamViewController: UIViewController {
     
     // MARK: - Setup methods
     
+    /// Sets up the player view.
+    fileprivate func setupPlayerView() {
+        playerView.backgroundColor = UIColor.white
+        playerView.delegate = self
+        // Load the inital video.
+        if viewModel.isHost, let queue = viewModel.videoQueue, queue.count > 0 {
+            // Allow user to play/pause video by tapping on player view
+            reportVideoButton.isHidden = true
+            updateView(forVideoWithID: queue[0].id)
+            playerView.load(withVideoId: queue[0].id, playerVars: hostPlayerVariables)
+            viewModel.currentVideoIndex = 0
+        }
+        else if !viewModel.isHost {
+            // Allow user to play/pause video by tapping on player view
+            reportVideoButton.isHidden = false
+        }
+    }
+    
     /// Set the navigation items for this view controller.
     private func setupNavigationItems() {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
@@ -277,27 +295,6 @@ class StreamViewController: UIViewController {
     /// Sets up the queue table view.
     private func setupQueueTableView() {
         queueTableView.register(UINib(nibName: "VideoQueueTableViewCell", bundle: nil), forCellReuseIdentifier: "queueCell")
-    }
-    
-    /// Sets up the player view.
-    private func setupPlayerView() {
-        playerView.backgroundColor = UIColor.white
-        playerView.delegate = self
-        // Load the inital video.
-		if viewModel.isHost, let queue = viewModel.videoQueue, queue.count > 0 {
-            // Allow user to play/pause video by tapping on player view
-            blockClicksButton.isHidden = true
-            updateView(forVideoWithID: queue[0].id)
-			playerView.load(withVideoId: queue[0].id, playerVars: hostPlayerVariables)
-            viewModel.currentVideoIndex = 0
-		}
-        else if !viewModel.isHost, let queue = viewModel.videoQueue, queue.count > 0{
-            // Allow user to play/pause video by tapping on player view
-            blockClicksButton.isHidden = false
-            updateView(forVideoWithID: queue[0].id)
-            playerView.load(withVideoId: queue[0].id, playerVars: participantPlayerVariables)
-            viewModel.currentVideoIndex = 0
-        }
     }
     
     /// Saves the needed constraints.
@@ -509,9 +506,10 @@ class StreamViewController: UIViewController {
                 self.headerArrowImageView.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
             }, completion: { complete in
                 self.queueView.isHidden = false
-                if let currentVideoIndex = self.viewModel.currentVideoIndex {
-                    let currentVideoIndexPath = IndexPath(row: currentVideoIndex, section: 0)
-                    self.queueTableView.scrollToRow(at: currentVideoIndexPath, at: .top, animated: true)
+                if let currentVideoIndex = self.viewModel.currentVideoIndex,
+                    self.queueTableView.numberOfRows(inSection: 0) > 0 {
+                        let currentVideoIndexPath = IndexPath(row: currentVideoIndex, section: 0)
+                        self.queueTableView.scrollToRow(at: currentVideoIndexPath, at: .top, animated: true)
                 }
             })
         }
@@ -575,6 +573,38 @@ class StreamViewController: UIViewController {
         videoCell?.isCurrentVideo = highlighted
     }
     
+    /// Update the player to play the next video in the video queue.
+    fileprivate func playNextVideo() {
+        Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "NextVideoPlayed")
+        // Make sure there's a queue, current video, and a next video
+        guard let videoQueue = viewModel.videoQueue,
+            let currentVideoIndex = viewModel.currentVideoIndex else { return }
+        
+        if videoQueue.count == 0 {
+            playerView.load(withPlayerParams: hostPlayerVariables)
+            updateView(forVideoWithID: "")
+            viewModel.send(currentVideoID: "")
+            // Disable interaction until a video is loaded
+            playerView.isUserInteractionEnabled = false
+            return
+        }
+        
+        // Determine the next video
+        let nextVideoIndex = currentVideoIndex < videoQueue.count - 1 ? currentVideoIndex + 1 : 0
+        
+        // Update video queue
+        setHighlightForVideo(at: currentVideoIndex, highlighted: false)
+        setHighlightForVideo(at: nextVideoIndex, highlighted: true)
+        
+        // Update the model
+        viewModel.currentVideoIndex = nextVideoIndex
+        
+        // Play the next video
+        let nextVideoID = videoQueue[nextVideoIndex].id
+        playerView.cueVideo(byId: nextVideoID, startSeconds: 0, suggestedQuality: .default)
+        playerView.playVideo()
+    }
+    
     /// Deletes the video at the given index path and updates the stream state.
     ///
     /// - Parameter indexPath: The index path of the video to delete.
@@ -582,23 +612,12 @@ class StreamViewController: UIViewController {
         // Get the indexes of the effected videos
         guard let currentVideoIndex = viewModel.currentVideoIndex else { return }
         let previousIndexPath = IndexPath(row: indexPath.row - 1, section: 0)
-        let nextIndexPath = IndexPath(row: indexPath.row + 1, section: 0)
         
-        // Deleted the previous video
+        // Deleted the previous video to the one playing
         if indexPath.row == currentVideoIndex - 1 {
             let previousCell = queueTableView.cellForRow(at: previousIndexPath)
             let previousVideoCell = previousCell as? VideoQueueTableViewCell
             previousVideoCell?.isPreviousVideo = true
-        }
-        
-        // Deleted the current video
-        if indexPath.row == currentVideoIndex {
-            guard let videoQueue = viewModel.videoQueue else { return }
-            setHighlightForVideo(at: nextIndexPath.row, highlighted: true)
-            viewModel.currentVideoIndex = nextIndexPath.row
-            let nextVideoId = videoQueue[nextIndexPath.row].id
-            playerView.cueVideo(byId: nextVideoId, startSeconds: 0, suggestedQuality: .default)
-            playerView.playVideo()
         }
         
         // Remove deleted video from queue and view model
@@ -606,10 +625,15 @@ class StreamViewController: UIViewController {
         queueTableView.deleteRows(at: [indexPath], with: .automatic)
         viewModel.videoQueue?.remove(at: indexPath.row)
         // Update the current video index if needed
-        if currentVideoIndex > indexPath.row {
+        if currentVideoIndex >= indexPath.row {
             viewModel.currentVideoIndex = currentVideoIndex - 1
         }
         queueTableView.endUpdates()
+        
+        // Deleted the current video
+        if indexPath.row == currentVideoIndex {
+            playNextVideo()
+        }
     }
     
     /// Presents option to report comment and reports if user confirms.
@@ -699,6 +723,20 @@ class StreamViewController: UIViewController {
     }
     
     // MARK: - Player helper methods
+    
+    /// On tapping the video screen, present option to report video. Sends
+    /// report if confirmed.
+    ///
+    /// - Parameter sender: The button tapped.
+    @IBAction func reportVideoTapped(_ sender: Any) {
+        guard !viewModel.hostPlayerIsEmpty else { return }
+        let alert = UIAlertController(title: "Report Video", message: "Are you sure you wish to report this video?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "No", style: .cancel))
+        alert.addAction(UIAlertAction(title: "Yes", style: .destructive) {_ in
+            self.viewModel.reportVideo()
+        })
+        present(alert, animated: true)
+    }
 	
 	/// Parses the given URL to extract the video ID.
 	///
@@ -785,7 +823,15 @@ extension StreamViewController: StreamViewModelDelegate {
             updateView(forVideoWithID: currentVideoID)
 			DispatchQueue.main.async {
                 // Only participants will receive updates
-                self.playerView.load(withVideoId: currentVideoID, playerVars: self.participantPlayerVariables)
+                if currentVideoID != "" {
+                    self.viewModel.hostPlayerIsEmpty = false
+                    self.playerView.load(withVideoId: currentVideoID, playerVars: self.participantPlayerVariables)
+                }
+                else {
+                    // Special case where no videos are in queue
+                    self.viewModel.hostPlayerIsEmpty = true
+                    self.playerView.load(withPlayerParams: self.participantPlayerVariables)
+                }
 			}
 		}
 	}
@@ -827,6 +873,11 @@ extension StreamViewController: StreamViewModelDelegate {
             }
 		}
 	}
+    
+    func receivedVideoReport() {
+        guard let currentVideoIndex = viewModel.currentVideoIndex else { return }
+        deleteVideo(at: IndexPath(row: currentVideoIndex, section: 0))
+    }
 	
 	/// On stream ending, present notification and pop to root screen.
 	func streamEnded() {
@@ -910,7 +961,7 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
                 return true
             }
             return false
-        case queueTableTag: return indexPath.row != viewModel.currentVideoIndex
+        case queueTableTag: return true
         default: return false
         }
     }
@@ -1126,8 +1177,8 @@ extension StreamViewController: YTPlayerViewDelegate {
     ///   - playerView: The player sending the error.
     ///   - error: The error that occured.
     func playerView(_ playerView: YTPlayerView, receivedError error: YTPlayerError) {
-        Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "ReceivedPlayerError", label: "\(error)")
-        let alert = UIAlertController(title: "Received Error from Player", message: "\(error)", preferredStyle: .alert)
+        Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "ReceivedPlayerError", label: "\(error).\(error.rawValue)")
+        let alert = UIAlertController(title: "Received Error from Player", message: "\(error).\(error.rawValue)", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
     }
@@ -1136,7 +1187,7 @@ extension StreamViewController: YTPlayerViewDelegate {
     ///
     /// - Parameter playerView: The player that became ready.
     func playerViewDidBecomeReady(_ playerView: YTPlayerView) {
-		if !viewModel.isHost {
+		if !viewModel.isHost, !viewModel.hostPlayerIsEmpty {
 			playerView.playVideo()
 		}
     }
@@ -1176,29 +1227,6 @@ extension StreamViewController: YTPlayerViewDelegate {
             break
         }
     }
-    
-    /// Update the player to play the next video in the video queue.
-    private func playNextVideo() {
-        Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "NextVideoPlayed")
-        // Make sure there's a queue and a current video
-        guard let videoQueue = viewModel.videoQueue,
-            let currentVideoIndex = viewModel.currentVideoIndex else { return }
-        
-        // Determine the next video
-        let nextVideoIndex = currentVideoIndex < videoQueue.count - 1 ? currentVideoIndex + 1 : 0
-        
-        // Update video queue
-        setHighlightForVideo(at: currentVideoIndex, highlighted: false)
-        setHighlightForVideo(at: nextVideoIndex, highlighted: true)
-        
-        // Update the model
-        viewModel.currentVideoIndex = nextVideoIndex
-        
-        // Play the next video
-        let nextVideoID = videoQueue[nextVideoIndex].id
-        playerView.cueVideo(byId: nextVideoID, startSeconds: 0, suggestedQuality: .default)
-        playerView.playVideo()
-    }
 }
 
 // MARK: - UITextFieldDelegate
@@ -1235,9 +1263,15 @@ extension StreamViewController: AddVideosDelegate {
     /// - Parameter selectedVideos: The videos selected.
     func didAddVideos(selectedVideos: [Video]) {
         let videoQueue = viewModel.videoQueue ?? [Video]()
+        let needsToResetVideoView = videoQueue.count == 0
         viewModel.videoQueue = videoQueue + selectedVideos
         DispatchQueue.main.async {
             self.queueTableView.reloadData()
+            // Special case where the queue was empty
+            if needsToResetVideoView {
+                self.playerView.isUserInteractionEnabled = true
+                self.setupPlayerView()
+            }
         }
     }
 }
