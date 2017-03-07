@@ -25,11 +25,11 @@ class InviteStreamViewController: UIViewController {
     /// The frame of the skip invite button.
     private let skipButtonFrame = CGRect(x: 0, y: 0, width: 35, height: 17)
     /// The default message for the text message invitation.
-    private let textInviteMessage = "Download Together Stream for iOS - A collaborative and synchronized streaming experience.\nhttp://ibm.biz/together-stream-invite-friends"
+    private let textInviteMessage = "Download Together Stream for iOS - A social and synchronized streaming experience.\nhttp://ibm.biz/together-stream-invite-friends"
     /// The default subject for the email invitation.
     private let emailInviteSubject = "Download Together Stream"
     /// The default body for the email invitation.
-    private let emailInviteBody = "Download Together Stream for iOS - A collaborative and synchronized streaming experience.\nhttp://ibm.biz/together-stream-invite-friends"
+    private let emailInviteBody = "Download Together Stream for iOS - A social and synchronized streaming experience.\nhttp://ibm.biz/together-stream-invite-friends"
 
     /// Exposed stream object to be set by other view controllers.
     var stream: Stream? {
