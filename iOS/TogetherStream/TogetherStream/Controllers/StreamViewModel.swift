@@ -18,6 +18,7 @@ protocol StreamViewModelDelegate: class {
 	func receivedUpdate(forIsPlaying isPlaying: Bool) -> Void
 	func receivedUpdate(forIsBuffering isBuffering: Bool) -> Void
 	func receivedUpdate(forPlaytime playtime: Float) -> Void
+    func receivedVideoReport() -> Void
 	func streamEnded() -> Void
 }
 
@@ -55,16 +56,21 @@ class StreamViewModel {
     /// host, in seconds.
     let maximumDesyncTime: Float = 3.0
     
-    /// The maximum amount of chat messages that are stored and displayed.
-    private let maximumChatMessages = 50
+    /// Whether the host has no videos in their queue.
+    var hostPlayerIsEmpty = true
 	
 	/// The messages that should be displayed.
 	fileprivate(set) var messages: [Message] = []
 	/// Whether the host is currently playing a video.
 	fileprivate(set) var hostPlaying = false
     
-	/// The key of the stream to listen for updates on.
+    /// The maximum amount of chat messages that are stored and displayed.
+    private let maximumChatMessages = 50
+    
+	/// The key of the stream for participants to listen for updates on.
 	private var streamKey: Key?
+    /// The key for the host to listen for reports of the video.
+    private var reportedKey: Key?
 	/// Shorthand for the shared CSyncDataManager.
 	private var cSyncDataManager = CSyncDataManager.sharedInstance
     /// Shorthand for the shared FacebookDataManager.
@@ -159,6 +165,11 @@ class StreamViewModel {
 	func send(currentVideoID: String) {
 		cSyncDataManager.write(currentVideoID, toKeyPath: "\(csyncPath).currentVideoID")
 	}
+    
+    /// Sends to host that the video was reported.
+    func reportVideo() {
+        cSyncDataManager.write("true", toKeyPath: "\(csyncPath).isReported")
+    }
 	
 	/// Ends and resets the stream.
 	func endStream() {
@@ -192,8 +203,24 @@ class StreamViewModel {
 		cSyncDataManager.write("", toKeyPath: csyncPath + ".chat", withACL: .PublicReadCreate)
 		// Set stream to active
 		cSyncDataManager.write("true", toKeyPath: csyncPath + ".isActive")
+        // Set video to unreported
+        cSyncDataManager.write("false", toKeyPath: csyncPath + ".isReported", withACL: .PublicReadWrite)
         // Set state of inital video
         send(playState: false)
+        
+        // Set up reported video listner
+        reportedKey = cSyncDataManager.createKey(atPath: csyncPath + ".isReported")
+        reportedKey?.listen {[weak self] value, error in
+            // Ensure view model still exists, there's no error. the
+            // value still exists, and the video is reported.
+            guard let `self` = self,
+                let value = value,
+                value.exists, value.data == "true" else {
+                    return
+            }
+            self.delegate?.receivedVideoReport()
+            self.cSyncDataManager.write("false", toKeyPath: self.csyncPath + ".isReported", withACL: .PublicReadWrite)
+        }
 		
 		NotificationCenter.default.addObserver(self,
 		                                       selector: #selector(receivedWillTerminateNotification),
