@@ -68,18 +68,7 @@ class ProfileViewController: UIViewController {
             showDisclosure: false,
             action: {[unowned self] in
                 Utils.sendGoogleAnalyticsEvent(withCategory: "Profile", action: "SelectedSignOut")
-                self.facebookDataManager.logOut()
-                // Delete server cookie
-                if let cookies = HTTPCookieStorage.shared.cookies {
-                    for cookie in cookies {
-                        if AccountDataManager.sharedInstance.serverAddress.contains(cookie.domain) {
-                            HTTPCookieStorage.shared.deleteCookie(cookie)
-                            break
-                        }
-                    }
-                }
-                // Unauthenticates from CSync
-                CSyncDataManager.sharedInstance.unauthenticate {error in
+                Utils.logout {error in
                     DispatchQueue.main.async {
                         guard error == nil else {
                             let alert = UIAlertController(title: "Error Logging out",

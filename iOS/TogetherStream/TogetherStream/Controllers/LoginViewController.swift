@@ -21,11 +21,14 @@ class LoginViewController: UIViewController {
     let csyncDataManager = CSyncDataManager.sharedInstance
     /// Loading indicator used after logging in.
     let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+    
+    var alreadyAcceptedAgreement = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
         trackScreenView()
 		setupFacebookLoginButton()
+        alreadyAcceptedAgreement = UserDefaults.standard.bool(forKey: "alreadyAcceptedAgreement")
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -79,6 +82,7 @@ extension LoginViewController: FBSDKLoginButtonDelegate {
                     self.present(alert, animated: true)
                     self.activityIndicator.stopAnimating()
                     loginButton.isEnabled = true
+                    FacebookDataManager.sharedInstance.logOut()
                 }
                 return
             }
@@ -93,6 +97,7 @@ extension LoginViewController: FBSDKLoginButtonDelegate {
                         self.present(alert, animated: true)
                         self.activityIndicator.stopAnimating()
                         loginButton.isEnabled = true
+                        FacebookDataManager.sharedInstance.logOut()
                     }
                     return
                 }
@@ -105,13 +110,46 @@ extension LoginViewController: FBSDKLoginButtonDelegate {
                             self.present(alert, animated: true)
                             self.activityIndicator.stopAnimating()
                             loginButton.isEnabled = true
+                            FacebookDataManager.sharedInstance.logOut()
                         }
                         return
                     }
                     DispatchQueue.main.async {
                         // Successfully logged in
                         self.activityIndicator.stopAnimating()
-                        self.dismiss(animated: true, completion: nil)
+                        if self.alreadyAcceptedAgreement {
+                            self.dismiss(animated: true, completion: nil)
+                        }
+                        else {
+                            // Show license agreement
+                            guard let licenseAgreementViewController = Utils.instantiateViewController(withIdentifier: "license", fromStoryboardNamed: "Login") as? LicenseAgreementViewController else {
+                                return
+                            }
+                            licenseAgreementViewController.onDisplayFinished = {[unowned self] accepted in
+                                if accepted {
+                                    // User accepted license agreement
+                                    UserDefaults.standard.set(true, forKey: "alreadyAcceptedAgreement")
+                                    self.dismiss(animated: true, completion: nil)
+                                }
+                                else {
+                                    // User dimissed license agreement without accepting
+                                    Utils.logout {error in
+                                        DispatchQueue.main.async {
+                                            guard error == nil else {
+                                                let alert = UIAlertController(title: "Error Logging out",
+                                                                              message: error!.localizedDescription,
+                                                                              preferredStyle: .alert)
+                                                alert.addAction(UIAlertAction(title: "OK", style: .default))
+                                                self.present(alert, animated: true)
+                                                return
+                                            }
+                                        }
+                                        loginButton.isEnabled = true
+                                    }
+                                }
+                            }
+                            self.present(licenseAgreementViewController, animated: true)
+                        }
                     }
                 }
             }
