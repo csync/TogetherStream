@@ -87,7 +87,7 @@
         */
         timeOffset: {
           type: Number,
-          value: 510183739295.927
+          value: 978307200089.4209
         }
       },
       /**
@@ -217,7 +217,7 @@
       setupHeartbeatCsyncWriter: function () {
         setInterval(function(){
           let writeKey = this.csyncApp.key("streams." + this.streamId + ".heartbeat." + this.loggedInUserFacebookId)
-          writeKey.write("" + (Date.now() + this.timeOffset) / 1000, {acl: csync.acl.PublicReadWrite})
+          writeKey.write("" + (Date.now() - this.timeOffset) / 1000, {acl: csync.acl.PublicReadWrite})
         }.bind(this), 1000)
       },
       /**
@@ -250,7 +250,7 @@
         writeKey.write({
           content: message.detail,
           id: this.loggedInUserFacebookId,
-          timestamp: (Date.now() + timeOffset) / 1000 // need to save in seconds from 2001
+          timestamp: (Date.now() - timeOffset) / 1000 // need to save in seconds from 2001
         }, {acl: csync.acl.PublicReadWrite})
       },
       /**
@@ -264,7 +264,7 @@
             this.usersFacebookDataById[value.data.id] = response
             value.data.name = response.name
             value.data.picture = response.picture.data.url
-            value.data.timestamp = parseFloat(value.data.timestamp) * 1000 - this.timeOffset
+            value.data.timestamp = parseFloat(value.data.timestamp) * 1000 + this.timeOffset
             this.insertIntoMessageArray(value.data)
           }.bind(this))
         } else if (this.usersFacebookDataById[value.data.id].isFetchingUser) {
@@ -275,7 +275,7 @@
           userData = this.usersFacebookDataById[value.data.id]
           value.data.name = userData.name
           value.data.picture = userData.picture.data.url
-          value.data.timestamp = parseFloat(value.data.timestamp) * 1000 - this.timeOffset
+          value.data.timestamp = parseFloat(value.data.timestamp) * 1000 + this.timeOffset
           this.insertIntoMessageArray(value.data)
         }
       },
