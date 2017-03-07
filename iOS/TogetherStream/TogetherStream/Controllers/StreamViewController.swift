@@ -961,7 +961,7 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
                 return true
             }
             return false
-        case queueTableTag: return indexPath.row != viewModel.currentVideoIndex
+        case queueTableTag: return true
         default: return false
         }
     }
