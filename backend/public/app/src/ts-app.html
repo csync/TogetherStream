@@ -205,6 +205,16 @@
 
       },
       /**
+      * Sends heartbeat for logged in user to csync server.
+      */
+      setupHeartbeatCsyncWriter: function () {
+        setInterval(function(){
+          let writeKey = this.csyncApp.key("streams." + this.streamId + ".heartbeat." + this.generateUUID())
+
+          writeKey.write("" + Date.now(), {acl: csync.acl.PublicReadWrite})
+        }.bind(this), 1000)
+      },
+      /**
       * Listens for when a participant enters/leaves a stream.
       * data: {isJoining, timeStamp}
       */
