@@ -82,6 +82,13 @@
           type: Array,
           value: []
         },
+        /**
+        * Offseting time stamp to match server's which uses 2001 as a reference point instead of 1970.
+        */
+        timeOffset: {
+          type: Number,
+          value: 510183739295.927
+        }
       },
       /**
       * Called when isLoggedIn changes
@@ -209,9 +216,8 @@
       */
       setupHeartbeatCsyncWriter: function () {
         setInterval(function(){
-          let writeKey = this.csyncApp.key("streams." + this.streamId + ".heartbeat." + this.generateUUID())
-
-          writeKey.write("" + Date.now(), {acl: csync.acl.PublicReadWrite})
+          let writeKey = this.csyncApp.key("streams." + this.streamId + ".heartbeat." + this.loggedInUserFacebookId)
+          writeKey.write("" + (Date.now() + this.timeOffset) / 1000, {acl: csync.acl.PublicReadWrite})
         }.bind(this), 1000)
       },
       /**
@@ -229,9 +235,8 @@
           if (!value.exists) {
             return
           }
-          this.processMessageAndInsertIntoArray(value)
           value.data.isJoining = value.data.isJoining === "true"
-          this.insertIntoMessageArray(value.data)
+          this.processMessageAndInsertIntoArray(value)
           
         }.bind(this)
         listenerKey.listen(listenerCallback)
@@ -241,33 +246,36 @@
       */
       sendChatMessage: function (message) {
         let writeKey = this.csyncApp.key("streams." + this.streamId + ".chat." + this.generateUUID())
-
+        let timeOffset = this.timeOffset
         writeKey.write({
           content: message.detail,
           id: this.loggedInUserFacebookId,
-          timestamp: Date.now()
+          timestamp: (Date.now() + timeOffset) / 1000 // need to save in seconds from 2001
         }, {acl: csync.acl.PublicReadWrite})
       },
       /**
       * Saving facebook user data on message before inserting it into messages array.
       */
       processMessageAndInsertIntoArray: function (value) {
+        // Fetch facebook user and initialize message's author' name and profile picture
         if (!this.usersFacebookDataById[value.data.id]) {
           this.usersFacebookDataById[value.data.id] = {isFetchingUser:true}
           this.getFBUserInfo(value.data.id, function (response) {
             this.usersFacebookDataById[value.data.id] = response
             value.data.name = response.name
             value.data.picture = response.picture.data.url
+            value.data.timestamp = parseFloat(value.data.timestamp) * 1000 - this.timeOffset
             this.insertIntoMessageArray(value.data)
           }.bind(this))
         } else if (this.usersFacebookDataById[value.data.id].isFetchingUser) {
           setTimeout(function(){
             this.processMessageAndInsertIntoArray(value)
           }.bind(this), 500)
-        }else {
+        } else {
           userData = this.usersFacebookDataById[value.data.id]
           value.data.name = userData.name
           value.data.picture = userData.picture.data.url
+          value.data.timestamp = parseFloat(value.data.timestamp) * 1000 - this.timeOffset
           this.insertIntoMessageArray(value.data)
         }
       },
