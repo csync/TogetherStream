@@ -79,3 +79,4 @@ iOS/TogetherStream/TogetherStream/Configuration/private.plist
 # Other
 manifest.yml.prod
 manifest.yml.staging
+backend/**/private/*
