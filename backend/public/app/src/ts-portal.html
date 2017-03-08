@@ -1,0 +1,136 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-input/iron-input.html">
+
+<dom-module id="ts-portal">
+  <template>
+    <style>
+      :host {
+        display: block;
+        width: 100%
+      }
+
+      section {
+        display: flex;
+        align-content: center;
+        align-items: center;
+        text-align: center;
+        justify-content: space-around;
+        padding-top: 75px;
+        padding-bottom: 75px;
+        padding-left: 3%;
+        padding-right: 3%;
+        flex-wrap: wrap;
+        flex: 0 1 auto;
+        min-width: 0;
+      }
+
+      .splash {
+        padding: 0;
+        display: flex;
+        min-height: 730px;
+        background-repeat: no-repeat;
+        background-size: cover;
+        color: white;
+        justify-content: flex-start;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        background: 
+          /* bottom, image */
+          url(/assets/headerBackground@2x.png);
+        background-size: cover;
+      }
+
+      .splash .left-container {
+        text-align: left;
+        width: 40%;
+      }
+      .splash .right-container {
+        position: relative;
+        top: 75px;
+        width: 40%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    
+      }
+      .splash .bottom-container {
+        display: flex;
+        flex-direction: column;
+        margin-top: 100px;
+        margin-bottom: 50px;
+      }
+      .iphone-pic {
+        width: 80%;
+      }
+      .appstore-icon {
+        width: 30%;
+      }
+      input {
+        width: 250px;
+        height: 20px;
+      }
+      .join-stream-button {
+        margin-top: 20px;
+        color: white;
+        background-color: rgb(40,36,36);
+        border-radius: 64px;
+        border: none;
+        height: 30px;
+        width: 200px;
+      }
+      .join-stream-button:focus {
+        outline: none;
+      }
+      .join-stream-button:hover {
+        cursor: pointer;
+      }
+    </style>
+		<section class="splash">
+			<div class="left-container">
+        <img class="iphone-pic" src="/assets/tSMockupStream@2x.png"/>
+			</div>
+			<div class="right-container">
+        <div>YOU'VE BEEN INVITED</div>
+        <p>Join the stream by entering the code provided to you by the host. You will then need to log in with Facebook.</p>
+        <input value={{streamId::input}}> </input>
+        <button class="join-stream-button" on-tap="joinStream"> Join Stream </button>
+			</div>
+      <div class="bottom-container">
+        <p> Create your own stream or join in on mobile by downloading the app.</p>
+        <a href="http://ibm.biz/together-stream-download-app-store">
+          <img class="appstore-icon" src="/assets/downloadOnTheAppStoreBadgeUSUK135X40@2x.png"/>
+        </a>
+      </div>
+		</section>
+  </template>
+
+  <script>
+    Polymer({
+      is: "ts-portal",
+
+      properties: {
+        /**
+        * Stream id to connect to which is passed in by parent.
+        */
+        streamId: {
+          type: String,
+          notify: true
+        }
+      },
+      attached: function () {
+        let queryParam = window.location.search
+        
+        if (queryParam) {
+          let queryParamSplit = queryParam.substring(1).split("=")
+          let streamId = queryParamSplit[queryParamSplit.indexOf("stream_id") + 1]
+          
+          this.set("streamId", streamId)
+        }
+      },
+      joinStream: function () {
+        this.fire('tryJoinStream')
+      }
+    })
+  </script>
+</dom-module>

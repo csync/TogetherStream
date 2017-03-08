@@ -4,7 +4,8 @@
   "main": "index.html",
   "dependencies": {
     "polymer": "Polymer/polymer#2.0-preview",
-    "polymer-redux": "polymer-2"
+    "google-youtube": "^1.2.1",
+    "iron-input": "2.0-preview"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
@@ -14,6 +15,8 @@
   },
   "resolutions": {
     "webcomponentsjs": "v1",
-    "polymer": "2.0-preview"
+    "polymer": "2.0-preview",
+    "iron-validatable-behavior": "2.0-preview",
+    "iron-meta": "2.0-preview"
   }
 }

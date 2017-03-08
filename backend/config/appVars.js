@@ -16,16 +16,29 @@
 
 var apn = require("apn");
 var cfenv = require("cfenv");
-var vcapServices = require('./private/VCAP_SERVICES.json');
-var vcapDbService = vcapServices["compose-for-postgresql"] ? vcapServices["compose-for-postgresql"][0] : null;
-var appEnv = cfenv.getAppEnv({
-    vcap: {
-        services: vcapServices
-    }
-});
+var credentials = require('./private/credentials');
+var vcapServices = null;
+if (process.env.VCAP_SERVICES) {
+    vcapServices = JSON.parse(process.env.VCAP_SERVICES);
+} else {
+  vcapServices = require('./private/VCAP_SERVICES.json');
+}
+
+var appEnv = cfenv.getAppEnv();
+if (appEnv.isLocal) {
+  console.log('Defaulting to local environment config.');
+  appEnv = cfenv.getAppEnv({
+      vcap: {
+          services: vcapServices
+      }
+  });
+  vcapServices = require('./private/VCAP_SERVICES.json');
+}
+var nodemailer = require('nodemailer');
+
+var vcapDbService = vcapServices[credentials.app.postgresServiceName] ? vcapServices[credentials.app.postgresServiceName][0] : null;
 var dbName =  vcapDbService ? vcapDbService.name : null;
 var postgresService = appEnv.getService(dbName);
-var credentials = require('./private/credentials');
 var pg = require('pg');
 var config = parseDBURL(postgresService.credentials.uri);
 // max number of clients in the pool
@@ -53,7 +66,12 @@ var appVars = {
     apn: new apn.Provider({
         cert: __dirname + '/private/cert.pem',
         key: __dirname + '/private/key.pem'
-    })
+    }),
+    mail: {
+        server: credentials.email.server,
+        transporter: nodemailer.createTransport('smtps://' + credentials.email.userName + ':' +
+            credentials.email.password + '@' + credentials.email.server)
+    }
 };
 
 function parseDBURL(dbURL) {

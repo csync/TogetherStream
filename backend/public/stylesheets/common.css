@@ -109,9 +109,7 @@ span.store-button {
   width: 100%;
   height: 100%;
 }
-.sticky-header nav li+li {
-  margin-right: 95px;
-}
+
 .sticky-header .logo {
   display: flex;
   align-items: center;
@@ -157,7 +155,7 @@ span.store-button {
 .sticky-header nav ul li {
   text-align: center;
   height: 100%;
-  width: 100px;
+  width: 120px;
 }
 
 a:hover {
@@ -301,7 +299,7 @@ footer .more-links li {
   }
   .sticky-header nav ul li+li {
     border-top: solid 1px rgba(151, 151, 151, 0.3);
-    margin-right: 0px;
+    margin-right: 0px !important;
   }
   footer .links {
     flex-direction: column;

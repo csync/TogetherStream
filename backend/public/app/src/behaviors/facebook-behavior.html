@@ -1,0 +1,127 @@
+<script>
+    FacebookBehavior = {
+      properties: {
+        /**
+        * Stores whether user is authenticated through Facebook.
+        */
+        isLoggedIn: {
+          type: Boolean,
+          value: false,
+        },
+        /**
+        * Stores Facebook's access token.
+        */
+        facebookAccessToken: {
+          type: String,
+          value: ""
+        },
+        /**
+        * Facebook's user id for logged in user.
+        */
+        loggedInUserFacebookId: {
+          type: String,
+          value: ""
+        },
+        /**
+        * Facebook's user data for logged in user.
+        */
+        loggedInUserFacebookData: {
+          type: Object,
+          value: function () {
+            return {}
+          }
+        },
+        /**
+        * Object containing facebook id -> facebook data for all users.
+        */
+        usersFacebookDataById: {
+          type: Object,
+          value: function () {
+            return {}
+          }
+        }
+      },
+      /**
+      * On view attached to DOM, checking login status.
+      */
+      attached: function () {
+        this.getFBLoginStatus(function callback(response) {
+          this.handleGetLoginStatus(response)
+        }.bind(this))
+      },
+      /**
+      * Makes sure global window.FB variable has been defined before getting the login status.
+      * @param {function} callback - called when getLoginStatus returns a response
+      */
+      getFBLoginStatus: function (callback) {
+        if (!window.FB) {
+          setTimeout(function() {this.getFBLoginStatus(callback)}.bind(this), 200)
+        } else {
+          window.FB.getLoginStatus(function(response) {
+            callback(response)
+          }.bind(this));
+        }
+      },
+      /**
+      * On Facebook's login button press, checking login status.
+      * @param {function} callback - Function called on success
+      */
+      fbLogin: function (callback) {
+        this.getFBLoginStatus(function (response) {
+          this.handleGetLoginStatus(response, true, callback)
+        }.bind(this))
+      },
+      /**
+      * On Facebook's logout button press, initiating logout process.
+      */
+      fbLogout: function () {
+        window.FB.logout();
+      },
+      /**
+      * Handles Facebook's Authentication response
+      * @param {object} response - Facebook's authentication response.
+      * @param {boolean} forceLogin - If set to true, runs Facebook's login process.
+      * @param {function} callback - Function called on success
+      */
+      handleGetLoginStatus: function (response, forceLogin, callback) {
+        if (response.status === 'connected') {
+            this.set("isLoggedIn", true)
+            this.set("facebookAccessToken", response.authResponse.accessToken)
+            this.set("loggedInUserFacebookId", response.authResponse.userID)
+            this.setupHeartbeatCsyncWriter()
+            this.getFBUserInfo(this.loggedInUserFacebookId, function (response) {
+              this.set("loggedInUserFacebookData", response)
+            }.bind(this))
+            this.getServerAccessToken(callback)
+          } else if (forceLogin){
+            window.FB.login(function(response){
+              this.handleGetLoginStatus(response, false, callback)
+            }.bind(this))
+          }
+      },
+      /**
+      * Uses Facebook's Graph API to query name and picture by user id.
+      * @param {string} userId - User's Facebook id
+      * @param {function} callback - Process response object.
+      */
+      getFBUserInfo: function (userId, callback) {
+        if (!this.facebookAccessToken) {
+          console.log("User must be authenticated before using Facebook's Graph API")
+          return
+        }
+        if (!userId || (!typeof userId === "string")) {
+          console.log("Please provide a valid user id.")
+          return
+        }
+        let params = {
+          fields: "name, picture.width(500).height(500)"
+        }
+        params.access_token = this.facebookAccessToken
+        FB.api(userId, params, function(response) {
+          this.usersFacebookDataById[userId] = response
+          callback(response)
+        }.bind(this));
+      }
+
+    };
+</script>

@@ -1,0 +1,123 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/google-youtube/google-youtube.html">
+
+<dom-module id="ts-video">
+  <template>
+    <style>
+      :host {
+        width: 70%;
+      }
+      #videoLayer {
+        position:absolute;
+        display: flex;
+        align-items: flex-end;
+        color: white;
+        text-shadow: black 0px 0px 10px;
+        background-color:transparent;
+        width:70%;
+        height: 100%;
+        top: 0px;
+      }
+      #videoLayer .left-container {
+        font-size: small;
+        margin-bottom: 10px;
+        margin-left: 20px;
+      }
+      #videoLayer .right-container {
+        margin-bottom: 30px;
+        margin-right: 10px;
+      }
+      #videoLayer .bottom-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        background: -webkit-linear-gradient(transparent, rgba(0,0,0,.5)); /* For Safari 5.1 to 6.0 */
+        background: -o-linear-gradient(transparent, rgba(0,0,0,.5)); /* For Opera 11.1 to 12.0 */
+        background: -moz-linear-gradient(transparent, rgba(0,0,0,.5)); /* For Firefox 3.6 to 15 */
+        background: linear-gradient(transparent, rgba(0,0,0,.5)); /* Standard syntax */
+      }
+      .bold {
+        font-weight: bold;
+      }
+    </style>
+    <!-- Video layer over youtube component to disable clicking -->
+    <div id="videoLayer">
+      <div class="bottom-container">
+        <div class="left-container">
+          <template is="dom-if" if="{{videoData.title}}">
+            <p class="bold">CURRENTLY STREAMING</p>
+            <p>{{videoData.title}}</p>
+            <p>{{videoData.channelName}} - {{videoData.views}} views</p>
+          </template>
+        </div>
+        <div class="right-container">
+          <template is="dom-if" if="{{videoData.url}}">
+            <a href={{videoData.url}} target="_blank"><img height=30 src="/assets/youTubeLogoLight@2x.png"></img></a>
+          </template>
+        </div>
+      </div>
+    </div>
+    <google-youtube
+      id="googleYouTube"
+      video-id={{videoData.id}}
+      currenttime={{currentTime}}
+      height="100%"
+      width="100%"
+      autoplay="0"
+      disablekb="1"
+      controls="0"
+      autohide="0"
+      iv_load_policy="3"
+      rel="0">
+    </google-youtube>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'ts-video',
+      observers: [
+        "observeIsPlaying(videoData.isPlaying)",
+        "observeTime(videoData.time)"
+      ],
+      properties: {
+        /**
+        * Video data of currently playing video
+        * properties: id, title, channelName, views, url, time.
+        */
+        videoData: {
+          type: Object,
+          value: function () {
+            return {}
+          }
+        },
+        /**
+        * Current video time in seconds.
+        */
+        currentTime: {
+          type: Number,
+          value: 0
+        }
+      },
+      /**
+      * Observing as isPlaying changes to play/pause video.
+      */
+      observeIsPlaying: function(isPlaying) {
+        if (isPlaying) {
+          this.$.googleYouTube.play()
+        } else {
+          this.$.googleYouTube.pause()
+        }
+      },
+      /**
+      * Observing as videoTime changes to compare ito the player's and update
+      * once the difference is >= 1 second.
+      */
+      observeTime: function (videoTime) {
+        if (Math.abs(this.currentTime - videoTime) >= 1) {
+          this.$.googleYouTube.seekTo(videoTime)
+        }
+      }
+    });
+  </script>
+</dom-module>

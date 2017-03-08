@@ -10,7 +10,8 @@ module.exports = {
     },
     app: {
         accessTokenKey: Buffer.from('YOUR_ACCESS_TOKEN_KEY'),
-        refreshTokenKey: Buffer.from('YOUR_REFRESH_TOKEN_KEY')
+        refreshTokenKey: Buffer.from('YOUR_REFRESH_TOKEN_KEY'),
+        postgresServiceName: 'compose-for-postgresql'
     },
     sessionSecret: "YOUR_SESSION_SECRET"
 };
