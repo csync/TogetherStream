@@ -2,7 +2,6 @@
  * Created by danielfirsht on 3/7/17.
  */
 
-var apn = require('apn');
 var userController = require('../user/user.controller');
 var appVars = require('../config/appVars');
 
