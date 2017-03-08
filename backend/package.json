@@ -6,9 +6,9 @@
     "start": "node --max-old-space-size=400 app.js"
   },
   "dependencies": {
-    "bluemix-autoscaling-agent" : "*",
     "@newrelic/native-metrics": "^2.0.2",
     "apn": "^2.1.2",
+    "bluemix-autoscaling-agent": "*",
     "body-parser": "~1.15.1",
     "cfenv": "^1.0.3",
     "composable-middleware": "^0.3.0",
@@ -20,6 +20,7 @@
     "jsonwebtoken": "^7.1.9",
     "morgan": "~1.7.0",
     "newrelic": "^1.36.2",
+    "nodemailer": "^2.7.2",
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",
     "passport-facebook-token": "^3.3.0",
