@@ -1087,33 +1087,41 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch tableView.tag {
         case queueTableTag:
+            // Check that the currently playing video was not selected.
             guard viewModel.currentVideoIndex != indexPath.row,
                 let currentVideoIndex = viewModel.currentVideoIndex else {
                     return
             }
             Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "SelectedVideoToPlay")
+            // Updates view and model for the selected video
             setHighlightForVideo(at: currentVideoIndex, highlighted: false)
             setHighlightForVideo(at: indexPath.row, highlighted: true)
             viewModel.currentVideoIndex = indexPath.row
+            // Play the selected video
             playerView.cueVideo(byId: viewModel.videoQueue?[indexPath.row].id ?? "", startSeconds: 0, suggestedQuality: .default)
             playerView.playVideo()
         case chatTableTag:
+            // Check that the current user is not the subject of the message
             guard viewModel.messages[indexPath.row].subjectID != FacebookDataManager.sharedInstance.profile?.userID ?? "" else {
                 return
             }
+            // Get the message for the selected row
             let message = self.viewModel.messages[indexPath.row]
+            // Display options for reporting
             let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             if tableView.cellForRow(at: indexPath) is ChatMessageTableViewCell {
+                // Option for flagging comment
                 let commentAction = UIAlertAction(title: "Flag Comment", style: .destructive) {[weak self] _ in
-                    
                     self?.report(comment: message)
                 }
                 actionSheet.addAction(commentAction)
             }
+            // Option for blocking user
             let blockAction = UIAlertAction(title: "Block User", style: .destructive) {[weak self] _ in
                 self?.blockSubject(of: message)
             }
             actionSheet.addAction(blockAction)
+            // Option to cancel
             actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             self.present(actionSheet, animated: true)
         default:
