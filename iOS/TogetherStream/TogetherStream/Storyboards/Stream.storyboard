@@ -26,7 +26,7 @@
         <!--Stream View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="stream" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BYZ-38-t0r" customClass="StreamViewController" customModule="Stormtrooper" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="stream" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BYZ-38-t0r" customClass="StreamViewController" customModule="TogetherStream" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -35,7 +35,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="56" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="u6G-sD-SZi">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="56" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="u6G-sD-SZi">
                                 <rect key="frame" x="0.0" y="318" width="375" height="290"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
@@ -269,6 +269,9 @@
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lpC-Ew-dv7">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="211"/>
+                                        <connections>
+                                            <action selector="reportVideoTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="KJE-QT-yeC"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QHR-Gx-V89">
                                         <rect key="frame" x="325" y="161" width="50" height="51"/>
@@ -324,7 +327,6 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="blockClicksButton" destination="lpC-Ew-dv7" id="cLm-iz-kQa"/>
                         <outlet property="chatInputTextField" destination="aeg-Oe-oU6" id="Vfo-fO-wFJ"/>
                         <outlet property="chatTableView" destination="u6G-sD-SZi" id="JfH-Mp-mPH"/>
                         <outlet property="dismissView" destination="Mpa-Nr-Aea" id="Lrl-zS-Lpu"/>
@@ -338,6 +340,7 @@
                         <outlet property="profileImageView" destination="A15-q2-X7f" id="rJC-er-b3v"/>
                         <outlet property="queueTableView" destination="iC4-5G-MpH" id="85X-qq-ZIC"/>
                         <outlet property="queueView" destination="q4i-Y2-lar" id="WHj-gP-3VR"/>
+                        <outlet property="reportVideoButton" destination="lpC-Ew-dv7" id="iwf-xx-Qrc"/>
                         <outlet property="userCountLabel" destination="yLh-6L-jBa" id="UlQ-iZ-Kxy"/>
                         <outlet property="videoSubtitleLabel" destination="knW-fA-GaK" id="ajG-83-5Wq"/>
                         <outlet property="videoTitleLabel" destination="oTw-lu-Z7R" id="0zN-LA-emL"/>
