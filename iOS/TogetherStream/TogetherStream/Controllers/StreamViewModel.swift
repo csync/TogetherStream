@@ -109,14 +109,23 @@ class StreamViewModel {
 		}
 	}
     
-    /// Deletes the comment at the given index path.
+    /// Deletes the comment provided.
     ///
-    /// - Parameter indexPath: The index path of the comment to delete.
-    func deleteComment(at indexPath: IndexPath) {
-        guard let comment = messages[indexPath.row] as? ChatMessage else {
+    /// - Parameter comment: The comment to delete.
+    func delete(comment: Message) {
+        guard let comment = comment as? ChatMessage else {
             return
         }
         cSyncDataManager.deleteKey(atPath: comment.csyncPath)
+    }
+    
+    /// Blocks the subject of the message provided.
+    ///
+    /// - Parameters:
+    ///   - message: The message whos subject will be blocked.
+    ///   - callback: Closure called on completion. A nil error means it was successful.
+    func blockSubject(of message: Message, callback: ((Error?) -> Void)? = nil) {
+        AccountDataManager.sharedInstance.sendBlock(forUserID: message.subjectID, callback: callback)
     }
     
     /// Fetches the video for the given id.
