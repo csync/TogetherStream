@@ -93,7 +93,7 @@
 			<div class="right-container">
         <div>YOU'VE BEEN INVITED</div>
         <p>Join the stream by entering the code provided to you by the host. You will then need to log in with Facebook.</p>
-        <input value={{localStreamId::input}}> </input>
+        <input value={{streamId::input}}> </input>
         <button class="join-stream-button" on-tap="joinStream"> Join Stream </button>
 			</div>
       <div class="bottom-container">
@@ -116,13 +116,6 @@
         streamId: {
           type: String,
           notify: true
-        },
-        /**
-        * Local stream id attached to text field.
-        */
-        localStreamId: {
-          type: String,
-          notify: true
         }
       },
       attached: function () {
@@ -132,11 +125,11 @@
           let queryParamSplit = queryParam.substring(1).split("=")
           let streamId = queryParamSplit[queryParamSplit.indexOf("stream_id") + 1]
           
-          this.set("localStreamId", streamId)
+          this.set("streamId", streamId)
         }
       },
       joinStream: function () {
-        this.set("streamId", this.localStreamId)
+        this.fire('tryJoinStream')
       }
     })
   </script>

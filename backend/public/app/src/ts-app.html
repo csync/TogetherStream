@@ -2,6 +2,7 @@
 <link rel="import" href="./ts-header.html">
 <link rel="import" href="./ts-video.html">
 <link rel="import" href="./ts-portal.html">
+<link rel="import" href="./ts-chat.html">
 <link rel="import" href="./behaviors/facebook-behavior.html">
 <link rel="import" href="./behaviors/server-behavior.html">
 <link rel="import" href="./behaviors/youtube-behavior.html">
@@ -13,16 +14,14 @@
       :host {
         display: flex;
         position: relative;
-        min-height: 730px;
+        height: 85%;
+        min-height: 300px;
         padding-top: 60px;
       }
     </style>
     <ts-header showing-portal-page={{showingPortalPage}}></ts-header>
     <template is="dom-if" if="{{!showingPortalPage}}">
-      <div style="width:30%;">
-        <a on-tap="changeVideo">CHAT GOES HERE</a>
-      </div>
-
+      <ts-chat stream-name={{streamName}} logged-in-user={{loggedInUserFacebookData}} current-viewer-count={{currentViewerCount}} chat-messages={{chatMessages}}></ts-chat>
       <ts-video video-data={{currentlyStreamingVideoData}}></ts-video>
     </template>
     <template is="dom-if" if="{{showingPortalPage}}">
@@ -35,9 +34,12 @@
       is: 'ts-app',
       behaviors: [FacebookBehavior, ServerBehavior, YoutubeBehavior, CsyncBehavior],
       observers: [
-        "loginChanged(isLoggedIn)",
-        "streamIdChanged(streamId)"
+        "loginChanged(isLoggedIn)"
       ],
+      ready: function() {
+        this.addEventListener('tryJoinStream', this.joinStream);
+        this.addEventListener('sendChatMessage', this.sendChatMessage);
+      },
       properties: {
         showingPortalPage: {
           type: Boolean,
@@ -46,6 +48,39 @@
         streamId: {
           type: String,
           value: ""
+        },
+        streamName: {
+          type: String,
+          value: ""
+        },
+        /**
+        * List of friend ids who are currently in stream with user.
+        */
+        currentViewerIds: {
+          type: Array,
+          value: []
+        },
+        /**
+        * Number of friends who are currently in stream with user.
+        */
+        currentViewerCount: {
+          type: Number,
+          value: 0,
+          notify: true
+        },
+        /**
+        * List of chat messages including when user joins/leaves stream.
+        */
+        chatMessages: {
+          type: Array,
+          value: []
+        },
+        /**
+        * Offseting time stamp to match server's which uses 2001 as a reference point instead of 1970.
+        */
+        timeOffset: {
+          type: Number,
+          value: 978307200089.4209
         }
       },
       /**
@@ -58,16 +93,12 @@
         }
       },
       /**
-      * Called when streamId is set on the portal page.
+      * Called when portal button to join stream is pressed.
       * @param {string} streamId - New stream id.
       */
-      streamIdChanged: function(streamId) {
-        if (!streamId) {
-          return
-        }
-
+      joinStream: function() {
         let showPortalPage = function () {
-          this.isValidStreamId(streamId, function callback(isValid) {
+          this.isValidStreamId(this.streamId, function callback(isValid) {
             if (isValid) {
                this.set("showingPortalPage", false)
                this.authenticateWithFacebookAccessToken(this.facebookAccessToken, this.setupCsyncListeners.bind(this))
@@ -86,30 +117,60 @@
         }
       },
       /**
-      * Setting up the csync listeners that change as properties are updated from ios app.
+      * Saving facebook user data on message before inserting it into messages array.
       */
-      setupCsyncListeners: function() {
-        let currentVideoKey = this.csyncApp.key("streams." + this.streamId + ".*")
-        let playTimeKey = this.csyncApp.key("streams." + this.streamId + ".playTime")
-        let callback = function (error, value) {
-          if (error) {
-            console.error(error)
-            return
-          } 
-          
-          if (!value.exists) {
-            return
-          }
-          if (value.key.indexOf("currentVideoID") >= 0 && this.currentlyStreamingVideoData.id != value.data) {
-            this.changeVideo(value.data)
-          } else if (value.key.indexOf("playTime") >= 0 && Math.abs(this.currentlyStreamingVideoData.time - value.data) >= 2) {
-            this.set("currentlyStreamingVideoData.time", value.data)
-          } else if (value.key.indexOf("isPlaying") >= 0) {
-            this.set("currentlyStreamingVideoData.isPlaying", value.data)
-          }
-        }.bind(this)
+      processMessageAndInsertIntoArray: function (value) {
+        // Fetch facebook user and initialize message's author' name and profile picture
+        if (!this.usersFacebookDataById[value.data.id]) {
+          this.usersFacebookDataById[value.data.id] = {isFetchingUser:true}
+          this.getFBUserInfo(value.data.id, function (response) {
+            this.usersFacebookDataById[value.data.id] = response
+            value.data.name = response.name
+            value.data.picture = response.picture.data.url
+            value.data.timestamp = parseFloat(value.data.timestamp) * 1000 + this.timeOffset
+            this.insertIntoMessageArray(value.data)
+          }.bind(this))
+        } else if (this.usersFacebookDataById[value.data.id].isFetchingUser) {
+          setTimeout(function(){
+            this.processMessageAndInsertIntoArray(value)
+          }.bind(this), 500)
+        } else {
+          userData = this.usersFacebookDataById[value.data.id]
+          value.data.name = userData.name
+          value.data.picture = userData.picture.data.url
+          value.data.timestamp = parseFloat(value.data.timestamp) * 1000 + this.timeOffset
+          this.insertIntoMessageArray(value.data)
+        }
+      },
+      /**
+      * Compiles messsages in a sorted chat array.
+      */
+      insertIntoMessageArray: function(item) {
+        var index = 0
 
-        currentVideoKey.listen(callback)
+        while (index < this.chatMessages.length && this.chatMessages[index].timestamp <= item.timestamp) {
+          index++
+        }
+        if (index != this.chatMessages.length) {
+          this.chatMessages.splice(index, 0, item)
+          this.set("chatMessages", this.chatMessages)
+        } else {
+          this.push("chatMessages", item)
+        }
+      },
+      /**
+      * Generates a unique id.
+      */
+      generateUUID: function generateUUID () { // Public Domain/MIT
+        var d = new Date().getTime();
+        if (typeof performance !== 'undefined' && typeof performance.now === 'function'){
+            d += performance.now(); //use high-precision timer if available
+        }
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+            var r = (d + Math.random() * 16) % 16 | 0;
+            d = Math.floor(d / 16);
+            return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+        });
       }
     });
   </script>
