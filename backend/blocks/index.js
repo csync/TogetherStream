@@ -7,9 +7,9 @@ var blocksService = require('./blocks.service.js');
 
 var router = express.Router();
 
-router.post('', authService.isAuthenticated(), blocksService.processCreatingBlock);
+router.post('', blocksService.processCreatingBlock);
 
-router.get('', authService.isAuthenticated(), blocksService.retrieveBlocks);
+router.get('', blocksService.retrieveBlocks);
 
 
 module.exports = router;
