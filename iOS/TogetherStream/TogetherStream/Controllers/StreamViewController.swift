@@ -489,6 +489,44 @@ class StreamViewController: UIViewController {
         }
     }
     
+    /// Presents option to report comment and reports if user confirms.
+    ///
+    /// - Parameter comment: The comment to report.
+    fileprivate func report(comment: Message) {
+        let alert = UIAlertController(title: "Flag Comment", message: "Are you sure you wish to flag and remove this comment?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        alert.addAction(UIAlertAction(title: "Confirm", style: .destructive) {_ in
+            self.viewModel.delete(comment: comment)
+        })
+        present(alert, animated: true)
+    }
+    
+    
+    /// Presents option to block user and blocks user if confirmed.
+    ///
+    /// - Parameter message: The message whos subject would be blocked.
+    fileprivate func blockSubject(of message: Message) {
+        let alert = UIAlertController(title: "Block User", message: "Are you sure you wish to block this user? They will be removed from your friends list. This action cannot be undone.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        alert.addAction(UIAlertAction(title: "Confirm", style: .destructive) {_ in
+            self.viewModel.blockSubject(of: message) { error in
+                var title: String, message: String
+                if let error = error {
+                    title = "Failure"
+                    message = error.localizedDescription
+                }
+                else {
+                    title = "Success"
+                    message = "Blocked"
+                }
+                let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default))
+                self.present(alert, animated: true)
+            }
+        })
+        present(alert, animated: true)
+    }
+    
     // MARK: - Queue methods
     
     /// On header tapped, show or hide queue.
@@ -636,18 +674,6 @@ class StreamViewController: UIViewController {
         }
     }
     
-    /// Presents option to report comment and reports if user confirms.
-    ///
-    /// - Parameter indexPath: The index path of the comment to report.
-    fileprivate func reportComment(at indexPath: IndexPath) {
-        let alert = UIAlertController(title: "Report Comment", message: "Are you sure you wish to report this comment?", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "No", style: .cancel))
-        alert.addAction(UIAlertAction(title: "Yes", style: .destructive) {_ in
-            self.viewModel.deleteComment(at: indexPath)
-        })
-        present(alert, animated: true)
-    }
-    
     // MARK: - Navigation bar methods
     
     
@@ -730,9 +756,9 @@ class StreamViewController: UIViewController {
     /// - Parameter sender: The button tapped.
     @IBAction func reportVideoTapped(_ sender: Any) {
         guard !viewModel.hostPlayerIsEmpty else { return }
-        let alert = UIAlertController(title: "Report Video", message: "Are you sure you wish to report this video?", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "No", style: .cancel))
-        alert.addAction(UIAlertAction(title: "Yes", style: .destructive) {_ in
+        let alert = UIAlertController(title: "Flag Video", message: "Are you sure you wish to flag and remove this video from the queue?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        alert.addAction(UIAlertAction(title: "Confirm", style: .destructive) {_ in
             self.viewModel.reportVideo()
         })
         present(alert, animated: true)
@@ -804,7 +830,10 @@ extension StreamViewController: StreamViewModelDelegate {
         chatTableView.endUpdates()
 	}
     
+    
     /// When a message is removed from the model, remove it from the view.
+    ///
+    /// - Parameter position: The position of the message that was removed.
     func removedMessage(at position: Int) {
         chatTableView.deleteRows(at: [IndexPath(row: position, section: 0)], with: .automatic)
     }
@@ -955,12 +984,7 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
     /// - Returns: Whether the row can be edited.
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         switch tableView.tag {
-        case chatTableTag:
-            if tableView.cellForRow(at: indexPath) is ChatMessageTableViewCell,
-                viewModel.messages[indexPath.row].subjectID != FacebookDataManager.sharedInstance.profile?.userID ?? "" {
-                return true
-            }
-            return false
+        case chatTableTag: return false
         case queueTableTag: return true
         default: return false
         }
@@ -974,10 +998,6 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
     /// - Returns: The edit actions.
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         switch tableView.tag {
-        case chatTableTag:
-            return [UITableViewRowAction(style: .destructive, title: "Report") {[unowned self] action, row in
-                self.reportComment(at: indexPath)
-            }]
         case queueTableTag:
             return [UITableViewRowAction(style: .destructive, title: "Delete") {[unowned self] action, row in
                 Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "DeletedVideo")
@@ -1058,22 +1078,56 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
         return proposedDestinationIndexPath
     }
     
-    /// Switches the current video to the one selected.
+    /// On cell selection, if the queue table is selected, switches the current video to the one selected;
+    /// else if the chat table is selected, display reporting options.
     ///
     /// - Parameters:
     ///   - tableView: The table view being selected.
     ///   - indexPath: The index path of the row that was selected.
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard viewModel.currentVideoIndex != indexPath.row,
-            let currentVideoIndex = viewModel.currentVideoIndex else {
+        switch tableView.tag {
+        case queueTableTag:
+            // Check that the currently playing video was not selected.
+            guard viewModel.currentVideoIndex != indexPath.row,
+                let currentVideoIndex = viewModel.currentVideoIndex else {
+                    return
+            }
+            Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "SelectedVideoToPlay")
+            // Updates view and model for the selected video
+            setHighlightForVideo(at: currentVideoIndex, highlighted: false)
+            setHighlightForVideo(at: indexPath.row, highlighted: true)
+            viewModel.currentVideoIndex = indexPath.row
+            // Play the selected video
+            playerView.cueVideo(byId: viewModel.videoQueue?[indexPath.row].id ?? "", startSeconds: 0, suggestedQuality: .default)
+            playerView.playVideo()
+        case chatTableTag:
+            // Check that the current user is not the subject of the message
+            guard viewModel.messages[indexPath.row].subjectID != FacebookDataManager.sharedInstance.profile?.userID ?? "" else {
                 return
+            }
+            // Get the message for the selected row
+            let message = self.viewModel.messages[indexPath.row]
+            // Display options for reporting
+            let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            if tableView.cellForRow(at: indexPath) is ChatMessageTableViewCell {
+                // Option for flagging comment
+                let commentAction = UIAlertAction(title: "Flag Comment", style: .destructive) {[weak self] _ in
+                    self?.report(comment: message)
+                }
+                actionSheet.addAction(commentAction)
+            }
+            // Option for blocking user
+            let blockAction = UIAlertAction(title: "Block User", style: .destructive) {[weak self] _ in
+                self?.blockSubject(of: message)
+            }
+            actionSheet.addAction(blockAction)
+            // Option to cancel
+            actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            self.present(actionSheet, animated: true)
+        default:
+            break
         }
-         Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "SelectedVideoToPlay")
-        setHighlightForVideo(at: currentVideoIndex, highlighted: false)
-        setHighlightForVideo(at: indexPath.row, highlighted: true)
-        viewModel.currentVideoIndex = indexPath.row
-        playerView.cueVideo(byId: viewModel.videoQueue?[indexPath.row].id ?? "", startSeconds: 0, suggestedQuality: .default)
-        playerView.playVideo()
+        
     }
 	
     /// Dequeues and configures the cell for the given path for the chat table.
@@ -1085,6 +1139,7 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
     private func cellFor(chatTableView tableView: UITableView, at indexPath: IndexPath) -> UITableViewCell {
         let messageCell = tableView.dequeueReusableCell(withIdentifier: "chatMessage") as? ChatMessageTableViewCell
         let eventCell = tableView.dequeueReusableCell(withIdentifier: "chatEvent") as? ChatEventTableViewCell
+        
         
         let message = viewModel.messages[indexPath.row]
         
@@ -1114,9 +1169,11 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
         
         // Returns messageCell ?? eventCell ?? UITableViewCell()
         if message is ChatMessage, let messageCell = messageCell {
+            messageCell.selectionStyle = .none
             return messageCell
         }
         else if message is ParticipantMessage, let eventCell = eventCell {
+            eventCell.selectionStyle = .none
             return eventCell
         }
         else {
