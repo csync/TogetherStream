@@ -15,6 +15,8 @@
   },
   "resolutions": {
     "webcomponentsjs": "v1",
-    "polymer": "2.0-preview"
+    "polymer": "2.0-preview",
+    "iron-validatable-behavior": "2.0-preview",
+    "iron-meta": "2.0-preview"
   }
 }
