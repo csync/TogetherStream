@@ -13,11 +13,12 @@ import CSyncSDK
 protocol StreamViewModelDelegate: class {
 	func userCountChanged(toCount count: Int)
 	func received(message: Message, for position: Int) -> Void
-    func removedOldestMessage() -> Void
+    func removedMessage(at position: Int) -> Void
 	func receivedUpdate(forCurrentVideoID currentVideoID: String) -> Void
 	func receivedUpdate(forIsPlaying isPlaying: Bool) -> Void
 	func receivedUpdate(forIsBuffering isBuffering: Bool) -> Void
 	func receivedUpdate(forPlaytime playtime: Float) -> Void
+    func receivedVideoReport() -> Void
 	func streamEnded() -> Void
 }
 
@@ -55,16 +56,21 @@ class StreamViewModel {
     /// host, in seconds.
     let maximumDesyncTime: Float = 3.0
     
-    /// The maximum amount of chat messages that are stored and displayed.
-    private let maximumChatMessages = 50
+    /// Whether the host has no videos in their queue.
+    var hostPlayerIsEmpty = true
 	
 	/// The messages that should be displayed.
 	fileprivate(set) var messages: [Message] = []
 	/// Whether the host is currently playing a video.
 	fileprivate(set) var hostPlaying = false
     
-	/// The key of the stream to listen for updates on.
+    /// The maximum amount of chat messages that are stored and displayed.
+    private let maximumChatMessages = 50
+    
+	/// The key of the stream for participants to listen for updates on.
 	private var streamKey: Key?
+    /// The key for the host to listen for reports of the video.
+    private var reportedKey: Key?
 	/// Shorthand for the shared CSyncDataManager.
 	private var cSyncDataManager = CSyncDataManager.sharedInstance
     /// Shorthand for the shared FacebookDataManager.
@@ -102,6 +108,25 @@ class StreamViewModel {
             NotificationCenter.default.removeObserver(self)
 		}
 	}
+    
+    /// Deletes the comment provided.
+    ///
+    /// - Parameter comment: The comment to delete.
+    func delete(comment: Message) {
+        guard let comment = comment as? ChatMessage else {
+            return
+        }
+        cSyncDataManager.deleteKey(atPath: comment.csyncPath)
+    }
+    
+    /// Blocks the subject of the message provided.
+    ///
+    /// - Parameters:
+    ///   - message: The message whos subject will be blocked.
+    ///   - callback: Closure called on completion. A nil error means it was successful.
+    func blockSubject(of message: Message, callback: ((Error?) -> Void)? = nil) {
+        AccountDataManager.sharedInstance.sendBlock(forUserID: message.subjectID, callback: callback)
+    }
     
     /// Fetches the video for the given id.
     ///
@@ -149,6 +174,11 @@ class StreamViewModel {
 	func send(currentVideoID: String) {
 		cSyncDataManager.write(currentVideoID, toKeyPath: "\(csyncPath).currentVideoID")
 	}
+    
+    /// Sends to host that the video was reported.
+    func reportVideo() {
+        cSyncDataManager.write("true", toKeyPath: "\(csyncPath).isReported")
+    }
 	
 	/// Ends and resets the stream.
 	func endStream() {
@@ -182,8 +212,24 @@ class StreamViewModel {
 		cSyncDataManager.write("", toKeyPath: csyncPath + ".chat", withACL: .PublicReadCreate)
 		// Set stream to active
 		cSyncDataManager.write("true", toKeyPath: csyncPath + ".isActive")
+        // Set video to unreported
+        cSyncDataManager.write("false", toKeyPath: csyncPath + ".isReported", withACL: .PublicReadWrite)
         // Set state of inital video
         send(playState: false)
+        
+        // Set up reported video listner
+        reportedKey = cSyncDataManager.createKey(atPath: csyncPath + ".isReported")
+        reportedKey?.listen {[weak self] value, error in
+            // Ensure view model still exists, there's no error. the
+            // value still exists, and the video is reported.
+            guard let `self` = self,
+                let value = value,
+                value.exists, value.data == "true" else {
+                    return
+            }
+            self.delegate?.receivedVideoReport()
+            self.cSyncDataManager.write("false", toKeyPath: self.csyncPath + ".isReported", withACL: .PublicReadWrite)
+        }
 		
 		NotificationCenter.default.addObserver(self,
 		                                       selector: #selector(receivedWillTerminateNotification),
@@ -241,15 +287,29 @@ class StreamViewModel {
             DispatchQueue.main.async {
                 while self.messages.count >= self.maximumChatMessages {
                     self.messages.remove(at: 0)
-                    self.delegate?.removedOldestMessage()
+                    self.delegate?.removedMessage(at: 0)
                 }
                 let position = self.insertIntoMessages(message)
                 self.delegate?.received(message: message, for: position)
             }
         }
         
+        let deleteMessageCallback: (String) -> Void = {[unowned self] deletedPath in
+            for (index, message) in self.messages.enumerated() {
+                if let message = message as? ChatMessage, message.csyncPath == deletedPath {
+                    // delete on main queue to avoid table datasource corruption
+                    DispatchQueue.main.async {
+                        self.messages.remove(at: index)
+                        self.delegate?.removedMessage(at: index)
+                    }
+                    break
+                }
+            }
+        }
+        
         chatDataManager = ChatDataManager(streamPath: csyncPath, id: userID)
         chatDataManager?.didReceiveMessage = messageCallback
+        chatDataManager?.didReceiveDeletedMessageAtPath = deleteMessageCallback
         
         participantsDataManager = ParticipantsDataManager(streamPath: csyncPath)
         participantsDataManager?.didReceiveMessage = messageCallback

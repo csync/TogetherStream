@@ -246,6 +246,17 @@ userController.getOrCreateStream = function (req) {
     })
 };
 
+userController.getExternalAccountAccessToken = function(user, provider) {
+    var externalAccounts = user.externalAccounts;
+    for (var i = 0; i < externalAccounts.length; i++) {
+        if (externalAccounts[i].provider == provider) {
+            var securityHelper = require('../auth/security.helper');
+            return securityHelper.decrypt(externalAccounts[i].access_token, appVars.accessTokenKey, externalAccounts[i].at_iv, externalAccounts[i].at_tag);
+        }
+    }
+    return null;
+};
+
 function generateId() {
     return new Promise(function (resolve, reject) {
         var generateAttempt = function () {

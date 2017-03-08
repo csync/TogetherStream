@@ -97,4 +97,25 @@ class Utils: NSObject {
         GAI.sharedInstance().defaultTracker.send(event)
         #endif
     }
+    
+    /// Logs out of all systems in the app.
+    ///
+    /// - Parameter callback: Closure called on completion. Nil error means
+    /// it was successful.
+    class func logout(callback: ((Error?) -> Void)? = nil) {
+        FacebookDataManager.sharedInstance.logOut()
+        // Delete server cookie
+        if let cookies = HTTPCookieStorage.shared.cookies {
+            for cookie in cookies {
+                if AccountDataManager.sharedInstance.serverAddress.contains(cookie.domain) {
+                    HTTPCookieStorage.shared.deleteCookie(cookie)
+                    break
+                }
+            }
+        }
+        // Unauthenticates from CSync
+        CSyncDataManager.sharedInstance.unauthenticate {error in
+            callback?(error)
+        }
+    }
 }

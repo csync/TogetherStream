@@ -49,22 +49,26 @@
 
         xhr.open('GET', compiledUrl, true);
         xhr.onload = function () {
-          let responseUrl = xhr.responseURL
+          if (xhr.status === 200) {
+            let responseUrl = xhr.responseURL
 
-          if (xhr.response) {
-            let newVideoDataObj = {}
-            let responseJson = JSON.parse(xhr.response)
+            if (xhr.response) {
+              let newVideoDataObj = {}
+              let responseJson = JSON.parse(xhr.response)
 
-            if (responseJson.items && responseJson.items.length > 0) {
-              let responseItem = responseJson.items[0]
-              newVideoDataObj.id = videoId
-              newVideoDataObj.title = responseItem.snippet.title
-              newVideoDataObj.channelName = responseItem.snippet.channelTitle
-              newVideoDataObj.views = responseItem.statistics.viewCount.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-              newVideoDataObj.url = "https://www.youtube.com/watch?v=" + videoId
-              newVideoDataObj.time = 0
-              this.set("currentlyStreamingVideoData", newVideoDataObj)
+              if (responseJson.items && responseJson.items.length > 0) {
+                let responseItem = responseJson.items[0]
+                newVideoDataObj.id = videoId
+                newVideoDataObj.title = responseItem.snippet.title
+                newVideoDataObj.channelName = responseItem.snippet.channelTitle
+                newVideoDataObj.views = responseItem.statistics.viewCount.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                newVideoDataObj.url = "https://www.youtube.com/watch?v=" + videoId
+                newVideoDataObj.time = 0
+                this.set("currentlyStreamingVideoData", newVideoDataObj)
+              }
             }
+          } else {
+            console.error("Youtube API call failed", xhr)
           }
         }.bind(this)
         xhr.send(null);
