@@ -91,5 +91,5 @@ Make sure you change the `private.plist` in the iOS app to the local Contextual 
 Together Stream is intended solely for use with an Apple iOS product and intended to be used in conjunction with officially licensed Apple development tools and further customized and distributed under the terms and conditions of your licensed Apple Developer Program.
 
 ## Licenses
-[iOS](LICENSE-IOS)
+[iOS](LICENSE-IOS)  
 [Non-iOS](LICENSE-NON-IOS)
