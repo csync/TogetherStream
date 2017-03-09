@@ -1,12 +1,15 @@
 ---
 applications:
-- name: Together-Stream
+- name: <your-application-name>
   timeout: 60
   memory: 384M
   path: backend
   instances: 3
   services:
-   - Compose for PostgreSQL-hf
-   - New Relic-ra
-   - Auto-Scaling-wg
-   - availability-monitoring-auto
+   - <your-compose-for-postgreSQL-service-name>
+   - <your-newrelic-service-name>
+  env:
+   env_type: production
+   NEW_RELIC_APP_NAME: <your-appname-in-newrelic-dashboard>
+   NEW_RELIC_LICENSE_KEY: <your-newrelic-license-key>
+   NEW_RELIC_NO_CONFIG_FILE: true

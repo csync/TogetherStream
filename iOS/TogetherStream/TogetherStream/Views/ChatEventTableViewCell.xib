@@ -19,11 +19,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="chatEvent" id="iei-R8-155" customClass="ChatEventTableViewCell" customModule="Stormtrooper" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="chatEvent" id="iei-R8-155" customClass="ChatEventTableViewCell" customModule="TogetherStream" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="57"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="iei-R8-155" id="8KZ-a8-S7k">
-                <rect key="frame" x="0.0" y="0.0" width="375" height="55"/>
+                <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Profile_50" translatesAutoresizingMaskIntoConstraints="NO" id="Zt3-P9-Heg">
@@ -65,7 +65,7 @@
                     <constraint firstItem="LOT-N6-I4P" firstAttribute="leading" secondItem="RHn-dD-ned" secondAttribute="trailing" constant="4" id="UJL-Tv-BKg"/>
                     <constraint firstAttribute="bottom" secondItem="Zt3-P9-Heg" secondAttribute="bottom" constant="13" id="bKI-k1-TPY"/>
                     <constraint firstItem="Zt3-P9-Heg" firstAttribute="top" secondItem="8KZ-a8-S7k" secondAttribute="top" constant="13" id="mVF-iQ-TyO"/>
-                    <constraint firstItem="LOT-N6-I4P" firstAttribute="centerY" secondItem="8KZ-a8-S7k" secondAttribute="centerY" constant="-1" id="whl-0J-ZNw"/>
+                    <constraint firstItem="LOT-N6-I4P" firstAttribute="centerY" secondItem="8KZ-a8-S7k" secondAttribute="centerY" id="whl-0J-ZNw"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

@@ -15,7 +15,8 @@
         text-shadow: black 0px 0px 10px;
         background-color:transparent;
         width:70%;
-        height: 92.4%;
+        height: 100%;
+        top: 0px;
       }
       #videoLayer .left-container {
         font-size: small;
@@ -102,7 +103,6 @@
       * Observing as isPlaying changes to play/pause video.
       */
       observeIsPlaying: function(isPlaying) {
-        console.log(this.currentTime)
         if (isPlaying) {
           this.$.googleYouTube.play()
         } else {

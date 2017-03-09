@@ -19,18 +19,22 @@
         xhr.open('GET', '/auth/facebook/token/login', true);
         xhr.setRequestHeader('access_token', this.facebookAccessToken)
         xhr.onload = function () {
-          let responseUrl = xhr.responseURL
+          if (xhr.status === 200) {
+            let responseUrl = xhr.responseURL
 
-          // verifying responseUrl is valid
-          if (responseUrl && responseUrl.indexOf("?") > 0 && responseUrl.indexOf("=" > 0) && responseUrl.indexOf("access_token" > 0)) {
-            let queryParams = responseUrl.split("?")[1].split("=")
-            let accessTokenIndex = queryParams.indexOf("access_token")
-            let accessToken = queryParams[accessTokenIndex + 1]
-            
-            this.set("serverAccessToken", accessToken)
-            callback && callback()
+            // verifying responseUrl is valid
+            if (responseUrl && responseUrl.indexOf("?") > 0 && responseUrl.indexOf("=" > 0) && responseUrl.indexOf("access_token" > 0)) {
+              let queryParams = responseUrl.split("?")[1].split("=")
+              let accessTokenIndex = queryParams.indexOf("access_token")
+              let accessToken = queryParams[accessTokenIndex + 1]
+              
+              this.set("serverAccessToken", accessToken)
+              callback && callback()
+            } else {
+              console.error("Invalid responeUrl returned: " + responseUrl)
+            }
           } else {
-            console.error("Invalid responeUrl returned: " + responseUrl)
+            console.error("Couldn't reach server.", xhr)
           }
         }.bind(this)
         xhr.send(null);
@@ -45,19 +49,29 @@
         xhr.open('GET', '/invites', true);
         xhr.setRequestHeader('Authorization', this.serverAccessToken)
         xhr.onload = function () {
-          let invitesArr = JSON.parse(xhr.response)
-          var streamIdIsValid = false
+          if (xhr.status === 200) {
+            let invitesArr = JSON.parse(xhr.response)
+            var streamIdIsValid = false
 
-          if (invitesArr) {
-            invitesArr.forEach(function(invite) {
-              let splitStr = invite.csync_path.split('.')
+            if (invitesArr) {
+              invitesArr.forEach(function(invite) {
+                let splitStr = invite.csync_path.split('.')
 
-              if (splitStr[1] === streamId) {
-                streamIdIsValid = true
-              }
-            })
+                if (splitStr[1] === streamId) {
+                  streamIdIsValid = true
+                  this.set("streamName", invite.stream_name)
+                }
+              }.bind(this))
+            }
+            callback(streamIdIsValid)
+          } else if (xhr.status === 401) {
+            // Get new server token when needing authentication expires.
+            this.getServerAccessToken(function() {
+              this.isValidStreamId(streamId, callback)
+            }.bind(this))
+          } else {
+            console.error("Couldn't reach server.", xhr)
           }
-          callback(streamIdIsValid)
         }.bind(this)
         xhr.send(null);
       }

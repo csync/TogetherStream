@@ -89,6 +89,62 @@ class AccountDataManager {
 			}
 		}
 	}
+    
+    /// Sends a block request for the user with the given ID.
+    ///
+    /// - Parameters:
+    ///   - userID: The ID of the user to block.
+    ///   - callback: Closure called on completion. A nil error means it was successful.
+    func sendBlock(forUserID userID: String, callback: ((Error?) -> Void)? = nil) {
+        // Build URL
+        guard let serverAccessToken = serverAccessToken,
+            let url = URL(string: serverAddress + "/blocks?access_token=" + serverAccessToken) else {
+                callback?(ServerError.cannotFormURL)
+                return
+        }
+        // Configure request
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = try? JSONSerialization.data(withJSONObject: ["blockee": userID])
+        
+        sendToServer(request: request){data, response, error in
+            callback?(error)
+        }
+    }
+    
+    /// Fetches all blocks for the current user from server.
+    ///
+    /// - Parameter callback: The callback called on completion.
+    func retrieveBlocks(callback: @escaping (Error?, [String]?) -> Void) {
+        // Build URL
+        guard let serverAccessToken = serverAccessToken,
+            let url = URL(string: serverAddress + "/blocks?access_token=" + serverAccessToken) else {
+                callback(ServerError.invalidConfiguration, nil)
+                return
+        }
+        sendToServer(request: URLRequest(url: url)) {data, response, error in
+            if let error = error {
+                callback(error, nil)
+            }
+            else {
+                do {
+                    // Serialize data into user facebook IDs
+                    let jsonData = try JSONSerialization.jsonObject(with: data ?? Data()) as? [[String: Any]] ?? []
+                    var blocks: [String] = []
+                    for blockData in jsonData {
+                        if let blockID = (blockData["external_accounts"] as? [String: String])?["facebook-token"] {
+                            blocks.append(blockID)
+                        }
+                    }
+                    callback(nil, blocks)
+                }
+                catch {
+                    callback(error, nil)
+                }
+            }
+        }
+    }
 	
 	/// Deletes the stream and all invites sent out by the signed in user
 	func deleteInvites() {

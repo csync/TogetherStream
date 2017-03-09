@@ -73,6 +73,7 @@
 		689A11201E2FFF3900B87DEF /* PopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 689A111F1E2FFF3900B87DEF /* PopupViewController.swift */; };
 		68D1A7C41E4113E50073E571 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 68D1A7C31E4113E50073E571 /* GoogleService-Info.plist */; };
 		832ED16E7142946E401F004B /* Pods_TogetherStreamUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08ACD779EBDAC91A4230AC59 /* Pods_TogetherStreamUITests.framework */; };
+		A20B11401E6F1B54003A49ED /* LicenseAgreementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20B113F1E6F1B54003A49ED /* LicenseAgreementViewController.swift */; };
 		A23377A91E01DDD500E43DA0 /* HeartbeatDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23377A81E01DDD500E43DA0 /* HeartbeatDataManager.swift */; };
 		A2483D451E3BB6AE007E92DD /* VideoQueueTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2483D431E3BB6AE007E92DD /* VideoQueueTableViewCell.swift */; };
 		A2483D461E3BB6AE007E92DD /* VideoQueueTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2483D441E3BB6AE007E92DD /* VideoQueueTableViewCell.xib */; };
@@ -212,6 +213,7 @@
 		753248237D2956AB73628500 /* Pods-Stormtrooper.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Stormtrooper.release.xcconfig"; path = "Pods/Target Support Files/Pods-Stormtrooper/Pods-Stormtrooper.release.xcconfig"; sourceTree = "<group>"; };
 		9D347DC144B6BDAA4A91BD74 /* Pods-StormtrooperUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StormtrooperUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-StormtrooperUITests/Pods-StormtrooperUITests.release.xcconfig"; sourceTree = "<group>"; };
 		9EFF70948471E4709B39FE4E /* Pods-TogetherStreamTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TogetherStreamTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TogetherStreamTests/Pods-TogetherStreamTests.debug.xcconfig"; sourceTree = "<group>"; };
+		A20B113F1E6F1B54003A49ED /* LicenseAgreementViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LicenseAgreementViewController.swift; sourceTree = "<group>"; };
 		A23377A81E01DDD500E43DA0 /* HeartbeatDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = HeartbeatDataManager.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		A2483D431E3BB6AE007E92DD /* VideoQueueTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoQueueTableViewCell.swift; sourceTree = "<group>"; };
 		A2483D441E3BB6AE007E92DD /* VideoQueueTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VideoQueueTableViewCell.xib; sourceTree = "<group>"; };
@@ -443,6 +445,7 @@
 				34C6E5361DF23DBC00EB4972 /* ProfileViewController.swift */,
 				689A111F1E2FFF3900B87DEF /* PopupViewController.swift */,
 				6898A7861E44015B000C58F5 /* AboutViewController.swift */,
+				A20B113F1E6F1B54003A49ED /* LicenseAgreementViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -970,6 +973,7 @@
 				3401B4321E2EDDB9005ACB96 /* ChatTextFieldAccessoryView.swift in Sources */,
 				3401B43D1E2F2C61005ACB96 /* ChatEventTableViewCell.swift in Sources */,
 				3419A1FC1DF883AF00A11D53 /* MainNavigationController.swift in Sources */,
+				A20B11401E6F1B54003A49ED /* LicenseAgreementViewController.swift in Sources */,
 				A2D44DCC1E36AE2700053099 /* NextBannerView.swift in Sources */,
 				689A11201E2FFF3900B87DEF /* PopupViewController.swift in Sources */,
 				4ABA7DD21E3948B80059CA1F /* InviteStreamViewModel.swift in Sources */,

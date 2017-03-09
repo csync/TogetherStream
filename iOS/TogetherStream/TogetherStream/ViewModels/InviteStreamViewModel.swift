@@ -42,17 +42,26 @@ class InviteStreamViewModel {
     }
 
     /// Fetches all friends of the logged in user who are also
-    /// using the app and then updates the model.
+    /// using the app, removes blocked friends and then updates the model.
     ///
     /// - Parameter callback: The callback called on completion. A nil error
     /// means it was successful.
     func fetchFriends(callback: @escaping (Error?) -> Void) {
-        FacebookDataManager.sharedInstance.fetchFriends(callback:{ (error: Error?, friends: [User]?) -> Void in
-            if let friends = friends {
-                self.facebookFriends = friends
+        FacebookDataManager.sharedInstance.fetchFriends { error, friends in
+            guard var friends = friends, error == nil else {
+                callback(error)
+                return
             }
-            callback(error)
-        })
+            AccountDataManager.sharedInstance.retrieveBlocks { error, userIDs in
+                guard let userIDs = userIDs, error == nil else {
+                    callback(error)
+                    return
+                }
+                friends = friends.filter {!userIDs.contains($0.id)}
+                self.facebookFriends = friends
+                callback(nil)
+            }
+        }
     }
 
     /// Sends the selected friends an invite to the current stream.

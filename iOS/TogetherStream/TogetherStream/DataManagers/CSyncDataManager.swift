@@ -15,9 +15,9 @@ class CSyncDataManager {
 	static let sharedInstance = CSyncDataManager()
 	
     /// The url of the CSync server.
-	private let csyncURL = Utils.getStringValueWithKeyFromPlist("private", key: "server_address") ?? ""
+	private let csyncURL = Utils.getStringValueWithKeyFromPlist("private", key: "csync_url") ?? ""
 	/// The port of the CSync server.
-	private let csyncPort = 6005
+	private let csyncPort = Utils.getIntValueWithKeyFromPlist("private", key: "csync_port") ?? -1
 	/// The CSync application
 	private lazy var app: App = { [unowned self] in
 		return App(host: self.csyncURL, port: self.csyncPort, options: ["useSSL":"NO" as AnyObject, "dbInMemory":"YES" as AnyObject])
