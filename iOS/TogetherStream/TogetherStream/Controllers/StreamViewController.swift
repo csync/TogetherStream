@@ -506,7 +506,7 @@ class StreamViewController: UIViewController {
     ///
     /// - Parameter message: The message whos subject would be blocked.
     fileprivate func blockSubject(of message: Message) {
-        let alert = UIAlertController(title: "Block User", message: "Are you sure you wish to block this user? They will be removed from your friends list and you will be removed from theirs. This action cannot be undone.", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Block User", message: "Are you sure you wish to block this user? They will be removed from your friends list within the app and you will be removed from theirs. This action cannot be undone.", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         alert.addAction(UIAlertAction(title: "Confirm", style: .destructive) {_ in
             self.viewModel.blockSubject(of: message) { error in
@@ -517,7 +517,7 @@ class StreamViewController: UIViewController {
                 }
                 else {
                     title = "User Blocked"
-                    message = "User has been blocked. They will be removed from your friends list and you will be removed from theirs."
+                    message = "User has been blocked. They will be removed from your friends list within the app and you will be removed from theirs."
                 }
                 let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default))
