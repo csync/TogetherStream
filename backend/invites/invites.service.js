@@ -92,12 +92,12 @@ var sendEmail = function (participant, req) {
             var streamId = req.body['streamPath'].split('.').pop();
             var jsonBody = JSON.parse(body);
             var mailOptions = {
-                from: '"Together Stream" <TogetherStream' + '@' + appVars.mail.server + '>', // sender address
-                to: jsonBody.email, // list of receivers
+                from: '"Together Stream" <' + appVars.mail.userName + '@' + appVars.mail.domainName + '>', // sender address
+                to: jsonBody.email,
                 subject: 'New Stream Invite from ' +  req.body['host'], // Subject line
-                text:  req.body['host'] + ' has invited you to join their stream on Together Stream –' +
-                ' a collaborative and synchronized streaming experience. Enter code: ' + streamId +
-                    '. http://togetherstream.csync.io/app?stream_id=' + streamId
+                text:  'Howdy!\n\n' + req.body['host'] + ' is streaming videos on Together Stream (like right now). ' +
+                'Come watch together in real time! \uD83D\uDC6F \n\n' + 'Download the iOS app or use this code to join on web: ' +
+                + streamId + '\n\nhttp://togetherstream.csync.io/app?stream_id=' + streamId
             };
             appVars.mail.transporter.sendMail(mailOptions, function(error, info){
                 if(error){
