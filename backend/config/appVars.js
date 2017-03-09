@@ -55,11 +55,6 @@ var appVars = {
         clientSecret: credentials.facebook.secret,
         redirectURL: appEnv.url + "/auth/facebook/callback"
     },
-    google: {
-        clientID: credentials.google.clientID,
-        clientSecret: credentials.google.clientSecret,
-        redirectURL: appEnv.url + "/auth/youtube/callback"
-    },
     pool: new pg.Pool(config),
     accessTokenKey: credentials.app.accessTokenKey,
     refreshTokenKey: credentials.app.refreshTokenKey,
