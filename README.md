@@ -86,3 +86,6 @@ Make sure that when you are creating your container, you add your Facebook crede
 7. Follow the instructions here to allow connections to a http address: http://stackoverflow.com/questions/31254725/transport-security-has-blocked-a-cleartext-http
 8. If you would like to run your Contexual Sync server locally as well, follow the instructions here: https://github.com/csync/csync-server#local-deployment.  
 Make sure you change the `private.plist` in the iOS app to the local Contextual Sync server.
+
+## Disclaimer
+Together Stream is intended solely for use with an Apple iOS product and intended to be used in conjunction with officially licensed Apple development tools and further customized and distributed under the terms and conditions of your licensed Apple Developer Program.
