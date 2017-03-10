@@ -42,6 +42,13 @@ Together Stream uses push notifications to send stream invites to users with the
 3. Go through these steps to generate a `cert.pem` and a `key.pem` https://github.com/node-apn/node-apn/wiki/Preparing-Certificates
 4. Add these certificates to `backend/config/private/`
 
+### Google Analytics Configuration
+To keep track of analytics, generate a configuration file by following the instructions here: https://developers.google.com/analytics/devguides/collection/ios/v3/  
+**Note** You can skip adding the Google Analytics SDK to the project since it was installed above.
+
+*Skip Installation*  
+You can skip installing Google Analytics by removing the method `setupGoogleAnalytics` in the `AppDelegate` and `sendGoogleAnalyticsEvent` in `Utilities/Utils.swift`
+
 ### Backend Configuration
 1. In `backend/config/private/credentials.js` replace the `accessTokenKey` and `refreshTokenKey` with a unique string exactly **32 characters** long. This is used to encrypt the access tokens and refresh tokens in the database.
 2. Replace the `sessionSecret` with a unique string. This is used to encrypt the session tokens.
@@ -64,10 +71,6 @@ Make sure that when you are creating your container, you add your Facebook crede
 "CSYNC_FACEBOOK_SECRET=asfdasdf"`
 2. Add the public IP of the container as `csync_url` to the `private.plist` located at `iOS/TogetherStream/TogetherStream/Configuration`
 
-### Google Analytics Configuration (Optional)
-If you wish to keep track of analytics, you can add a configuration file by following the instructions here: https://developers.google.com/analytics/devguides/collection/ios/v3/  
-**Note** You can skip adding Google Analytics to the project since it was installed above.
-
 ## Local Configuration (Optional)
 ### Requirements
 [npm](https://www.npmjs.com/) 4.1.2  
@@ -83,3 +86,10 @@ If you wish to keep track of analytics, you can add a configuration file by foll
 7. Follow the instructions here to allow connections to a http address: http://stackoverflow.com/questions/31254725/transport-security-has-blocked-a-cleartext-http
 8. If you would like to run your Contexual Sync server locally as well, follow the instructions here: https://github.com/csync/csync-server#local-deployment.  
 Make sure you change the `private.plist` in the iOS app to the local Contextual Sync server.
+
+## Disclaimer
+Together Stream is intended solely for use with an Apple iOS product and intended to be used in conjunction with officially licensed Apple development tools and further customized and distributed under the terms and conditions of your licensed Apple Developer Program.
+
+## Licenses
+[iOS](LICENSE-IOS)  
+[Non-iOS](LICENSE-NON-IOS)

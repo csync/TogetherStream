@@ -18,7 +18,6 @@ var express = require('express');
 var auth = require('../auth');
 var blocks = require('../blocks');
 var invites = require('../invites');
-var id = require('../id');
 var router = express.Router();
 var authService = require('../auth/auth.service');
 var favicon = require('serve-favicon');
@@ -35,8 +34,6 @@ router.use("/auth", auth);
 router.use("/blocks", authService.isAuthenticated(), blocks);
 
 router.use("/invites", authService.isAuthenticated(), invites);
-
-router.use("/id", id);
 
 // Loading assets
 router.use(express.static('./public', {

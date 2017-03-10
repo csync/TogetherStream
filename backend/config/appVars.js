@@ -55,11 +55,6 @@ var appVars = {
         clientSecret: credentials.facebook.secret,
         redirectURL: appEnv.url + "/auth/facebook/callback"
     },
-    google: {
-        clientID: credentials.google.clientID,
-        clientSecret: credentials.google.clientSecret,
-        redirectURL: appEnv.url + "/auth/youtube/callback"
-    },
     pool: new pg.Pool(config),
     accessTokenKey: credentials.app.accessTokenKey,
     refreshTokenKey: credentials.app.refreshTokenKey,
@@ -68,9 +63,10 @@ var appVars = {
         key: __dirname + '/private/key.pem'
     }),
     mail: {
-        server: credentials.email.server,
+        userName: credentials.email.displayUserName,
+        domainName: credentials.email.displayDomainName,
         transporter: nodemailer.createTransport('smtps://' + credentials.email.userName + ':' +
-            credentials.email.password + '@' + credentials.email.server)
+            credentials.email.password + '@' + credentials.email.domainName)
     }
 };
 

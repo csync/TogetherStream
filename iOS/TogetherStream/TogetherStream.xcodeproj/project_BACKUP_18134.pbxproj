@@ -719,8 +719,11 @@
 			files = (
 				A2D44DC21E32B15900053099 /* SearchResultTableViewCell.xib in Resources */,
 				68991ED01E411F7F00F5B4A0 /* ProfileTableViewCell.xib in Resources */,
+<<<<<<< HEAD
 				A2AF79F41E64AA0200796C9B /* InviteCodeTableViewCell.xib in Resources */,
 				68D1A7C41E4113E50073E571 /* GoogleService-Info.plist in Resources */,
+=======
+>>>>>>> develop
 				A2D44DBE1E3024DC00053099 /* NoStreamsTableViewCell.xib in Resources */,
 				34AD4C0E1E20400E00210F61 /* WorkSans-SemiBold.ttf in Resources */,
 				34AD4C061E20400E00210F61 /* OFL.txt in Resources */,
@@ -738,6 +741,7 @@
 				34AB458C1E259BDD000730DC /* NameStream.storyboard in Resources */,
 				34AD4BFE1E20400E00210F61 /* OpenSans-ExtraBold.ttf in Resources */,
 				34AB45901E259C15000730DC /* Stream.storyboard in Resources */,
+				A20B117A1E71C23C003A49ED /* GoogleService-Info.plist in Resources */,
 				34AD4C0A1E20400E00210F61 /* WorkSans-ExtraLight.ttf in Resources */,
 				34AD4C0F1E20400E00210F61 /* WorkSans-Thin.ttf in Resources */,
 				34AD4C091E20400E00210F61 /* WorkSans-ExtraBold.ttf in Resources */,
