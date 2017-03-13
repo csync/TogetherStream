@@ -6,5 +6,5 @@
 import Foundation
 
 enum ServerError: Error {
-	case cannotFormURL, unexpectedResponse, invalidConfiguration, unexpectedQueueFail, cannotGetDeviceToken
+    case cannotFormURL, unexpectedResponse, invalidConfiguration, unexpectedQueueFail, cannotGetDeviceToken
 }

@@ -6,11 +6,11 @@
 import UIKit
 
 class StreamTableViewCell: UITableViewCell {
-	@IBOutlet weak var profileImageView: UIImageView!
-	@IBOutlet weak var streamNameLabel: UILabel!
-	@IBOutlet weak var hostNameLabel: UILabel!
-	@IBOutlet weak var currentVideoThumbnailImageView: UIImageView!
-	@IBOutlet weak var videoTitleLabel: UILabel!
+    @IBOutlet weak var profileImageView: UIImageView!
+    @IBOutlet weak var streamNameLabel: UILabel!
+    @IBOutlet weak var hostNameLabel: UILabel!
+    @IBOutlet weak var currentVideoThumbnailImageView: UIImageView!
+    @IBOutlet weak var videoTitleLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
 
     @IBOutlet weak var cardView: UIView!
