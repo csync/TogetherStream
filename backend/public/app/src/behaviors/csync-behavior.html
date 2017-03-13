@@ -189,11 +189,11 @@
       sendChatMessage: function (message) {
         let writeKey = this.csyncApp.key("streams." + this.streamId + ".chat." + this.generateUUID())
         let timeOffset = this.timeOffset
-        writeKey.write({
+        writeKey.write(JSON.stringify({
           content: message.detail,
           id: this.loggedInUserFacebookId,
-          timestamp: (Date.now() - timeOffset) / 1000 // need to save in seconds from 2001
-        }, {acl: csync.acl.PublicReadWrite})
+          timestamp: "" + (Date.now() - timeOffset) / 1000 // need to save in seconds from 2001
+        }), {acl: csync.acl.PublicReadWrite})
       },
       /**
       * Validates with the server whether this stream id is valid.
