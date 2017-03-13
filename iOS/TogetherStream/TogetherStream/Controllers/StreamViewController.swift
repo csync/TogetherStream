@@ -719,7 +719,7 @@ class StreamViewController: UIViewController {
         
         // present popup with default user profile picture
         let popup = PopupViewController.instantiate(
-            titleText: stream?.name.uppercased() ?? "MY STREAM",
+            titleText: "MY STREAM",
             image: #imageLiteral(resourceName: "profile_85"),
             messageText: stream?.name ?? "",
             descriptionText: "Would you like to end your stream?",
