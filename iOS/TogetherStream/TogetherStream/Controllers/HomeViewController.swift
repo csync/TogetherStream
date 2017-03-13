@@ -161,15 +161,6 @@ class HomeViewController: UIViewController {
             self.navigationController?.pushViewController(profileVC, animated: true)
         }
     }
-    
-    /// On the invite friends button tapped, show the "Invite Friends" screen.
-    fileprivate func didSelectInviteFriends() {
-        Utils.sendGoogleAnalyticsEvent(withCategory: "Home", action: "PressedInviteFriends")
-        let activityViewController = UIActivityViewController(activityItems: [Utils.inviteMessage], applicationActivities: nil)
-        DispatchQueue.main.async {
-            self.present(activityViewController, animated: true)
-        }
-    }
 
     /// On start stream tapped, show the "Name Stream" screen.
     ///
@@ -203,13 +194,11 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     ///   - indexPath: The path of the cell.
     /// - Returns: The cell to display.
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.row == viewModel.numberOfRows - 1 {
-            // Configure "No More Streams" cell
+        if viewModel.streams.count == 0 {
+            // Configure "No Streams" cell
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "noStreamsCell") as? NoStreamsTableViewCell else {
                 return UITableViewCell()
             }
-            cell.didSelectInviteFriends = {[unowned self] in self.didSelectInviteFriends()}
-            cell.selectionStyle = .none
             return cell
         }
         
