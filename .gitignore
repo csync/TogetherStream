@@ -77,6 +77,7 @@ backend/public/app/bower_components
 iOS/TogetherStream/TogetherStream/Configuration/private.plist
 
 # Other
+iOS/TogetherStream/TogetherStream/Assets.xcassets/AppIcon.appiconset/*
 manifest.yml.prod
 manifest.yml.staging
 backend/**/private/*
