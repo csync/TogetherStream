@@ -26,34 +26,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         setupGoogleAnalytics()
         
         self.setAudioToPlayWhileSilenced()
-		requestAuthorizationForNotifications(for: application)
-		
+        requestAuthorizationForNotifications(for: application)
+        
         //set status bar to light
         UIApplication.shared.statusBarStyle = .lightContent
         
-		UNUserNotificationCenter.current().delegate = self
-		// Clear notifications
-		UIApplication.shared.applicationIconBadgeNumber = 0
-		
-		// autoupdates profile when access token changes
-		FBSDKProfile.enableUpdates(onAccessTokenChange: true)
-		FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        UNUserNotificationCenter.current().delegate = self
+        // Clear notifications
+        UIApplication.shared.applicationIconBadgeNumber = 0
+        
+        // autoupdates profile when access token changes
+        FBSDKProfile.enableUpdates(onAccessTokenChange: true)
+        FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
         // Set back button appearance
         UINavigationBar.appearance().tintColor = UIColor.white
         
         return true
     }
-	
-	func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
-		return FBSDKApplicationDelegate.sharedInstance().application(app, open: url, options: options)
-	}
-	
-	func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-		
-		let deviceTokenString = deviceToken.reduce("", {$0 + String(format: "%02X", $1)})
-		UserDefaults.standard.set(deviceTokenString, forKey: "deviceToken")
-	}
+    
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        return FBSDKApplicationDelegate.sharedInstance().application(app, open: url, options: options)
+    }
+    
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        
+        let deviceTokenString = deviceToken.reduce("", {$0 + String(format: "%02X", $1)})
+        UserDefaults.standard.set(deviceTokenString, forKey: "deviceToken")
+    }
 
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -67,13 +67,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
-		// Clear notifications
-		UIApplication.shared.applicationIconBadgeNumber = 0
+        // Clear notifications
+        UIApplication.shared.applicationIconBadgeNumber = 0
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-		FBSDKAppEvents.activateApp()
+        FBSDKAppEvents.activateApp()
         Utils.sendGoogleAnalyticsEvent(withCategory: "AppDelegate", action: "BecameActive")
     }
 
@@ -81,7 +81,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     
-	
+    
     
     func setAudioToPlayWhileSilenced() {
         // Audio from videos will play even if silence switch is enabled on the device
@@ -93,16 +93,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print("Error setting AVAudioSession category!")
         }
     }
-	
-	
-	func requestAuthorizationForNotifications(for application: UIApplication) {
-		UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) {(accepted, error) in
-			if !accepted {
-				print("Notification access denied.")
-			}
-			application.registerForRemoteNotifications()
-		}
-	}
+    
+    
+    func requestAuthorizationForNotifications(for application: UIApplication) {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) {(accepted, error) in
+            if !accepted {
+                print("Notification access denied.")
+            }
+            application.registerForRemoteNotifications()
+        }
+    }
     
     private func setupGoogleAnalytics() {
         // Configure tracker from GoogleService-Info.plist.
@@ -121,8 +121,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
     
-	// Process notification when app is terminated or running in background
-	func userNotificationCenter(
+    // Process notification when app is terminated or running in background
+    func userNotificationCenter(
         _ center: UNUserNotificationCenter,
         didReceive response: UNNotificationResponse,
         withCompletionHandler completionHandler: @escaping () -> Void)
@@ -132,11 +132,11 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
                 presentStreamInvite(stream: stream)
             }
         }
-		completionHandler()
-	}
-	
-	// Process notification when app is running in foreground
-	func userNotificationCenter(
+        completionHandler()
+    }
+    
+    // Process notification when app is running in foreground
+    func userNotificationCenter(
         _ center: UNUserNotificationCenter,
         willPresent notification: UNNotification,
         withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void)
@@ -146,8 +146,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
                 presentStreamInvite(stream: stream)
             }
         }
-		completionHandler([])
-	}
+        completionHandler([])
+    }
 
     // Present a stream invite
     private func presentStreamInvite(stream: Stream) {

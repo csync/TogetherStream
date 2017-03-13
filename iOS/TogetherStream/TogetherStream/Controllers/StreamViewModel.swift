@@ -8,23 +8,23 @@ import CSyncSDK
 
 /// Delegate protocol for receiving updates to the model.
 protocol StreamViewModelDelegate: class {
-	func userCountChanged(toCount count: Int)
-	func received(message: Message, for position: Int) -> Void
+    func userCountChanged(toCount count: Int)
+    func received(message: Message, for position: Int) -> Void
     func removedMessage(at position: Int) -> Void
-	func receivedUpdate(forCurrentVideoID currentVideoID: String) -> Void
-	func receivedUpdate(forIsPlaying isPlaying: Bool) -> Void
-	func receivedUpdate(forIsBuffering isBuffering: Bool) -> Void
-	func receivedUpdate(forPlaytime playtime: Float) -> Void
+    func receivedUpdate(forCurrentVideoID currentVideoID: String) -> Void
+    func receivedUpdate(forIsPlaying isPlaying: Bool) -> Void
+    func receivedUpdate(forIsBuffering isBuffering: Bool) -> Void
+    func receivedUpdate(forPlaytime playtime: Float) -> Void
     func receivedVideoReport() -> Void
-	func streamEnded() -> Void
+    func streamEnded() -> Void
 }
 
 /// View model for the "Stream" screen.
 class StreamViewModel {
-	
-	/// An optional view model delegate.
-	weak var delegate: StreamViewModelDelegate?
-	
+    
+    /// An optional view model delegate.
+    weak var delegate: StreamViewModelDelegate?
+    
     /// The current stream. On set, perform setup.
     var stream: Stream? {
         didSet {
@@ -38,11 +38,11 @@ class StreamViewModel {
     var videoQueue: [Video]?
     /// The index of the currently playing video.
     var currentVideoIndex: Int?
-	
-	/// The number of users in the stream.
-	var userCount: Int {
-		return currentUserIDs.count
-	}
+    
+    /// The number of users in the stream.
+    var userCount: Int {
+        return currentUserIDs.count
+    }
     
     /// Whether the current user is the host of the stream.
     var isHost: Bool {
@@ -55,31 +55,31 @@ class StreamViewModel {
     
     /// Whether the host has no videos in their queue.
     var hostPlayerIsEmpty = true
-	
-	/// The messages that should be displayed.
-	fileprivate(set) var messages: [Message] = []
-	/// Whether the host is currently playing a video.
-	fileprivate(set) var hostPlaying = false
+    
+    /// The messages that should be displayed.
+    fileprivate(set) var messages: [Message] = []
+    /// Whether the host is currently playing a video.
+    fileprivate(set) var hostPlaying = false
     
     /// The maximum amount of chat messages that are stored and displayed.
     private let maximumChatMessages = 50
     
-	/// The key of the stream for participants to listen for updates on.
-	private var streamKey: Key?
+    /// The key of the stream for participants to listen for updates on.
+    private var streamKey: Key?
     /// The key for the host to listen for reports of the video.
     private var reportedKey: Key?
-	/// Shorthand for the shared CSyncDataManager.
-	private var cSyncDataManager = CSyncDataManager.sharedInstance
+    /// Shorthand for the shared CSyncDataManager.
+    private var cSyncDataManager = CSyncDataManager.sharedInstance
     /// Shorthand for the shared FacebookDataManager.
     private var facebookDataManager = FacebookDataManager.sharedInstance
-	/// Manager of sending and receiving heart beats.
-	private var heartbeatDataManager: HeartbeatDataManager?
-	/// Manager of sending and receiving chat messages.
-	private var chatDataManager: ChatDataManager?
-	/// Manager of sending and receiving participant messages.
-	private var participantsDataManager: ParticipantsDataManager?
-	/// The user IDs of the current users in the stream.
-	private var currentUserIDs: Set<String> = []
+    /// Manager of sending and receiving heart beats.
+    private var heartbeatDataManager: HeartbeatDataManager?
+    /// Manager of sending and receiving chat messages.
+    private var chatDataManager: ChatDataManager?
+    /// Manager of sending and receiving participant messages.
+    private var participantsDataManager: ParticipantsDataManager?
+    /// The user IDs of the current users in the stream.
+    private var currentUserIDs: Set<String> = []
     /// The CSync path of the stream, unwrapped here for convenience.
     private var csyncPath: String {
         return stream?.csyncPath ?? ""
@@ -97,14 +97,14 @@ class StreamViewModel {
         setupMessagesDataManagers()
         setupHeartbeatDataManager()
     }
-	
-	deinit {
-		streamKey?.unlisten()
-		if isHost {
-			endStream()
+    
+    deinit {
+        streamKey?.unlisten()
+        if isHost {
+            endStream()
             NotificationCenter.default.removeObserver(self)
-		}
-	}
+        }
+    }
     
     /// Deletes the comment provided.
     ///
@@ -134,60 +134,60 @@ class StreamViewModel {
     func fetchVideo(withID id: String, callback: @escaping (Error?, Video?) -> Void) {
         YouTubeDataManager.sharedInstance.fetchVideo(withID: id, callback: callback)
     }
-	
-	/// Sends the given chat message.
-	///
-	/// - Parameter chatMessage: The message to send.
-	func send(chatMessage: String) {
-		chatDataManager?.send(message: chatMessage)
-	}
-	
-	/// Sends the given play time.
-	///
-	/// - Parameter currentPlayTime: The play time to send.
-	func send(currentPlayTime: Float) {
-		cSyncDataManager.write(String(currentPlayTime), toKeyPath: "\(csyncPath).playTime")
-	}
-	
-	/// Sends the given play state.
-	///
-	/// - Parameter playState: The play state to send.
-	func send(playState: Bool) {
-		let stateMessage = playState ? "true" : "false"
-		cSyncDataManager.write(stateMessage, toKeyPath: "\(csyncPath).isPlaying")
-	}
-	
-	/// Sends the given buffering state.
-	///
-	/// - Parameter isBuffering: The buffering state to send.
-	func send(isBuffering: Bool) {
-		let stateMessage = isBuffering ? "true" : "false"
-		cSyncDataManager.write(stateMessage, toKeyPath: "\(csyncPath).isBuffering")
-	}
-	
-	/// Sends the given video ID.
-	///
-	/// - Parameter currentVideoID: The video ID to send.
-	func send(currentVideoID: String) {
-		cSyncDataManager.write(currentVideoID, toKeyPath: "\(csyncPath).currentVideoID")
-	}
+    
+    /// Sends the given chat message.
+    ///
+    /// - Parameter chatMessage: The message to send.
+    func send(chatMessage: String) {
+        chatDataManager?.send(message: chatMessage)
+    }
+    
+    /// Sends the given play time.
+    ///
+    /// - Parameter currentPlayTime: The play time to send.
+    func send(currentPlayTime: Float) {
+        cSyncDataManager.write(String(currentPlayTime), toKeyPath: "\(csyncPath).playTime")
+    }
+    
+    /// Sends the given play state.
+    ///
+    /// - Parameter playState: The play state to send.
+    func send(playState: Bool) {
+        let stateMessage = playState ? "true" : "false"
+        cSyncDataManager.write(stateMessage, toKeyPath: "\(csyncPath).isPlaying")
+    }
+    
+    /// Sends the given buffering state.
+    ///
+    /// - Parameter isBuffering: The buffering state to send.
+    func send(isBuffering: Bool) {
+        let stateMessage = isBuffering ? "true" : "false"
+        cSyncDataManager.write(stateMessage, toKeyPath: "\(csyncPath).isBuffering")
+    }
+    
+    /// Sends the given video ID.
+    ///
+    /// - Parameter currentVideoID: The video ID to send.
+    func send(currentVideoID: String) {
+        cSyncDataManager.write(currentVideoID, toKeyPath: "\(csyncPath).currentVideoID")
+    }
     
     /// Sends to host that the video was reported.
     func reportVideo() {
         cSyncDataManager.write("true", toKeyPath: "\(csyncPath).isReported")
     }
-	
-	/// Ends and resets the stream.
-	func endStream() {
+    
+    /// Ends and resets the stream.
+    func endStream() {
         // Reset stream
         cSyncDataManager.deleteKey(atPath: csyncPath + ".*.*")
         cSyncDataManager.deleteKey(atPath: csyncPath + ".*")
         // Set empty state
         cSyncDataManager.write("false", toKeyPath: "\(csyncPath).isPlaying")
-		cSyncDataManager.write("false", toKeyPath: "\(csyncPath).isActive")
+        cSyncDataManager.write("false", toKeyPath: "\(csyncPath).isActive")
         // Delete invites
         AccountDataManager.sharedInstance.deleteInvites()
-	}
+    }
     
     /// Sends that the participant with the given ID either left or
     /// joined the stream.
@@ -198,17 +198,17 @@ class StreamViewModel {
     private func send(participantID: String, isJoining: Bool) {
         participantsDataManager?.send(participantID: participantID, isJoining: isJoining)
     }
-	
-	/// Sets up the stream as the host.
-	private func setupHost() {
-		// Create node so others can listen to it
-		cSyncDataManager.write("", toKeyPath: csyncPath)
-		// Creat heartbeat node so others can create in it
-		cSyncDataManager.write("", toKeyPath: csyncPath + ".heartbeat", withACL: .PublicReadCreate)
-		// Creat chat node so others can create in it
-		cSyncDataManager.write("", toKeyPath: csyncPath + ".chat", withACL: .PublicReadCreate)
-		// Set stream to active
-		cSyncDataManager.write("true", toKeyPath: csyncPath + ".isActive")
+    
+    /// Sets up the stream as the host.
+    private func setupHost() {
+        // Create node so others can listen to it
+        cSyncDataManager.write("", toKeyPath: csyncPath)
+        // Creat heartbeat node so others can create in it
+        cSyncDataManager.write("", toKeyPath: csyncPath + ".heartbeat", withACL: .PublicReadCreate)
+        // Creat chat node so others can create in it
+        cSyncDataManager.write("", toKeyPath: csyncPath + ".chat", withACL: .PublicReadCreate)
+        // Set stream to active
+        cSyncDataManager.write("true", toKeyPath: csyncPath + ".isActive")
         // Set video to unreported
         cSyncDataManager.write("false", toKeyPath: csyncPath + ".isReported", withACL: .PublicReadWrite)
         // Set state of inital video
@@ -227,18 +227,18 @@ class StreamViewModel {
             self.delegate?.receivedVideoReport()
             self.cSyncDataManager.write("false", toKeyPath: self.csyncPath + ".isReported", withACL: .PublicReadWrite)
         }
-		
-		NotificationCenter.default.addObserver(self,
-		                                       selector: #selector(receivedWillTerminateNotification),
-		                                       name: NSNotification.Name.UIApplicationWillTerminate,
-		                                       object: nil)
-	}
-	
-	/// Sets up the stream as the participant.
-	private func setupParticipant() {
-		streamKey = cSyncDataManager.createKey(atPath: csyncPath + ".*")
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(receivedWillTerminateNotification),
+                                               name: NSNotification.Name.UIApplicationWillTerminate,
+                                               object: nil)
+    }
+    
+    /// Sets up the stream as the participant.
+    private func setupParticipant() {
+        streamKey = cSyncDataManager.createKey(atPath: csyncPath + ".*")
         // Listen for changes on the stream
-		streamKey?.listen() {[weak self] value, error in
+        streamKey?.listen() {[weak self] value, error in
             // Ensure view model still exists, there's no error and the
             // value still exists.
             guard let `self` = self,
@@ -273,7 +273,7 @@ class StreamViewModel {
                 break
             }
         }
-	}
+    }
     
     /// Sets up the chat and participant data managers.
     private func setupMessagesDataManagers() {
@@ -340,44 +340,44 @@ class StreamViewModel {
             }
         }
     }
-	
-	/// On app terminating, try to end the stream as the host.
-	///
-	/// - Parameter notification: The notification of termination.
-	@objc private func receivedWillTerminateNotification(_ notification: Notification) {
-		endStream()
-	}
-	
-	/// Insert the given message into the messages object, sorted by timestamp.
-	///
+    
+    /// On app terminating, try to end the stream as the host.
+    ///
+    /// - Parameter notification: The notification of termination.
+    @objc private func receivedWillTerminateNotification(_ notification: Notification) {
+        endStream()
+    }
+    
+    /// Insert the given message into the messages object, sorted by timestamp.
+    ///
     /// - complexity: O(log(n)) of `messages` length
-	/// - Parameter message: The message to insert.
-	/// - Returns: The position the messages was inserted in.
-	private func insertIntoMessages(_ message: Message) -> Int {
-		if messages.isEmpty {
-			messages.append(message)
-			return 0
-		}
+    /// - Parameter message: The message to insert.
+    /// - Returns: The position the messages was inserted in.
+    private func insertIntoMessages(_ message: Message) -> Int {
+        if messages.isEmpty {
+            messages.append(message)
+            return 0
+        }
         // Binary search for insertion point
-		let timestamp = message.timestamp
-		var lowIndex = 0
-		var highIndex = messages.count
-		while lowIndex < highIndex {
-			let midIndex = (lowIndex + highIndex) / 2
-			let midTimestamp = messages[midIndex].timestamp
-			if midTimestamp < timestamp {
-				lowIndex = midIndex + 1
-			}
-			else if midTimestamp > timestamp {
-				highIndex = midIndex
-			}
-			else {
-				// rare case where time is exactly the same
-				messages.insert(message, at: midIndex + 1)
-				return midIndex + 1
-			}
-		}
-		messages.insert(message, at: highIndex)
-		return highIndex
-	}
+        let timestamp = message.timestamp
+        var lowIndex = 0
+        var highIndex = messages.count
+        while lowIndex < highIndex {
+            let midIndex = (lowIndex + highIndex) / 2
+            let midTimestamp = messages[midIndex].timestamp
+            if midTimestamp < timestamp {
+                lowIndex = midIndex + 1
+            }
+            else if midTimestamp > timestamp {
+                highIndex = midIndex
+            }
+            else {
+                // rare case where time is exactly the same
+                messages.insert(message, at: midIndex + 1)
+                return midIndex + 1
+            }
+        }
+        messages.insert(message, at: highIndex)
+        return highIndex
+    }
 }

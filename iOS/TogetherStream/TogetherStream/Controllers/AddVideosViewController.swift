@@ -7,21 +7,21 @@ import UIKit
 
 /// View controller for the "Add Videos" screen.
 class AddVideosViewController: UIViewController {
-	
+    
     @IBOutlet weak var streamNameLabel: UILabel!
     @IBOutlet weak var queueCountLabel: UILabel!
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var searchTableView: UITableView!
     @IBOutlet weak var nextButton: UIButton!
     @IBOutlet weak var searchTableViewBottomConstraint: NSLayoutConstraint!
-	
+    
     /// The stream to add videos to.
     var stream: Stream?
     /// Change view based on whether a stream is currently being created.
     var isCreatingStream = false
     /// Delegate to send updates to.
     var delegate: AddVideosDelegate?
-	
+    
     /// The size of the space in front of the search bar.
     private let searchSpacerFrame = CGRect(x: 0, y: 0, width: 39, height: 5)
     /// The size of the clear button for the search bar.
@@ -29,8 +29,8 @@ class AddVideosViewController: UIViewController {
     /// The height of the header in the search table.
     fileprivate let searchTableHeaderViewHeight: CGFloat = 43
     
-	/// The model for the objects in this view.
-	fileprivate let viewModel = AddVideosViewModel()
+    /// The model for the objects in this view.
+    fileprivate let viewModel = AddVideosViewModel()
     
     /// Loading indicator for fetching videos.
     fileprivate let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .white)
@@ -144,7 +144,7 @@ class AddVideosViewController: UIViewController {
         activityIndicator.frame = view.frame
         view.addSubview(activityIndicator)
     }
-	
+    
     /// When the done button is tapped, sends added videos to the appropriate receivers
     /// and moves to the next screen.
     ///
@@ -170,7 +170,7 @@ class AddVideosViewController: UIViewController {
             let _ = self.navigationController?.popViewController(animated: true)
         }
     }
-	
+    
     /// When a text field changes, updates the right view of the search text field
     /// based on the number of characters in the field.
     ///

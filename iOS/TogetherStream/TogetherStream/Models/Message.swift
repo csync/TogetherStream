@@ -6,6 +6,6 @@
 import Foundation
 
 protocol Message {
-	var subjectID: String { get }
-	var timestamp: TimeInterval { get }
+    var subjectID: String { get }
+    var timestamp: TimeInterval { get }
 }

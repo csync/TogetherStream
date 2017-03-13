@@ -6,10 +6,10 @@
 import UIKit
 
 class ChatMessageTableViewCell: UITableViewCell {
-	@IBOutlet weak var profileImageView: UIImageView!
-	@IBOutlet weak var messageLabel: UILabel!
-	@IBOutlet weak var nameLabel: UILabel!
-	
+    @IBOutlet weak var profileImageView: UIImageView!
+    @IBOutlet weak var messageLabel: UILabel!
+    @IBOutlet weak var nameLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

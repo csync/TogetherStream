@@ -8,7 +8,7 @@ import MessageUI
 
 /// The view controller for the "Invite" screen.
 class InviteStreamViewController: UIViewController {
-	
+    
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet weak var doneButton: UIButton!
     @IBOutlet weak var bottomLayoutConstraint: NSLayoutConstraint!
