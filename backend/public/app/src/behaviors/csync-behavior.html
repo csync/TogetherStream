@@ -195,5 +195,40 @@
           timestamp: (Date.now() - timeOffset) / 1000 // need to save in seconds from 2001
         }, {acl: csync.acl.PublicReadWrite})
       },
+      /**
+      * Validates with the server whether this stream id is valid.
+      * @param {string} streamId - Stream id input by the user on portal page.
+      * @param {function} callback - Function callback
+      */
+      isValidStreamId: function(streamId, callback) {
+        let listenerKey = this.csyncApp.key("streams.*")
+        let checkIfInvalid = function () {
+          if (!this.streamValidated) {
+            callback(false)
+          }
+        }
+        let listenerCallback = function (error, value) {
+          if (error) {
+            console.error(error)
+            return
+          }
+          // If value doesn't exist and is outdated, don't process it.
+          if (!value.exists) {
+            return
+          }
+
+          if (!this.streamValidated && value.key && value.key.indexOf(streamId) >= 0) {
+            this.set("streamValidated", true)
+            callback(true)
+            return
+          } 
+          
+          // Checking if invalid once all streams have been checked.
+          this.debounce("invalidStreamCallback", checkIfInvalid, 200)
+          // this.processMessageAndInsertIntoArray(value)
+        }.bind(this)
+
+        listenerKey.listen(listenerCallback)
+      }
     };
 </script>
