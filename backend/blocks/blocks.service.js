@@ -1,6 +1,7 @@
-/**
- * Created by danielfirsht on 3/7/17.
- */
+//
+//  © Copyright IBM Corporation 2017
+//  LICENSE: MIT http://ibm.biz/license-non-ios
+//
 
 var userController = require('../user/user.controller');
 var appVars = require('../config/appVars');

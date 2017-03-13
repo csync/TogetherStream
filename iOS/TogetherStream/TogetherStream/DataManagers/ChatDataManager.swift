@@ -1,9 +1,6 @@
 //
-//  ChatDataManager.swift
-//  Stormtrooper
-//
-//  Created by Daniel Firsht on 12/15/16.
-//  Copyright © 2016 IBM. All rights reserved.
+//  © Copyright IBM Corporation 2017
+//  LICENSE: MIT http://ibm.biz/license-ios
 //
 
 import Foundation

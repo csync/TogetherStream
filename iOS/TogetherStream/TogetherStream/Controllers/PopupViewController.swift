@@ -1,9 +1,6 @@
 //
-//  PopupViewController.swift
-//  Stormtrooper
-//
-//  Created by Glenn R. Fisher on 1/18/17.
-//  Copyright © 2017 IBM. All rights reserved.
+//  © Copyright IBM Corporation 2017
+//  LICENSE: MIT http://ibm.biz/license-ios
 //
 
 import UIKit

@@ -1,6 +1,7 @@
-/**
- * Created by danielfirsht on 3/7/17.
- */
+//
+//  © Copyright IBM Corporation 2017
+//  LICENSE: MIT http://ibm.biz/license-non-ios
+//
 
 var express = require('express');
 var blocksService = require('./blocks.service.js');
