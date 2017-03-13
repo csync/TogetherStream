@@ -31,4 +31,9 @@ extension UIColor {
     @nonobjc class var togetherStreamTextBlack: UIColor {
         return UIColor(colorLiteralRed: 74.0 / 255, green: 74.0 / 255, blue: 74.0 / 255, alpha: 1)
     }
+    
+    /// The color of the share code border.
+    @nonobjc class var togetherStreamBorderGray: UIColor {
+        return UIColor(colorLiteralRed: 219.0 / 255, green: 219.0 / 255, blue: 219.0 / 255, alpha: 1)
+    }
 }

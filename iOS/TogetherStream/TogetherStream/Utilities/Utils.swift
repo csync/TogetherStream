@@ -7,6 +7,8 @@ import UIKit
 import Google
 
 class Utils: NSObject {
+    
+    static let inviteMessage = "Download Together Stream for iOS - A collaborative and synchronized streaming experience.\nhttp://ibm.biz/together-stream-invite-friends"
 
     /**
      Method gets a key from a plist, both specified in parameters

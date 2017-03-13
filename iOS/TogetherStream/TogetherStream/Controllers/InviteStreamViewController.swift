@@ -15,18 +15,10 @@ class InviteStreamViewController: UIViewController {
 
     /// The model for the objects in this view.
     fileprivate let viewModel = InviteStreamViewModel()
-    /// The default height of the invite cells.
-    fileprivate let defaultCellHeight = CGFloat(64.0)
-    /// The height of the header cell in the invite table.
-    fileprivate let headerCellHeight = CGFloat(47.0)
     /// The frame of the skip invite button.
     private let skipButtonFrame = CGRect(x: 0, y: 0, width: 35, height: 17)
-    /// The default message for the text message invitation.
-    private let textInviteMessage = "Download Together Stream for iOS - A social and synchronized streaming experience.\nhttp://ibm.biz/together-stream-invite-friends"
-    /// The default subject for the email invitation.
-    private let emailInviteSubject = "Download Together Stream"
-    /// The default body for the email invitation.
-    private let emailInviteBody = "Download Together Stream for iOS - A social and synchronized streaming experience.\nhttp://ibm.biz/together-stream-invite-friends"
+    /// The default message for sharing the stream code.
+    private let shareCodeMessage = "Join my stream on Together Stream – A social and synchronized streaming experience. Enter code: %@. http://togetherstream.csync.io/app?stream_id=%@"
 
     /// Exposed stream object to be set by other view controllers.
     var stream: Stream? {
@@ -43,8 +35,6 @@ class InviteStreamViewController: UIViewController {
     var videoQueue: [Video]?
     /// Whether a stream is currently being created.
     var isCreatingStream = false
-    /// Whether the user should be able to invite other users to the stream.
-    var canInviteToStream = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,9 +45,7 @@ class InviteStreamViewController: UIViewController {
         if isCreatingStream {
             setupViewForCreatingStream()
         }
-        if canInviteToStream {
-            setupViewForInviteToStream()
-        }
+        setupViewForInviteToStream()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -98,35 +86,27 @@ class InviteStreamViewController: UIViewController {
         }
     }
     
-    /// Opens the composer to send a text message invite.
-    fileprivate func sendTextInvite() {
-        guard MFMessageComposeViewController.canSendText() else {
-            showSendMessageErrorAlert()
-            return
+    /// On tapping share code, present an activity view to share the code.
+   fileprivate func didSelectShareCode() {
+        Utils.sendGoogleAnalyticsEvent(withCategory: "InviteStream", action: "PressedShareCode")
+        let appID = viewModel.stream?.hostFacebookID ?? ""
+        let shareCodeMessage = String(format: self.shareCodeMessage, appID, appID)
+        let activityViewController = UIActivityViewController(activityItems: [shareCodeMessage], applicationActivities: nil)
+        DispatchQueue.main.async {
+          self.present(activityViewController, animated: true)
         }
-        
-        Utils.sendGoogleAnalyticsEvent(withCategory: "InviteStream", action: "SelectedSendText")
-        let messageVC = MFMessageComposeViewController()
-        messageVC.messageComposeDelegate = self
-        messageVC.body = textInviteMessage
-        present(messageVC, animated: true)
     }
     
-    fileprivate func sendEmailInvite() {
-        guard MFMailComposeViewController.canSendMail() else {
-            showSendMailErrorAlert()
-            return
+    /// On tapping the code text field, present an action sheet to copy the code.
+    fileprivate func didSelectCodeTextField() {
+        Utils.sendGoogleAnalyticsEvent(withCategory: "InviteStream", action: "PressedCodeField")
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let copyAction = UIAlertAction(title: "Copy", style: .default) {[weak self] _ in
+            UIPasteboard.general.string = self?.viewModel.stream?.hostFacebookID
         }
-        
-        Utils.sendGoogleAnalyticsEvent(withCategory: "InviteStream", action: "SelectedSendMail")
-        let mailComposerVC = MFMailComposeViewController()
-        // Extremely important to set the --mailComposeDelegate-- property, NOT the --delegate-- property
-        mailComposerVC.mailComposeDelegate = self
-        
-        mailComposerVC.setSubject(emailInviteSubject)
-        mailComposerVC.setMessageBody(emailInviteBody, isHTML: false)
-        
-        present(mailComposerVC, animated: true, completion: nil)
+        actionSheet.addAction(copyAction)
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        present(actionSheet, animated: true)
     }
     
     /// Set the navigation items for this view controller
@@ -141,6 +121,7 @@ class InviteStreamViewController: UIViewController {
         tableView.register(UINib(nibName: "TextEmailTableViewCell", bundle: nil), forCellReuseIdentifier: "textEmailCell")
         tableView.register(UINib(nibName: "FriendTableViewCell", bundle: nil), forCellReuseIdentifier: "friendCell")
         tableView.register(UINib(nibName: "InviteFriendsHeaderTableViewCell", bundle: nil), forCellReuseIdentifier: "friendsHeaderCell")
+        tableView.register(UINib(nibName: "InviteCodeTableViewCell", bundle: nil), forCellReuseIdentifier: "inviteCodeCell")
         
         // add a zero-height footer to hide trailing empty cells
         tableView.tableFooterView = UIView()
@@ -158,7 +139,7 @@ class InviteStreamViewController: UIViewController {
         navigationItem.setRightBarButtonItems([skipItem], animated: false)
     }
     
-    /// Sets up the view for when friends can be invited to a stream.
+    /// Sets up the view for friends to be invited to a stream.
     private func setupViewForInviteToStream() {
         // Fetch friends to invite
         viewModel.fetchFriends(callback:{ (error: Error?) -> Void in
@@ -172,89 +153,18 @@ class InviteStreamViewController: UIViewController {
             }
         })
     }
-    
-    /// Shows an alert that email cannot be sent.
-    private func showSendMailErrorAlert() {
-        let sendMailErrorAlert = UIAlertController(title: "Could Not Send Email", message: "Your device could not send e-mail.  Please check e-mail configuration and try again.", preferredStyle: .alert)
-        let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-
-        sendMailErrorAlert.addAction(defaultAction)
-        present(sendMailErrorAlert, animated: true, completion: nil)
-    }
-    
-    /// Shows an alert that text messages cannot be sent.
-    private func showSendMessageErrorAlert() {
-        let title = "Could Not Send SMS"
-        let message = "SMS services are not available on this device."
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let action = UIAlertAction(title: "OK", style: .default)
-        alertController.addAction(action)
-        present(alertController, animated: true)
-    }
-}
-
-extension InviteStreamViewController: MFMessageComposeViewControllerDelegate {
-    /// On send message finish, dismiss the message compose controller.
-    ///
-    /// - Parameters:
-    ///   - controller: The controller that finished.
-    ///   - result: The result of the message composition.
-    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
-        switch (result) {
-        case .cancelled:
-            print("Message was cancelled")
-            controller.dismiss(animated: true, completion: nil)
-        case .failed:
-            print("Message failed")
-            controller.dismiss(animated: true, completion: nil)
-        case .sent:
-            print("Message was sent")
-            controller.dismiss(animated: true, completion: nil)
-        }
-    }
-    
-}
-
-extension InviteStreamViewController: MFMailComposeViewControllerDelegate {
-    /// On send email finish, dismiss the email compose controller.
-    ///
-    /// - Parameters:
-    ///   - controller: The controller that finished.
-    ///   - result: The result of the email composition.
-    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-        switch (result) {
-        case .cancelled:
-            print("Message was cancelled")
-            controller.dismiss(animated: true, completion: nil)
-        case .failed:
-            print("Message failed")
-            controller.dismiss(animated: true, completion: nil)
-        case .sent:
-            print("Message was sent")
-            controller.dismiss(animated: true, completion: nil)
-        case .saved:
-            print("Message was saved")
-            controller.dismiss(animated: true, completion: nil)
-        }
-    }
 }
 
 extension InviteStreamViewController: UITableViewDelegate, UITableViewDataSource {
-    /// Sends invite or toggles friend selection depending on row seleted.
+    /// Toggles friend selection or does nothing depending on row seleted.
     ///
     /// - Parameters:
     ///   - tableView: The table that was selected.
     ///   - indexPath: The index path of the selected row.
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let tableRowsNum = tableView.numberOfRows(inSection: 0)
-
-        switch indexPath.item {
-        case 0:
-            // Tapped send text
-            sendTextInvite()
-        case 1:
-            // Tapped send email
-            sendEmailInvite()
+        
+        switch indexPath.row {
         case viewModel.numberOfStaticCellsBeforeFriends...tableRowsNum:
             // Tapped on friend
             if let friendCell = tableView.cellForRow(at: indexPath) as? FriendTableViewCell {
@@ -266,7 +176,7 @@ extension InviteStreamViewController: UITableViewDelegate, UITableViewDataSource
                 } else {
                     viewModel.selectedFriends[friendData.id] = nil
                 }
-
+                
                 doneButton.isHidden = viewModel.selectedFriends.values.count == 0
                 bottomLayoutConstraint.constant = doneButton.isHidden ? -doneButton.frame.height : 0
             }
@@ -284,25 +194,19 @@ extension InviteStreamViewController: UITableViewDelegate, UITableViewDataSource
     /// - Returns: The cell to display.
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let numberOfRows = tableView.numberOfRows(inSection: 0)
-
+        
         switch indexPath.row {
         case 0:
-            // Show text invite
-            guard let textCell = tableView.dequeueReusableCell(withIdentifier: "textEmailCell") as? TextEmailTableViewCell else {
+            // Show invite code
+            guard let inviteCodeCell = tableView.dequeueReusableCell(withIdentifier: "inviteCodeCell") as? InviteCodeTableViewCell else {
                 return UITableViewCell()
             }
-            textCell.selectionStyle = .none
-            textCell.textEmailLabel.text = "Invite via Text"
-            return textCell
+            inviteCodeCell.selectionStyle = .none
+            inviteCodeCell.inviteCodeTextField.text = viewModel.stream?.hostFacebookID
+            inviteCodeCell.didSelectShareCode = {[unowned self] in self.didSelectShareCode()}
+            inviteCodeCell.didSelectCodeTextField = {[unowned self] in self.didSelectCodeTextField()}
+            return inviteCodeCell
         case 1:
-            // Show email invite
-            guard let emailCell = tableView.dequeueReusableCell(withIdentifier: "textEmailCell") as? TextEmailTableViewCell else {
-                return UITableViewCell()
-            }
-            emailCell.selectionStyle = .none
-            emailCell.textEmailLabel.text = "Invite via Email"
-            return emailCell
-        case 2:
             // Show friends header view
             guard let friendsHeaderCell = tableView.dequeueReusableCell(withIdentifier: "friendsHeaderCell") as? InviteFriendsHeaderTableViewCell else {
                 return UITableViewCell()
@@ -317,11 +221,11 @@ extension InviteStreamViewController: UITableViewDelegate, UITableViewDataSource
             guard let friendCell = tableView.dequeueReusableCell(withIdentifier: "friendCell") as? FriendTableViewCell else {
                 return UITableViewCell()
             }
-
+            
             let index = viewModel.userCollectionIndexForCell(at: indexPath)
-
+            
             let friendData = viewModel.facebookFriends[index]
-
+            
             friendCell.name.text = friendData.name
             friendData.fetchProfileImage { error, image in
                 // Using main thread to set image properly
@@ -330,7 +234,7 @@ extension InviteStreamViewController: UITableViewDelegate, UITableViewDataSource
                 }
             }
             friendCell.friendIsSelected = viewModel.selectedFriends[friendData.id] != nil
-
+            
             friendCell.selectionStyle = .none
             return friendCell
         default:
@@ -338,31 +242,33 @@ extension InviteStreamViewController: UITableViewDelegate, UITableViewDataSource
         }
     }
 
-    /// Sets the row height based on constants.
+    /// Sets the height to be automatic based on constraints.
     ///
     /// - Parameters:
     ///   - tableView: The table requesting the height.
     ///   - indexPath: The index path of the row the request is for.
     /// - Returns: The height of the cell.
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-
-        switch indexPath.item {
-        case 2:
-            //show header view
-            return headerCellHeight
-        default:
-            return defaultCellHeight
-        }
+        return UITableViewAutomaticDimension
+    }
+    
+    /// Sets the height to be automatic based on constraints.
+    ///
+    /// - Parameters:
+    ///   - tableView: The table requesting the height.
+    ///   - indexPath: The index path of the row being requested for.
+    /// - Returns: The height of the cell.
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
     }
 
-    /// Returns the number of rows for the section based on if user can
-    /// invite other users to the stream.
+    /// Returns the number of rows for the section.
     ///
     /// - Parameters:
     ///   - tableView: The tableview requesting the number.
     ///   - section: The section the request is for.
     /// - Returns: The number of rows for the section.
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.numberOfRows(ifCanInviteToStream: canInviteToStream)
+        return viewModel.numberOfRows
     }
 }
