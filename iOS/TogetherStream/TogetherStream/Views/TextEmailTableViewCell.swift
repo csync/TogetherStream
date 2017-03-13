@@ -1,9 +1,6 @@
 //
-//  TextEmailTableViewCell.swift
-//  Stormtrooper
-//
-//  Created by Jaime Guajardo on 1/16/17.
-//  Copyright © 2017 IBM. All rights reserved.
+//  © Copyright IBM Corporation 2017
+//  LICENSE: MIT http://ibm.biz/license-ios
 //
 
 import UIKit

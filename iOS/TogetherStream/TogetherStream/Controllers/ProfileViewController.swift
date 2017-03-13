@@ -1,9 +1,6 @@
 //
-//  ProfileViewController.swift
-//  Stormtrooper
-//
-//  Created by Nathan Hekman on 11/23/16.
-//  Copyright © 2016 IBM. All rights reserved.
+//  © Copyright IBM Corporation 2017
+//  LICENSE: MIT http://ibm.biz/license-ios
 //
 
 import UIKit
@@ -31,16 +28,12 @@ class ProfileViewController: UIViewController {
         /// The row linking to the "Invite" screen.
         let invite = ProfileRow(
             label: "Invite Friends to Together Stream",
-            showDisclosure: true,
+            showDisclosure: false,
             action: {[unowned self] in
                 Utils.sendGoogleAnalyticsEvent(withCategory: "Profile", action: "SelectedInvite")
-                self.pushViewController("inviteStream", from: "InviteStream") {viewController in
-                    guard let viewController = viewController as? InviteStreamViewController else {
-                        return
-                    }
-                    viewController.isCreatingStream = false
-                    viewController.canInviteToStream = false
-                    viewController.navigationItem.title = "Invite to App"
+                let activityViewController = UIActivityViewController(activityItems: [Utils.inviteMessage], applicationActivities: nil)
+                DispatchQueue.main.async {
+                    self.present(activityViewController, animated: true)
                 }
             }
         )

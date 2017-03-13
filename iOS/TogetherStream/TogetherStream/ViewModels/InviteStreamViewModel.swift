@@ -1,9 +1,6 @@
 //
-//  InviteStreamViewModel.swift
-//  Stormtrooper
-//
-//  Created by Jaime Guajardo on 1/25/17.
-//  Copyright © 2017 IBM. All rights reserved.
+//  © Copyright IBM Corporation 2017
+//  LICENSE: MIT http://ibm.biz/license-ios
 //
 
 
@@ -15,8 +12,12 @@ class InviteStreamViewModel {
     /// The stream the invites are for.
     var stream: Stream?
 
-    /// The number of cells before friends are listed
-    let numberOfStaticCellsBeforeFriends = 3
+    /// The number of cells before friends are listed.
+    let numberOfStaticCellsBeforeFriends = 2
+    /// Calculates the number of rows in the invite table.
+    var numberOfRows: Int {
+        return numberOfStaticCellsBeforeFriends + facebookFriends.count
+    }
 
     /// The friends that are selected, mapped user ID to user.
     var selectedFriends: [String: User] = [:]
@@ -27,16 +28,6 @@ class InviteStreamViewModel {
     private let accountDataManager = AccountDataManager.sharedInstance
     /// Shorthand for the shared FacebookDataManager.
     private let facebookDataManager = FacebookDataManager.sharedInstance
-    
-    /// Calculates the number of rows in the invite table depending
-    /// if users can be invited to the stream.
-    ///
-    /// - Parameter canInviteToStream: Whether users can be invited to the stream.
-    /// - Returns: The number of rows that should be in the invite table.
-    func numberOfRows(ifCanInviteToStream canInviteToStream: Bool) -> Int {
-        return canInviteToStream ? numberOfStaticCellsBeforeFriends + facebookFriends.count
-            : numberOfStaticCellsBeforeFriends - 1
-    }
     
     /// Returns the collection index for the user listed by the row
     /// at the given index path.

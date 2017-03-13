@@ -1,9 +1,6 @@
 //
-//  StreamViewController.swift
-//  Stormtrooper
-//
-//  Created by Nathan Hekman on 11/23/16.
-//  Copyright © 2016 IBM. All rights reserved.
+//  © Copyright IBM Corporation 2017
+//  LICENSE: MIT http://ibm.biz/license-ios
 //
 
 import UIKit
@@ -684,7 +681,6 @@ class StreamViewController: UIViewController {
             return
         }
         inviteVC.navigationItem.title = "Invite to Stream"
-        inviteVC.canInviteToStream = true
         inviteVC.isCreatingStream = false
         inviteVC.stream = stream
         navigationController?.pushViewController(inviteVC, animated: true)
