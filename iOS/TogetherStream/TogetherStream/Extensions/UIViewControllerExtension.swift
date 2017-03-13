@@ -1,9 +1,6 @@
 //
-//  UIViewControllerExtension.swift
-//  BluePic
-//
-//  Created by Alex Buck on 6/8/16.
-//  Copyright © 2016 MIL. All rights reserved.
+//  © Copyright IBM Corporation 2017
+//  LICENSE: MIT http://ibm.biz/license-ios
 //
 
 import Foundation

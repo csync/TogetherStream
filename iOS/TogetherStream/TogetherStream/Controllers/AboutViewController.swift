@@ -1,9 +1,6 @@
 //
-//  AboutViewController.swift
-//  Stormtrooper
-//
-//  Created by Glenn R. Fisher on 2/2/17.
-//  Copyright © 2017 IBM. All rights reserved.
+//  © Copyright IBM Corporation 2017
+//  LICENSE: MIT http://ibm.biz/license-ios
 //
 
 import UIKit

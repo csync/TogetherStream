@@ -1,9 +1,6 @@
 //
-//  InviteStreamViewModel.swift
-//  Stormtrooper
-//
-//  Created by Jaime Guajardo on 1/25/17.
-//  Copyright © 2017 IBM. All rights reserved.
+//  © Copyright IBM Corporation 2017
+//  LICENSE: MIT http://ibm.biz/license-ios
 //
 
 
