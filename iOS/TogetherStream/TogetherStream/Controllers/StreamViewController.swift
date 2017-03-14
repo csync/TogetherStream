@@ -14,6 +14,7 @@ class StreamViewController: UIViewController {
     @IBOutlet weak var chatInputTextField: UITextField!
     @IBOutlet weak var chatTableView: UITableView!
     @IBOutlet weak var userCountLabel: UILabel!
+    @IBOutlet weak var queueEditButton: UIButton!
     @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var queueView: UIView!
     @IBOutlet weak var headerViewHeightConstraint: NSLayoutConstraint!
@@ -646,6 +647,7 @@ class StreamViewController: UIViewController {
     fileprivate func deleteVideo(at indexPath: IndexPath) {
         // Get the indexes of the effected videos
         guard let currentVideoIndex = viewModel.currentVideoIndex else { return }
+        
         let previousIndexPath = IndexPath(row: indexPath.row - 1, section: 0)
         
         // Deleted the previous video to the one playing
@@ -664,6 +666,12 @@ class StreamViewController: UIViewController {
             viewModel.currentVideoIndex = currentVideoIndex - 1
         }
         queueTableView.endUpdates()
+        
+        // Hide the edit button and end edit mode if the queue is empty
+        if viewModel.videoQueue?.isEmpty ?? false {
+            queueEditButton.isHidden = true
+            queueTableView.isEditing = false
+        }
         
         // Deleted the current video
         if indexPath.row == currentVideoIndex {
@@ -1322,6 +1330,7 @@ extension StreamViewController: AddVideosDelegate {
             self.queueTableView.reloadData()
             // Special case where the queue was empty
             if needsToResetVideoView {
+                self.queueEditButton.isHidden = false
                 self.playerView.isUserInteractionEnabled = true
                 self.setupPlayerView()
             }
