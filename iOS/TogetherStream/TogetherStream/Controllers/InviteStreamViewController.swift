@@ -154,6 +154,9 @@ class InviteStreamViewController: UIViewController {
             DispatchQueue.main.async {
                 self.activityIndicator.stopAnimating()
                 if let error = error {
+                    guard self.navigationController?.visibleViewController == self else {
+                        return
+                    }
                     let alert = UIAlertController(title: "Error Loading Friends", message: error.localizedDescription, preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "OK", style: .default))
                     self.present(alert, animated: true)

@@ -85,6 +85,9 @@ class AddVideosViewController: UIViewController {
     ///
     /// - Parameter error: The error message to show.
     fileprivate func showVideoAlert(with error: Error) {
+        guard navigationController?.visibleViewController == self else {
+            return
+        }
         let alert = UIAlertController(title: "Error Loading Videos", message: error.localizedDescription, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
