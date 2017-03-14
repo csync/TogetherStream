@@ -647,7 +647,6 @@ class StreamViewController: UIViewController {
     fileprivate func deleteVideo(at indexPath: IndexPath) {
         // Get the indexes of the effected videos
         guard let currentVideoIndex = viewModel.currentVideoIndex else { return }
-        
         let previousIndexPath = IndexPath(row: indexPath.row - 1, section: 0)
         
         // Deleted the previous video to the one playing
