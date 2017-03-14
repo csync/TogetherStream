@@ -3,9 +3,8 @@
   "description": "Watch videos together with others.",
   "main": "index.html",
   "dependencies": {
-    "polymer": "1.8.1",
-    "google-youtube": "^1.2.1",
-    "iron-input": "1.0.10",
-    "webcomponentsjs": "^0.7.24"
+    "polymer": "polymer/polymer#^1.8.1",
+    "google-youtube": "GoogleWebComponents/google-youtube#^1.2.1",
+    "iron-input": "polymerelements/iron-input#1.0.10"
   }
 }
