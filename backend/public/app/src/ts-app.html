@@ -102,16 +102,19 @@
       * @param {string} streamId - New stream id.
       */
       joinStream: function() {
+        let that = this
         let showPortalPage = function () {
-          this.isValidStreamId(this.streamId, function callback(isValid) {
-            if (isValid) {
-               this.set("showingPortalPage", false)
-               this.authenticateWithFacebookAccessToken(this.facebookAccessToken, this.setupCsyncListeners.bind(this))
-            } else {
-              alert("Please input a valid stream id.")
-            }
-          }.bind(this))
-        }.bind(this)
+          that.authenticateWithFacebookAccessToken(that.facebookAccessToken, function () {
+            that.isValidStreamId(that.streamId, function callback(isValid) {
+              if (isValid) {
+                that.setupCsyncListeners()
+                that.set("showingPortalPage", false)
+              } else {
+                alert("Please input a valid stream id.")
+              }
+            })
+          })
+        }
 
         if (!this.isLoggedIn) {
           this.fbLogin(function callback () {
