@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node --max-old-space-size=400 app.js"
+    "start": "bower install && node --max-old-space-size=400 app.js"
   },
   "dependencies": {
     "@newrelic/native-metrics": "^2.0.2",
