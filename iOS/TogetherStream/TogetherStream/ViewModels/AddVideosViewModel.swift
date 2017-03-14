@@ -15,6 +15,7 @@ class AddVideosViewModel {
     /// The videos that should be listed in the result table.
     var listedVideos: [Video] = []
     
+    /// The number that should be displayed for the queue count.
     var queueCount: String {
         return String(numberOfPreviouslyAddedVideos + selectedVideos.count)
     }
