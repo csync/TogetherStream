@@ -7,12 +7,5 @@
     "google-youtube": "^1.2.1",
     "iron-input": "1.0.10",
     "webcomponentsjs": "^0.7.24"
-  },
-  "resolutions": {
-    "webcomponentsjs": "v1",
-    "polymer": "^2.0.0-rc.1",
-    "iron-validatable-behavior": "2.0-preview",
-    "iron-meta": "2.0-preview",
-    "iron-a11y-announcer": "^1.0.0"
   }
 }
