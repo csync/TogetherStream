@@ -15,6 +15,9 @@ class InviteStreamViewController: UIViewController {
 
     /// The model for the objects in this view.
     fileprivate let viewModel = InviteStreamViewModel()
+    /// Loading indicator for fetching friends.
+    fileprivate let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+    
     /// The frame of the skip invite button.
     private let skipButtonFrame = CGRect(x: 0, y: 0, width: 35, height: 17)
     /// The default message for sharing the stream code.
@@ -141,9 +144,15 @@ class InviteStreamViewController: UIViewController {
     
     /// Sets up the view for friends to be invited to a stream.
     private func setupViewForInviteToStream() {
+        // Sets up the activity indicator
+        activityIndicator.frame = view.frame
+        activityIndicator.isUserInteractionEnabled = false
+        view.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
         // Fetch friends to invite
         viewModel.fetchFriends(callback:{ (error: Error?) -> Void in
             DispatchQueue.main.async {
+                self.activityIndicator.stopAnimating()
                 if let error = error {
                     let alert = UIAlertController(title: "Error Loading Friends", message: error.localizedDescription, preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "OK", style: .default))
