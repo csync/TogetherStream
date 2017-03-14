@@ -263,7 +263,7 @@ class StreamViewController: UIViewController {
         
         // Add selector to dismiss and when editing to sync up both textfields
         accessoryView.sendButton.addTarget(self, action: #selector(StreamViewController.chatInputActionTriggered), for: .touchUpInside)
-        chatInputTextField.addTarget(self, action: #selector(StreamViewController.chatEditingChanged), for: [.editingChanged, .editingDidEnd])
+        chatInputTextField.addTarget(self, action: #selector(StreamViewController.chatEditingChanged), for: [.editingChanged])
         accessoryView.textField.addTarget(self, action: #selector(StreamViewController.accessoryViewEditingChanged), for: [.editingChanged, .editingDidEnd])
         
         // Actually set accessory view
@@ -304,8 +304,10 @@ class StreamViewController: UIViewController {
     /// On device rotation, rotate the player view.
     @objc private func deviceDidRotate() {
         Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "RotatedScreen")
-        // Make sure that the "Stream" screen is visible
-        guard navigationController?.visibleViewController == self else { return }
+        // Make sure that the "Stream" screen is visible and text is not being inputted
+        guard navigationController?.visibleViewController == self,
+            !accessoryView.textField.isFirstResponder,
+            !chatInputTextField.isFirstResponder else { return }
         switch UIDevice.current.orientation {
         case .landscapeLeft:
             // Rotate from portrait to landscape left
@@ -446,7 +448,8 @@ class StreamViewController: UIViewController {
     /// - Parameter textField: The text field that changed.
     @objc private func chatEditingChanged(textField: UITextField) {
         accessoryView.textField.text = chatInputTextField.text
-        
+        chatInputTextField.resignFirstResponder()
+        accessoryView.textField.becomeFirstResponder()
     }
     
     /// Copy text from accessory view textfield to main screen chat input textfield
