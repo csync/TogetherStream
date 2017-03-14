@@ -16,66 +16,54 @@
         <array key="OpenSans-Regular.ttf">
             <string>OpenSans</string>
         </array>
-        <array key="WorkSans-SemiBold.ttf">
-            <string>WorkSans-SemiBold</string>
-        </array>
     </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="noStreamsCell" rowHeight="211" id="66H-Tf-uPu" customClass="NoStreamsTableViewCell" customModule="TogetherStream" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="211"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="noStreamsCell" rowHeight="355" id="66H-Tf-uPu" customClass="NoStreamsTableViewCell" customModule="TogetherStream" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="308"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="66H-Tf-uPu" id="yHu-OI-6sb">
-                <rect key="frame" x="0.0" y="0.0" width="375" height="210"/>
+                <rect key="frame" x="0.0" y="0.0" width="375" height="307.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="There are no more streams available" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JMv-BD-w4O">
-                        <rect key="frame" x="67" y="43" width="243" height="18"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="emptyInvite" translatesAutoresizingMaskIntoConstraints="NO" id="den-ju-SZs">
+                        <rect key="frame" x="106" y="48" width="163" height="119"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="119" id="Cnb-E0-hn6"/>
+                            <constraint firstAttribute="width" constant="163" id="fNp-2r-dDT"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No streams available!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JMv-BD-w4O">
+                        <rect key="frame" x="107" y="215" width="162" height="20.5"/>
                         <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="15"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h4t-t4-0WJ">
-                        <rect key="frame" x="108" y="128" width="161" height="41"/>
-                        <fontDescription key="fontDescription" name="WorkSans-SemiBold" family="Work Sans" pointSize="12"/>
-                        <inset key="contentEdgeInsets" minX="35" minY="9" maxX="35" maxY="9"/>
-                        <state key="normal" title="INVITE FRIENDS">
-                            <color key="titleColor" red="0.88627450980392153" green="0.3411764705882353" blue="0.0039215686274509803" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        </state>
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                <real key="value" value="0.0"/>
-                            </userDefinedRuntimeAttribute>
-                        </userDefinedRuntimeAttributes>
-                        <connections>
-                            <action selector="didSelectInviteFriends:" destination="66H-Tf-uPu" eventType="touchUpInside" id="xQd-A7-hMu"/>
-                        </connections>
-                    </button>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LNw-lL-Pnl">
-                        <rect key="frame" x="95" y="75" width="186" height="31"/>
-                        <string key="text">Invite friends to stream with you
-on Together Stream.</string>
-                        <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="13"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Looks like your feed is empty. Start a stream below to invite others and share your favorite content." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LNw-lL-Pnl">
+                        <rect key="frame" x="48" y="250.5" width="279" height="57.5"/>
+                        <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="14"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="h4t-t4-0WJ" firstAttribute="centerX" secondItem="yHu-OI-6sb" secondAttribute="centerX" id="Dmr-kf-3nV"/>
-                    <constraint firstItem="JMv-BD-w4O" firstAttribute="top" secondItem="yHu-OI-6sb" secondAttribute="topMargin" constant="35" id="I6x-F5-Uvu"/>
-                    <constraint firstItem="LNw-lL-Pnl" firstAttribute="top" secondItem="JMv-BD-w4O" secondAttribute="bottom" constant="14" id="J6d-C7-hfq"/>
+                    <constraint firstItem="LNw-lL-Pnl" firstAttribute="top" secondItem="JMv-BD-w4O" secondAttribute="bottom" constant="15" id="J6d-C7-hfq"/>
                     <constraint firstItem="LNw-lL-Pnl" firstAttribute="centerX" secondItem="yHu-OI-6sb" secondAttribute="centerX" id="Ryt-eb-HwI"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="h4t-t4-0WJ" secondAttribute="bottom" constant="33.5" id="g6c-jq-7RO"/>
+                    <constraint firstItem="LNw-lL-Pnl" firstAttribute="leading" secondItem="yHu-OI-6sb" secondAttribute="leadingMargin" constant="40" id="XrD-bY-9Xp"/>
+                    <constraint firstAttribute="bottom" secondItem="LNw-lL-Pnl" secondAttribute="bottom" constant="-0.5" id="YzJ-Fm-MSr"/>
+                    <constraint firstItem="den-ju-SZs" firstAttribute="top" secondItem="yHu-OI-6sb" secondAttribute="top" constant="48" id="btW-Vo-5hD"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="LNw-lL-Pnl" secondAttribute="trailing" constant="40" id="dap-yc-hqb"/>
                     <constraint firstItem="JMv-BD-w4O" firstAttribute="centerX" secondItem="yHu-OI-6sb" secondAttribute="centerX" id="gg9-hF-hSM"/>
-                    <constraint firstItem="h4t-t4-0WJ" firstAttribute="top" secondItem="LNw-lL-Pnl" secondAttribute="bottom" constant="22" id="gtO-b4-vVb"/>
+                    <constraint firstItem="JMv-BD-w4O" firstAttribute="top" secondItem="den-ju-SZs" secondAttribute="bottom" constant="48" id="tma-Lp-XM8"/>
+                    <constraint firstItem="den-ju-SZs" firstAttribute="centerX" secondItem="yHu-OI-6sb" secondAttribute="centerX" id="xM4-6A-Xr5"/>
                 </constraints>
             </tableViewCellContentView>
             <color key="backgroundColor" red="0.96470588235294119" green="0.96470588235294119" blue="0.96470588235294119" alpha="1" colorSpace="calibratedRGB"/>
-            <connections>
-                <outlet property="inviteFriendsButton" destination="h4t-t4-0WJ" id="hgb-ip-yRF"/>
-            </connections>
-            <point key="canvasLocation" x="34.5" y="39.5"/>
+            <point key="canvasLocation" x="34.5" y="88"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="emptyInvite" width="163" height="119"/>
+    </resources>
 </document>

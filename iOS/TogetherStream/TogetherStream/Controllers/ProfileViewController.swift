@@ -18,6 +18,9 @@ class ProfileViewController: UIViewController {
     
     // MARK: - Properties
     
+    /// Default message for invites to the app.
+    let inviteMessage = "Download Together Stream for iOS - A collaborative and synchronized streaming experience.\nhttp://ibm.biz/together-stream-invite-friends"
+    
     /// Shorthand for shared FacebookDataManager.
     private let facebookDataManager = FacebookDataManager.sharedInstance
     
@@ -31,7 +34,7 @@ class ProfileViewController: UIViewController {
             showDisclosure: false,
             action: {[unowned self] in
                 Utils.sendGoogleAnalyticsEvent(withCategory: "Profile", action: "SelectedInvite")
-                let activityViewController = UIActivityViewController(activityItems: [Utils.inviteMessage], applicationActivities: nil)
+                let activityViewController = UIActivityViewController(activityItems: [self.inviteMessage], applicationActivities: nil)
                 DispatchQueue.main.async {
                     self.present(activityViewController, animated: true)
                 }
