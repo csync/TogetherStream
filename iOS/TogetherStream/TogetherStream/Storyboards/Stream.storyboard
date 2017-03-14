@@ -338,6 +338,7 @@
                         <outlet property="playerContainerView" destination="yki-41-hq1" id="KYc-19-ErX"/>
                         <outlet property="playerView" destination="lt2-Nk-1YZ" id="lxf-Lz-SRg"/>
                         <outlet property="profileImageView" destination="A15-q2-X7f" id="rJC-er-b3v"/>
+                        <outlet property="queueEditButton" destination="tnF-Qz-F5f" id="0Ia-rU-3I5"/>
                         <outlet property="queueTableView" destination="iC4-5G-MpH" id="85X-qq-ZIC"/>
                         <outlet property="queueView" destination="q4i-Y2-lar" id="WHj-gP-3VR"/>
                         <outlet property="reportVideoButton" destination="lpC-Ew-dv7" id="iwf-xx-Qrc"/>

@@ -14,6 +14,7 @@ class StreamViewController: UIViewController {
     @IBOutlet weak var chatInputTextField: UITextField!
     @IBOutlet weak var chatTableView: UITableView!
     @IBOutlet weak var userCountLabel: UILabel!
+    @IBOutlet weak var queueEditButton: UIButton!
     @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var queueView: UIView!
     @IBOutlet weak var headerViewHeightConstraint: NSLayoutConstraint!
@@ -668,6 +669,12 @@ class StreamViewController: UIViewController {
             viewModel.currentVideoIndex = currentVideoIndex - 1
         }
         queueTableView.endUpdates()
+        
+        // Hide the edit button and end edit mode if the queue is empty
+        if viewModel.videoQueue?.isEmpty ?? false {
+            queueEditButton.isHidden = true
+            queueTableView.isEditing = false
+        }
         
         // Deleted the current video
         if indexPath.row == currentVideoIndex {
@@ -1326,6 +1333,7 @@ extension StreamViewController: AddVideosDelegate {
             self.queueTableView.reloadData()
             // Special case where the queue was empty
             if needsToResetVideoView {
+                self.queueEditButton.isHidden = false
                 self.playerView.isUserInteractionEnabled = true
                 self.setupPlayerView()
             }
