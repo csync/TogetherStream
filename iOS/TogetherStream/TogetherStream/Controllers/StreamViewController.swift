@@ -575,6 +575,7 @@ class StreamViewController: UIViewController {
         addVideosVC.stream = stream
         addVideosVC.isCreatingStream = false
         addVideosVC.delegate = self
+        addVideosVC.numberOfPreviouslyAddedVideos = viewModel.videoQueue?.count ?? 0
         navigationController?.pushViewController(addVideosVC, animated: true)
     }
     
