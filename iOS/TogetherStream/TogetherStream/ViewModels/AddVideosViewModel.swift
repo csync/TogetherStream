@@ -9,8 +9,15 @@ import UIKit
 /// View model for the "Add Videos" screen.
 class AddVideosViewModel {
     
+    /// The number of videos that has been previously added.
+    var numberOfPreviouslyAddedVideos = 0
+    
     /// The videos that should be listed in the result table.
     var listedVideos: [Video] = []
+    
+    var queueCount: String {
+        return String(numberOfPreviouslyAddedVideos + selectedVideos.count)
+    }
     
     /// The selected videos stored in an easily searchable way.
     private var fastSearchSelectedVideos: Set<Video> = []

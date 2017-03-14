@@ -22,6 +22,16 @@ class AddVideosViewController: UIViewController {
     /// Delegate to send updates to.
     var delegate: AddVideosDelegate?
     
+    /// The number of videos that has been previously added.
+    var numberOfPreviouslyAddedVideos: Int {
+        get {
+            return viewModel.numberOfPreviouslyAddedVideos
+        }
+        set {
+            viewModel.numberOfPreviouslyAddedVideos = newValue
+        }
+    }
+    
     /// The size of the space in front of the search bar.
     private let searchSpacerFrame = CGRect(x: 0, y: 0, width: 39, height: 5)
     /// The size of the clear button for the search bar.
@@ -43,8 +53,7 @@ class AddVideosViewController: UIViewController {
         setupTableView()
         setupNavigationItems()
         setupActivityIndicator()
-        
-        streamNameLabel.text = "\"\(stream?.name ?? "")\" Queue".localizedUppercase
+        setupQueueHeader()
         
         fetchTrendingVideos()
 
@@ -137,6 +146,12 @@ class AddVideosViewController: UIViewController {
     private func setupNavigationItems() {
         navigationItem.titleView = UIImageView(image: #imageLiteral(resourceName: "youTube"))
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+    }
+    
+    /// Sets up the top area of the screen.
+    private func setupQueueHeader() {
+        streamNameLabel.text = "\"\(stream?.name ?? "")\" Queue".localizedUppercase
+        queueCountLabel.text = viewModel.queueCount
     }
     
     /// Sets up the activity indicator.
@@ -307,7 +322,7 @@ extension AddVideosViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         viewModel.toggleSelectionOfVideo(at: indexPath)
         // Updates selected video count view
-        queueCountLabel.text = String(viewModel.selectedVideos.count)
+        queueCountLabel.text = viewModel.queueCount
         // Updates selected image
         if let cell = tableView.cellForRow(at: indexPath) as? SearchResultTableViewCell {
             if viewModel.videoIsSelected(at: indexPath) {
