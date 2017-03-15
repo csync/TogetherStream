@@ -14,7 +14,7 @@
     <script>
       window.fbAsyncInit = function() {
         FB.init({
-          appId      : '369713986745287',
+          appId      : window.location.hostname === "localhost" ? '369713986745287' : '322296781487008',
           xfbml      : true,
           version    : 'v2.8'
         });
