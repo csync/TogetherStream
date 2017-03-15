@@ -209,6 +209,8 @@ class StreamViewModel {
         cSyncDataManager.write("", toKeyPath: csyncPath + ".chat", withACL: .PublicReadCreate)
         // Set stream to active
         cSyncDataManager.write("true", toKeyPath: csyncPath + ".isActive")
+        // Set stream name for web app
+        cSyncDataManager.write(stream?.name ?? "", toKeyPath: csyncPath + ".streamName")
         // Set video to unreported
         cSyncDataManager.write("false", toKeyPath: csyncPath + ".isReported", withACL: .PublicReadWrite)
         // Set state of inital video

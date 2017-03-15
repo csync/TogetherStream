@@ -52,6 +52,7 @@ You can skip installing Google Analytics by removing the method `setupGoogleAnal
 ### Backend Configuration
 1. In `backend/config/private/credentials.js` replace the `accessTokenKey` and `refreshTokenKey` with a unique string exactly **32 characters** long. This is used to encrypt the access tokens and refresh tokens in the database.
 2. Replace the `sessionSecret` with a unique string. This is used to encrypt the session tokens.
+3. Replace the email `userName` and `domainName` with your email address (i.e. `userName@domainName`), the `password` with your email password, and the `displayUserName` and `displayDomainName` with what you want the emails to be sent from. You can use the same values for here as your actual `userName` and `domainName` if you wish.
 
 ### Cloud Configuration
 1. Go to https://console.ng.bluemix.net and create an account if you do not already have one.

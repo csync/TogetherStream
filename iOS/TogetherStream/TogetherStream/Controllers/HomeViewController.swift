@@ -125,6 +125,9 @@ class HomeViewController: UIViewController {
         viewModel.refreshStreams { error, streams in
             DispatchQueue.main.async {
                 if let error = error {
+                    guard self.navigationController?.visibleViewController == self else {
+                        return
+                    }
                     let alert = UIAlertController(title: "Error Loading Streams", message: error.localizedDescription, preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "OK", style: .default))
                     self.present(alert, animated: true) {

@@ -14,6 +14,7 @@ class StreamViewController: UIViewController {
     @IBOutlet weak var chatInputTextField: UITextField!
     @IBOutlet weak var chatTableView: UITableView!
     @IBOutlet weak var userCountLabel: UILabel!
+    @IBOutlet weak var queueEditButton: UIButton!
     @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var queueView: UIView!
     @IBOutlet weak var headerViewHeightConstraint: NSLayoutConstraint!
@@ -263,7 +264,7 @@ class StreamViewController: UIViewController {
         
         // Add selector to dismiss and when editing to sync up both textfields
         accessoryView.sendButton.addTarget(self, action: #selector(StreamViewController.chatInputActionTriggered), for: .touchUpInside)
-        chatInputTextField.addTarget(self, action: #selector(StreamViewController.chatEditingChanged), for: [.editingChanged, .editingDidEnd])
+        chatInputTextField.addTarget(self, action: #selector(StreamViewController.chatEditingChanged), for: [.editingChanged])
         accessoryView.textField.addTarget(self, action: #selector(StreamViewController.accessoryViewEditingChanged), for: [.editingChanged, .editingDidEnd])
         
         // Actually set accessory view
@@ -304,8 +305,10 @@ class StreamViewController: UIViewController {
     /// On device rotation, rotate the player view.
     @objc private func deviceDidRotate() {
         Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "RotatedScreen")
-        // Make sure that the "Stream" screen is visible
-        guard navigationController?.visibleViewController == self else { return }
+        // Make sure that the "Stream" screen is visible and text is not being inputted
+        guard navigationController?.visibleViewController == self,
+            !accessoryView.textField.isFirstResponder,
+            !chatInputTextField.isFirstResponder else { return }
         switch UIDevice.current.orientation {
         case .landscapeLeft:
             // Rotate from portrait to landscape left
@@ -446,7 +449,8 @@ class StreamViewController: UIViewController {
     /// - Parameter textField: The text field that changed.
     @objc private func chatEditingChanged(textField: UITextField) {
         accessoryView.textField.text = chatInputTextField.text
-        
+        chatInputTextField.resignFirstResponder()
+        accessoryView.textField.becomeFirstResponder()
     }
     
     /// Copy text from accessory view textfield to main screen chat input textfield
@@ -572,6 +576,7 @@ class StreamViewController: UIViewController {
         addVideosVC.stream = stream
         addVideosVC.isCreatingStream = false
         addVideosVC.delegate = self
+        addVideosVC.numberOfPreviouslyAddedVideos = viewModel.videoQueue?.count ?? 0
         navigationController?.pushViewController(addVideosVC, animated: true)
     }
     
@@ -664,6 +669,12 @@ class StreamViewController: UIViewController {
             viewModel.currentVideoIndex = currentVideoIndex - 1
         }
         queueTableView.endUpdates()
+        
+        // Hide the edit button and end edit mode if the queue is empty
+        if viewModel.videoQueue?.isEmpty ?? false {
+            queueEditButton.isHidden = true
+            queueTableView.isEditing = false
+        }
         
         // Deleted the current video
         if indexPath.row == currentVideoIndex {
@@ -1322,6 +1333,7 @@ extension StreamViewController: AddVideosDelegate {
             self.queueTableView.reloadData()
             // Special case where the queue was empty
             if needsToResetVideoView {
+                self.queueEditButton.isHidden = false
                 self.playerView.isUserInteractionEnabled = true
                 self.setupPlayerView()
             }
