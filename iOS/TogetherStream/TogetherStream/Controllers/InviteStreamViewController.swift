@@ -21,7 +21,7 @@ class InviteStreamViewController: UIViewController {
     /// The frame of the skip invite button.
     private let skipButtonFrame = CGRect(x: 0, y: 0, width: 35, height: 17)
     /// The default message for sharing the stream code.
-    private let shareCodeMessage = "Howdy!\n\nI'm streaming videos on Together Stream (like right now). Let's watch together in real time! 👯\n\nDownload the iOS app or use this code to join on web: %@\n\nhttp://togetherstream.csync.io/app/%@"
+    private let shareCodeMessage = "Howdy!\n\nI'm streaming videos on Together Stream (like right now). Let's watch together in real time! 👯\n\nDownload the iOS app or use this code to join on web: %@\n\nhttp://togetherstream.csync.io/app/?stream_id=%@"
 
     /// Exposed stream object to be set by other view controllers.
     var stream: Stream? {
