@@ -10,11 +10,22 @@
     <title>Together Stream</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Define credentials here -->
+    <script>
+      window.Credentials = {
+        fbAppId: '322296781487008',
+        devFbAppId: '369713986745287',
+        youtubeApiKey: 'AIzaSyBtZHBo_puHlrTw2cgqz-q5fYlK4XBuHNA',
+        csyncIpAddress: '169.46.157.54',
+        csyncPort: '6005'
+      }
+    </script> 
+
     <!-- Load Facebook API -->
     <script>
       window.fbAsyncInit = function() {
         FB.init({
-          appId      : window.location.hostname === "localhost" ? '369713986745287' : '322296781487008',
+          appId      : window.location.hostname === "localhost" ? window.Credentials.devFbAppId : window.Credentials.fbAppId,
           xfbml      : true,
           version    : 'v2.8'
         });
