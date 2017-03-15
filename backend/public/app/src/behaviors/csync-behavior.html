@@ -95,6 +95,8 @@
             this.set("currentlyStreamingVideoData.time", value.data)
           } else if (value.key.indexOf("isPlaying") >= 0) {
             this.set("currentlyStreamingVideoData.isPlaying", value.data)
+          } else if (value.key.indexOf("streamName") >= 0) {
+            this.set("streamName", value.data)
           }
         }.bind(this)
         listenerKey.listen(listenerCallback)
