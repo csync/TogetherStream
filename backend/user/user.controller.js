@@ -5,12 +5,25 @@
 
 var appVars = require('../config/appVars');
 
+/**
+ * Controller for creating and editing user accounts
+ * @type {{}}
+ */
 var userController = {};
 
+/**
+ * Registers a new user by saving them in the db.
+ * @param user
+ */
 userController.registerUser = function(user) {
     return userController.saveUser(user);
 };
 
+/**
+ * Save the given user to the db.
+ * @param user
+ * @returns {Promise}
+ */
 userController.saveUser = function (user) {
     return new Promise(function (resolve, reject) {
         var pool = appVars.pool;
@@ -33,6 +46,12 @@ userController.saveUser = function (user) {
     });
 };
 
+/**
+ * Saves the external account to the user with the given id to the db.
+ * @param userId
+ * @param externalAccount
+ * @returns {Promise}
+ */
 userController.saveExternalAccount = function(userId, externalAccount) {
     return new Promise(function (resolve, reject) {
         var parameters = [externalAccount.id, externalAccount.accessToken.cipher, externalAccount.accessToken.iv, externalAccount.accessToken.tag,
@@ -58,6 +77,11 @@ userController.saveExternalAccount = function(userId, externalAccount) {
     });
 };
 
+/**
+ * Retrieve the user info and external accounts for the user with the given id.
+ * @param id
+ * @returns {Promise}
+ */
 userController.getUserByID = function (id) {
     return new Promise(function (resolve, reject) {
         var pool = appVars.pool;
@@ -93,6 +117,11 @@ userController.getUserByID = function (id) {
     })
 };
 
+/**
+ * Retrieve the user account associated with the given external account.
+ * @param externalAccount
+ * @returns {Promise}
+ */
 userController.getUserAccountByExternalAccount = function (externalAccount) {
     return new Promise(function (resolve, reject) {
         var pool = appVars.pool;
@@ -132,6 +161,12 @@ userController.getUserAccountByExternalAccount = function (externalAccount) {
     })
 };
 
+/**
+ * Process authenticating a user with an external account.
+ * @param req
+ * @param externalAccount
+ * @returns {Promise}
+ */
 userController.processExternalAuthentication = function (req, externalAccount) {
     return new Promise(function (resolve, reject) {
         userController.getUserAccountByExternalAccount(externalAccount)
@@ -187,6 +222,11 @@ userController.processExternalAuthentication = function (req, externalAccount) {
     })
 };
 
+/**
+ * Retrieves the stream for the authenticated user if it exists, otherwise creates the stream and returns it.
+ * @param req
+ * @returns {Promise}
+ */
 userController.getOrCreateStream = function (req) {
     var user = req.user;
     var streamPath = req.body["streamPath"];
@@ -235,6 +275,12 @@ userController.getOrCreateStream = function (req) {
     })
 };
 
+/**
+ * Get the access token for the given user from the given provider if it exists.
+ * @param user
+ * @param provider
+ * @returns {null}
+ */
 userController.getExternalAccountAccessToken = function(user, provider) {
     var externalAccounts = user.externalAccounts;
     for (var i = 0; i < externalAccounts.length; i++) {
@@ -246,6 +292,10 @@ userController.getExternalAccountAccessToken = function(user, provider) {
     return null;
 };
 
+/**
+ * Continually generates a new random id until an unused one is found.
+ * @returns {Promise}
+ */
 function generateId() {
     return new Promise(function (resolve, reject) {
         var generateAttempt = function () {
@@ -272,6 +322,12 @@ function generateId() {
     });
 }
 
+/**
+ * Merges the two given ids into one.
+ * @param id1
+ * @param id2
+ * @returns {Promise}
+ */
 function mergeIds(id1, id2) {
     return new Promise(function (resolve, reject) {
         var pool = appVars.pool;
