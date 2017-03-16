@@ -157,8 +157,10 @@
         }
       },
       messagesChanged: function () {
-        // TODO: Make this work properly.
-        this.$.chatMessages.scrollTop = this.$.chatMessages.scrollHeight;
+        // Scroll to the bottom of the chat container as messages come in.
+        this.debounce("scrollToBottom", function () {
+          this.$.chatMessages.scrollTop = this.$.chatMessages.scrollHeight
+        }, 200)
       },
       /**
       * Fire sendChatMessage even when clicking send button.
