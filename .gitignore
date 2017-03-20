@@ -72,11 +72,13 @@ backend/config/private
 newrelic_agent.log
 yarn.lock
 backend/public/app/bower_components
+backend/public/app/credentials.js
 
 # Frontend
 iOS/TogetherStream/TogetherStream/Configuration/private.plist
 
 # Other
+iOS/TogetherStream/TogetherStream/Assets.xcassets/AppIcon.appiconset/*
 manifest.yml.prod
 manifest.yml.staging
 backend/**/private/*

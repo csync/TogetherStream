@@ -1,9 +1,6 @@
 //
-//  UIColor.swift
-//  Stormtrooper
-//
-//  Created by Daniel Firsht on 1/18/17.
-//  Copyright © 2017 IBM. All rights reserved.
+//  © Copyright IBM Corporation 2017
+//  LICENSE: MIT http://ibm.biz/license-ios
 //
 
 import Foundation
@@ -33,5 +30,10 @@ extension UIColor {
     /// The color of the text used throughout the app.
     @nonobjc class var togetherStreamTextBlack: UIColor {
         return UIColor(colorLiteralRed: 74.0 / 255, green: 74.0 / 255, blue: 74.0 / 255, alpha: 1)
+    }
+    
+    /// The color of the share code border.
+    @nonobjc class var togetherStreamBorderGray: UIColor {
+        return UIColor(colorLiteralRed: 219.0 / 255, green: 219.0 / 255, blue: 219.0 / 255, alpha: 1)
     }
 }

@@ -1,19 +1,16 @@
 //
-//  StreamTableViewCell.swift
-//  Stormtrooper
-//
-//  Created by Daniel Firsht on 1/4/17.
-//  Copyright © 2017 IBM. All rights reserved.
+//  © Copyright IBM Corporation 2017
+//  LICENSE: MIT http://ibm.biz/license-ios
 //
 
 import UIKit
 
 class StreamTableViewCell: UITableViewCell {
-	@IBOutlet weak var profileImageView: UIImageView!
-	@IBOutlet weak var streamNameLabel: UILabel!
-	@IBOutlet weak var hostNameLabel: UILabel!
-	@IBOutlet weak var currentVideoThumbnailImageView: UIImageView!
-	@IBOutlet weak var videoTitleLabel: UILabel!
+    @IBOutlet weak var profileImageView: UIImageView!
+    @IBOutlet weak var streamNameLabel: UILabel!
+    @IBOutlet weak var hostNameLabel: UILabel!
+    @IBOutlet weak var currentVideoThumbnailImageView: UIImageView!
+    @IBOutlet weak var videoTitleLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
 
     @IBOutlet weak var cardView: UIView!

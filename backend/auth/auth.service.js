@@ -1,24 +1,26 @@
-/* 
-  Copyright 2017 IBM Corporation
+//
+//  © Copyright IBM Corporation 2017
+//  LICENSE: MIT http://ibm.biz/license-non-ios
+//
 
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
-*/
 var securityHelper = require('./security.helper');
 var compose = require('composable-middleware');
 var userController = require('../user/user.controller');
 
+/**
+ * Services for handling authentication methods.
+ * @type {{}}
+ */
 var authService = {};
 
+/**
+ * Middleware to determine if the user is authenticated. Will call next if true, otherwise
+ * respond with '503' error.
+ * @param req
+ * @param res
+ * @param next
+ * @returns {Authenticator}
+ */
 authService.isAuthenticated = function (req, res, next) {
     return compose()
         .use(function (req, res, next) {
@@ -52,6 +54,11 @@ authService.isAuthenticated = function (req, res, next) {
         });
 };
 
+/**
+ * Will refresh the access token in the request if given, otherwise respond with '400' error.
+ * @param req
+ * @param res
+ */
 authService.refresh = function(req, res) {
     // allow for access token to be on present as a URL param
     if(req.query && req.query.hasOwnProperty('access_token')) {
@@ -71,11 +78,21 @@ authService.refresh = function(req, res) {
     }
 };
 
+/**
+ * Logs the current user out. Redirects to root.
+ * @param req
+ * @param res
+ */
 authService.logout = function (req, res) {
     req.logout();
     res.redirect('/');
 };
 
+/**
+ * On login success, return the access token.
+ * @param req
+ * @param res
+ */
 authService.handleLoginSuccess = function(req, res) {
     // get the user id from the user attribute appended to the request by passport
     // or from the query param

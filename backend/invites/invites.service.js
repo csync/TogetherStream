@@ -1,25 +1,24 @@
-/* 
-  Copyright 2017 IBM Corporation
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
-*/
+//
+//  © Copyright IBM Corporation 2017
+//  LICENSE: MIT http://ibm.biz/license-non-ios
+//
 
 var apn = require('apn');
 var userController = require('../user/user.controller');
 var appVars = require('../config/appVars');
 
+/**
+ * Service for sending, retrieving and deleting stream invites.
+ * @type {{}}
+ */
 var invitesService = {};
 
+/**
+ * Saves the invites for the authenticated user's stream and sends the invites as either a push notification
+ * or as an email.
+ * @param req
+ * @param res
+ */
 invitesService.processSendingInvites = function (req, res) {
     userController.getOrCreateStream(req)
         .then(function (stream) {
@@ -27,14 +26,17 @@ invitesService.processSendingInvites = function (req, res) {
             for(var i = 0; i < users.length; i++) {
                 userController.getUserAccountByExternalAccount({id: users[i], provider: 'facebook-token'})
                     .then(function (user) {
+                        // Saves the invite for the given user
                         saveInvite(user, stream);
 
                         if (user.deviceToken != undefined) {
+                            // Sends the push notification
                             sendNotification(user, req);
                         }
                         else {
                             userController.getUserByID(user.id)
                                 .then(function (fullUser) {
+                                    // Sends the email
                                     sendEmail(fullUser, req);
                                 });
                         }
@@ -46,6 +48,11 @@ invitesService.processSendingInvites = function (req, res) {
     res.sendStatus(200);
 };
 
+/**
+ * Responds with all the invites for the authenticated user.
+ * @param req
+ * @param res
+ */
 invitesService.retrieveInvites = function (req, res) {
     getInvites(req.user)
         .then(function (invites) {
@@ -53,13 +60,24 @@ invitesService.retrieveInvites = function (req, res) {
         })
 };
 
+/**
+ * Deletes all of the invites and the stream of the authenticated user.
+ * @param req
+ * @param res
+ */
 invitesService.deleteInvites = function (req, res) {
     deleteInvites(req.user);
 
     res.sendStatus(200);
 };
 
+/**
+ * Sends the push notification for the invite.
+ * @param user
+ * @param req
+ */
 var sendNotification = function (user, req) {
+    // Create the notification
     var note = new apn.Notification();
     note.badge = req.body["currentBadgeCount"] + 1;
     note.sound = "ping.aiff";
@@ -73,6 +91,7 @@ var sendNotification = function (user, req) {
     };
     note.topic = 'com.ibm.cloud.stormtrooper';
 
+    // Add the authenticated user's external account ids
     var externalAccounts = req.user.externalAccounts;
     for (var i = 0; i < externalAccounts.length; ++i) {
         note.payload.external_accounts[externalAccounts[i].provider] = externalAccounts[i].id;
@@ -84,6 +103,11 @@ var sendNotification = function (user, req) {
     })
 };
 
+/**
+ * Sends the email for the invite.
+ * @param participant
+ * @param req
+ */
 var sendEmail = function (participant, req) {
     var participantAccessToken = userController.getExternalAccountAccessToken(participant, 'facebook-token');
     var request = require('request');
@@ -92,12 +116,12 @@ var sendEmail = function (participant, req) {
             var streamId = req.body['streamPath'].split('.').pop();
             var jsonBody = JSON.parse(body);
             var mailOptions = {
-                from: '"Together Stream" <TogetherStream' + '@' + appVars.mail.server + '>', // sender address
-                to: jsonBody.email, // list of receivers
+                from: '"Together Stream" <' + appVars.mail.userName + '@' + appVars.mail.domainName + '>', // sender address
+                to: jsonBody.email,
                 subject: 'New Stream Invite from ' +  req.body['host'], // Subject line
-                text:  req.body['host'] + ' has invited you to join their stream on Together Stream –' +
-                ' a collaborative and synchronized streaming experience. Enter code: ' + streamId +
-                    '. http://togetherstream.csync.io/app?stream_id=' + streamId
+                text:  'Howdy!\n\n' + req.body['host'] + ' is streaming videos on Together Stream (like right now). ' +
+                'Come watch together in real time! \uD83D\uDC6F \n\n' + 'Download the iOS app or use this code to join on web: ' +
+                + streamId + '\n\nhttp://togetherstream.csync.io/app?stream_id=' + streamId
             };
             appVars.mail.transporter.sendMail(mailOptions, function(error, info){
                 if(error){
@@ -110,6 +134,12 @@ var sendEmail = function (participant, req) {
 
 };
 
+/**
+ * Saves the stream invite to the db.
+ * @param user
+ * @param stream
+ * @returns {Promise}
+ */
 var saveInvite = function (user, stream) {
     return new Promise(function (resolve, reject) {
         var pool = appVars.pool;
@@ -132,6 +162,11 @@ var saveInvite = function (user, stream) {
     })
 };
 
+/**
+ * Retrieves the stream invites from the db.
+ * @param user
+ * @returns {Promise}
+ */
 var getInvites = function (user) {
     return new Promise(function (resolve, reject) {
         var pool = appVars.pool;
@@ -139,6 +174,8 @@ var getInvites = function (user) {
             if (err) {
                 return console.error('error fetching client from pool', err);
             }
+            // Selects the streams that the authenticated user has been invites to and the external accounts of
+            // the host
             client.query("SELECT streams.user_id, streams.csync_path, streams.stream_name, streams.description, external_auth.id, external_auth.provider " +
                 "FROM streams INNER JOIN stream_invites ON streams.id = stream_invites.stream_id " +
                 "INNER JOIN external_auth ON streams.user_id = external_auth.user_id " +
@@ -160,6 +197,7 @@ var getInvites = function (user) {
                             for (var i = 0; i < results.length; i++) {
                                 var userId = results[i].user_id;
                                 if (invites[userId] == null) {
+                                    // Add new host information
                                     invites[userId] = results[i];
                                     invites[userId].external_accounts = {};
                                     invites[userId].external_accounts[results[i].provider] = results[i].id;
@@ -168,9 +206,11 @@ var getInvites = function (user) {
                                     delete invites[userId].provider;
                                 }
                                 else {
+                                    // Add external account to already found host
                                     invites[userId].external_accounts[results[i].provider] = results[i].id;
                                 }
                             }
+                            // Flatten dictionary into array
                             var flattenedInvites = [];
                             for (var invite in invites) {
                                 flattenedInvites.push(invites[invite])
@@ -184,6 +224,11 @@ var getInvites = function (user) {
     })
 };
 
+/**
+ * Delete the stream of the authenticated user and all invites for it.
+ * @param user
+ * @returns {Promise}
+ */
 var deleteInvites = function (user) {
     return new Promise(function (resolve, reject) {
         var pool = appVars.pool;
@@ -191,6 +236,7 @@ var deleteInvites = function (user) {
             if (err) {
                 return console.error('error fetching client from pool', err);
             }
+            // Deleting the stream cascades
             client.query("DELETE FROM streams WHERE user_id = $1", [user.id],
                 function (err, result) {
                     done(err);

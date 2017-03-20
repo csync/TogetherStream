@@ -1,3 +1,8 @@
+<!--
+  © Copyright IBM Corporation 2017
+  LICENSE: MIT http://ibm.biz/license-non-ios
+-->
+
 <script>
     ServerBehavior = {
       properties: {
@@ -33,42 +38,6 @@
             } else {
               console.error("Invalid responeUrl returned: " + responseUrl)
             }
-          } else {
-            console.error("Couldn't reach server.", xhr)
-          }
-        }.bind(this)
-        xhr.send(null);
-      },
-      /**
-      * Validates with the server whether this stream id is valid.
-      * @param {string} streamId - Stream id input by the user on portal page.
-      */
-      isValidStreamId: function(streamId, callback) {
-        let xhr = new XMLHttpRequest();
-
-        xhr.open('GET', '/invites', true);
-        xhr.setRequestHeader('Authorization', this.serverAccessToken)
-        xhr.onload = function () {
-          if (xhr.status === 200) {
-            let invitesArr = JSON.parse(xhr.response)
-            var streamIdIsValid = false
-
-            if (invitesArr) {
-              invitesArr.forEach(function(invite) {
-                let splitStr = invite.csync_path.split('.')
-
-                if (splitStr[1] === streamId) {
-                  streamIdIsValid = true
-                  this.set("streamName", invite.stream_name)
-                }
-              }.bind(this))
-            }
-            callback(streamIdIsValid)
-          } else if (xhr.status === 401) {
-            // Get new server token when needing authentication expires.
-            this.getServerAccessToken(function() {
-              this.isValidStreamId(streamId, callback)
-            }.bind(this))
           } else {
             console.error("Couldn't reach server.", xhr)
           }

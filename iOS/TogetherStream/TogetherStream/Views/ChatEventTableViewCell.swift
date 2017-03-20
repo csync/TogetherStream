@@ -1,18 +1,15 @@
 //
-//  ChatEventTableViewCell.swift
-//  Stormtrooper
-//
-//  Created by Nathan Hekman on 1/17/17.
-//  Copyright © 2017 IBM. All rights reserved.
+//  © Copyright IBM Corporation 2017
+//  LICENSE: MIT http://ibm.biz/license-ios
 //
 
 import UIKit
 
 class ChatEventTableViewCell: UITableViewCell {
-	@IBOutlet weak var profileImageView: UIImageView!
-	@IBOutlet weak var messageLabel: UILabel!
-	@IBOutlet weak var nameLabel: UILabel!
-	
+    @IBOutlet weak var profileImageView: UIImageView!
+    @IBOutlet weak var messageLabel: UILabel!
+    @IBOutlet weak var nameLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

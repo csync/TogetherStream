@@ -1,9 +1,6 @@
 //
-//  LoginViewController.swift
-//  Stormtrooper
-//
-//  Created by Nathan Hekman on 11/23/16.
-//  Copyright © 2016 IBM. All rights reserved.
+//  © Copyright IBM Corporation 2017
+//  LICENSE: MIT http://ibm.biz/license-ios
 //
 
 import UIKit
@@ -12,9 +9,9 @@ import FBSDKLoginKit
 
 /// View controller for "Login" screen
 class LoginViewController: UIViewController {
-	@IBOutlet weak var facebookLoginButton: FBSDKLoginButton!
-	/// Shorthand for shared FacebookDataManager
-	let facebookDataManager = FacebookDataManager.sharedInstance
+    @IBOutlet weak var facebookLoginButton: FBSDKLoginButton!
+    /// Shorthand for shared FacebookDataManager
+    let facebookDataManager = FacebookDataManager.sharedInstance
     /// Shorthand for shared AccountDataManager
     let accountDataManager = AccountDataManager.sharedInstance
     /// Shorthand for shared CSyncDataManager
@@ -27,7 +24,7 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         trackScreenView()
-		setupFacebookLoginButton()
+        setupFacebookLoginButton()
         alreadyAcceptedAgreement = UserDefaults.standard.bool(forKey: "alreadyAcceptedAgreement")
     }
     
@@ -39,7 +36,7 @@ class LoginViewController: UIViewController {
     /// Configures the Facebook login button.
     func setupFacebookLoginButton() {
         facebookDataManager.setupLoginButton(facebookLoginButton)
-		facebookLoginButton.delegate = self
+        facebookLoginButton.delegate = self
     }
     
     /// When CSync logo is tapped, show the CSync homepage.
@@ -59,14 +56,14 @@ class LoginViewController: UIViewController {
 }
 
 extension LoginViewController: FBSDKLoginButtonDelegate {
-	/// Checks the status of Facebook login. If successful, authenticate with the server
+    /// Checks the status of Facebook login. If successful, authenticate with the server
     /// and CSync.
-	///
-	/// - Parameters:
-	///   - loginButton: The button pressed.
-	///   - result: The result of the login attempt.
-	///   - error: The error of the login attempt.
-	func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
+    ///
+    /// - Parameters:
+    ///   - loginButton: The button pressed.
+    ///   - result: The result of the login attempt.
+    ///   - error: The error of the login attempt.
+    func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
         // Check if login was successful
         guard !result.isCancelled, result.declinedPermissions.count == 0 else { return }
         // Disable additional login attempts while configuring.
@@ -153,8 +150,8 @@ extension LoginViewController: FBSDKLoginButtonDelegate {
                     }
                 }
             }
-		}
-	}
-	
-	func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {}
+        }
+    }
+    
+    func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {}
 }

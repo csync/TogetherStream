@@ -1,9 +1,6 @@
 //
-//  HomeViewController.swift
-//  Stormtrooper
-//
-//  Created by Nathan Hekman on 11/23/16.
-//  Copyright © 2016 IBM. All rights reserved.
+//  © Copyright IBM Corporation 2017
+//  LICENSE: MIT http://ibm.biz/license-ios
 //
 
 import UIKit
@@ -12,10 +9,10 @@ import Crashlytics
 
 /// View controller for the "Home/Stream Invites" screen
 class HomeViewController: UIViewController {
-	@IBOutlet weak var streamsTableView: UITableView!
-	
-	/// The model for the objects in this view.
-	fileprivate let viewModel = HomeViewModel()
+    @IBOutlet weak var streamsTableView: UITableView!
+    
+    /// The model for the objects in this view.
+    fileprivate let viewModel = HomeViewModel()
     /// The facebook profile ID of the currently displayed user.
     private var facebookProfileID: String?
     // The size of the profile button.
@@ -28,7 +25,7 @@ class HomeViewController: UIViewController {
         trackScreenView()
         setupTableView()
         // Reset current user's stream in case the app was exited ungracefully while streaming.
-		viewModel.resetCurrentUserStream()
+        viewModel.resetCurrentUserStream()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -41,11 +38,11 @@ class HomeViewController: UIViewController {
         refreshStreams()
         UIView.setAnimationsEnabled(true)
     }
-	
-	override func viewWillDisappear(_ animated: Bool) {
-		super.viewWillDisappear(animated)
-		viewModel.stopStreamsListening()
-	}
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        viewModel.stopStreamsListening()
+    }
     
     /// Set the navigation bar for all view controllers in the navigation stack.
     private func setupNavigationBar() {
@@ -128,6 +125,9 @@ class HomeViewController: UIViewController {
         viewModel.refreshStreams { error, streams in
             DispatchQueue.main.async {
                 if let error = error {
+                    guard self.navigationController?.visibleViewController == self else {
+                        return
+                    }
                     let alert = UIAlertController(title: "Error Loading Streams", message: error.localizedDescription, preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "OK", style: .default))
                     self.present(alert, animated: true) {
@@ -164,20 +164,6 @@ class HomeViewController: UIViewController {
             self.navigationController?.pushViewController(profileVC, animated: true)
         }
     }
-    
-    /// On the invite friends button tapped, show the "Invite Friends" screen.
-    fileprivate func didSelectInviteFriends() {
-        Utils.sendGoogleAnalyticsEvent(withCategory: "Home", action: "PressedInviteFriends")
-        guard let inviteVC = Utils.instantiateViewController(withIdentifier: "inviteStream", fromStoryboardNamed: "InviteStream") as? InviteStreamViewController else {
-            return
-        }
-        // Configure InviteStreamVC
-        inviteVC.navigationItem.title = "Invite to App"
-        inviteVC.isCreatingStream = false
-        inviteVC.canInviteToStream = false
-        
-        navigationController?.pushViewController(inviteVC, animated: true)
-    }
 
     /// On start stream tapped, show the "Name Stream" screen.
     ///
@@ -200,37 +186,35 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     ///   - tableView: The tableview requesting the number.
     ///   - section: The section the request is for.
     /// - Returns: The number of rows for the section.
-	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return viewModel.numberOfRows
-	}
-	
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel.numberOfRows
+    }
+    
     /// Dequeues and configures the cell for the given path.
     ///
     /// - Parameters:
     ///   - tableView: The table requesting the cell.
     ///   - indexPath: The path of the cell.
     /// - Returns: The cell to display.
-	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.row == viewModel.numberOfRows - 1 {
-            // Configure "No More Streams" cell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if viewModel.streams.count == 0 {
+            // Configure "No Streams" cell
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "noStreamsCell") as? NoStreamsTableViewCell else {
                 return UITableViewCell()
             }
-            cell.didSelectInviteFriends = {[unowned self] in self.didSelectInviteFriends()}
-            cell.selectionStyle = .none
             return cell
         }
         
         // Configure "Stream" cell
-		guard let cell = tableView.dequeueReusableCell(withIdentifier: "streamCell") as? StreamTableViewCell else {
-			return UITableViewCell()
-		}
-		let stream = viewModel.streams[indexPath.row]
-		cell.streamNameLabel.text = stream.name
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "streamCell") as? StreamTableViewCell else {
+            return UITableViewCell()
+        }
+        let stream = viewModel.streams[indexPath.row]
+        cell.streamNameLabel.text = stream.name
         cell.descriptionLabel.text = stream.description
         
         // Update video info when current video changes
-		stream.listenForCurrentVideo {[unowned self] error, videoID in
+        stream.listenForCurrentVideo {[unowned self] error, videoID in
             guard let videoID = videoID else { return }
             // Fetch video info
             self.viewModel.fetchVideo(withID: videoID) {error, video in
@@ -244,9 +228,9 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                         cell.currentVideoThumbnailImageView.image = thumbnail
                     }
                 }
-			}
-		}
-		
+            }
+        }
+        
         // Fetch stream host info
         FacebookDataManager.sharedInstance.fetchInfoForUser(withID: stream.hostFacebookID) {error, user in
             DispatchQueue.main.async {
@@ -259,9 +243,9 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             }
         }
         
-		cell.selectionStyle = .none
-		return cell
-	}
+        cell.selectionStyle = .none
+        return cell
+    }
     
     /// Sets the height to be automatic based on constraints.
     ///
@@ -292,15 +276,15 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         return viewModel.shouldSelectCell(at: indexPath) ? indexPath : nil
     }
-	
-	/// Navigates to the stream associated with the selected cell.
-	///
-	/// - Parameters:
-	///   - tableView: The table that was selected.
-	///   - indexPath: The index path of the selected cell.
-	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    
+    /// Navigates to the stream associated with the selected cell.
+    ///
+    /// - Parameters:
+    ///   - tableView: The table that was selected.
+    ///   - indexPath: The index path of the selected cell.
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         Utils.sendGoogleAnalyticsEvent(withCategory: "Home", action: "SelectedStreamInvite")
-		let stream = viewModel.streams[indexPath.row]
+        let stream = viewModel.streams[indexPath.row]
         guard let streamVC = Utils.instantiateViewController(withIdentifier: "stream", fromStoryboardNamed: "Stream") as? StreamViewController else {
             return
         }
@@ -310,5 +294,5 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             self.navigationController?.pushViewController(streamVC, animated: true)
             tableView.deselectRow(at: indexPath, animated: true)
         }
-	}
+    }
 }

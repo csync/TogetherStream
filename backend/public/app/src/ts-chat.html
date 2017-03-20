@@ -1,3 +1,8 @@
+<!--
+  © Copyright IBM Corporation 2017
+  LICENSE: MIT http://ibm.biz/license-non-ios
+-->
+
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/iron-input/iron-input.html">
 <link rel="import" href="./ts-chat-message.html">
@@ -9,7 +14,8 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        width: 30%
+        width: 30%;
+        height: 100%;
       }
       .bottom-container {
         display: flex;
@@ -151,8 +157,10 @@
         }
       },
       messagesChanged: function () {
-        // TODO: Make this work properly.
-        this.$.chatMessages.scrollTop = this.$.chatMessages.scrollHeight;
+        // Scroll to the bottom of the chat container as messages come in.
+        this.debounce("scrollToBottom", function () {
+          this.$.chatMessages.scrollTop = this.$.chatMessages.scrollHeight
+        }, 200)
       },
       /**
       * Fire sendChatMessage even when clicking send button.

@@ -1,9 +1,6 @@
 //
-//  AddVideosViewModel.swift
-//  Stormtrooper
-//
-//  Created by Daniel Firsht on 1/10/17.
-//  Copyright © 2017 IBM. All rights reserved.
+//  © Copyright IBM Corporation 2017
+//  LICENSE: MIT http://ibm.biz/license-ios
 //
 
 import Foundation
@@ -12,17 +9,25 @@ import UIKit
 /// View model for the "Add Videos" screen.
 class AddVideosViewModel {
     
+    /// The number of videos that has been previously added.
+    var numberOfPreviouslyAddedVideos = 0
+    
     /// The videos that should be listed in the result table.
     var listedVideos: [Video] = []
+    
+    /// The number that should be displayed for the queue count.
+    var queueCount: String {
+        return String(numberOfPreviouslyAddedVideos + selectedVideos.count)
+    }
     
     /// The selected videos stored in an easily searchable way.
     private var fastSearchSelectedVideos: Set<Video> = []
     
     /// The selected videos in order of time added.
     private(set) var selectedVideos: [Video] = []
-	
-	/// Shorthand for the YoutubeDataManager
-	private let youtubeDataManager = YouTubeDataManager.sharedInstance
+    
+    /// Shorthand for the YoutubeDataManager
+    private let youtubeDataManager = YouTubeDataManager.sharedInstance
     
     /// Changes status of video at index path between selected
     /// and not selected.
@@ -55,32 +60,32 @@ class AddVideosViewModel {
     func videoIsSelected(at indexPath: IndexPath) -> Bool {
         return fastSearchSelectedVideos.contains(listedVideos[indexPath.row])
     }
-	
-	/// Fetches the trending videos and updates model.
-	///
+    
+    /// Fetches the trending videos and updates model.
+    ///
     /// - Parameter callback: The callback called on completion. Will return an error
     /// or the videos.
-	func fetchTrendingVideos(callback: @escaping (Error?, [Video]?) -> Void) {
+    func fetchTrendingVideos(callback: @escaping (Error?, [Video]?) -> Void) {
         youtubeDataManager.fetchTrendingVideos() {error, videos in
             if let videos = videos {
                 self.listedVideos = videos
             }
             callback(error, videos)
         }
-	}
-	
+    }
+    
     /// Search for videos matching the given query and updates model.
     ///
     /// - Parameters:
     ///   - query: The query to match against.
     ///   - callback: The callback called on completion. Will return an error
     /// or the videos.
-	func searchForVideos(withQuery query: String, callback: @escaping (Error?, [Video]?) -> Void) {
+    func searchForVideos(withQuery query: String, callback: @escaping (Error?, [Video]?) -> Void) {
         youtubeDataManager.searchForVideos(withQuery: query) {error, videos in
             if let videos = videos {
                 self.listedVideos = videos
             }
             callback(error, videos)
         }
-	}
+    }
 }

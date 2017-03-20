@@ -1,9 +1,6 @@
 //
-//  StreamViewController.swift
-//  Stormtrooper
-//
-//  Created by Nathan Hekman on 11/23/16.
-//  Copyright © 2016 IBM. All rights reserved.
+//  © Copyright IBM Corporation 2017
+//  LICENSE: MIT http://ibm.biz/license-ios
 //
 
 import UIKit
@@ -14,9 +11,10 @@ class StreamViewController: UIViewController {
     
     @IBOutlet weak var playerView: YTPlayerView!
     @IBOutlet weak var playerContainerView: UIView!
-	@IBOutlet weak var chatInputTextField: UITextField!
-	@IBOutlet weak var chatTableView: UITableView!
-	@IBOutlet weak var userCountLabel: UILabel!
+    @IBOutlet weak var chatInputTextField: UITextField!
+    @IBOutlet weak var chatTableView: UITableView!
+    @IBOutlet weak var userCountLabel: UILabel!
+    @IBOutlet weak var queueEditButton: UIButton!
     @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var queueView: UIView!
     @IBOutlet weak var headerViewHeightConstraint: NSLayoutConstraint!
@@ -99,7 +97,7 @@ class StreamViewController: UIViewController {
         ] as [String : Any]
     /// The estimated height of a chat and queue cell.
     fileprivate let estimatedCellHeight: CGFloat = 56
-	
+    
     
     // MARK: - Private Properties
     
@@ -144,7 +142,7 @@ class StreamViewController: UIViewController {
         super.viewDidLoad()
         trackScreenView()
         viewModel.delegate = self
-		
+        
         setupNavigationItems()
         setupChatTableView()
         setupQueueTableView()
@@ -166,13 +164,13 @@ class StreamViewController: UIViewController {
         super.viewWillAppear(animated)
         setupPlayerViewFrame()
     }
-	
-	override func viewWillDisappear(_ animated: Bool) {
-		super.viewWillDisappear(animated)
-		if isBeingDismissed {
-			NotificationCenter.default.removeObserver(self)
-		}
-	}
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if isBeingDismissed {
+            NotificationCenter.default.removeObserver(self)
+        }
+    }
     
     // MARK: - Setup methods
     
@@ -266,7 +264,7 @@ class StreamViewController: UIViewController {
         
         // Add selector to dismiss and when editing to sync up both textfields
         accessoryView.sendButton.addTarget(self, action: #selector(StreamViewController.chatInputActionTriggered), for: .touchUpInside)
-        chatInputTextField.addTarget(self, action: #selector(StreamViewController.chatEditingChanged), for: [.editingChanged, .editingDidEnd])
+        chatInputTextField.addTarget(self, action: #selector(StreamViewController.chatEditingChanged), for: [.editingChanged])
         accessoryView.textField.addTarget(self, action: #selector(StreamViewController.accessoryViewEditingChanged), for: [.editingChanged, .editingDidEnd])
         
         // Actually set accessory view
@@ -307,8 +305,10 @@ class StreamViewController: UIViewController {
     /// On device rotation, rotate the player view.
     @objc private func deviceDidRotate() {
         Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "RotatedScreen")
-        // Make sure that the "Stream" screen is visible
-        guard navigationController?.visibleViewController == self else { return }
+        // Make sure that the "Stream" screen is visible and text is not being inputted
+        guard navigationController?.visibleViewController == self,
+            !accessoryView.textField.isFirstResponder,
+            !chatInputTextField.isFirstResponder else { return }
         switch UIDevice.current.orientation {
         case .landscapeLeft:
             // Rotate from portrait to landscape left
@@ -449,7 +449,8 @@ class StreamViewController: UIViewController {
     /// - Parameter textField: The text field that changed.
     @objc private func chatEditingChanged(textField: UITextField) {
         accessoryView.textField.text = chatInputTextField.text
-        
+        chatInputTextField.resignFirstResponder()
+        accessoryView.textField.becomeFirstResponder()
     }
     
     /// Copy text from accessory view textfield to main screen chat input textfield
@@ -506,7 +507,7 @@ class StreamViewController: UIViewController {
     ///
     /// - Parameter message: The message whos subject would be blocked.
     fileprivate func blockSubject(of message: Message) {
-        let alert = UIAlertController(title: "Block User", message: "Are you sure you wish to block this user? They will be removed from your friends list and you will be removed from theirs. This action cannot be undone.", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Block User", message: "Are you sure you wish to block this user? They will be removed from your friends list within the app and you will be removed from theirs. This action cannot be undone.", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         alert.addAction(UIAlertAction(title: "Confirm", style: .destructive) {_ in
             self.viewModel.blockSubject(of: message) { error in
@@ -517,7 +518,7 @@ class StreamViewController: UIViewController {
                 }
                 else {
                     title = "User Blocked"
-                    message = "User has been blocked. They will be removed from your friends list and you will be removed from theirs."
+                    message = "User has been blocked. They will be removed from your friends list within the app and you will be removed from theirs."
                 }
                 let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default))
@@ -575,6 +576,7 @@ class StreamViewController: UIViewController {
         addVideosVC.stream = stream
         addVideosVC.isCreatingStream = false
         addVideosVC.delegate = self
+        addVideosVC.numberOfPreviouslyAddedVideos = viewModel.videoQueue?.count ?? 0
         navigationController?.pushViewController(addVideosVC, animated: true)
     }
     
@@ -668,6 +670,12 @@ class StreamViewController: UIViewController {
         }
         queueTableView.endUpdates()
         
+        // Hide the edit button and end edit mode if the queue is empty
+        if viewModel.videoQueue?.isEmpty ?? false {
+            queueEditButton.isHidden = true
+            queueTableView.isEditing = false
+        }
+        
         // Deleted the current video
         if indexPath.row == currentVideoIndex {
             playNextVideo()
@@ -684,7 +692,6 @@ class StreamViewController: UIViewController {
             return
         }
         inviteVC.navigationItem.title = "Invite to Stream"
-        inviteVC.canInviteToStream = true
         inviteVC.isCreatingStream = false
         inviteVC.stream = stream
         navigationController?.pushViewController(inviteVC, animated: true)
@@ -723,7 +730,7 @@ class StreamViewController: UIViewController {
         
         // present popup with default user profile picture
         let popup = PopupViewController.instantiate(
-            titleText: stream?.name.uppercased() ?? "MY STREAM",
+            titleText: "MY STREAM",
             image: #imageLiteral(resourceName: "profile_85"),
             messageText: stream?.name ?? "",
             descriptionText: "Would you like to end your stream?",
@@ -763,24 +770,24 @@ class StreamViewController: UIViewController {
         })
         present(alert, animated: true)
     }
-	
-	/// Parses the given URL to extract the video ID.
-	///
-	/// - Parameter url: The URL to parse.
-	/// - Returns: The video ID if found, nil otherwise.
+    
+    /// Parses the given URL to extract the video ID.
+    ///
+    /// - Parameter url: The URL to parse.
+    /// - Returns: The video ID if found, nil otherwise.
     /// - Note: Expects ID to be found in the query parameter "v".
-	fileprivate func extractVideoID(from url: URL) -> String? {
-		guard let queries = url.query?.components(separatedBy: "&") else {
-			return nil
-		}
-		for queryString in queries {
-			let query = queryString.components(separatedBy: "=")
-			if query.count > 1 && query[0] == "v" {
-				return query[1]
-			}
-		}
-		return nil
-	}
+    fileprivate func extractVideoID(from url: URL) -> String? {
+        guard let queries = url.query?.components(separatedBy: "&") else {
+            return nil
+        }
+        for queryString in queries {
+            let query = queryString.components(separatedBy: "=")
+            if query.count > 1 && query[0] == "v" {
+                return query[1]
+            }
+        }
+        return nil
+    }
     
     /// Updates the displayed video info to the video with the given ID.
     ///
@@ -810,25 +817,25 @@ class StreamViewController: UIViewController {
 
 // MARK: - StreamViewModelDelegate
 extension StreamViewController: StreamViewModelDelegate {
-	/// On user count changing, update the displayed count.
-	///
-	/// - Parameter count: The new user count.
-	func userCountChanged(toCount count: Int) {
-		userCountLabel.text = "\(count)"
-	}
-	
-	/// On receiving a message, add it to the chat table and scroll
+    /// On user count changing, update the displayed count.
+    ///
+    /// - Parameter count: The new user count.
+    func userCountChanged(toCount count: Int) {
+        userCountLabel.text = "\(count)"
+    }
+    
+    /// On receiving a message, add it to the chat table and scroll
     /// to the bottom.
-	///
-	/// - Parameters:
-	///   - message: The message received.
-	///   - position: The position the message should be in.
-	func received(message: Message, for position: Int) {
+    ///
+    /// - Parameters:
+    ///   - message: The message received.
+    ///   - position: The position the message should be in.
+    func received(message: Message, for position: Int) {
         chatTableView.beginUpdates()
         chatTableView.insertRows(at: [IndexPath(row: position, section: 0)], with: .automatic)
         chatTableView.scrollTableViewToBottom(animated: false)
         chatTableView.endUpdates()
-	}
+    }
     
     
     /// When a message is removed from the model, remove it from the view.
@@ -837,20 +844,20 @@ extension StreamViewController: StreamViewModelDelegate {
     func removedMessage(at position: Int) {
         chatTableView.deleteRows(at: [IndexPath(row: position, section: 0)], with: .automatic)
     }
-	
-	/// On current video changing, load new video and update view.
-	///
-	/// - Parameter currentVideoID: The ID of the new current video.
-	func receivedUpdate(forCurrentVideoID currentVideoID: String) {
+    
+    /// On current video changing, load new video and update view.
+    ///
+    /// - Parameter currentVideoID: The ID of the new current video.
+    func receivedUpdate(forCurrentVideoID currentVideoID: String) {
         // Get the player's video ID
-		var playerID: String?
-		if let playerURL = playerView.videoUrl() {
-			playerID = extractVideoID(from: playerURL)
-		}
+        var playerID: String?
+        if let playerURL = playerView.videoUrl() {
+            playerID = extractVideoID(from: playerURL)
+        }
         // Change to new video if no player video or if player video is different
-		if playerView.videoUrl() == nil || currentVideoID != playerID {
+        if playerView.videoUrl() == nil || currentVideoID != playerID {
             updateView(forVideoWithID: currentVideoID)
-			DispatchQueue.main.async {
+            DispatchQueue.main.async {
                 // Only participants will receive updates
                 if currentVideoID != "" {
                     self.viewModel.hostPlayerIsEmpty = false
@@ -861,61 +868,61 @@ extension StreamViewController: StreamViewModelDelegate {
                     self.viewModel.hostPlayerIsEmpty = true
                     self.playerView.load(withPlayerParams: self.participantPlayerVariables)
                 }
-			}
-		}
-	}
-	
-	/// On play state change, pause or play the video.
-	///
-	/// - Parameter isPlaying: Whether the video is playing or paused.
-	func receivedUpdate(forIsPlaying isPlaying: Bool) {
-		if isPlaying && playerView.playerState() != .playing {
+            }
+        }
+    }
+    
+    /// On play state change, pause or play the video.
+    ///
+    /// - Parameter isPlaying: Whether the video is playing or paused.
+    func receivedUpdate(forIsPlaying isPlaying: Bool) {
+        if isPlaying && playerView.playerState() != .playing {
             DispatchQueue.main.async {
                 self.playerView.playVideo()
             }
-		}
-		else if !isPlaying && playerView.playerState() != .paused {
+        }
+        else if !isPlaying && playerView.playerState() != .paused {
             DispatchQueue.main.async {
                 self.playerView.pauseVideo()
             }
-		}
-	}
-	
-	/// If host is buffering, pause the video.
-	///
-	/// - Parameter isBuffering: Whether the host is buffering.
-	func receivedUpdate(forIsBuffering isBuffering: Bool) {
-		if isBuffering && playerView.playerState() == .playing {
+        }
+    }
+    
+    /// If host is buffering, pause the video.
+    ///
+    /// - Parameter isBuffering: Whether the host is buffering.
+    func receivedUpdate(forIsBuffering isBuffering: Bool) {
+        if isBuffering && playerView.playerState() == .playing {
             DispatchQueue.main.async {
                 self.playerView.pauseVideo()
             }
-		}
-	}
-	
-	/// If the playtime is out of sync, jump to the host's playtime.
-	///
-	/// - Parameter playtime: The host playtime in seconds.
-	func receivedUpdate(forPlaytime playtime: Float) {
-		if abs(playtime - playerView.currentTime()) > viewModel.maximumDesyncTime {
+        }
+    }
+    
+    /// If the playtime is out of sync, jump to the host's playtime.
+    ///
+    /// - Parameter playtime: The host playtime in seconds.
+    func receivedUpdate(forPlaytime playtime: Float) {
+        if abs(playtime - playerView.currentTime()) > viewModel.maximumDesyncTime {
             DispatchQueue.main.async {
                 self.playerView.seek(toSeconds: playtime, allowSeekAhead: true)
             }
-		}
-	}
+        }
+    }
     
     func receivedVideoReport() {
         guard let currentVideoIndex = viewModel.currentVideoIndex else { return }
         deleteVideo(at: IndexPath(row: currentVideoIndex, section: 0))
     }
-	
-	/// On stream ending, present notification and pop to root screen.
-	func streamEnded() {
+    
+    /// On stream ending, present notification and pop to root screen.
+    func streamEnded() {
         Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "ReceivedStreamEnded")
         // Make sure player doesn't keep playing
         playerView.pauseVideo()
         
         // Present popup with default user profile picture
-		let popup = PopupViewController.instantiate(
+        let popup = PopupViewController.instantiate(
             titleText: stream?.name.uppercased() ?? "",
             image: #imageLiteral(resourceName: "profile_85"),
             messageText: (stream?.name ?? ""),
@@ -937,7 +944,7 @@ extension StreamViewController: StreamViewModelDelegate {
                 }
             }
         }
-	}
+    }
 }
 
 // MARK: - UITableViewDelegate, UITableViewDataSource
@@ -948,13 +955,13 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
     ///   - tableView: The table requesting the cell.
     ///   - indexPath: The path of the cell.
     /// - Returns: The cell to display.
-	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch tableView.tag {
         case chatTableTag: return cellFor(chatTableView: tableView, at: indexPath)
         case queueTableTag: return cellFor(queueTableView: tableView, at: indexPath)
         default: return UITableViewCell()
         }
-	}
+    }
     
     /// Sets the height to be automatic based on constraints.
     ///
@@ -1007,20 +1014,20 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
             return nil
         }
     }
-	
+    
     /// Returns the number of rows for the section.
     ///
     /// - Parameters:
     ///   - tableView: The tableview requesting the number.
     ///   - section: The section the request is for.
     /// - Returns: The number of rows for the section.
-	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch tableView.tag {
         case chatTableTag: return viewModel.messages.count
         case queueTableTag: return viewModel.videoQueue?.count ?? 0
         default: return 0
         }
-	}
+    }
     
     /// Allows the queue table cells to be moved.
     ///
@@ -1129,7 +1136,7 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
     }
-	
+    
     /// Dequeues and configures the cell for the given path for the chat table.
     ///
     /// - Parameters:
@@ -1187,7 +1194,7 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
     ///   - tableView: The table requesting the cell.
     ///   - indexPath: The path of the cell.
     /// - Returns: The cell to display.
-	private func cellFor(queueTableView tableView: UITableView, at indexPath: IndexPath) -> UITableViewCell {
+    private func cellFor(queueTableView tableView: UITableView, at indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "queueCell") as? VideoQueueTableViewCell,
             let video = viewModel.videoQueue?[indexPath.row],
             let currentVideoIndex = viewModel.currentVideoIndex else {
@@ -1223,9 +1230,9 @@ extension StreamViewController: YTPlayerViewDelegate {
     ///   - playerView: The player sending the update.
     ///   - playTime: The sent play time of the playing video.
     func playerView(_ playerView: YTPlayerView, didPlayTime playTime: Float) {
-		if viewModel.isHost {
-			viewModel.send(currentPlayTime: playerView.currentTime())
-		}
+        if viewModel.isHost {
+            viewModel.send(currentPlayTime: playerView.currentTime())
+        }
     }
     
     /// On receiving an error, display the error.
@@ -1244,9 +1251,9 @@ extension StreamViewController: YTPlayerViewDelegate {
     ///
     /// - Parameter playerView: The player that became ready.
     func playerViewDidBecomeReady(_ playerView: YTPlayerView) {
-		if !viewModel.isHost, !viewModel.hostPlayerIsEmpty {
-			playerView.playVideo()
-		}
+        if !viewModel.isHost, !viewModel.hostPlayerIsEmpty {
+            playerView.playVideo()
+        }
     }
     
     /// On receiving a state update, update the view or send a message depending on the state
@@ -1258,24 +1265,24 @@ extension StreamViewController: YTPlayerViewDelegate {
     func playerView(_ playerView: YTPlayerView, didChangeTo state: YTPlayerState) {
         switch (state) {
         case .paused:
-			if viewModel.isHost {
-				viewModel.send(playState: false)
-			}
+            if viewModel.isHost {
+                viewModel.send(playState: false)
+            }
         case .buffering:
             // The buffering state is the only signal that the currently playing video changed
-			if viewModel.isHost, let url = playerView.videoUrl(), let id = extractVideoID(from: url) {
+            if viewModel.isHost, let url = playerView.videoUrl(), let id = extractVideoID(from: url) {
                 updateView(forVideoWithID: id)
-				viewModel.send(currentVideoID: id)
-				viewModel.send(isBuffering: true)
-			}
+                viewModel.send(currentVideoID: id)
+                viewModel.send(isBuffering: true)
+            }
         case .playing:
-			if viewModel.isHost {
-				viewModel.send(isBuffering: false)
-				viewModel.send(playState: true)
-			}
-			else if !viewModel.hostPlaying {
-				playerView.pauseVideo()
-			}
+            if viewModel.isHost {
+                viewModel.send(isBuffering: false)
+                viewModel.send(playState: true)
+            }
+            else if !viewModel.hostPlaying {
+                playerView.pauseVideo()
+            }
         case .ended:
             if viewModel.isHost {
                 playNextVideo()
@@ -1326,6 +1333,7 @@ extension StreamViewController: AddVideosDelegate {
             self.queueTableView.reloadData()
             // Special case where the queue was empty
             if needsToResetVideoView {
+                self.queueEditButton.isHidden = false
                 self.playerView.isUserInteractionEnabled = true
                 self.setupPlayerView()
             }

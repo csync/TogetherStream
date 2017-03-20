@@ -1,30 +1,37 @@
 //
-//  AddVideosViewController.swift
-//  Stormtrooper
-//
-//  Created by Nathan Hekman on 12/9/16.
-//  Copyright © 2016 IBM. All rights reserved.
+//  © Copyright IBM Corporation 2017
+//  LICENSE: MIT http://ibm.biz/license-ios
 //
 
 import UIKit
 
 /// View controller for the "Add Videos" screen.
 class AddVideosViewController: UIViewController {
-	
+    
     @IBOutlet weak var streamNameLabel: UILabel!
     @IBOutlet weak var queueCountLabel: UILabel!
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var searchTableView: UITableView!
     @IBOutlet weak var nextButton: UIButton!
     @IBOutlet weak var searchTableViewBottomConstraint: NSLayoutConstraint!
-	
+    
     /// The stream to add videos to.
     var stream: Stream?
     /// Change view based on whether a stream is currently being created.
     var isCreatingStream = false
     /// Delegate to send updates to.
     var delegate: AddVideosDelegate?
-	
+    
+    /// The number of videos that has been previously added.
+    var numberOfPreviouslyAddedVideos: Int {
+        get {
+            return viewModel.numberOfPreviouslyAddedVideos
+        }
+        set {
+            viewModel.numberOfPreviouslyAddedVideos = newValue
+        }
+    }
+    
     /// The size of the space in front of the search bar.
     private let searchSpacerFrame = CGRect(x: 0, y: 0, width: 39, height: 5)
     /// The size of the clear button for the search bar.
@@ -32,8 +39,8 @@ class AddVideosViewController: UIViewController {
     /// The height of the header in the search table.
     fileprivate let searchTableHeaderViewHeight: CGFloat = 43
     
-	/// The model for the objects in this view.
-	fileprivate let viewModel = AddVideosViewModel()
+    /// The model for the objects in this view.
+    fileprivate let viewModel = AddVideosViewModel()
     
     /// Loading indicator for fetching videos.
     fileprivate let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .white)
@@ -46,8 +53,7 @@ class AddVideosViewController: UIViewController {
         setupTableView()
         setupNavigationItems()
         setupActivityIndicator()
-        
-        streamNameLabel.text = "\"\(stream?.name ?? "")\" Queue".localizedUppercase
+        setupQueueHeader()
         
         fetchTrendingVideos()
 
@@ -88,6 +94,9 @@ class AddVideosViewController: UIViewController {
     ///
     /// - Parameter error: The error message to show.
     fileprivate func showVideoAlert(with error: Error) {
+        guard navigationController?.visibleViewController == self else {
+            return
+        }
         let alert = UIAlertController(title: "Error Loading Videos", message: error.localizedDescription, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
@@ -142,12 +151,18 @@ class AddVideosViewController: UIViewController {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
+    /// Sets up the top area of the screen.
+    private func setupQueueHeader() {
+        streamNameLabel.text = "\"\(stream?.name ?? "")\" Queue".localizedUppercase
+        queueCountLabel.text = viewModel.queueCount
+    }
+    
     /// Sets up the activity indicator.
     private func setupActivityIndicator() {
         activityIndicator.frame = view.frame
         view.addSubview(activityIndicator)
     }
-	
+    
     /// When the done button is tapped, sends added videos to the appropriate receivers
     /// and moves to the next screen.
     ///
@@ -164,7 +179,6 @@ class AddVideosViewController: UIViewController {
             inviteVC.videoQueue = viewModel.selectedVideos
             inviteVC.navigationItem.title = "Invite to Stream"
             inviteVC.isCreatingStream = true
-            inviteVC.canInviteToStream = true
             self.navigationController?.pushViewController(inviteVC, animated: true)
 
         }
@@ -174,7 +188,7 @@ class AddVideosViewController: UIViewController {
             let _ = self.navigationController?.popViewController(animated: true)
         }
     }
-	
+    
     /// When a text field changes, updates the right view of the search text field
     /// based on the number of characters in the field.
     ///
@@ -311,7 +325,7 @@ extension AddVideosViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         viewModel.toggleSelectionOfVideo(at: indexPath)
         // Updates selected video count view
-        queueCountLabel.text = String(viewModel.selectedVideos.count)
+        queueCountLabel.text = viewModel.queueCount
         // Updates selected image
         if let cell = tableView.cellForRow(at: indexPath) as? SearchResultTableViewCell {
             if viewModel.videoIsSelected(at: indexPath) {

@@ -1,9 +1,6 @@
 //
-//  NameStreamViewController.swift
-//  Stormtrooper
-//
-//  Created by Nathan Hekman on 12/7/16.
-//  Copyright © 2016 IBM. All rights reserved.
+//  © Copyright IBM Corporation 2017
+//  LICENSE: MIT http://ibm.biz/license-ios
 //
 
 import UIKit
@@ -11,7 +8,7 @@ import UIKit
 /// View controller for the "Name Stream" screen
 class NameStreamViewController: UIViewController {
 
-	@IBOutlet weak var nameTextField: UITextField!
+    @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var descriptionTextView: UITextView!
     
     fileprivate var nextBannerView: NextBannerView!
@@ -27,7 +24,7 @@ class NameStreamViewController: UIViewController {
     fileprivate var isDescriptionPlaceholder: Bool {
         return descriptionTextView.text == descriptionPlaceholder
     }
-	
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         trackScreenView()
@@ -115,7 +112,7 @@ class NameStreamViewController: UIViewController {
             hostFacebookID: facebookID)
         
         // Configure AddVideosVC
-		addVideosVC.stream = stream
+        addVideosVC.stream = stream
         addVideosVC.isCreatingStream = true
         self.navigationController?.pushViewController(addVideosVC, animated: true)
     }
