@@ -63,7 +63,11 @@
         let errorCallback = function (err) {
           console.error(err)
         }
-        this.csyncApp.authenticate("facebook", facebookAccessToken).then(successCallback, errorCallback)
+        let localSuccessCallback = function () {
+          this.set("csyncAuthSuccess", true)
+          successCallback()
+        }.bind(this)
+        this.csyncApp.authenticate("facebook", facebookAccessToken).then(localSuccessCallback, errorCallback)
       },
       /**
       * Setting up the csync listeners that change as properties are updated from ios app.
@@ -220,8 +224,20 @@
           }
 
           if (!this.streamValidated && value.key && value.key.indexOf(streamId) >= 0) {
-            this.set("streamValidated", true)
-            callback(true)
+            let isActiveListenerKey = this.csyncApp.key("streams." + streamId + ".isActive")
+            
+            isActiveListenerKey.listen(function(error, value) {
+              // If value doesn't exist and is outdated, don't process it.
+              if (!value.exists) {
+                return
+              }
+
+              if (value.data && !this.streamValidated) {
+                this.set("streamValidated", true)
+                callback(true)
+                isActiveListenerKey.unlisten()
+              }
+            }.bind(this))
             return
           } 
           

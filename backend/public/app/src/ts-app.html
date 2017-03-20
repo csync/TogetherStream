@@ -104,16 +104,24 @@
       joinStream: function() {
         let that = this
         let showPortalPage = function () {
-          that.authenticateWithFacebookAccessToken(that.facebookAccessToken, function () {
+          let validateStream = function () {
             that.isValidStreamId(that.streamId, function callback(isValid) {
-              if (isValid) {
-                that.setupCsyncListeners()
-                that.set("showingPortalPage", false)
-              } else {
-                alert("Please input a valid stream id.")
-              }
+                if (isValid) {
+                  that.setupCsyncListeners()
+                  that.set("showingPortalPage", false)
+                } else {
+                  alert("Please input a valid stream id.")
+                }
+              })
+          }
+          if (!that.csyncAuthSuccess) {
+            that.authenticateWithFacebookAccessToken(that.facebookAccessToken, function () {
+              validateStream()
             })
-          })
+          } else {
+            validateStream()
+          }
+          
         }
 
         if (!this.isLoggedIn) {
