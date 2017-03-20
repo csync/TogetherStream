@@ -51,11 +51,22 @@
           value: false
         },
         /**
-        * Used to avoid setting up more than one listener.
+        * Stores active listeners here for cleanup.
         */
-        hasSetupListeners: {
-          type: Boolean,
-          value: false
+        activeListeners: {
+          type: Array,
+          value: function () {
+            return []
+          }
+        },
+        /**
+        * Stores active intervals here for cleanup.
+        */
+        activeIntervals: {
+          type: Array,
+          value: function () {
+            return []
+          }
         }
       },
       /**
@@ -94,13 +105,26 @@
       * Setting up the csync listeners that change as properties are updated from ios app.
       */
       setupCsyncListeners: function() {
-        if (!this.hasSetupListeners){
-          this.setupVideoCsyncListener()
-          this.setupChatCsyncListener()
-          this.setupHeartbeatCsyncListener()
-          this.setupParticipantsCsyncListener()
-          this.set("hasSetupListeners", true)
-        }
+        this.setupVideoCsyncListener()
+        this.setupChatCsyncListener()
+        this.setupHeartbeatCsyncListener()
+        this.setupParticipantsCsyncListener()
+      },
+      /**
+      * Called when stream ends to cleanup and allow for another stream to be listened to.
+      */
+      cleanupListeners: function () {
+        this.set("streamValidated", false)
+        this.set("chatMessages", [])
+
+        this.activeListeners.forEach(function(listenerKey) {
+          listenerKey.unlisten()
+        })
+        this.activeIntervals.forEach(function(intervalId) {
+          clearInterval(intervalId)
+        })
+        this.set("activeListeners", [])
+        this.set("activeIntervals", [])
       },
       /**
       * Listens to video key changes.
@@ -128,13 +152,13 @@
           } else if (value.key.indexOf("isActive") >= 0) {
             if (this.isStreamActive && !value.data) {
               alert("Stream has ended.")
-              this.set("streamValidated", false)
-              this.set("chatMessages", [])
+              this.cleanupListeners()
             }
             this.set("isStreamActive", value.data)
           }
         }.bind(this)
         listenerKey.listen(listenerCallback)
+        this.push("activeListeners", listenerKey)
       },
       /**
       * Listens to chat key changes.
@@ -156,6 +180,7 @@
         }.bind(this)
 
         listenerKey.listen(listenerCallback)
+        this.push("activeListeners", listenerKey)
       },
       /**
       * Listens to heartbeat key changes to know how many users are currently watching.
@@ -178,9 +203,10 @@
         }.bind(this)
 
         listenerKey.listen(listenerCallback)
+        this.push("activeListeners", listenerKey)
 
         // Setup timer to delete keys that have not received a heartbeat in 2 seconds.
-        setInterval(function(){
+        let intervalId = setInterval(function(){
           Object.keys(this.currentViewerIds).forEach(function(key) {
             if (Date.now() - this.currentViewerIds[key] >= this.viewerHeartbeatTimeoutSecs) {
               delete this.currentViewerIds[key]
@@ -188,16 +214,18 @@
           }.bind(this))
           this.set("currentViewerCount", Object.keys(this.currentViewerIds).length)
         }.bind(this), 250)
+        this.push("activeIntervals", intervalId)
 
       },
       /**
       * Sends heartbeat for logged in user to csync server.
       */
       setupHeartbeatCsyncWriter: function () {
-        setInterval(function(){
+        let intervalId = setInterval(function(){
           let writeKey = this.csyncApp.key("streams." + this.streamId + ".heartbeat." + this.loggedInUserFacebookId)
           writeKey.write("" + (Date.now() - this.timeOffset) / 1000, {acl: csync.acl.PublicReadWrite})
         }.bind(this), 1000)
+        this.push("activeIntervals", intervalId)
       },
       /**
       * Listens for when a participant enters/leaves a stream.
@@ -219,6 +247,7 @@
           
         }.bind(this)
         listenerKey.listen(listenerCallback)
+        this.push("activeListeners", listenerKey)
       },
       /**
       * Uses Csync to send chat message
@@ -278,6 +307,7 @@
         }.bind(this)
 
         listenerKey.listen(listenerCallback)
+        this.push("activeListeners", listenerKey)
       }
     };
 </script>
