@@ -24,12 +24,12 @@
         padding-top: 60px;
       }
     </style>
-    <ts-header showing-portal-page={{showingPortalPage}}></ts-header>
-    <template is="dom-if" if="{{!showingPortalPage}}">
+    <ts-header showing-portal-page={{!isStreamActive}}></ts-header>
+    <template is="dom-if" if="{{isStreamActive}}">
       <ts-chat stream-name={{streamName}} logged-in-user={{loggedInUserFacebookData}} current-viewer-count={{currentViewerCount}} chat-messages={{chatMessages}}></ts-chat>
       <ts-video video-data={{currentlyStreamingVideoData}}></ts-video>
     </template>
-    <template is="dom-if" if="{{showingPortalPage}}">
+    <template is="dom-if" if="{{!isStreamActive}}">
      <ts-portal stream-id={{streamId}}></ts-portal>
     </template>
   </template>
@@ -46,10 +46,6 @@
         this.addEventListener('sendChatMessage', this.sendChatMessage);
       },
       properties: {
-        showingPortalPage: {
-          type: Boolean,
-          value: true
-        },
         streamId: {
           type: String,
           value: ""
@@ -108,7 +104,6 @@
             that.isValidStreamId(that.streamId, function callback(isValid) {
                 if (isValid) {
                   that.setupCsyncListeners()
-                  that.set("showingPortalPage", false)
                 } else {
                   alert("Please input a valid stream id.")
                 }

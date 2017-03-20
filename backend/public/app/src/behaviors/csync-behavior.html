@@ -35,6 +35,27 @@
         viewerHeartbeatTimeoutSecs: {
           type: Number,
           value: 4000
+        },
+        /**
+        * Used to keep track of whether authentication with csync has happened.
+        */
+        csyncAuthSuccess: {
+          type: Boolean,
+          value: false
+        },
+        /**
+        * Used to keep track of when stream is active and when it ends.
+        */
+        isStreamActive: {
+          type: Boolean,
+          value: false
+        },
+        /**
+        * Used to avoid setting up more than one listener.
+        */
+        hasSetupListeners: {
+          type: Boolean,
+          value: false
         }
       },
       /**
@@ -73,10 +94,13 @@
       * Setting up the csync listeners that change as properties are updated from ios app.
       */
       setupCsyncListeners: function() {
-        this.setupVideoCsyncListener()
-        this.setupChatCsyncListener()
-        this.setupHeartbeatCsyncListener()
-        this.setupParticipantsCsyncListener()
+        if (!this.hasSetupListeners){
+          this.setupVideoCsyncListener()
+          this.setupChatCsyncListener()
+          this.setupHeartbeatCsyncListener()
+          this.setupParticipantsCsyncListener()
+          this.set("hasSetupListeners", true)
+        }
       },
       /**
       * Listens to video key changes.
@@ -101,6 +125,13 @@
             this.set("currentlyStreamingVideoData.isPlaying", value.data)
           } else if (value.key.indexOf("streamName") >= 0) {
             this.set("streamName", value.data)
+          } else if (value.key.indexOf("isActive") >= 0) {
+            if (this.isStreamActive && !value.data) {
+              alert("Stream has ended.")
+              this.set("streamValidated", false)
+              this.set("chatMessages", [])
+            }
+            this.set("isStreamActive", value.data)
           }
         }.bind(this)
         listenerKey.listen(listenerCallback)
