@@ -97,7 +97,7 @@
             this.getFBUserInfo(this.loggedInUserFacebookId, function (response) {
               this.set("loggedInUserFacebookData", response)
             }.bind(this))
-            this.getServerAccessToken(callback)
+            callback && callback()
           } else if (forceLogin){
             window.FB.login(function(response){
               this.handleGetLoginStatus(response, false, callback)
