@@ -106,6 +106,13 @@
         currentTime: {
           type: Number,
           value: 0
+        },
+        /**
+        * Max time difference before updating video time.
+        */
+        maxTimeDifference: {
+          type: Number,
+          value: 3
         }
       },
       /**
@@ -120,10 +127,10 @@
       },
       /**
       * Observing as videoTime changes to compare ito the player's and update
-      * once the difference is >= 1 second.
+      * once the difference is >= maxTimeDifference.
       */
       observeTime: function (videoTime) {
-        if (Math.abs(this.currentTime - videoTime) >= 1) {
+        if (Math.abs(this.currentTime - videoTime) >= this.maxTimeDifference) {
           this.$.googleYouTube.seekTo(videoTime)
         }
       }
