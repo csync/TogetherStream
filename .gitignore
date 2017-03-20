@@ -72,6 +72,7 @@ backend/config/private
 newrelic_agent.log
 yarn.lock
 backend/public/app/bower_components
+backend/public/app/credentials.js
 
 # Frontend
 iOS/TogetherStream/TogetherStream/Configuration/private.plist

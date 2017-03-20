@@ -160,8 +160,7 @@
           index++
         }
         if (index != this.chatMessages.length) {
-          this.chatMessages.splice(index, 0, item)
-          this.set("chatMessages", this.chatMessages)
+          this.splice("chatMessages", index, 0, item)
         } else {
           this.push("chatMessages", item)
         }

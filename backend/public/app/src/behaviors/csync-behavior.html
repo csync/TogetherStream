@@ -11,14 +11,14 @@
         */
         csyncServerIpAddress: {
           type: String,
-          value: "169.46.157.54"
+          value: window.Credentials.csyncIpAddress
         },
         /**
         * Stores the port for the csync server.
         */
         csyncServerPort: {
           type: String,
-          value: "6005"
+          value: window.Credentials.csyncPort
         },
         /**
         * Stores the csync app to interact with the service.
@@ -95,6 +95,8 @@
             this.set("currentlyStreamingVideoData.time", value.data)
           } else if (value.key.indexOf("isPlaying") >= 0) {
             this.set("currentlyStreamingVideoData.isPlaying", value.data)
+          } else if (value.key.indexOf("streamName") >= 0) {
+            this.set("streamName", value.data)
           }
         }.bind(this)
         listenerKey.listen(listenerCallback)
@@ -150,7 +152,7 @@
             }
           }.bind(this))
           this.set("currentViewerCount", Object.keys(this.currentViewerIds).length)
-        }.bind(this), 1000)
+        }.bind(this), 250)
 
       },
       /**
