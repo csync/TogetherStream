@@ -5,8 +5,8 @@
 var credentials = require("./private/credentials");
 
 var appVars = {
-    csyncServer: "localhost",
-    csyncPort: 6005,
+    csyncServer: credentials.csyncServer,
+    csyncPort: credentials.csyncPort,
     youtubeKey: credentials.youtube.key,
     userToken: credentials.userToken
 };

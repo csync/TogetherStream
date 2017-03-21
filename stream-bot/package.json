@@ -8,5 +8,8 @@
   "dependencies": {
     "csync": "^1.1.0",
     "request": "^2.79.0"
+  },
+  "engines": {
+    "node": "7.x.x"
   }
 }
