@@ -74,6 +74,11 @@ yarn.lock
 backend/public/app/bower_components
 backend/public/app/credentials.js
 
+# StreamBot
+stream-bot/config/private
+stream-bot/node_modules
+stream-bot/.idea
+
 # Frontend
 iOS/TogetherStream/TogetherStream/Configuration/private.plist
 
