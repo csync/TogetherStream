@@ -224,7 +224,7 @@
       setupHeartbeatCsyncWriter: function () {
         let intervalId = setInterval(function(){
           let writeKey = this.csyncApp.key("streams." + this.streamId + ".heartbeat." + this.loggedInUserFacebookId)
-          writeKey.write("" + (Date.now() - this.timeOffset) / 1000, {acl: csync.acl.PublicReadWrite})
+          writeKey.write("" + (Date.now() - this.timeOffsetMilliseconds) / 1000, {acl: csync.acl.PublicReadWrite})
         }.bind(this), 1000)
         this.push("activeIntervals", intervalId)
       },
@@ -255,11 +255,11 @@
       */
       sendChatMessage: function (message) {
         let writeKey = this.csyncApp.key("streams." + this.streamId + ".chat." + this.generateUUID())
-        let timeOffset = this.timeOffset
+        let timeOffsetMilliseconds = this.timeOffsetMilliseconds
         writeKey.write(JSON.stringify({
           content: message.detail,
           id: this.loggedInUserFacebookId,
-          timestamp: "" + (Date.now() - timeOffset) / 1000 // need to save in seconds from 2001
+          timestamp: "" + (Date.now() - timeOffsetMilliseconds) / 1000 // need to save in seconds from 2001
         }), {acl: csync.acl.PublicReadWrite})
       },
       /**

@@ -79,9 +79,9 @@
         /**
         * Offseting time stamp to match server's which uses 2001 as a reference point instead of 1970.
         */
-        timeOffset: {
+        timeOffsetMilliseconds: {
           type: Number,
-          value: 978307200089.4209
+          value: 978307200000
         }
       },
       /**
@@ -138,7 +138,7 @@
             this.usersFacebookDataById[value.data.id] = response
             value.data.name = response.name
             value.data.picture = response.picture.data.url
-            value.data.timestamp = parseFloat(value.data.timestamp) * 1000 + this.timeOffset
+            value.data.timestamp = parseFloat(value.data.timestamp) * 1000 + this.timeOffsetMilliseconds
             this.insertIntoMessageArray(value.data)
           }.bind(this))
         } else if (this.usersFacebookDataById[value.data.id].isFetchingUser) {
@@ -149,7 +149,7 @@
           userData = this.usersFacebookDataById[value.data.id]
           value.data.name = userData.name
           value.data.picture = userData.picture.data.url
-          value.data.timestamp = parseFloat(value.data.timestamp) * 1000 + this.timeOffset
+          value.data.timestamp = parseFloat(value.data.timestamp) * 1000 + this.timeOffsetMilliseconds
           this.insertIntoMessageArray(value.data)
         }
       },
