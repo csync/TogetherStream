@@ -1,0 +1,12 @@
+{
+  "name": "stream-bot",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node $NODE_DEBUG_OPTION --max-old-space-size=400 app.js"
+  },
+  "dependencies": {
+    "csync": "^1.1.0",
+    "request": "^2.79.0"
+  }
+}
