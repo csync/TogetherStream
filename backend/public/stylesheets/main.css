@@ -40,7 +40,7 @@ section {
 .splash.main {
   background: 
     /* bottom, image */
-    url(../assets/headerBackground@2x.png);
+    url(https://together-stream.mybluemix.net/assets/headerBackground@2x.png);
   background-size: cover;
 }
 .splash .icon {
