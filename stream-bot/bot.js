@@ -1,6 +1,7 @@
-/**
- * Created by danielfirsht on 3/20/17.
- */
+//
+//  © Copyright IBM Corporation 2017
+//  LICENSE: MIT http://ibm.biz/license-non-ios
+//
 
 'use strict';
 
