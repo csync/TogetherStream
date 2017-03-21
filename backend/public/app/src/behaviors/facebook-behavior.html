@@ -93,7 +93,6 @@
             this.set("isLoggedIn", true)
             this.set("facebookAccessToken", response.authResponse.accessToken)
             this.set("loggedInUserFacebookId", response.authResponse.userID)
-            this.setupHeartbeatCsyncWriter()
             this.getFBUserInfo(this.loggedInUserFacebookId, function (response) {
               this.set("loggedInUserFacebookData", response)
             }.bind(this))

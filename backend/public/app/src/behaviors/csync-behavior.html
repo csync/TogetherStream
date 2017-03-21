@@ -109,6 +109,7 @@
         this.setupChatCsyncListener()
         this.setupHeartbeatCsyncListener()
         this.setupParticipantsCsyncListener()
+        this.setupHeartbeatCsyncWriter()
       },
       /**
       * Called when stream ends to cleanup and allow for another stream to be listened to.
@@ -302,7 +303,7 @@
           } 
           
           // Checking if invalid once all streams have been checked.
-          this.debounce("invalidStreamCallback", checkIfInvalid, 200)
+          this.debounce("invalidStreamCallback", checkIfInvalid, 500)
           // this.processMessageAndInsertIntoArray(value)
         }.bind(this)
 
