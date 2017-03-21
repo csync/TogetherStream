@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "csync": "^1.1.0",
+    "iso8601-duration": "^1.0.6",
     "request": "^2.79.0"
   },
   "engines": {

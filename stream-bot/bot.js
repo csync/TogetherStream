@@ -11,7 +11,7 @@ let isoDuration = require('iso8601-duration');
 let botID = "122296268288083";
 let clientWaitTime = 4000;
 
-let streamPrefix = "streams." + botID;
+let streamPrefix = "streams.bot123";
 
 let playlist = ['I_izvAbhExY','dQw4w9WgXcQ'];
 
