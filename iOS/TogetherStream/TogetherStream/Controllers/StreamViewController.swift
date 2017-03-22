@@ -1210,6 +1210,7 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
         cell.thumbnail = nil
         cell.title = video.title
         cell.channel = video.channelTitle
+        cell.duration = video.duration.humanReadableString
         cell.isPreviousVideo = (currentVideoIndex-1 == indexPath.row)
         cell.isCurrentVideo = (currentVideoIndex == indexPath.row)
         

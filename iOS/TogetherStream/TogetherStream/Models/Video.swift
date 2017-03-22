@@ -14,6 +14,7 @@ class Video {
     let defaultThumbnailURL: URL
     let channelTitle: String
     let viewCount: String?
+    let duration: Duration
     
     private var mediumThumbnail: UIImage?
     private var defaultThumbnail: UIImage?
@@ -24,22 +25,24 @@ class Video {
         return formatter
     }()
     
-    init?(listVideoData: [String: Any]) {
+    init?(jsonObject: [String: Any]) {
         // Check to make sure the video can be played in app
-        guard isEmbeddable(listVideoData), !isBlocked(listVideoData) else {
+        guard isEmbeddable(jsonObject), !isBlocked(jsonObject) else {
             return nil
         }
-        let snippetInfo = listVideoData["snippet"] as? [String: Any]
+        let snippetInfo = jsonObject["snippet"] as? [String: Any]
         let thumbnailsInfo = snippetInfo?["thumbnails"] as? [String: [String : Any]]
-        let statisticsInfo = listVideoData["statistics"] as? [String: String]
-        guard let id = listVideoData["id"] as? String,
+        let statisticsInfo = jsonObject["statistics"] as? [String: String]
+        guard let id = jsonObject["id"] as? String,
             let title = (snippetInfo?["localized"] as? [String: String])?["title"],
             let mediumThumbnailURLString = thumbnailsInfo?["medium"]?["url"] as? String,
             let defaultThumbnailURLString = thumbnailsInfo?["default"]?["url"] as? String,
             let channelTitle = snippetInfo?["channelTitle"] as? String,
             let mediumThumbnailURL = URL(string: mediumThumbnailURLString),
             let defaultThumbnailURL = URL(string: defaultThumbnailURLString),
-            let viewCount = statisticsInfo?["viewCount"] else {
+            let viewCount = statisticsInfo?["viewCount"],
+            let durationString = (jsonObject["contentDetails"] as? [String: Any])?["duration"] as? String,
+            let duration = durationString.duration else {
             return nil
         }
         
@@ -48,33 +51,13 @@ class Video {
         self.mediumThumbnailURL = mediumThumbnailURL
         self.defaultThumbnailURL = defaultThumbnailURL
         self.channelTitle = channelTitle
+        self.duration = duration
         
         if let viewCountInt = Int(viewCount) {
             self.viewCount = Video.numberFormatter.string(from: NSNumber(value: viewCountInt))
         } else {
             self.viewCount = viewCount
         }
-    }
-    
-    init?(searchResultData: [String: Any]) {
-        let snippetInfo = searchResultData["snippet"] as? [String: Any]
-        let thumbnailsInfo = snippetInfo?["thumbnails"] as? [String: [String : Any]]
-        guard let id = (searchResultData["id"] as? [String: String])?["videoId"],
-            let title = snippetInfo?["title"] as? String,
-            let mediumThumbnailURLString = thumbnailsInfo?["medium"]?["url"] as? String,
-            let defaultThumbnailURLString = thumbnailsInfo?["default"]?["url"] as? String,
-            let channelTitle = snippetInfo?["channelTitle"] as? String,
-            let mediumThumbnailURL = URL(string: mediumThumbnailURLString),
-            let defaultThumbnailURL = URL(string: defaultThumbnailURLString) else {
-            return nil
-        }
-        
-        self.id = id
-        self.title = title
-        self.mediumThumbnailURL = mediumThumbnailURL
-        self.defaultThumbnailURL = defaultThumbnailURL
-        self.channelTitle = channelTitle
-        self.viewCount = nil
     }
     
     func getMediumThumbnail(callback: @escaping (Error?, UIImage?) -> Void) {
