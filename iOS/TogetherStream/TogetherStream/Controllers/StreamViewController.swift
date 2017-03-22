@@ -615,7 +615,6 @@ class StreamViewController: UIViewController {
     
     /// Update the player to play the next video in the video queue.
     fileprivate func playNextVideo() {
-        Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "NextVideoPlayed")
         // Make sure there's a queue, current video, and a next video
         guard let videoQueue = viewModel.videoQueue,
             let currentVideoIndex = viewModel.currentVideoIndex else { return }
@@ -643,6 +642,9 @@ class StreamViewController: UIViewController {
         let nextVideoID = videoQueue[nextVideoIndex].id
         playerView.cueVideo(byId: nextVideoID, startSeconds: 0, suggestedQuality: .default)
         playerView.playVideo()
+        
+        Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "NextVideoPlayed",
+                                       label: viewModel.videoQueue?[nextVideoIndex].duration.humanReadableString)
     }
     
     /// Deletes the video at the given index path and updates the stream state.
@@ -799,10 +801,7 @@ class StreamViewController: UIViewController {
                 if let video = video {
                     // Set title, channel title and view count
                     self?.videoTitleLabel.text = video.title
-                    var subtitle = video.channelTitle
-                    if let viewCount = video.viewCount {
-                        subtitle += " - \(viewCount) views"
-                    }
+                    let subtitle = "\(video.channelTitle) - \(video.viewCount) views"
                     self?.videoSubtitleLabel.text = subtitle
                 }
                 else {
@@ -1210,6 +1209,7 @@ extension StreamViewController: UITableViewDelegate, UITableViewDataSource {
         cell.thumbnail = nil
         cell.title = video.title
         cell.channel = video.channelTitle
+        cell.duration = video.duration.humanReadableString
         cell.isPreviousVideo = (currentVideoIndex-1 == indexPath.row)
         cell.isCurrentVideo = (currentVideoIndex == indexPath.row)
         

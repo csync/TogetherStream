@@ -10,6 +10,8 @@ class SearchResultTableViewCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var channelTitleLabel: UILabel!
     @IBOutlet weak var addImageView: UIImageView!
+    @IBOutlet weak var durationLabel: UILabel!
+    @IBOutlet weak var viewCountLabel: UILabel!
     
     var videoID: String?
     
