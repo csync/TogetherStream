@@ -615,7 +615,6 @@ class StreamViewController: UIViewController {
     
     /// Update the player to play the next video in the video queue.
     fileprivate func playNextVideo() {
-        Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "NextVideoPlayed")
         // Make sure there's a queue, current video, and a next video
         guard let videoQueue = viewModel.videoQueue,
             let currentVideoIndex = viewModel.currentVideoIndex else { return }
@@ -643,6 +642,9 @@ class StreamViewController: UIViewController {
         let nextVideoID = videoQueue[nextVideoIndex].id
         playerView.cueVideo(byId: nextVideoID, startSeconds: 0, suggestedQuality: .default)
         playerView.playVideo()
+        
+        Utils.sendGoogleAnalyticsEvent(withCategory: "Stream", action: "NextVideoPlayed",
+                                       label: viewModel.videoQueue?[nextVideoIndex].duration.humanReadableString)
     }
     
     /// Deletes the video at the given index path and updates the stream state.
