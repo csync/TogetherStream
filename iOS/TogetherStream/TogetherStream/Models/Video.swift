@@ -13,7 +13,7 @@ class Video {
     let mediumThumbnailURL: URL
     let defaultThumbnailURL: URL
     let channelTitle: String
-    let viewCount: String?
+    let viewCount: String
     let duration: Duration
     
     private var mediumThumbnail: UIImage?
@@ -54,7 +54,7 @@ class Video {
         self.duration = duration
         
         if let viewCountInt = Int(viewCount) {
-            self.viewCount = Video.numberFormatter.string(from: NSNumber(value: viewCountInt))
+            self.viewCount = Video.numberFormatter.string(from: NSNumber(value: viewCountInt))  ?? ""
         } else {
             self.viewCount = viewCount
         }

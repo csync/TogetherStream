@@ -799,10 +799,7 @@ class StreamViewController: UIViewController {
                 if let video = video {
                     // Set title, channel title and view count
                     self?.videoTitleLabel.text = video.title
-                    var subtitle = video.channelTitle
-                    if let viewCount = video.viewCount {
-                        subtitle += " - \(viewCount) views"
-                    }
+                    let subtitle = "\(video.channelTitle) - \(video.viewCount) views"
                     self?.videoSubtitleLabel.text = subtitle
                 }
                 else {

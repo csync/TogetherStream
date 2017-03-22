@@ -36,13 +36,13 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rQa-ge-4Pm">
-                        <rect key="frame" x="149" y="27.5" width="34" height="18"/>
+                        <rect key="frame" x="149" y="18" width="34" height="18"/>
                         <fontDescription key="fontDescription" name="OpenSans-Semibold" family="Open Sans" pointSize="13"/>
                         <color key="textColor" red="0.96470588235294119" green="0.96470588235294119" blue="0.96470588235294119" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2i1-wD-H0Z">
-                        <rect key="frame" x="149" y="48.5" width="30.5" height="16.5"/>
+                        <rect key="frame" x="149" y="39" width="30.5" height="16.5"/>
                         <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="12"/>
                         <color key="textColor" red="0.96470588235294119" green="0.96470588235294119" blue="0.96470588235294119" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
@@ -71,17 +71,26 @@
                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jAR-TB-dDa">
+                        <rect key="frame" x="149" y="57.5" width="30.5" height="16.5"/>
+                        <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="12"/>
+                        <color key="textColor" red="0.58039215686274503" green="0.57647058823529407" blue="0.58039215686274503" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <color key="backgroundColor" red="0.15686274509803921" green="0.14117647058823529" blue="0.14117647058823529" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 <constraints>
                     <constraint firstItem="zzU-0G-chd" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="rQa-ge-4Pm" secondAttribute="trailing" constant="18" id="8JW-ci-Roa"/>
+                    <constraint firstItem="jAR-TB-dDa" firstAttribute="leading" secondItem="2i1-wD-H0Z" secondAttribute="leading" id="Bce-IK-f9n"/>
                     <constraint firstAttribute="leading" secondItem="nG4-Pk-zlc" secondAttribute="leading" constant="-16" id="CFP-p1-0hk"/>
                     <constraint firstItem="1EG-LP-S23" firstAttribute="height" secondItem="Fgr-Jt-cTW" secondAttribute="height" id="S38-KE-noc"/>
                     <constraint firstAttribute="bottom" secondItem="OY1-WO-c4O" secondAttribute="bottom" id="SxR-pf-eE0"/>
-                    <constraint firstItem="nG4-Pk-zlc" firstAttribute="top" secondItem="rQa-ge-4Pm" secondAttribute="top" constant="-15.5" id="Vg9-n3-RfJ"/>
+                    <constraint firstItem="nG4-Pk-zlc" firstAttribute="top" secondItem="rQa-ge-4Pm" secondAttribute="top" constant="-6" id="Vg9-n3-RfJ"/>
+                    <constraint firstItem="jAR-TB-dDa" firstAttribute="top" secondItem="2i1-wD-H0Z" secondAttribute="bottom" constant="2" id="YFb-NV-d2K"/>
                     <constraint firstItem="nG4-Pk-zlc" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="12" id="Zqo-Qc-UQK"/>
                     <constraint firstItem="2i1-wD-H0Z" firstAttribute="leading" secondItem="rQa-ge-4Pm" secondAttribute="leading" id="a2X-v3-yir"/>
                     <constraint firstItem="1EG-LP-S23" firstAttribute="top" secondItem="Fgr-Jt-cTW" secondAttribute="top" id="ahX-zZ-eHw"/>
+                    <constraint firstItem="zzU-0G-chd" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="jAR-TB-dDa" secondAttribute="trailing" constant="18" id="bRY-jA-cbU"/>
                     <constraint firstAttribute="trailing" secondItem="OY1-WO-c4O" secondAttribute="trailing" id="bjj-ZP-toi"/>
                     <constraint firstItem="OY1-WO-c4O" firstAttribute="leading" secondItem="nG4-Pk-zlc" secondAttribute="leading" id="c5Q-9H-1zb"/>
                     <constraint firstItem="zzU-0G-chd" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="2i1-wD-H0Z" secondAttribute="trailing" constant="18" id="c7V-eN-X4R"/>
@@ -103,6 +112,7 @@
                 <outlet property="durationLabel" destination="Fgr-Jt-cTW" id="4Uv-ux-dC9"/>
                 <outlet property="thumbnailImageView" destination="nG4-Pk-zlc" id="LUE-5G-pS2"/>
                 <outlet property="titleLabel" destination="rQa-ge-4Pm" id="Lso-z4-4yi"/>
+                <outlet property="viewCountLabel" destination="jAR-TB-dDa" id="llK-vb-qd1"/>
             </connections>
             <point key="canvasLocation" x="41.5" y="51"/>
         </tableViewCell>
