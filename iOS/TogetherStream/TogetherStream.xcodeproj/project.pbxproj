@@ -96,6 +96,8 @@
 		A2AF79F41E64AA0200796C9B /* InviteCodeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2AF79F21E64AA0200796C9B /* InviteCodeTableViewCell.xib */; };
 		A2B2B8521E82FAAE006EA959 /* Duration.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B2B8511E82FAAE006EA959 /* Duration.swift */; };
 		A2B2B8541E830E58006EA959 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B2B8531E830E58006EA959 /* String.swift */; };
+		A2B2B8571E841681006EA959 /* EndStreamsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B2B8551E841681006EA959 /* EndStreamsTableViewCell.swift */; };
+		A2B2B8581E841681006EA959 /* EndStreamsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2B2B8561E841681006EA959 /* EndStreamsTableViewCell.xib */; };
 		A2C1BD7D1E23EE6C00F515E7 /* ParticipantMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C1BD7C1E23EE6C00F515E7 /* ParticipantMessage.swift */; };
 		A2C1BD7F1E23FA9400F515E7 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C1BD7E1E23FA9400F515E7 /* Message.swift */; };
 		A2C1BD811E24024800F515E7 /* ParticipantsDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C1BD801E24024800F515E7 /* ParticipantsDataManager.swift */; };
@@ -238,6 +240,8 @@
 		A2AF79F21E64AA0200796C9B /* InviteCodeTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InviteCodeTableViewCell.xib; sourceTree = "<group>"; };
 		A2B2B8511E82FAAE006EA959 /* Duration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Duration.swift; sourceTree = "<group>"; };
 		A2B2B8531E830E58006EA959 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		A2B2B8551E841681006EA959 /* EndStreamsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EndStreamsTableViewCell.swift; sourceTree = "<group>"; };
+		A2B2B8561E841681006EA959 /* EndStreamsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EndStreamsTableViewCell.xib; sourceTree = "<group>"; };
 		A2C1BD7C1E23EE6C00F515E7 /* ParticipantMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticipantMessage.swift; sourceTree = "<group>"; };
 		A2C1BD7E1E23FA9400F515E7 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		A2C1BD801E24024800F515E7 /* ParticipantsDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ParticipantsDataManager.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -570,6 +574,8 @@
 				A2483D441E3BB6AE007E92DD /* VideoQueueTableViewCell.xib */,
 				A2AF79F11E64AA0200796C9B /* InviteCodeTableViewCell.swift */,
 				A2AF79F21E64AA0200796C9B /* InviteCodeTableViewCell.xib */,
+				A2B2B8551E841681006EA959 /* EndStreamsTableViewCell.swift */,
+				A2B2B8561E841681006EA959 /* EndStreamsTableViewCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -744,6 +750,7 @@
 				34AB458C1E259BDD000730DC /* NameStream.storyboard in Resources */,
 				34AD4BFE1E20400E00210F61 /* OpenSans-ExtraBold.ttf in Resources */,
 				34AB45901E259C15000730DC /* Stream.storyboard in Resources */,
+				A2B2B8581E841681006EA959 /* EndStreamsTableViewCell.xib in Resources */,
 				34AD4C0A1E20400E00210F61 /* WorkSans-ExtraLight.ttf in Resources */,
 				34AD4C0F1E20400E00210F61 /* WorkSans-Thin.ttf in Resources */,
 				34AD4C091E20400E00210F61 /* WorkSans-ExtraBold.ttf in Resources */,
@@ -1015,6 +1022,7 @@
 				34E57BE61DFB0B6800C8BAEA /* AddVideosViewController.swift in Sources */,
 				4AD6F7BC1E2D3755006104CF /* TextEmailTableViewCell.swift in Sources */,
 				34C6E5381DF23DBC00EB4972 /* LoginViewController.swift in Sources */,
+				A2B2B8571E841681006EA959 /* EndStreamsTableViewCell.swift in Sources */,
 				34C6E5371DF23DBC00EB4972 /* HomeViewController.swift in Sources */,
 				A2D44DC11E32B15900053099 /* SearchResultTableViewCell.swift in Sources */,
 				A29D11041DF8B30D00FA0EEC /* User.swift in Sources */,

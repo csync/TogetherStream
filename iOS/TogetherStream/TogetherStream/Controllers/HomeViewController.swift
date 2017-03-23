@@ -91,6 +91,7 @@ class HomeViewController: UIViewController {
     private func setupTableView() {
         streamsTableView.register(UINib(nibName: "StreamTableViewCell", bundle: nil), forCellReuseIdentifier: "streamCell")
         streamsTableView.register(UINib(nibName: "NoStreamsTableViewCell", bundle: nil), forCellReuseIdentifier: "noStreamsCell")
+        streamsTableView.register(UINib(nibName: "EndStreamsTableViewCell", bundle: nil), forCellReuseIdentifier: "endStreamsCell")
         streamsTableView.contentInset = streamsTableViewInset
         
         // Sets up pull to refresh functionality.
@@ -202,6 +203,15 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "noStreamsCell") as? NoStreamsTableViewCell else {
                 return UITableViewCell()
             }
+            cell.selectionStyle = .none
+            return cell
+        }
+        else if indexPath.row == viewModel.streams.count {
+            // Configure "End Streams" cell
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "endStreamsCell") as? EndStreamsTableViewCell else {
+                return UITableViewCell()
+            }
+            cell.selectionStyle = .none
             return cell
         }
         
