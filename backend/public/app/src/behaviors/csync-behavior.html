@@ -83,7 +83,7 @@
       * Initializes csync connection.
       */
       initializeCsyncConnection: function () {
-        var csyncApp = window.csync({host: this.csyncServerIpAddress, port: this.csyncServerPort, useSSL: false});
+        var csyncApp = window.csync({host: this.csyncServerIpAddress, port: this.csyncServerPort, useSSL: true});
         this.set("csyncApp", csyncApp)
       },
       /**
@@ -100,6 +100,9 @@
           successCallback()
         }.bind(this)
         this.csyncApp.authenticate("facebook", facebookAccessToken).then(localSuccessCallback, errorCallback)
+        this.csyncApp.authenticate("demo", "demoToken(" + facebookAccessToken + ")").then(localSuccessCallback, errorCallback)
+
+        // this.csyncApp.authenticate("facebook", facebookAccessToken).then(localSuccessCallback, errorCallback)
       },
       /**
       * Setting up the csync listeners that change as properties are updated from ios app.
