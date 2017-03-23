@@ -13,7 +13,7 @@ class HomeViewModel {
     
     /// The number of rows that should be displayed.
     var numberOfRows: Int {
-        return max(streams.count, 1)
+        return streams.count + 1
     }
     
     /// Shorthand for the shared AccountDataManager.
