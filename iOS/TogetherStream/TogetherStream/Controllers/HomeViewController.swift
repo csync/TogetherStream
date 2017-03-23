@@ -19,9 +19,13 @@ class HomeViewController: UIViewController {
     private let profileFrame = CGRect(x: 0, y: 0, width: 23, height: 23)
     // Inset to provide padding to the streams table view
     private let streamsTableViewInset = UIEdgeInsets(top: 9, left: 0, bottom: 0, right: 0)
+    private let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        activityIndicator.frame = view.frame
+        activityIndicator.color = UIColor.gray
+        view.addSubview(activityIndicator)
         trackScreenView()
         setupTableView()
         // Reset current user's stream in case the app was exited ungracefully while streaming.
@@ -123,8 +127,16 @@ class HomeViewController: UIViewController {
     ///
     /// - Parameter callback: The callback called on completion.
     func refreshStreams(callback: ((Void) -> Void)? = nil) {
+        if streamsTableView.refreshControl?.isRefreshing != true {
+            DispatchQueue.main.async {
+                self.activityIndicator.startAnimating()
+            }
+        }
         viewModel.refreshStreams { error, streams in
             DispatchQueue.main.async {
+                if self.activityIndicator.isAnimating {
+                    self.activityIndicator.stopAnimating()
+                }
                 if let error = error {
                     guard self.navigationController?.visibleViewController == self else {
                         return
