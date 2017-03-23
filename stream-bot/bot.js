@@ -97,8 +97,22 @@ let fetchVideoInfo = function (videoId) {
 let incrementPlayIndex = function () {
     playlistIndex++;
     if(playlistIndex >= playlist.length) {
+        shufflePlaylist();
         playlistIndex = 0;
     }
+};
+
+// Fisher-Yates Shuffle adopted from http://stackoverflow.com/a/6274398/3980472
+let shufflePlaylist = function () {
+  let counter = playlist.length;
+  while(counter > 0) {
+      let index = Math.floor(Math.random() * counter);
+      counter--;
+
+      let temp = playlist[counter];
+      playlist[counter] = playlist[index];
+      playlist[index] = temp;
+  }
 };
 
 let playVideo = function (videoId, duration) {
