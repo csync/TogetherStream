@@ -21,7 +21,6 @@
         display: flex;
         align-items: flex-end;
         color: white;
-        text-shadow: black 0px 0px 10px;
         background-color:transparent;
         width:70%;
         height: 100%;
@@ -49,13 +48,17 @@
       .bold {
         font-weight: bold;
       }
+      .left-container p {
+        margin: 0;
+        line-height: 20px;
+      }
     </style>
     <!-- Video layer over youtube component to disable clicking -->
     <div id="videoLayer">
       <div class="bottom-container">
         <div class="left-container">
           <template is="dom-if" if="{{videoData.title}}">
-            <p class="bold">CURRENTLY STREAMING</p>
+            <p class="bold" style="margin-bottom: 5px;">CURRENTLY STREAMING</p>
             <p>{{videoData.title}}</p>
             <p>{{videoData.channelName}} - {{videoData.views}} views</p>
           </template>

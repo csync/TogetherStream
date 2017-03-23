@@ -127,8 +127,9 @@ section {
   min-height: 500px;
 }
 .splash2 .iphone-pic {
-  min-width: 420px;
-  margin-left: -60px;
+  max-width: 500px;
+  width: 95%;
+  margin-left: -40px;
   position: relative;
   top: 50px;
 }
@@ -514,6 +515,7 @@ section {
   }
   .splash2 .right-container {
     margin-bottom: 70px;
+    width: 100%;
   }
 
   .tuning-in div {

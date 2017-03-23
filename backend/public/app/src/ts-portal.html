@@ -44,6 +44,7 @@
           /* bottom, image */
           url(https://together-stream.mybluemix.net/assets/headerBackground@2x.png);
         background-size: cover;
+        flex-direction: column;
       }
 
       .splash .left-container {
@@ -65,10 +66,12 @@
         margin-top: 100px;
         margin-bottom: 50px;
       }
-      .iphone-pic {
-        width: 80%;
+      .macbook-pic {
+        max-width: 500px;
+        width: 95%;
       }
       .appstore-icon {
+        margin-top: 50px;
         width: 30%;
       }
       input {
@@ -82,7 +85,7 @@
         border-radius: 64px;
         border: none;
         height: 30px;
-        width: 200px;
+        width: 180px;
       }
       .join-stream-button:focus {
         outline: none;
@@ -90,23 +93,47 @@
       .join-stream-button:hover {
         cursor: pointer;
       }
+      .text-seperator-p {
+        line-height: 0px;
+      }
+      .invitation {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        margin-top: -30px;
+      }
+      input {
+        width: 180px;
+        height: 30px;
+        border-radius: 5px;
+        text-align: center;
+        border: 1px solid rgb(148,147,148);
+      }
+      .small-text {
+        font-size: x-small;
+      }
+      a {
+        color: white;
+        text-decoration: underline;
+      }
     </style>
 		<section class="splash">
-			<div class="left-container">
-        <img class="iphone-pic" src="/assets/tSMockupStream@2x.png"/>
-			</div>
-			<div class="right-container">
-        <div>YOU'VE BEEN INVITED</div>
-        <p>Join the stream by entering the code provided to you by the host. You will then need to log in with Facebook.</p>
+      <div>
+        <h1>Join A Stream</h1>
+        <p class="text-seperator-p"><span class="text-seperator">—</span></p>
+      </div>
+      <img class="macbook-pic" src="/assets/macBook@2x.png"/>
+      <div class="invitation">
+        <p>Join a stream by entering the code provided by the host.</p>
         <input value={{streamId::input}}> </input>
         <button class="join-stream-button" on-tap="joinStream"> Join Stream </button>
-			</div>
-      <div class="bottom-container">
-        <p> Create your own stream or join in on mobile by downloading the app.</p>
-        <a href="http://ibm.biz/together-stream-download-app-store">
-          <img class="appstore-icon" src="/assets/downloadOnTheAppStoreBadgeUSUK135X40@2x.png"/>
-        </a>
       </div>
+      <p class="small-text">You will need to log in with Facebook to proceed.</p>
+      <a href="http://ibm.biz/together-stream-download-app-store">
+        <img class="appstore-icon" src="/assets/downloadOnTheAppStoreBadgeUSUK135X40@2x.png"/>
+      </a>
+      <p class="small-text"><a href="http://ibm.biz/together-stream-download-app-store">Download the app </a> to view on mobile or host your own stream.</p>
 		</section>
   </template>
 
