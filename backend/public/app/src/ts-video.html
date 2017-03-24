@@ -12,6 +12,7 @@
       :host {
         width: 70%;
         height: 100%;
+        position: relative;
       }
       #googleYouTube {
         height: 100%;
@@ -22,7 +23,7 @@
         align-items: flex-end;
         color: white;
         background-color:transparent;
-        width:70%;
+        width:100%;
         height: 100%;
         top: 0px;
       }
@@ -51,6 +52,17 @@
       .left-container p {
         margin: 0;
         line-height: 20px;
+      }
+      @media (max-width: 963px) {
+        :host {
+          width: 100%;
+          height: 50%;
+        }
+        .stream-container {
+          display: flex;
+          flex-direction:column-reverse;
+          height: 100%;
+        }
       }
     </style>
     <!-- Video layer over youtube component to disable clicking -->

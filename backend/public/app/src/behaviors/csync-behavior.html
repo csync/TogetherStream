@@ -83,7 +83,7 @@
       * Initializes csync connection.
       */
       initializeCsyncConnection: function () {
-        var csyncApp = window.csync({host: this.csyncServerIpAddress, port: this.csyncServerPort, useSSL: true});
+        var csyncApp = window.csync({host: this.csyncServerIpAddress, port: this.csyncServerPort, useSSL: false});
         this.set("csyncApp", csyncApp)
       },
       /**
@@ -217,7 +217,7 @@
             }
           }.bind(this))
           this.set("currentViewerCount", Object.keys(this.currentViewerIds).length)
-        }.bind(this), 250)
+        }.bind(this), 1000)
         this.push("activeIntervals", intervalId)
 
       },
@@ -228,7 +228,7 @@
         let intervalId = setInterval(function(){
           let writeKey = this.csyncApp.key("streams." + this.streamId + ".heartbeat." + this.loggedInUserFacebookId)
           writeKey.write("" + (Date.now() - this.timeOffsetMilliseconds) / 1000, {acl: csync.acl.PublicReadWrite})
-        }.bind(this), 1000)
+        }.bind(this), 250)
         this.push("activeIntervals", intervalId)
       },
       /**

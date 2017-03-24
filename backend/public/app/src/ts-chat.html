@@ -19,10 +19,12 @@
       }
       .bottom-container {
         display: flex;
-        width: 95%;
-        margin-left: 20px;
+        width: 100%;
+        margin-left: 10px;
         margin-bottom: 15px;
         margin-right: 6px;
+        justify-content: center;
+        align-items:center;
       }
 
       .top-container {
@@ -42,7 +44,7 @@
       .middle-container {
         margin-left: 20px;
         margin-right: 20px;
-        height: 80%;
+        height: 90%;
         overflow-y: scroll;
       }
       .bottom-container input {
@@ -58,6 +60,7 @@
       .input-container {
         display: flex;
         padding: 5px;
+        height: 20px;
         border: 1px solid #DDD;
         width: 88%;
         border-radius: 5px;
@@ -106,8 +109,13 @@
       }
 
       .bottom-right {
-        width: 65px;
-        align-self: center;
+        display: flex;
+        margin-right: 20px;
+      }
+      @media (max-width: 963px) {
+        :host {
+          width: 100%;
+        }
       }
     </style>
     <div class="top-container">

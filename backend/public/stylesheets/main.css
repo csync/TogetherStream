@@ -475,11 +475,13 @@ section {
   align-items:center;
 }
 
-@media (max-width: 963px) {
-  
+@media (max-width: 460px) {
   .splash .left-container h1, .splash .left-container p {
     padding: 0px 50px 0px 50px;
   }
+}
+@media (max-width: 963px) {
+  
   .appstore-icon {
     display: flex;
     margin: auto;
