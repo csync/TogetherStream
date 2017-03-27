@@ -126,9 +126,29 @@
         color: black;
         text-decoration: underline;
       }
+      .mobile-invitation {
+        display: none;
+      }
+      .text {
+        color: black;
+        font-size: normal;
+      }
       @media (max-width: 963px) {
+        .splash {
+          background-size: 1253px;
+        }
         .splash h1 {
-          margin-top: -35px;
+          margin-top: -130px;
+        }
+        .invitation, .small-text {
+          display: none;
+        }
+        .mobile-invitation {
+          display: block;
+        }
+        .splash .appstore-icon {
+          margin-top: -10px;
+          width: 120px !important;
         }
       }
       @media (min-width: 1825px) {
@@ -147,6 +167,9 @@
         <p>Join a stream by entering the code provided by the host.</p>
         <input value={{streamId::input}}> </input>
         <button class="join-stream-button" on-tap="joinStream"> Join Stream </button>
+      </div>
+      <div class="mobile-invitation">
+        <p class="text">To join this stream, download Together Stream from the app store or view on desktop.</p>
       </div>
       <p class="small-text">You will need to log in with Facebook to proceed.</p>
       <a href="http://ibm.biz/together-stream-download-app-store">
