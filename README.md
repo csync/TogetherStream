@@ -95,5 +95,5 @@ Together Stream is intended solely for use with an Apple iOS product and intende
 [iOS](LICENSE-IOS)  
 [Non-iOS](LICENSE-NON-IOS)
 
-# Contribution Guide
+## Contribution Guide
 Want to contribute? Take a look at our [CONTRIBUTING.md](.github/CONTRIBUTING.md)
