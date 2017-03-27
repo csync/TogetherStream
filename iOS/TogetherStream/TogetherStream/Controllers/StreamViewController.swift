@@ -107,6 +107,9 @@ class StreamViewController: UIViewController {
     // Accessory view shown above keyboard while chatting.
     fileprivate var accessoryView: ChatTextFieldAccessoryView!
     
+    /// The view controller of the participant screen.
+    fileprivate let participantViewController = Utils.instantiateViewController(withIdentifier: "participant", fromStoryboardNamed: "Stream") as? ParticipantTableViewController
+    
     /// The direction the player is rotated to.
     ///
     /// - left: Rotated to the left.
@@ -125,6 +128,9 @@ class StreamViewController: UIViewController {
     
     /// Whether the status bar is previously hidden.
     private var statusBarHidden: Bool = false
+    
+    /// Blur view used behind the participant screen.
+    private let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
     
     /// Whether the status bar should should be hidden.
     override var prefersStatusBarHidden: Bool {
@@ -150,6 +156,7 @@ class StreamViewController: UIViewController {
         setupChatTextFieldView()
         setupProfilePictures()
         setupViewForHostOrParticipant()
+        setupParticipantView()
         saveConstraints()
         
         NotificationCenter.default.addObserver(self, selector: #selector(StreamViewController.deviceDidRotate), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
@@ -293,6 +300,14 @@ class StreamViewController: UIViewController {
     /// Sets up the queue table view.
     private func setupQueueTableView() {
         queueTableView.register(UINib(nibName: "VideoQueueTableViewCell", bundle: nil), forCellReuseIdentifier: "queueCell")
+    }
+    
+    /// Sets up the participant view.
+    private func setupParticipantView() {
+        blurView.frame = view.frame
+        let tap = UITapGestureRecognizer(target: self, action: #selector(StreamViewController.participantBackgroundTapped))
+        blurView.addGestureRecognizer(tap)
+        participantViewController?.view.frame = CGRect(origin: .zero, size: CGSize(width: view.frame.width - 40, height: view.frame.height))
     }
     
     /// Saves the needed constraints.
@@ -686,6 +701,30 @@ class StreamViewController: UIViewController {
     
     // MARK: - Navigation bar methods
     
+    /// On tapping the background behind the participant screen, hide the participant screen.
+    @objc private func participantBackgroundTapped() {
+        UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseInOut, animations: {
+            self.participantViewController?.view.transform = CGAffineTransform(translationX: self.view.frame.width + 40, y: 0)
+        }) { _ in
+            self.participantViewController?.view.removeFromSuperview()
+            self.blurView.removeFromSuperview()
+        }
+    }
+    
+    /// On tapping participant button, display the participant screen.
+    ///
+    /// - Parameter sender: The button tapped.
+    @IBAction func participantButtonTapped(_ sender: Any) {
+        guard let participantVC = participantViewController else {
+            return
+        }
+        navigationController?.view.addSubview(blurView)
+        navigationController?.view.addSubview(participantVC.view)
+        participantVC.view.transform = CGAffineTransform(translationX: view.frame.width, y: 0)
+        UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseInOut, animations: {
+            participantVC.view.transform = CGAffineTransform(translationX: 40, y: 0)
+        })
+    }
     
     /// On invite tapped, present the "Invite" screen.
     @objc private func inviteTapped() {
@@ -822,11 +861,16 @@ class StreamViewController: UIViewController {
 
 // MARK: - StreamViewModelDelegate
 extension StreamViewController: StreamViewModelDelegate {
-    /// On user count changing, update the displayed count.
+    /// On user count changing, update the displayed count,
+    /// pass updated participant list to participant view controller.
     ///
     /// - Parameter count: The new user count.
     func userCountChanged(toCount count: Int) {
         userCountLabel.text = "\(count)"
+        guard let participantViewController = participantViewController else {
+            return
+        }
+        participantViewController.participantsId = viewModel.currentUserIDs
     }
     
     /// On receiving a message, add it to the chat table and scroll
