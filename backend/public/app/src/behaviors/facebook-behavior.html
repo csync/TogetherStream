@@ -93,11 +93,10 @@
             this.set("isLoggedIn", true)
             this.set("facebookAccessToken", response.authResponse.accessToken)
             this.set("loggedInUserFacebookId", response.authResponse.userID)
-            this.setupHeartbeatCsyncWriter()
             this.getFBUserInfo(this.loggedInUserFacebookId, function (response) {
               this.set("loggedInUserFacebookData", response)
             }.bind(this))
-            this.getServerAccessToken(callback)
+            callback && callback()
           } else if (forceLogin){
             window.FB.login(function(response){
               this.handleGetLoginStatus(response, false, callback)

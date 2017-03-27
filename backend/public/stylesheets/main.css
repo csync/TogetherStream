@@ -40,7 +40,7 @@ section {
 .splash.main {
   background: 
     /* bottom, image */
-    url(../assets/headerBackground@2x.png);
+    url(https://together-stream.mybluemix.net/assets/headerBackground@2x.png);
   background-size: cover;
 }
 .splash .icon {
@@ -127,8 +127,9 @@ section {
   min-height: 500px;
 }
 .splash2 .iphone-pic {
-  min-width: 420px;
-  margin-left: -60px;
+  max-width: 500px;
+  width: 95%;
+  margin-left: -40px;
   position: relative;
   top: 50px;
 }
@@ -474,11 +475,13 @@ section {
   align-items:center;
 }
 
-@media (max-width: 963px) {
-  
+@media (max-width: 460px) {
   .splash .left-container h1, .splash .left-container p {
     padding: 0px 50px 0px 50px;
   }
+}
+@media (max-width: 963px) {
+  
   .appstore-icon {
     display: flex;
     margin: auto;
@@ -514,6 +517,7 @@ section {
   }
   .splash2 .right-container {
     margin-bottom: 70px;
+    width: 100%;
   }
 
   .tuning-in div {

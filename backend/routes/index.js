@@ -25,9 +25,7 @@ router.use("/blocks", authService.isAuthenticated(), blocks);
 router.use("/invites", authService.isAuthenticated(), invites);
 
 // Loading assets
-router.use(express.static('./public', {
-  maxAge: sixHours
-}));
+router.use(express.static('./public'));
 
 router.use(favicon('./public/favicon.ico'));
 
