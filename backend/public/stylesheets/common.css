@@ -214,6 +214,10 @@ footer {
 footer .links li {
   flex: 1 1 auto;
 }
+footer .links > li:nth-child(1) {
+  text-align: left;
+  margin-left: 20px;
+}
 
 footer .csync-icon {
   max-width: 300px;
@@ -235,6 +239,8 @@ footer .powered-by {
   align-items: center;
   padding: 0;
   text-align: left;
+  float: right;
+  margin-right: 20px;
 }
 
 footer .more-links li {
@@ -313,6 +319,9 @@ footer .more-links li {
   footer .links li {
     margin-top: 10px;
     margin-bottom: 10px;
+    text-align: center;
+  }
+  footer .links > li:nth-child(1) {
     text-align: center;
   }
   footer .csync-icon {

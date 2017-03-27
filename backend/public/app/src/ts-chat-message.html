@@ -11,6 +11,7 @@
       :host {
         display: flex;
         margin-top: 15px;
+        font-family: "Open Sans";
       }
       .left-container img {
         position: relative;
@@ -28,7 +29,7 @@
         overflow-wrap: break-word;
       }
       .right-container p  {
-        margin-top: -5px;
+        margin-top: -3px;
       }
       .inline {
         display: flex;
@@ -57,7 +58,7 @@
           <img src="{{message.picture}}"/>
         </div>
         <div class="right-container message-content">
-          <h4>{{message.name}}</h4>
+          <h4 style="margin-top:-2px;">{{message.name}}</h4>
           <p>{{message.content}}</p>
         </div>
       </template>
