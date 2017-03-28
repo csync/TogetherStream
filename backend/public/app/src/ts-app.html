@@ -18,14 +18,14 @@
     <style>
       :host {
         display: flex;
+        position: relative;
         flex-direction: column;
-        height: 95%;
         min-height: 300px;
         padding-top: 60px;
-        --app-height: auto;
-        --app-height-responsive: auto;
         --app-display-footer: initial;
-        height: var(--app-height);
+        --app-position-footer: fixed;
+        --app-height: 94%;
+        height: 94%;
       }
       .stream-container {
         display: flex;
@@ -34,15 +34,17 @@
         width: 100%;
       }
       footer {
+        position: var(--app-position-footer);
+        bottom: 0px;
         justify-content: center;
-        height: 4%;
+        height: 5%;
         padding: 0px !important;
       }
       @media (max-width: 963px) {
         :host {
           flex-direction: column;
           padding-top: 0px;
-          height: var(--app-height-responsive);
+          height: var(--app-height) !important;
         }
         .stream-container {
           display: flex;
@@ -151,12 +153,13 @@
       */
       streamActiveChanged: function(isStreamActive) {
         if (isStreamActive) {
-          this.customStyle['--app-height'] = '95%';
-          this.customStyle['--app-height-responsive'] = '100%';
           this.customStyle['--app-display-footer'] = 'none';
+          this.customStyle['--app-position-footer'] = 'initial';
+          this.customStyle['--app-height'] = '100%';
         } else {
-          this.customStyle['--app-height'] = 'auto';
           this.customStyle['--app-display-footer'] = 'initial';
+          this.customStyle['--app-position-footer'] = 'fixed';
+          this.customStyle['--app-height'] = '93%';
         }
         this.updateStyles();
       },
