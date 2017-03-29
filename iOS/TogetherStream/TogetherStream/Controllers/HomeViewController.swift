@@ -23,10 +23,8 @@ class HomeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        activityIndicator.frame = view.frame
-        activityIndicator.color = UIColor.gray
-        view.addSubview(activityIndicator)
         trackScreenView()
+        setupActivityView()
         setupTableView()
         // Reset current user's stream in case the app was exited ungracefully while streaming.
         viewModel.resetCurrentUserStream()
@@ -102,6 +100,14 @@ class HomeViewController: UIViewController {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
         streamsTableView.refreshControl = refreshControl
+    }
+    
+    /// Sets up the activity view.
+    private func setupActivityView() {
+        activityIndicator.frame = view.frame
+        activityIndicator.color = UIColor.gray
+        activityIndicator.isUserInteractionEnabled = false
+        view.addSubview(activityIndicator)
     }
     
     /// Shows the "Login" screen if not logged in.
