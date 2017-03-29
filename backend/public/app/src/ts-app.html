@@ -22,7 +22,6 @@
         flex-direction: column;
         min-height: 300px;
         padding-top: 60px;
-        --app-display-footer: initial;
         --app-position-footer: fixed;
         --app-height: 94%;
         height: 94%;
@@ -56,7 +55,7 @@
         }
         footer {
           height: auto !important;
-          display: var(--app-display-footer);
+          display: none;
         }
       }
     </style>
@@ -153,11 +152,9 @@
       */
       streamActiveChanged: function(isStreamActive) {
         if (isStreamActive) {
-          this.customStyle['--app-display-footer'] = 'none';
           this.customStyle['--app-position-footer'] = 'initial';
           this.customStyle['--app-height'] = '100%';
         } else {
-          this.customStyle['--app-display-footer'] = 'initial';
           this.customStyle['--app-position-footer'] = 'fixed';
           this.customStyle['--app-height'] = '93%';
         }
