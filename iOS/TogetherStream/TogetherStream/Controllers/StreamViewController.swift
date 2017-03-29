@@ -808,7 +808,7 @@ class StreamViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         alert.addAction(UIAlertAction(title: "Confirm", style: .destructive) {_ in
             guard self.viewModel.stream?.hostFacebookID != "122296268288083" else {
-                let alert = UIAlertController(title: "Cannot Flag Video", message: "Stream bot's videos cannot be flagged.", preferredStyle: .alert)
+                let alert = UIAlertController(title: "Cannot Flag Video", message: "StreamBot's videos cannot be flagged.", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default))
                 self.present(alert, animated: true)
                 return
