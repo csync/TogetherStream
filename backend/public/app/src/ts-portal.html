@@ -203,6 +203,7 @@
         }
       },
       joinStream: function () {
+        window.ga('send', 'event', 'button', 'click', 'join_stream')
         this.fire('tryJoinStream')
       }
     })

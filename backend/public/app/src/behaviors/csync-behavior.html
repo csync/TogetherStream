@@ -258,6 +258,8 @@
       sendChatMessage: function (message) {
         let writeKey = this.csyncApp.key("streams." + this.streamId + ".chat." + this.generateUUID())
         let timeOffsetMilliseconds = this.timeOffsetMilliseconds
+
+        window.ga('send', 'event', 'button', 'click', 'send_message');
         writeKey.write(JSON.stringify({
           content: message.detail,
           id: this.loggedInUserFacebookId,

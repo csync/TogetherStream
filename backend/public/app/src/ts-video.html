@@ -77,7 +77,7 @@
         </div>
         <div class="right-container">
           <template is="dom-if" if="{{videoData.url}}">
-            <a href={{videoData.url}} target="_blank"><img height=30 src="/assets/youTubeLogoLight@2x.png"></img></a>
+            <a href={{videoData.url}} onclick="ga('send', 'event', 'link', 'click', 'video_youtube_link');" target="_blank"><img height=30 src="/assets/youTubeLogoLight@2x.png"></img></a>
           </template>
         </div>
       </div>
