@@ -18,14 +18,13 @@
     <style>
       :host {
         display: flex;
+        position: relative;
         flex-direction: column;
-        height: 95%;
         min-height: 300px;
         padding-top: 60px;
-        --app-height: auto;
-        --app-height-responsive: auto;
-        --app-display-footer: initial;
-        height: var(--app-height);
+        --app-position-footer: fixed;
+        --app-height: 94%;
+        height: 94%;
       }
       .stream-container {
         display: flex;
@@ -34,15 +33,17 @@
         width: 100%;
       }
       footer {
+        position: var(--app-position-footer);
+        bottom: 0px;
         justify-content: center;
-        height: 4%;
+        height: 5%;
         padding: 0px !important;
       }
       @media (max-width: 963px) {
         :host {
           flex-direction: column;
           padding-top: 0px;
-          height: var(--app-height-responsive);
+          height: var(--app-height) !important;
         }
         .stream-container {
           display: flex;
@@ -54,7 +55,7 @@
         }
         footer {
           height: auto !important;
-          display: var(--app-display-footer);
+          display: none;
         }
       }
     </style>
@@ -76,7 +77,7 @@
 					<li>
 						<ul class="more-links">
 							<li class="link"><a onclick="ga('send', 'event', 'link', 'click', 'license');"        href="http://ibm.biz/license-non-ios">License</a></li>
-							<li class="link"><a onclick="ga('send', 'event', 'link', 'click', 'privacy-policy');" href="http://ibm.biz/together-stream-privacy-policy">Privacy</a></li>
+							<li class="link"><a onclick="ga('send', 'event', 'link', 'click', 'privacy-policy');" href="http://ibm.biz/together-stream-privacy-website">Privacy</a></li>
 							<li class="link"><a onclick="ga('send', 'event', 'link', 'click', 'feedback-2');"     href="http://ibm.biz/together-stream-feedback">Feedback</a></li>
 							<li class="link"><a onclick="ga('send', 'event', 'link', 'click', 'developers');"     href="http://ibm.biz/together-stream-developers-page">Developers</a></li>
 						</ul>
@@ -151,12 +152,11 @@
       */
       streamActiveChanged: function(isStreamActive) {
         if (isStreamActive) {
-          this.customStyle['--app-height'] = '95%';
-          this.customStyle['--app-height-responsive'] = '100%';
-          this.customStyle['--app-display-footer'] = 'none';
+          this.customStyle['--app-position-footer'] = 'initial';
+          this.customStyle['--app-height'] = '100%';
         } else {
-          this.customStyle['--app-height'] = 'auto';
-          this.customStyle['--app-display-footer'] = 'initial';
+          this.customStyle['--app-position-footer'] = 'fixed';
+          this.customStyle['--app-height'] = '93%';
         }
         this.updateStyles();
       },

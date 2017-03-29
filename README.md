@@ -54,6 +54,12 @@ You can skip installing Google Analytics by removing the method `setupGoogleAnal
 2. Replace the `sessionSecret` with a unique string. This is used to encrypt the session tokens.
 3. Replace the email `userName` and `domainName` with your email address (i.e. `userName@domainName`), the `password` with your email password, and the `displayUserName` and `displayDomainName` with what you want the emails to be sent from. You can use the same values for here as your actual `userName` and `domainName` if you wish.
 
+
+### Frontend Configuration
+1. In `backend/public/app/credentials.js` replace `YOUR_PRODUCTION_FACEBOOK_APP_ID` and `YOUR_DEVELOPMENT_FACEBOOK_APP_ID` with the ids for your production and development Facebook app ids respectively. 
+2. Replace `YOUR_YOUTUBE_API_KEY` with Youtube's API key provided by Google.
+3. Replace the email `YOUR_CSYNC_SEVER_IP_ADDRESS` and `YOUR_CSYNC_SEVER_PORT` with your csync server's ip address and port.
+
 ### Cloud Configuration
 1. Go to https://console.ng.bluemix.net and create an account if you do not already have one.
 2. Click "Create a Service", choose "Compose for PostgreSQL" and create it.

@@ -214,7 +214,7 @@
             }
           }.bind(this))
           this.set("currentViewerCount", Object.keys(this.currentViewerIds).length)
-        }.bind(this), 1000)
+        }.bind(this), 2000)
         this.push("activeIntervals", intervalId)
 
       },
@@ -224,8 +224,10 @@
       setupHeartbeatCsyncWriter: function () {
         let intervalId = setInterval(function(){
           let writeKey = this.csyncApp.key("streams." + this.streamId + ".heartbeat." + this.loggedInUserFacebookId)
-          writeKey.write("" + (Date.now() - this.timeOffsetMilliseconds) / 1000, {acl: csync.acl.PublicReadWrite})
-        }.bind(this), 250)
+          let currentTime = ((Date.now() - this.timeOffsetMilliseconds) / 1000).toFixed(6)
+
+          writeKey.write("" + currentTime, {acl: csync.acl.PublicReadWrite})
+        }.bind(this), 500)
         this.push("activeIntervals", intervalId)
       },
       /**
@@ -256,6 +258,8 @@
       sendChatMessage: function (message) {
         let writeKey = this.csyncApp.key("streams." + this.streamId + ".chat." + this.generateUUID())
         let timeOffsetMilliseconds = this.timeOffsetMilliseconds
+
+        window.ga('send', 'event', 'button', 'click', 'send_message');
         writeKey.write(JSON.stringify({
           content: message.detail,
           id: this.loggedInUserFacebookId,
