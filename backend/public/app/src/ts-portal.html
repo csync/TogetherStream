@@ -11,7 +11,9 @@
     <style>
       :host {
         display: block;
-        width: 100%
+        width: 100%;
+        --show-regular-portal: flex;
+        --show-ios-portal: none;
       }
       section {
         display: flex;
@@ -145,14 +147,11 @@
         .splash {
           background-size: 1253px;
         }
-        .splash h1 {
-          margin-top: -130px;
-        }
         .invitation, .small-text {
-          display: none;
+          display: var(--show-regular-portal);
         }
         .mobile-invitation {
-          display: block;
+          display: var(--show-ios-portal);
         }
         .splash .appstore-icon {
           margin-top: -10px;
@@ -184,7 +183,7 @@
         <a href="http://ibm.biz/together-stream-download-app-store">
           <img class="appstore-icon" src="/assets/downloadOnTheAppStoreBadgeUSUK135X40@2x.png"/>
         </a>
-        <p class="small-text"><a href="http://ibm.biz/together-stream-download-app-store">Download the app </a> to view on mobile or host your own stream.</p>
+        <p class="small-text"><a href="http://ibm.biz/together-stream-download-app-store">Download the app </a>&nbsp; to view on mobile or host your own stream.</p>
       </div>
 		</section>
   </template>
@@ -203,13 +202,30 @@
         }
       },
       attached: function () {
+        this.getStreamIdFromQueryParams()
+        this.checkIfIosUser()
+      },
+      getStreamIdFromQueryParams: function () {
         let queryParam = window.location.search
-        
+
         if (queryParam) {
           let queryParamSplit = queryParam.substring(1).split("=")
           let streamId = queryParamSplit[queryParamSplit.indexOf("stream_id") + 1]
           
           this.set("streamId", streamId)
+        }
+      },
+      /**
+       * Called to enable webapp for non-ios users. 
+      */ 
+      checkIfIosUser: function () {
+        let userAgent = navigator.userAgent || navigator.vendor || window.opera
+        let iosUser = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream
+
+        if (iosUser) {
+          this.customStyle['--show-regular-portal'] = 'none'
+          this.customStyle['--show-ios-portal'] = 'block'
+          this.updateStyles();
         }
       },
       joinStream: function () {

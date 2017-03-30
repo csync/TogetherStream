@@ -63,6 +63,9 @@
           flex-direction:column-reverse;
           height: 100%;
         }
+        #videoLayer {
+          display: none;
+        }
       }
     </style>
     <!-- Video layer over youtube component to disable clicking -->
@@ -88,7 +91,7 @@
       currenttime={{currentTime}}
       height="100%"
       width="100%"
-      autoplay="0"
+      autoplay="{{autoplay}}"
       disablekb="1"
       controls="0"
       autohide="0"
@@ -134,10 +137,16 @@
       * Observing as isPlaying changes to play/pause video.
       */
       observeIsPlaying: function(isPlaying) {
+        if (typeof isPlaying !== "boolean") {
+          return
+        }
+        
         if (isPlaying) {
           this.$.googleYouTube.play()
+          this.set("autoplay", "1")
         } else {
           this.$.googleYouTube.pause()
+          this.set("autoplay", "0")
         }
       },
       /**
@@ -145,7 +154,7 @@
       * once the difference is >= maxTimeDifference.
       */
       observeTime: function (videoTime) {
-        if (Math.abs(this.currentTime - videoTime) >= this.maxTimeDifference) {
+        if (this.currentTime > 0 && this.currentTime != undefined && Math.abs(this.currentTime - videoTime) >= this.maxTimeDifference) {
           this.$.googleYouTube.seekTo(videoTime)
         }
       }
