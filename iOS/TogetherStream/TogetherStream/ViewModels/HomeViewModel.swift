@@ -31,7 +31,7 @@ class HomeViewModel {
                 callback(error, nil)
             }
             else {
-                let streamBotStream = Stream(name: "Stream bot", csyncPath: "streams.bot123", description: "Test", hostFacebookID: "122296268288083")
+                let streamBotStream = Stream(name: "Stream On", csyncPath: "streams.bot123", description: "Stream until your dreams come true—a fun mix of the internet’s best videos", hostFacebookID: "100016088973890")
                 var fullStreams = streams ?? []
                 fullStreams.append(streamBotStream)
                 self?.streams = fullStreams
