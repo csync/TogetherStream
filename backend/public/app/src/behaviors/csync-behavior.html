@@ -201,8 +201,8 @@
           }
           let currentTimeInSecondsFrom2001 = ((Date.now() - this.timeOffsetMilliseconds) / 1000).toFixed(6)
 
-          // Filtering out invalid heartbeats that are older than one second.
-          if (currentTimeInSecondsFrom2001 - value.data < 1) {
+          // Filtering out invalid heartbeats that are older than ten seconds.
+          if (currentTimeInSecondsFrom2001 - value.data <= 10) {
             this.currentViewerIds[value.creator] = Date.now()
             this.set("currentViewerCount", Object.keys(this.currentViewerIds).length)
           }
