@@ -37,8 +37,7 @@ class AccountDataManager {
     ///   - users: The list of users to send the invite to.
     func sendInvite(for stream: Stream, to users: [User]) {
         // Build URL
-        guard let serverAccessToken = serverAccessToken,
-            let url = URL(string: serverAddress + "/invites?access_token=" + serverAccessToken),
+        guard let url = URL(string: serverAddress + "/invites"),
             let userID = FacebookDataManager.sharedInstance.profile?.userID else {
                 return
         }
@@ -51,7 +50,7 @@ class AccountDataManager {
         request.httpBody = try? JSONSerialization.data(withJSONObject: ["host": host, "streamPath": streamPath, "users": users.map({$0.id}), "currentBadgeCount": UIApplication.shared.applicationIconBadgeNumber, "streamName": stream.name, "streamDescription": stream.description])
         
         // Status of request is not checked
-        sendToServer(request: request){_,_,_ in}
+        identifyAndSendToServer(request: request){_,_,_ in}
     }
     
     /// Fetches all stream invites for the current user from server.
@@ -59,12 +58,11 @@ class AccountDataManager {
     /// - Parameter callback: The callback called on completion.
     func retrieveInvites(callback: @escaping (Error?, [Stream]?) -> Void) {
         // Build URL
-        guard let serverAccessToken = serverAccessToken,
-            let url = URL(string: serverAddress + "/invites?access_token=" + serverAccessToken) else {
+        guard let url = URL(string: serverAddress + "/invites") else {
                 callback(ServerError.invalidConfiguration, nil)
                 return
         }
-        sendToServer(request: URLRequest(url: url)) {data, response, error in
+        identifyAndSendToServer(request: URLRequest(url: url)) {data, response, error in
             if let error = error {
                 callback(error, nil)
             }
@@ -94,8 +92,7 @@ class AccountDataManager {
     ///   - callback: Closure called on completion. A nil error means it was successful.
     func sendBlock(forUserID userID: String, callback: ((Error?) -> Void)? = nil) {
         // Build URL
-        guard let serverAccessToken = serverAccessToken,
-            let url = URL(string: serverAddress + "/blocks?access_token=" + serverAccessToken) else {
+        guard let url = URL(string: serverAddress + "/blocks") else {
                 callback?(ServerError.cannotFormURL)
                 return
         }
@@ -105,7 +102,7 @@ class AccountDataManager {
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = try? JSONSerialization.data(withJSONObject: ["blockee": userID])
         
-        sendToServer(request: request){data, response, error in
+        identifyAndSendToServer(request: request){data, response, error in
             callback?(error)
         }
     }
@@ -115,12 +112,11 @@ class AccountDataManager {
     /// - Parameter callback: The callback called on completion.
     func retrieveBlocks(callback: @escaping (Error?, [String]?) -> Void) {
         // Build URL
-        guard let serverAccessToken = serverAccessToken,
-            let url = URL(string: serverAddress + "/blocks?access_token=" + serverAccessToken) else {
+        guard let url = URL(string: serverAddress + "/blocks") else {
                 callback(ServerError.invalidConfiguration, nil)
                 return
         }
-        sendToServer(request: URLRequest(url: url)) {data, response, error in
+        identifyAndSendToServer(request: URLRequest(url: url)) {data, response, error in
             if let error = error {
                 callback(error, nil)
             }
@@ -145,15 +141,14 @@ class AccountDataManager {
     
     /// Deletes the stream and all invites sent out by the signed in user
     func deleteInvites() {
-        guard let serverAccessToken = serverAccessToken,
-            let url = URL(string: serverAddress + "/invites?access_token=" + serverAccessToken) else {
+        guard let url = URL(string: serverAddress + "/invites") else {
                 return
         }
         var request = URLRequest(url: url)
         request.httpMethod = "DELETE"
         
         // Status of request is not checked
-        sendToServer(request: request){_,_,_ in}
+        identifyAndSendToServer(request: request){_,_,_ in}
     }
     
     /// Signs up for a Together Stream account by providing a valid Facebook Token
@@ -204,7 +199,7 @@ class AccountDataManager {
             callback(ServerError.cannotGetDeviceToken)
             return
         }
-        guard let serverAccessToken = serverAccessToken, let url = URL(string: serverAddress + "/invites/device-token?access_token=" + serverAccessToken) else {
+        guard let url = URL(string: serverAddress + "/invites/device-token") else {
             callback(ServerError.cannotFormURL)
             return
         }
@@ -212,7 +207,7 @@ class AccountDataManager {
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = try? JSONSerialization.data(withJSONObject: ["token": deviceToken])
-        sendToServer(request: request){data, response, error in
+        identifyAndSendToServer(request: request){data, response, error in
             callback(error)
         }
         
@@ -224,8 +219,16 @@ class AccountDataManager {
     /// - Parameters:
     ///   - request: The request to send.
     ///   - callback: The callback to call on completeion. Contains complete response.
-    private func sendToServer(request: URLRequest, withCallback callback: @escaping (Data?, URLResponse?, Error?) -> Void) {
-        let task = urlSession.dataTask(with: request) {data,response,error in
+    private func identifyAndSendToServer(request: URLRequest, withCallback callback: @escaping (Data?, URLResponse?, Error?) -> Void) {
+        var authorizedRequest = request
+        guard let requestString = request.url?.absoluteString,
+            let serverAccessToken = serverAccessToken,
+            let authorizedURL = URL(string: requestString + "?access_token=\(serverAccessToken)") else {
+                callback(nil, nil, ServerError.cannotFormURL)
+                return
+        }
+        authorizedRequest.url = authorizedURL
+        let task = urlSession.dataTask(with: authorizedRequest) {data,response,error in
             guard let httpResponse = response as? HTTPURLResponse else {
                 // Not HTTP Request, just pass through
                 callback(data, response, error)
@@ -238,7 +241,7 @@ class AccountDataManager {
                         callback(nil, nil, error)
                     }
                     else {
-                        self.sendToServer(request: request, withCallback: callback)
+                        self.identifyAndSendToServer(request: request, withCallback: callback)
                     }
                 }
             }

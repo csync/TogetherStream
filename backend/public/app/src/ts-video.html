@@ -12,6 +12,7 @@
       :host {
         width: 70%;
         height: 100%;
+        position: relative;
       }
       #googleYouTube {
         height: 100%;
@@ -21,9 +22,8 @@
         display: flex;
         align-items: flex-end;
         color: white;
-        text-shadow: black 0px 0px 10px;
         background-color:transparent;
-        width:70%;
+        width:100%;
         height: 100%;
         top: 0px;
       }
@@ -49,20 +49,35 @@
       .bold {
         font-weight: bold;
       }
+      .left-container p {
+        margin: 0;
+        line-height: 20px;
+      }
+      @media (max-width: 963px) {
+        :host {
+          width: 100%;
+          height: 50%;
+        }
+        .stream-container {
+          display: flex;
+          flex-direction:column-reverse;
+          height: 100%;
+        }
+      }
     </style>
     <!-- Video layer over youtube component to disable clicking -->
     <div id="videoLayer">
       <div class="bottom-container">
         <div class="left-container">
           <template is="dom-if" if="{{videoData.title}}">
-            <p class="bold">CURRENTLY STREAMING</p>
+            <p class="bold" style="margin-bottom: 5px;">CURRENTLY STREAMING</p>
             <p>{{videoData.title}}</p>
             <p>{{videoData.channelName}} - {{videoData.views}} views</p>
           </template>
         </div>
         <div class="right-container">
           <template is="dom-if" if="{{videoData.url}}">
-            <a href={{videoData.url}} target="_blank"><img height=30 src="/assets/youTubeLogoLight@2x.png"></img></a>
+            <a href={{videoData.url}} onclick="ga('send', 'event', 'link', 'click', 'video_youtube_link');" target="_blank"><img height=30 src="/assets/youTubeLogoLight@2x.png"></img></a>
           </template>
         </div>
       </div>
@@ -106,6 +121,13 @@
         currentTime: {
           type: Number,
           value: 0
+        },
+        /**
+        * Max time difference before updating video time.
+        */
+        maxTimeDifference: {
+          type: Number,
+          value: 3
         }
       },
       /**
@@ -120,10 +142,10 @@
       },
       /**
       * Observing as videoTime changes to compare ito the player's and update
-      * once the difference is >= 1 second.
+      * once the difference is >= maxTimeDifference.
       */
       observeTime: function (videoTime) {
-        if (Math.abs(this.currentTime - videoTime) >= 1) {
+        if (Math.abs(this.currentTime - videoTime) >= this.maxTimeDifference) {
           this.$.googleYouTube.seekTo(videoTime)
         }
       }

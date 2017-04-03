@@ -1,0 +1,7 @@
+---
+applications:
+- name: stream-bot
+  timeout: 60
+  memory: 384M
+  instances: 1
+  no-route: true

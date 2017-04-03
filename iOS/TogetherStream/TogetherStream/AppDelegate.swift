@@ -206,7 +206,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     // If hosting, then present a confirmation to end the stream.
     // If not hosting, then execute the callback immediately.
     private func presentConfirmation(viewController: UIViewController, callback: @escaping (Void) -> Void) {
-        guard let streamViewController = viewController as? StreamViewController,
+        guard let streamViewController = viewController.navigationController?.viewControllers
+            .filter({$0 is StreamViewController}).first as? StreamViewController,
             streamViewController.isHost
         else {
             callback()

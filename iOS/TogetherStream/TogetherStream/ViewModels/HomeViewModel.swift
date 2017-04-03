@@ -13,7 +13,7 @@ class HomeViewModel {
     
     /// The number of rows that should be displayed.
     var numberOfRows: Int {
-        return max(streams.count, 1)
+        return streams.count + 1
     }
     
     /// Shorthand for the shared AccountDataManager.
@@ -31,7 +31,10 @@ class HomeViewModel {
                 callback(error, nil)
             }
             else {
-                self?.streams = streams ?? []
+                let streamBotStream = Stream(name: "Stream On", csyncPath: "streams.bot123", description: "Stream until your dreams come true—a fun mix of the internet’s best videos", hostFacebookID: "100016088973890")
+                var fullStreams = streams ?? []
+                fullStreams.append(streamBotStream)
+                self?.streams = fullStreams
                 callback(nil, streams)
             }
         }

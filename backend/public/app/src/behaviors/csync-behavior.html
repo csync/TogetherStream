@@ -35,6 +35,38 @@
         viewerHeartbeatTimeoutSecs: {
           type: Number,
           value: 4000
+        },
+        /**
+        * Used to keep track of whether authentication with csync has happened.
+        */
+        csyncAuthSuccess: {
+          type: Boolean,
+          value: false
+        },
+        /**
+        * Used to keep track of when stream is active and when it ends.
+        */
+        isStreamActive: {
+          type: Boolean,
+          value: false
+        },
+        /**
+        * Stores active listeners here for cleanup.
+        */
+        activeListeners: {
+          type: Array,
+          value: function () {
+            return []
+          }
+        },
+        /**
+        * Stores active intervals here for cleanup.
+        */
+        activeIntervals: {
+          type: Array,
+          value: function () {
+            return []
+          }
         }
       },
       /**
@@ -63,7 +95,11 @@
         let errorCallback = function (err) {
           console.error(err)
         }
-        this.csyncApp.authenticate("facebook", facebookAccessToken).then(successCallback, errorCallback)
+        let localSuccessCallback = function () {
+          this.set("csyncAuthSuccess", true)
+          successCallback()
+        }.bind(this)
+        this.csyncApp.authenticate("facebook", facebookAccessToken).then(localSuccessCallback, errorCallback)
       },
       /**
       * Setting up the csync listeners that change as properties are updated from ios app.
@@ -73,6 +109,23 @@
         this.setupChatCsyncListener()
         this.setupHeartbeatCsyncListener()
         this.setupParticipantsCsyncListener()
+        this.setupHeartbeatCsyncWriter()
+      },
+      /**
+      * Called when stream ends to cleanup and allow for another stream to be listened to.
+      */
+      cleanupListeners: function () {
+        this.set("streamValidated", false)
+        this.set("chatMessages", [])
+
+        this.activeListeners.forEach(function(listenerKey) {
+          listenerKey.unlisten()
+        })
+        this.activeIntervals.forEach(function(intervalId) {
+          clearInterval(intervalId)
+        })
+        this.set("activeListeners", [])
+        this.set("activeIntervals", [])
       },
       /**
       * Listens to video key changes.
@@ -97,9 +150,16 @@
             this.set("currentlyStreamingVideoData.isPlaying", value.data)
           } else if (value.key.indexOf("streamName") >= 0) {
             this.set("streamName", value.data)
+          } else if (value.key.indexOf("isActive") >= 0) {
+            if (this.isStreamActive && !value.data) {
+              alert("Stream has ended.")
+              this.cleanupListeners()
+            }
+            this.set("isStreamActive", value.data)
           }
         }.bind(this)
         listenerKey.listen(listenerCallback)
+        this.push("activeListeners", listenerKey)
       },
       /**
       * Listens to chat key changes.
@@ -121,6 +181,7 @@
         }.bind(this)
 
         listenerKey.listen(listenerCallback)
+        this.push("activeListeners", listenerKey)
       },
       /**
       * Listens to heartbeat key changes to know how many users are currently watching.
@@ -138,31 +199,41 @@
           if (!value.exists) {
             return
           }
-          this.currentViewerIds[value.creator] = Date.now()
-          this.set("currentViewerCount", Object.keys(this.currentViewerIds).length)
+          let currentTimeInSecondsFrom2001 = ((Date.now() - this.timeOffsetMilliseconds) / 1000).toFixed(6)
+
+          // Filtering out invalid heartbeats that are older than ten seconds.
+          if (currentTimeInSecondsFrom2001 - value.data <= 10) {
+            this.currentViewerIds[value.creator] = Date.now()
+            this.set("currentViewerCount", Object.keys(this.currentViewerIds).length)
+          }
         }.bind(this)
 
         listenerKey.listen(listenerCallback)
+        this.push("activeListeners", listenerKey)
 
         // Setup timer to delete keys that have not received a heartbeat in 2 seconds.
-        setInterval(function(){
+        let intervalId = setInterval(function(){
           Object.keys(this.currentViewerIds).forEach(function(key) {
             if (Date.now() - this.currentViewerIds[key] >= this.viewerHeartbeatTimeoutSecs) {
               delete this.currentViewerIds[key]
             }
           }.bind(this))
           this.set("currentViewerCount", Object.keys(this.currentViewerIds).length)
-        }.bind(this), 250)
+        }.bind(this), 2000)
+        this.push("activeIntervals", intervalId)
 
       },
       /**
       * Sends heartbeat for logged in user to csync server.
       */
       setupHeartbeatCsyncWriter: function () {
-        setInterval(function(){
+        let intervalId = setInterval(function(){
           let writeKey = this.csyncApp.key("streams." + this.streamId + ".heartbeat." + this.loggedInUserFacebookId)
-          writeKey.write("" + (Date.now() - this.timeOffset) / 1000, {acl: csync.acl.PublicReadWrite})
-        }.bind(this), 1000)
+          let currentTime = ((Date.now() - this.timeOffsetMilliseconds) / 1000).toFixed(6)
+
+          writeKey.write("" + currentTime, {acl: csync.acl.PublicReadWrite})
+        }.bind(this), 500)
+        this.push("activeIntervals", intervalId)
       },
       /**
       * Listens for when a participant enters/leaves a stream.
@@ -184,17 +255,20 @@
           
         }.bind(this)
         listenerKey.listen(listenerCallback)
+        this.push("activeListeners", listenerKey)
       },
       /**
       * Uses Csync to send chat message
       */
       sendChatMessage: function (message) {
         let writeKey = this.csyncApp.key("streams." + this.streamId + ".chat." + this.generateUUID())
-        let timeOffset = this.timeOffset
+        let timeOffsetMilliseconds = this.timeOffsetMilliseconds
+
+        window.ga('send', 'event', 'button', 'click', 'send_message');
         writeKey.write(JSON.stringify({
           content: message.detail,
           id: this.loggedInUserFacebookId,
-          timestamp: "" + (Date.now() - timeOffset) / 1000 // need to save in seconds from 2001
+          timestamp: "" + (Date.now() - timeOffsetMilliseconds) / 1000 // need to save in seconds from 2001
         }), {acl: csync.acl.PublicReadWrite})
       },
       /**
@@ -220,17 +294,30 @@
           }
 
           if (!this.streamValidated && value.key && value.key.indexOf(streamId) >= 0) {
-            this.set("streamValidated", true)
-            callback(true)
+            let isActiveListenerKey = this.csyncApp.key("streams." + streamId + ".isActive")
+            
+            isActiveListenerKey.listen(function(error, value) {
+              // If value doesn't exist and is outdated, don't process it.
+              if (!value.exists) {
+                return
+              }
+
+              if (value.data && !this.streamValidated) {
+                this.set("streamValidated", true)
+                callback(true)
+                isActiveListenerKey.unlisten()
+              }
+            }.bind(this))
             return
           } 
           
           // Checking if invalid once all streams have been checked.
-          this.debounce("invalidStreamCallback", checkIfInvalid, 200)
+          this.debounce("invalidStreamCallback", checkIfInvalid, 500)
           // this.processMessageAndInsertIntoArray(value)
         }.bind(this)
 
         listenerKey.listen(listenerCallback)
+        this.push("activeListeners", listenerKey)
       }
     };
 </script>

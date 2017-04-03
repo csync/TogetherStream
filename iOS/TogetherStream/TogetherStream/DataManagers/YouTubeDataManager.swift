@@ -24,7 +24,7 @@ class YouTubeDataManager {
     /// or the video.
     func fetchVideo(withID id: String, callback: @escaping (Error?, Video?) -> Void) {
         // Configure URL
-        guard let apiKey = apiKey, let url = URL(string: "https://www.googleapis.com/youtube/v3/videos?key=\(apiKey)&part=snippet,status,statistics&id=\(id)") else {
+        guard let apiKey = apiKey, let url = URL(string: "https://www.googleapis.com/youtube/v3/videos?key=\(apiKey)&part=snippet,status,statistics,contentDetails&id=\(id)") else {
             callback(ServerError.cannotFormURL, nil)
             return
         }
@@ -36,7 +36,7 @@ class YouTubeDataManager {
             do {
                 // Parses Result
                 let result = try JSONSerialization.jsonObject(with: data)
-                let videos = self.parseVideosResponse(result, fromSearchRequest: false)
+                let videos = self.parseVideosResponse(result)
                 let video = videos.count > 0 ? videos[0] : nil
                 callback(nil, video)
             }
@@ -75,7 +75,7 @@ class YouTubeDataManager {
             do {
                 // Parses result
                 let result = try JSONSerialization.jsonObject(with: data)
-                let videos = self.parseVideosResponse(result, fromSearchRequest: false)
+                let videos = self.parseVideosResponse(result)
                 callback(nil, videos)
             }
             catch {
@@ -111,7 +111,43 @@ class YouTubeDataManager {
             do {
                 // Parse results
                 let result = try JSONSerialization.jsonObject(with: data)
-                let videos = self.parseVideosResponse(result, fromSearchRequest: true)
+                self.fetchInfoForSearchResults(result, callback: callback)
+            }
+            catch {
+                callback(error, nil)
+            }
+        }
+        
+        task.resume()
+    }
+    
+    /// Fetches addition info about videos returned from search results.
+    ///
+    /// - Parameter callback: The callback called on completion. Will return an error
+    /// or the videos.
+    private func fetchInfoForSearchResults(_ data: Any, callback: @escaping (Error?, [Video]?) -> Void) {
+        // Parse search data
+        let data = data as? [String: Any]
+        let videosData = data?["items"] as? [[String : Any]] ?? []
+        let ids = videosData.map({($0["id"] as? [String: String])?["videoId"] ?? ""})
+        // Configure URL
+        guard let apiKey = apiKey,
+            let url = URL(string: "https://www.googleapis.com/youtube/v3/videos?id=\(ids.joined(separator: ","))&part=snippet,status,statistics,contentDetails&key=\(apiKey)") else {
+                callback(ServerError.cannotFormURL, nil)
+                return
+        }
+        
+        let task = URLSession.shared.dataTask(with: url) {data, response, error in
+            
+            guard let data = data, error == nil else {
+                callback(error, nil)
+                return
+            }
+            
+            do {
+                // Parses result
+                let result = try JSONSerialization.jsonObject(with: data)
+                let videos = self.parseVideosResponse(result)
                 callback(nil, videos)
             }
             catch {
@@ -130,18 +166,12 @@ class YouTubeDataManager {
     ///   - data: The data to parse.
     ///   - fromSearchRequest: Whether the data is from a search request (true) or from the list API videos (false)
     /// - Returns: The data parsed into Video objects.
-    private func parseVideosResponse(_ data: Any, fromSearchRequest: Bool) -> [Video] {
+    private func parseVideosResponse(_ data: Any) -> [Video] {
         let data = data as? [String: Any]
         let videosData = data?["items"] as? [[String : Any]] ?? []
         var videos: [Video] = []
         for videoData in videosData {
-            // Data is in a different format depending on how it was received
-            if fromSearchRequest {
-                if let video = Video(searchResultData: videoData) {
-                    videos.append(video)
-                }
-            }
-            else if let video = Video(listVideoData: videoData) {
+            if let video = Video(jsonObject: videoData) {
                 videos.append(video)
             }
         }

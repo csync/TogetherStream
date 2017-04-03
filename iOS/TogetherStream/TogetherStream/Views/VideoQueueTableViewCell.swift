@@ -10,6 +10,7 @@ class VideoQueueTableViewCell: UITableViewCell {
     @IBOutlet private weak var thumbnailImageView: UIImageView!
     @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var channelLabel: UILabel!
+    @IBOutlet private weak var durationLabel: UILabel!
     
     var videoID: String?
     
@@ -35,6 +36,12 @@ class VideoQueueTableViewCell: UITableViewCell {
     var channel: String? {
         get { return channelLabel.text }
         set { channelLabel.text = newValue }
+    }
+    
+    /// The video's duration.
+    var duration: String? {
+        get { return durationLabel.text }
+        set { durationLabel.text = newValue }
     }
     
     /// Is this the video immediately prior to the current video in the queue?

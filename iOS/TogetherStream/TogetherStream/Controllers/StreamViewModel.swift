@@ -60,6 +60,8 @@ class StreamViewModel {
     fileprivate(set) var messages: [Message] = []
     /// Whether the host is currently playing a video.
     fileprivate(set) var hostPlaying = false
+    /// The user IDs of the current users in the stream.
+    private(set) var currentUserIDs: Set<String> = []
     
     /// The maximum amount of chat messages that are stored and displayed.
     private let maximumChatMessages = 50
@@ -78,8 +80,6 @@ class StreamViewModel {
     private var chatDataManager: ChatDataManager?
     /// Manager of sending and receiving participant messages.
     private var participantsDataManager: ParticipantsDataManager?
-    /// The user IDs of the current users in the stream.
-    private var currentUserIDs: Set<String> = []
     /// The CSync path of the stream, unwrapped here for convenience.
     private var csyncPath: String {
         return stream?.csyncPath ?? ""

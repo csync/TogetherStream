@@ -19,10 +19,12 @@ class HomeViewController: UIViewController {
     private let profileFrame = CGRect(x: 0, y: 0, width: 23, height: 23)
     // Inset to provide padding to the streams table view
     private let streamsTableViewInset = UIEdgeInsets(top: 9, left: 0, bottom: 0, right: 0)
+    private let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
 
     override func viewDidLoad() {
         super.viewDidLoad()
         trackScreenView()
+        setupActivityView()
         setupTableView()
         // Reset current user's stream in case the app was exited ungracefully while streaming.
         viewModel.resetCurrentUserStream()
@@ -91,12 +93,21 @@ class HomeViewController: UIViewController {
     private func setupTableView() {
         streamsTableView.register(UINib(nibName: "StreamTableViewCell", bundle: nil), forCellReuseIdentifier: "streamCell")
         streamsTableView.register(UINib(nibName: "NoStreamsTableViewCell", bundle: nil), forCellReuseIdentifier: "noStreamsCell")
+        streamsTableView.register(UINib(nibName: "EndStreamsTableViewCell", bundle: nil), forCellReuseIdentifier: "endStreamsCell")
         streamsTableView.contentInset = streamsTableViewInset
         
         // Sets up pull to refresh functionality.
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
         streamsTableView.refreshControl = refreshControl
+    }
+    
+    /// Sets up the activity view.
+    private func setupActivityView() {
+        activityIndicator.frame = view.frame
+        activityIndicator.color = UIColor.gray
+        activityIndicator.isUserInteractionEnabled = false
+        view.addSubview(activityIndicator)
     }
     
     /// Shows the "Login" screen if not logged in.
@@ -122,8 +133,16 @@ class HomeViewController: UIViewController {
     ///
     /// - Parameter callback: The callback called on completion.
     func refreshStreams(callback: ((Void) -> Void)? = nil) {
+        if streamsTableView.refreshControl?.isRefreshing != true {
+            DispatchQueue.main.async {
+                self.activityIndicator.startAnimating()
+            }
+        }
         viewModel.refreshStreams { error, streams in
             DispatchQueue.main.async {
+                if self.activityIndicator.isAnimating {
+                    self.activityIndicator.stopAnimating()
+                }
                 if let error = error {
                     guard self.navigationController?.visibleViewController == self else {
                         return
@@ -202,6 +221,15 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "noStreamsCell") as? NoStreamsTableViewCell else {
                 return UITableViewCell()
             }
+            cell.selectionStyle = .none
+            return cell
+        }
+        else if indexPath.row == viewModel.streams.count {
+            // Configure "End Streams" cell
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "endStreamsCell") as? EndStreamsTableViewCell else {
+                return UITableViewCell()
+            }
+            cell.selectionStyle = .none
             return cell
         }
         

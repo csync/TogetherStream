@@ -282,6 +282,8 @@ extension AddVideosViewController: UITableViewDataSource, UITableViewDelegate {
             cell.thumbnailImageView.image = nil
             cell.titleLabel.text = video.title
             cell.channelTitleLabel.text = video.channelTitle
+            cell.durationLabel.text = video.duration.humanReadableString
+            cell.viewCountLabel.text = "\(video.viewCount) views"
             
             video.getMediumThumbnail {error, thumbnail in
                 if let thumbnail = thumbnail {

@@ -16,18 +16,21 @@
         justify-content: space-between;
         width: 30%;
         height: 100%;
+        font-family: "Open Sans";
       }
       .bottom-container {
         display: flex;
-        width: 94%;
-        margin-left: 3%;
+        width: 100%;
+        margin-left: 10px;
         margin-bottom: 15px;
-        margin-right: 3%;
+        margin-right: 6px;
+        justify-content: center;
+        align-items:center;
       }
 
       .top-container {
-        margin-left: 5%;
-        margin-right: 5%;
+        margin-left: 20px;
+        margin-right: 20px;
         margin-top: 15px;
         border-bottom: 1px solid rgb(219,219,219);
       }
@@ -35,14 +38,14 @@
         margin-bottom: 10px;
         margin-top: 15px;
         color: rgb(216,65,7);
-        font-weight: 400;
+        font-weight: 600;
         text-transform: uppercase;
         font-size: small;
       }
       .middle-container {
-        margin-left: 5%;
-        margin-right: 5%;
-        height: 80%;
+        margin-left: 20px;
+        margin-right: 20px;
+        height: 90%;
         overflow-y: scroll;
       }
       .bottom-container input {
@@ -58,16 +61,25 @@
       .input-container {
         display: flex;
         padding: 5px;
+        height: 20px;
         border: 1px solid #DDD;
         width: 88%;
+        border-radius: 5px;
       }
 
+      .input-container input {
+        font-family: "Open Sans";
+      }
       .bottom-container .input-container img {
         position: relative;
         left: -3px;
         height: 20px;
         width: 20px;
         border-radius: 50%;
+        margin-left: 5px;
+        margin-right: 5px;
+        margin-bottom: 2px;
+        margin-top: 2px;
       }
       .bottom-container .view-image {
         width: 21.5px;
@@ -84,16 +96,30 @@
       }
 
       .view-count {
+        font-family: "Open Sans";
+        font-size: small;
         align-self: center;
         margin-left:5px;
         margin-top: 1px;
       }
 
       .send-button {
+        font-family: "Work Sans";
+        font-size: "medium";
         color: rgb(216,65,7);
         cursor: pointer;
+        margin: 0;
       }
 
+      .bottom-right {
+        display: flex;
+        margin-right: 20px;
+      }
+      @media (max-width: 963px) {
+        :host {
+          width: 100%;
+        }
+      }
     </style>
     <div class="top-container">
       <div class="title">{{streamName}}</div>
@@ -109,11 +135,13 @@
         <input placeholder="Start chatting... " value={{chatMessage::input}} on-keydown="onEnterPressed"></input>
       </div>
       <template is="dom-if" if="{{!chatMessage}}">
-        <img class="view-image" src="/assets/viewers.png"/>
-        <span class="view-count">{{currentViewerCount}}</span>
+        <div class="bottom-right">
+          <img class="view-image" src="/assets/viewers.png"/>
+          <span class="view-count">{{currentViewerCount}}</span>
+        </div>
       </template>
       <template is="dom-if" if="{{chatMessage}}">
-        <a class="send-button" on-tap=onClickSendButton>Send</a>
+        <a class="send-button bottom-right" on-tap=onClickSendButton>Send</a>
       </template>
     </div>
   </template>

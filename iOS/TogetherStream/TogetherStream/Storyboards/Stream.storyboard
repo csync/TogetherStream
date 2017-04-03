@@ -55,13 +55,17 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vau-1r-TMR">
                                 <rect key="frame" x="0.0" y="608" width="375" height="59"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="viewers" translatesAutoresizingMaskIntoConstraints="NO" id="p1u-5y-Cqa">
-                                        <rect key="frame" x="330" y="24" width="22" height="12"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C8V-aq-AvA">
+                                        <rect key="frame" x="330" y="23" width="22" height="12"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="22" id="aE0-7o-UV2"/>
-                                            <constraint firstAttribute="height" constant="12" id="fyI-K5-fzh"/>
+                                            <constraint firstAttribute="width" constant="22" id="Mor-Ys-mPd"/>
+                                            <constraint firstAttribute="height" constant="12" id="RgZ-Sa-z5O"/>
                                         </constraints>
-                                    </imageView>
+                                        <state key="normal" backgroundImage="viewers"/>
+                                        <connections>
+                                            <action selector="participantButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="wBB-c0-ngN"/>
+                                        </connections>
+                                    </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QIg-Zb-Y3M">
                                         <rect key="frame" x="10" y="10" width="310" height="40"/>
                                         <subviews>
@@ -116,13 +120,13 @@
                                 <color key="backgroundColor" red="0.96470588235294119" green="0.96470588235294119" blue="0.96470588235294119" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="QIg-Zb-Y3M" firstAttribute="leading" secondItem="vau-1r-TMR" secondAttribute="leading" constant="10" id="0HX-ZZ-Ncg"/>
-                                    <constraint firstItem="yLh-6L-jBa" firstAttribute="leading" secondItem="p1u-5y-Cqa" secondAttribute="trailing" constant="-2" id="ZhJ-xi-Y9P"/>
                                     <constraint firstAttribute="trailing" secondItem="yLh-6L-jBa" secondAttribute="trailing" constant="2" id="aXK-MZ-v2D"/>
                                     <constraint firstItem="QIg-Zb-Y3M" firstAttribute="centerY" secondItem="vau-1r-TMR" secondAttribute="centerY" id="bQh-MG-tma"/>
+                                    <constraint firstItem="yLh-6L-jBa" firstAttribute="leading" secondItem="C8V-aq-AvA" secondAttribute="trailing" constant="-2" id="bQi-gv-OtS"/>
                                     <constraint firstAttribute="height" constant="59" id="j3k-S5-fVs"/>
-                                    <constraint firstItem="p1u-5y-Cqa" firstAttribute="leading" secondItem="QIg-Zb-Y3M" secondAttribute="trailing" constant="10" id="jgs-Qs-yRO"/>
+                                    <constraint firstItem="C8V-aq-AvA" firstAttribute="centerY" secondItem="vau-1r-TMR" secondAttribute="centerY" id="s1Q-eG-ETW"/>
                                     <constraint firstItem="yLh-6L-jBa" firstAttribute="centerY" secondItem="vau-1r-TMR" secondAttribute="centerY" constant="1" id="sAQ-wo-1Xa"/>
-                                    <constraint firstItem="p1u-5y-Cqa" firstAttribute="centerY" secondItem="vau-1r-TMR" secondAttribute="centerY" id="vPe-eu-kKi"/>
+                                    <constraint firstItem="C8V-aq-AvA" firstAttribute="leading" secondItem="QIg-Zb-Y3M" secondAttribute="trailing" constant="10" id="x4T-XD-F6I"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y1Z-hD-o7e">
@@ -356,6 +360,29 @@
                 </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="3738.4000000000001" y="745.27736131934034"/>
+        </scene>
+        <!--Participant Table View Controller-->
+        <scene sceneID="AoC-qI-vjV">
+            <objects>
+                <tableViewController storyboardIdentifier="participant" id="sGx-Js-L4X" customClass="ParticipantTableViewController" customModule="TogetherStream" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="l5x-E4-XYY">
+                        <rect key="frame" x="0.0" y="0.0" width="345" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <connections>
+                            <outlet property="dataSource" destination="sGx-Js-L4X" id="9hv-xk-VQR"/>
+                            <outlet property="delegate" destination="sGx-Js-L4X" id="wzz-Qj-Coz"/>
+                        </connections>
+                    </tableView>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="345" height="667"/>
+                    <connections>
+                        <outlet property="participantTableView" destination="l5x-E4-XYY" id="36k-ug-Z0Q"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1m6-nb-VlN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4584" y="743"/>
         </scene>
     </scenes>
     <resources>

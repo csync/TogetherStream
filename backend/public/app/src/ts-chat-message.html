@@ -11,6 +11,7 @@
       :host {
         display: flex;
         margin-top: 15px;
+        font-family: "Open Sans";
       }
       .left-container img {
         position: relative;
@@ -19,12 +20,16 @@
         border-radius: 50%;
         margin-right: 10px;
       }
+      .right-container {
+        max-width: 85%;
+      }
       .right-container h4, .right-container p  {
         font-size: small;
         margin: 2px;
+        overflow-wrap: break-word;
       }
       .right-container p  {
-        margin-top: -4px;
+        margin-top: -3px;
       }
       .inline {
         display: flex;
@@ -33,6 +38,9 @@
         font-style: italic;
         color: rgb(148,147,148);
         margin-left: 5px;
+      }
+      .message-content {
+        line-height: 25px;
       }
     </style>
     <template is="dom-if" if={{!message.isJoining}}>
@@ -49,8 +57,8 @@
         <div class="left-container">
           <img src="{{message.picture}}"/>
         </div>
-        <div class="right-container">
-          <h4>{{message.name}}</h4>
+        <div class="right-container message-content">
+          <h4 style="margin-top:-2px;">{{message.name}}</h4>
           <p>{{message.content}}</p>
         </div>
       </template>
