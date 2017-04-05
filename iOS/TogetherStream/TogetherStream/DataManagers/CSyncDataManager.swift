@@ -11,6 +11,11 @@ class CSyncDataManager {
     /// Singleton object
     static let sharedInstance = CSyncDataManager()
     
+    /// Returns true if currently authenticated, false otherwise.
+    var isAuthenticated: Bool {
+        return app.authData != nil
+    }
+    
     /// The url of the CSync server.
     private let csyncURL = Utils.getStringValueWithKeyFromPlist("private", key: "csync_url") ?? ""
     /// The port of the CSync server.
