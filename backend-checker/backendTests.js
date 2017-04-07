@@ -14,6 +14,8 @@ var testCounter = 0;
 
 var TIMEOUT_TIME = 30000;
 
+var isFailing = false;
+
 backendTests.run = function () {
     console.log("Starting backend-checker");
     runTests()
@@ -27,12 +29,52 @@ var runTests = function () {
                 testCounter++;
                 runTests()
             }, function (error) {
-                console.error("Error : " + error)
+                console.error("Error : " + error);
+                handleFailure(backendTests.tests[testCounter], error)
             })
     }
     else {
+        if (isFailing) {
+            sendHasRecovered();
+        }
+        isFailing = false;
         console.log("Finished running tests, no errors found")
     }
+};
+
+var sendHasRecovered = function () {
+    var mailOptions = {
+        from: '"Together Stream" <' + appVars.mail.userName + '@' + appVars.mail.domainName + '>', // sender address
+        to: appVars.addressesToNotify.join(", "),
+        subject: 'Together Stream Server Test Is Passing Again', // Subject line
+        text:  ''
+
+    };
+    appVars.mail.transporter.sendMail(mailOptions, function(error, info){
+        if(error){
+            return console.error(error);
+        }
+        console.log('Message sent: ' + info.response);
+    });
+};
+
+var handleFailure = function(test, error) {
+    if (!isFailing) {
+        var mailOptions = {
+            from: '"Together Stream" <' + appVars.mail.userName + '@' + appVars.mail.domainName + '>', // sender address
+            to: appVars.addressesToNotify.join(", "),
+            subject: 'ALERT: Together Stream Server Test Failed!', // Subject line
+            text:  'Test ' + test.name + ' failed with the following error:\n\n' + error
+
+        };
+        appVars.mail.transporter.sendMail(mailOptions, function(error, info){
+            if(error){
+                return console.error(error);
+            }
+            console.log('Message sent: ' + info.response);
+        });
+    }
+    isFailing = true
 };
 
 var refreshTest = function () {
@@ -133,9 +175,47 @@ var inviteTest = function () {
 };
 
 var blockTest = function () {
-    var endPoint = "/blocks"
+    var endPoint = "/blocks";
+
+    var getBlocks = function (resolve, reject) {
+        request({uri: serverAddress + endPoint + "?access_token=" + backendTests.accessToken,
+                json: true,
+                timeout: TIMEOUT_TIME}, function (error, response, data) {
+                if(error != null) {
+                    reject(error)
+                }
+                else if(response.statusCode != 200) {
+                    reject("Invalid status code: " + response.statusCode)
+                }
+                else if (data.length == 0) {
+                    reject("Invalid response: " + data)
+                }
+                else {
+                    resolve()
+                }
+            }
+        )};
+
+    return new Promise(function (resolve, reject) {
+        request({uri: serverAddress + endPoint + "?access_token=" + backendTests.accessToken,
+                json: true,
+                method: "POST",
+                body: {blockee: appVars.testFBID},
+                timeout: TIMEOUT_TIME}, function (error, response, data) {
+                if(error != null) {
+                    reject(error)
+                }
+                else if(response.statusCode != 200) {
+                    reject("Invalid status code: " + response.statusCode)
+                }
+                else {
+                    getBlocks(resolve, reject)
+                }
+            }
+        )}
+    );
 };
 
-backendTests.tests = [refreshTest, inviteTest];
+backendTests.tests = [refreshTest, inviteTest, blockTest];
 
 module.exports = backendTests;

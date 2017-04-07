@@ -6,4 +6,5 @@
 'use strict';
 
 var tests = require('./backendTests');
-tests.run();
+setInterval(tests.run, 120000);
+//tests.run();
