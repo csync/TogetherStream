@@ -1,1 +1,1 @@
-github "csync/csync-swift" == 1.1.1
+github "csync/csync-swift" "tgb/DeliverExistingValues"

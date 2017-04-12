@@ -84,7 +84,7 @@ class HomeViewModel {
             CSyncDataManager.sharedInstance.deleteKey(atPath: "streams.\(username).*")
             // Set empty state
             CSyncDataManager.sharedInstance.write("false", toKeyPath: "streams.\(username).isPlaying")
-            CSyncDataManager.sharedInstance.write("false", toKeyPath: "streams.\(username).isActive")
+            CSyncDataManager.sharedInstance.deleteKey(atPath: "streams.\(username).isActive")
             AccountDataManager.sharedInstance.deleteInvites()
         }
     }
