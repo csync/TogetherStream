@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://github.com/IBM-MIL/TogetherStream/blob/develop/iOS/TogetherStream/TogetherStream/Assets.xcassets/togetherstreamLogoStacked.imageset/togetherstreamLogoStacked@2x.png?raw=true">
+<img src="https://github.com/IBM-MIL/TogetherStream/blob/develop/iOS/TogetherStream/TogetherStream/Assets.xcassets/togetherstreamLogoStacked.imageset/togetherstreamLogoStacked@2x.png?raw=true"><br>
 <a src="http://ibm.biz/together-stream-download-app-store"><img src="https://github.com/IBM-MIL/TogetherStream/blob/develop/backend/public/assets/appstoreasset.png"></a>
 </p>
 
