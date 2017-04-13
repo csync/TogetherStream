@@ -79,6 +79,11 @@ stream-bot/config/private
 stream-bot/node_modules
 stream-bot/.idea
 
+# Backend-checker
+backend-checker/config/private
+backend-checker/node_modules
+backend-checker/.idea
+
 # Frontend
 iOS/TogetherStream/TogetherStream/Configuration/private.plist
 

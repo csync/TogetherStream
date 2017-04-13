@@ -1,0 +1,7 @@
+---
+applications:
+- name: backend-checker
+  timeout: 60
+  memory: 384M
+  instances: 1
+  no-route: true

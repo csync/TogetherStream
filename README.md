@@ -1,4 +1,7 @@
-![TogetherStream](https://github.com/IBM-MIL/TogetherStream/blob/develop/iOS/TogetherStream/TogetherStream/Assets.xcassets/togetherstreamLogoStacked.imageset/togetherstreamLogoStacked@2x.png?raw=true)
+<p align="center">
+<img src="https://github.com/IBM-MIL/TogetherStream/blob/develop/iOS/TogetherStream/TogetherStream/Assets.xcassets/togetherstreamLogoStacked.imageset/togetherstreamLogoStacked@2x.png?raw=true"><br>
+<a src="http://ibm.biz/together-stream-download-app-store"><img src="https://github.com/IBM-MIL/TogetherStream/blob/develop/backend/public/assets/appstoreasset.png"></a>
+</p>
 
 ## Summary
 Together Stream allows you to stream content with others in real time. The stream host has full control to choose, pause, and skip any video in the queue — synchronizing playback immediately with participants’ devices.

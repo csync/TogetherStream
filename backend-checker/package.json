@@ -1,0 +1,15 @@
+{
+  "name": "backend-checker",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node $NODE_DEBUG_OPTION --max-old-space-size=400 app.js"
+  },
+  "dependencies": {
+    "request": "^2.79.0",
+    "nodemailer": "^2.7.2"
+  },
+  "engines": {
+    "node": "7.x.x"
+  }
+}
