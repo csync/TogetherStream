@@ -29,20 +29,36 @@ let participantMonitor = require("./participantMonitor");
 bot.run = function () {
     app.authenticate("demo", "demoToken(" + appVars.userToken + ")").then(function(authData){
         setup();
+        //deleteOldContent();
         streamPlaylist();
     }, function(error){
         console.error(error);
     });
 };
 
+let deleteOldContent = function () {
+  app.key(streamPrefix + ".participants.*").listen(function(error, value) {
+        if (error) {
+            console.error(error)
+        } else if (value.exists) {
+            let currentTime = new Date().getTime() / 1000 - 978307200;
+            if(currentTime - value.data.timestamp > 172800) {
+                app.key(value.key).delete();
+            }
+        }
+    });
+};
+
 let streamPlaylist = function () {
     let videoID = playlist[playlistIndex];
+    console.log("Will play video with ID: " + videoID);
     fetchVideoInfo(videoID)
         .then(function (videoInfo) {
-          incrementPlayIndex();
-          let duration = videoInfo.items[0].contentDetails.duration;
-          let secondsDuration = isoDuration.toSeconds(isoDuration.parse(duration));
-          playVideo(videoID,secondsDuration);
+            console.log("Received info video with ID: " + videoID);
+            incrementPlayIndex();
+            let duration = videoInfo.items[0].contentDetails.duration;
+            let secondsDuration = isoDuration.toSeconds(isoDuration.parse(duration));
+            playVideo(videoID,secondsDuration);
         }, function (error) {
           console.error(error);
         });
@@ -61,6 +77,7 @@ let setup = function () {
     participantMonitor.didReceiveHeartbeats = function (heartBeats) {
         for(let participant in participants) {
             if(heartBeats.indexOf(participants[participant]) < 0) {
+                console.log(participants[participant] + " left the stream");
                 let time = new Date().getTime() / 1000 - 978307200;
                 let value = {id: "" + participants[participant], isJoining: "false", timestamp: "" + time};
                 app.key(streamPrefix + ".participants").child().write(JSON.stringify(value),{acl: csync.acl.PublicRead})
@@ -68,6 +85,7 @@ let setup = function () {
         }
         for(let heartbeat in heartBeats) {
             if(participants.indexOf(heartBeats[heartbeat]) < 0) {
+                console.log(heartBeats[heartbeat] + " joined the stream");
                 let time = new Date().getTime() / 1000 - 978307200;
                 let value = {id: "" + heartBeats[heartbeat], isJoining: "true", timestamp: "" + time};
                 app.key(streamPrefix + ".participants").child().write(JSON.stringify(value),{acl: csync.acl.PublicRead})
@@ -104,14 +122,15 @@ let incrementPlayIndex = function () {
 
 // Fisher-Yates Shuffle adopted from http://stackoverflow.com/a/6274398/3980472
 let shufflePlaylist = function () {
-  let counter = playlist.length;
-  while(counter > 0) {
-      let index = Math.floor(Math.random() * counter);
-      counter--;
+    console.log("Shuffling playlist");
+    let counter = playlist.length;
+    while(counter > 0) {
+        let index = Math.floor(Math.random() * counter);
+        counter--;
 
-      let temp = playlist[counter];
-      playlist[counter] = playlist[index];
-      playlist[index] = temp;
+        let temp = playlist[counter];
+        playlist[counter] = playlist[index];
+        playlist[index] = temp;
   }
 };
 
@@ -119,6 +138,7 @@ let playVideo = function (videoId, duration) {
     app.key(streamPrefix + ".currentVideoID").write(videoId,{acl: csync.acl.PublicRead});
     app.key(streamPrefix + ".playTime").write("0");
     setTimeout(function () {
+        console.log("Playing video with ID: " + videoId);
         app.key(streamPrefix + ".isBuffering").write("false",{acl: csync.acl.PublicRead});
         let startTime = new Date().getTime();
         let finishTime = startTime + duration * 1000;
