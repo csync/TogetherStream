@@ -1,15 +1,13 @@
 {
-  "name": "stream-bot",
+  "name": "backend-checker",
   "version": "0.0.0",
   "private": true,
   "scripts": {
     "start": "node $NODE_DEBUG_OPTION --max-old-space-size=400 app.js"
   },
   "dependencies": {
-    "csync": "^1.1.0",
-    "iso8601-duration": "^1.0.6",
-    "node-cron": "^1.1.3",
-    "request": "^2.79.0"
+    "request": "^2.79.0",
+    "nodemailer": "^2.7.2"
   },
   "engines": {
     "node": "7.x.x"

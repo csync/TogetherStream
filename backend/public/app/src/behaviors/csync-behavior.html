@@ -137,10 +137,14 @@
           if (error) {
             console.error(error)
             return
-          } 
-          // If value doesn't exist and is outdated, don't process it.
+          }
+          if (!value.exists && value.key.indexOf("isActive") >= 0) {
+              alert("Stream has ended.")
+              this.cleanupListeners()
+          }
+            // If value doesn't exist and is outdated, don't process it.
           if (!value.exists) {
-            return
+              return
           }
           if (value.key.indexOf("currentVideoID") >= 0 && this.currentlyStreamingVideoData.id != value.data) {
             this.changeVideo(value.data)
@@ -151,10 +155,6 @@
           } else if (value.key.indexOf("streamName") >= 0) {
             this.set("streamName", value.data)
           } else if (value.key.indexOf("isActive") >= 0) {
-            if (this.isStreamActive && !value.data) {
-              alert("Stream has ended.")
-              this.cleanupListeners()
-            }
             this.set("isStreamActive", value.data)
           }
         }.bind(this)

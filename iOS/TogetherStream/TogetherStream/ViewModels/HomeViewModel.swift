@@ -20,24 +20,34 @@ class HomeViewModel {
     private let accountDataManager = AccountDataManager.sharedInstance
     /// Shorthand for the shared YouTubeDataManager.
     private let youtubeDataManager = YouTubeDataManager.sharedInstance
+    /// Shorthand for the shared CSyncDataManager.
+    private let csyncDataManager = CSyncDataManager.sharedInstance
+    /// Shorthand for the shared CSyncDataManager.
+    private let facebookDataManager = FacebookDataManager.sharedInstance
     
-    /// Fetches all stream invites for the current user and updates the model.
+    /// First make sure that the user is authenticated, then fetches all stream invites for the 
+    /// current user and updates the model.
     ///
     /// - Parameter callback: The callback called on completion. Will return an error
     /// or the streams.
     func refreshStreams(callback: @escaping (Error?, [Stream]?) -> Void) {
-        accountDataManager.retrieveInvites {[weak self] error, streams in
-            if let error = error {
-                callback(error, nil)
-            }
-            else {
-                let streamBotStream = Stream(name: "Stream On", csyncPath: "streams.bot123", description: "Stream until your dreams come true—a fun mix of the internet’s best videos", hostFacebookID: "100016088973890")
-                var fullStreams = streams ?? []
-                fullStreams.append(streamBotStream)
-                self?.streams = fullStreams
-                callback(nil, streams)
+        guard let accessToken = facebookDataManager.accessToken else {
+            callback(ServerError.invalidConfiguration, nil)
+            return
+        }
+        if !csyncDataManager.isAuthenticated {
+            csyncDataManager.authenticate(withFBAccessToken: accessToken) {authData, error in
+                guard error == nil else {
+                    callback(error, nil)
+                    return
+                }
+                self.retrieveInvites(callback: callback)
             }
         }
+        else {
+            retrieveInvites(callback: callback)
+        }
+        
     }
     
     /// Returns whether the cell at the given index path should
@@ -74,8 +84,27 @@ class HomeViewModel {
             CSyncDataManager.sharedInstance.deleteKey(atPath: "streams.\(username).*")
             // Set empty state
             CSyncDataManager.sharedInstance.write("false", toKeyPath: "streams.\(username).isPlaying")
-            CSyncDataManager.sharedInstance.write("false", toKeyPath: "streams.\(username).isActive")
+            CSyncDataManager.sharedInstance.deleteKey(atPath: "streams.\(username).isActive")
             AccountDataManager.sharedInstance.deleteInvites()
+        }
+    }
+    
+    /// Fetches all stream invites for the current user and updates the model.
+    ///
+    /// - Parameter callback: The callback called on completion. Will return an error
+    /// or the streams.
+    private func retrieveInvites(callback: @escaping (Error?, [Stream]?) -> Void) {
+        accountDataManager.retrieveInvites {[weak self] error, streams in
+            if let error = error {
+                callback(error, nil)
+            }
+            else {
+                let streamBotStream = Stream(name: "Stream On", csyncPath: "streams.bot123", description: "Stream until your dreams come true—a fun mix of the internet’s best videos", hostFacebookID: "100016088973890")
+                var fullStreams = streams ?? []
+                fullStreams.append(streamBotStream)
+                self?.streams = fullStreams
+                callback(nil, streams)
+            }
         }
     }
 }

@@ -142,13 +142,6 @@ class FacebookDataManager {
         //NotificationCenter.default.addObserver(self, selector: #selector(accessTokenDidChange), name: NSNotification.Name.FBSDKAccessTokenDidChange, object: nil)
         //NotificationCenter.default.addObserver(self, selector: #selector(profileDidChange), name: NSNotification.Name.FBSDKProfileDidChange, object: nil)
         // Will authenticate CSync account as soon as possible. Authentication must complete before requests to CSync can be made
-        if let accessToken = FBSDKAccessToken.current() {
-            csyncDataManager.authenticate(withFBAccessToken: accessToken.tokenString) {authData, error in
-                if let error = error {
-                    print(error)
-                }
-            }
-        }
     }
     
     deinit {

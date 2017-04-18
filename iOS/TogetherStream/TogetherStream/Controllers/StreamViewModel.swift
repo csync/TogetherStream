@@ -184,7 +184,7 @@ class StreamViewModel {
         cSyncDataManager.deleteKey(atPath: csyncPath + ".*")
         // Set empty state
         cSyncDataManager.write("false", toKeyPath: "\(csyncPath).isPlaying")
-        cSyncDataManager.write("false", toKeyPath: "\(csyncPath).isActive")
+        cSyncDataManager.deleteKey(atPath: "\(csyncPath).isActive")
         // Delete invites
         AccountDataManager.sharedInstance.deleteInvites()
     }
@@ -244,32 +244,31 @@ class StreamViewModel {
             // Ensure view model still exists, there's no error and the
             // value still exists.
             guard let `self` = self,
-                let value = value,
-                value.exists else {
+                let value = value else {
                     return
             }
             
             // Inform delegate of state change
             switch value.key.components(separatedBy: ".").last ?? "" {
-            case "currentVideoID":
+            case "currentVideoID" where value.exists == true:
                 if let id = value.data {
                     self.delegate?.receivedUpdate(forCurrentVideoID: id)
                 }
-            case "isPlaying" where value.data == "true":
+            case "isPlaying" where value.data == "true" && value.exists == true:
                 self.hostPlaying = true
                 self.delegate?.receivedUpdate(forIsPlaying: true)
-            case "isPlaying" where value.data == "false":
+            case "isPlaying" where value.data == "false" && value.exists == true:
                 self.hostPlaying = false
                 self.delegate?.receivedUpdate(forIsPlaying: false)
-            case "isBuffering" where value.data == "true":
+            case "isBuffering" where value.data == "true" && value.exists == true:
                 self.delegate?.receivedUpdate(forIsBuffering: true)
-            case "isBuffering" where value.data == "false":
+            case "isBuffering" where value.data == "false" && value.exists == true:
                 self.delegate?.receivedUpdate(forIsBuffering: false)
-            case "playTime":
+            case "playTime" where value.exists == true:
                 if let playtime = Float(value.data ?? "") {
                     self.delegate?.receivedUpdate(forPlaytime: playtime)
                 }
-            case "isActive" where value.data == "false":
+            case "isActive" where value.exists == false:
                 self.delegate?.streamEnded()
             default:
                 break
